@@ -222,19 +222,17 @@ namespace USNL {
         #endregion
 
         #region IP and ID Functions
+        
+        private IEnumerator SetServerId() {
+            wanServerIp = GetWanIP();
+            lanServerIp = GetLanIP();
 
-        private IEnumerator SetClientId() {
-            // This is a coroutine because of GetWanIP()
-
-            wanClientIp = GetWanIP();
-            lanClientIp = GetLanIP();
-
-            if (wanClientIp != "") wanClientId = IPToID(wanClientIp);
-            if (lanClientIp != "") lanClientId = IPToID(lanClientIp);
+            wanServerId = IpToId(wanServerIp);
+            lanServerId = IpToId(lanServerIp);
 
             yield return new WaitForEndOfFrame();
         }
-
+        
         private string GetWanIP() {
             try {
                 string url = "http://checkip.dyndns.org";

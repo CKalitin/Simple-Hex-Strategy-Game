@@ -103,7 +103,6 @@ public class PlayerInfoManager : MonoBehaviour {
     }
 
     public void SendPlayerInfo(int _id) {
-        Debug.Log(playerInfos[_id].Username);
         playerInfos[_id].UpdatePlayerScore();
         USNL.PacketSend.PlayerInfo(_id, playerInfos[_id].Username, playerInfos[_id].Score);
     }
