@@ -223,23 +223,19 @@ namespace USNL {
 
         #region IP and ID Functions
 
-        private IEnumerator SetServerId() {
-            wanServerIp = GetWanIP();
-            lanServerIp = GetLanIP();
+        private IEnumerator SetClientId() {
+            // This is a coroutine because of GetWanIP()
 
-            while (true) {
-                if (wanServerIp != "" & lanServerIp != "") {
-                    wanServerId = IpToId(wanServerIp);
-                    lanServerId = IpToId(lanServerIp);
-                    yield break;
-                }
+            wanClientIp = GetWanIP();
+            lanClientIp = GetLanIP();
 
-                yield return new WaitForEndOfFrame();
-            }
+            if (wanClientIp != "") wanClientId = IPToID(wanClientIp);
+            if (lanClientIp != "") lanClientId = IPToID(lanClientIp);
+
+            yield return new WaitForEndOfFrame();
         }
 
         private string GetWanIP() {
-            int attempts = 0;
             try {
                 string url = "http://checkip.dyndns.org";
                 System.Net.WebRequest req = System.Net.WebRequest.Create(url);
@@ -252,10 +248,12 @@ namespace USNL {
                 string a4 = a3[0];
                 return a4;
             } catch {
-                attempts++;
+                Debug.LogWarning("Could not Get WAN ID.");
+                return "";
+                /*attempts++;
                 if (attempts < 5) return GetWanIP();
-                else return "";
-                // Kinda jank but it should work
+                else return "";*/
+                // Kinda jank but it should work - Dont be an idiot that's an infinite loop
             }
         }
 
