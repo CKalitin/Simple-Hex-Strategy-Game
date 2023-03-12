@@ -63,12 +63,13 @@ namespace USNL {
                 Application.runInBackground = true;
             }
 
-            StartCoroutine(SetServerId());
         }
 
         private void Start() {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
+            
+            StartCoroutine(SetServerId());
         }
 
         private void Update() {
@@ -232,26 +233,25 @@ namespace USNL {
 
             yield return new WaitForEndOfFrame();
         }
-        
+
+        // https://www.code-sample.com/2019/12/how-to-get-public-ipv4-address-using-c.html
         private string GetWanIP() {
             try {
-                string url = "http://checkip.dyndns.org";
-                System.Net.WebRequest req = System.Net.WebRequest.Create(url);
-                System.Net.WebResponse resp = req.GetResponse();
-                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
-                string response = sr.ReadToEnd().Trim();
-                string[] a = response.Split(':');
-                string a2 = a[1].Substring(1);
-                string[] a3 = a2.Split('<');
-                string a4 = a3[0];
-                return a4;
+                string address = "";
+                WebRequest request = WebRequest.Create("http://checkip.dyndns.org/");
+                using (WebResponse response = request.GetResponse())
+                using (System.IO.StreamReader stream = new System.IO.StreamReader(response.GetResponseStream())) {
+                    address = stream.ReadToEnd();
+                }
+
+                int first = address.IndexOf("Address: ") + 9;
+                int last = address.LastIndexOf("</body>");
+                address = address.Substring(first, last - first);
+
+                return address;
             } catch {
-                Debug.LogWarning("Could not Get WAN ID.");
+                Debug.LogWarning("Could not Get WAN IP.");
                 return "";
-                /*attempts++;
-                if (attempts < 5) return GetWanIP();
-                else return "";*/
-                // Kinda jank but it should work - Dont be an idiot that's an infinite loop
             }
         }
 
