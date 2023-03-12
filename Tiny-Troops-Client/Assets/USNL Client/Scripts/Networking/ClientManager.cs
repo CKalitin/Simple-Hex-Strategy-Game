@@ -118,7 +118,7 @@ namespace USNL {
                 Application.runInBackground = true;
             }
             
-            StartCoroutine(SetClientId());
+            //StartCoroutine(SetClientId());
         }
 
         private void Update() {

@@ -78,6 +78,7 @@ namespace USNL.Package {
                 USNL.Package.ThreadManager.StartPacketHandleThread();
 
                 receiveBuffer = new byte[dataBufferSize];
+                Debug.Log($"{instance.ip}, {instance.port}, {socket}");
                 socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
             }
 
