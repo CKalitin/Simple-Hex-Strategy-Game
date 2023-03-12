@@ -13,6 +13,9 @@ public class MatchManager : MonoBehaviour {
     public static MatchManager instance;
 
     private MatchState matchState = MatchState.Lobby;
+    
+    public delegate void MatchStateChangedCallback(MatchState matchState);
+    public static event MatchStateChangedCallback OnMatchStateChanged;
 
     public MatchState MatchState { get => matchState; set => matchState = value; }
 
@@ -36,6 +39,8 @@ public class MatchManager : MonoBehaviour {
     private void OnMatchUpdatePacket(object _packetObject) {
         USNL.MatchUpdatePacket packet = (USNL.MatchUpdatePacket)_packetObject;
         matchState = (MatchState)packet.MatchState;
-        Debug.Log(matchState);
+        
+        // Call callbacks
+        if (OnMatchStateChanged != null) OnMatchStateChanged(matchState);
     }
 }

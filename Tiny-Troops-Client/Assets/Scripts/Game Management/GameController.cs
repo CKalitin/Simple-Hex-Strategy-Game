@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     public static bool ApplicationQuitting = false;
 
-    [SerializeField] private bool connectOnStart = false;
+    [SerializeField] private bool connectOnStart = true;
+    [Space]
+    [SerializeField] private int port;
 
     private void Awake() {
         Application.runInBackground = true;
@@ -13,7 +15,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void Start() {
-        if (connectOnStart) USNL.ClientManager.instance.ConnectToServer(); 
+        if (connectOnStart) USNL.ClientManager.instance.ConnectToServer(PlayerPrefs.GetInt("HostId"), port);
     }
 
     private void OnApplicationQuit() {

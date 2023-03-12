@@ -228,13 +228,15 @@ namespace USNL {
         private IEnumerator SetClientId() {
             wanClientIp = GetWanIP();
             lanClientIp = GetLanIP();
-            while (true) {
+            int iters = 0;
+            while (iters < 10) {
                 if (wanClientIp != "" & lanClientIp != "") {
                     wanClientId = IPToID(wanClientIp);
                     lanClientId = IPToID(lanClientIp);
                     yield break;
                 }
-
+                
+                iters++;
                 yield return new WaitForEndOfFrame();
             }
         }

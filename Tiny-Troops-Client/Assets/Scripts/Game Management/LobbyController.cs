@@ -8,11 +8,16 @@ public class LobbyController : MonoBehaviour {
     [SerializeField] private LobbyPlayerDisplay[] playerDisplays;
 
     private void Awake() {
+        Debug.Log("Awake");
         if (instance == null) instance = this;
         else {
             Debug.Log($"Lobby Controller instance already exists on ({gameObject}), destroying this.");
             Destroy(this);
         }
+        Debug.Log(playerDisplays[0].gameObject);
+        Debug.Log(playerDisplays[1].gameObject);
+        Debug.Log(playerDisplays[2].gameObject);
+        Debug.Log(playerDisplays[3].gameObject);
 
         // Set all player displays to inactive
         for (int i = 0; i < playerDisplays.Length; i++) playerDisplays[i].gameObject.SetActive(false);
@@ -57,6 +62,7 @@ public class LobbyController : MonoBehaviour {
     }
 
     private void OnClientDisconnected(int _clientID) {
+        Debug.Log(playerDisplays[0].gameObject);
         int id = GetIndex(_clientID);
         playerDisplays[id].gameObject.SetActive(false);
     }
