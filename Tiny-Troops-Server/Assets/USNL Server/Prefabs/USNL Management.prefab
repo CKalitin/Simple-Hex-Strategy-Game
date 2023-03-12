@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7110925763707054699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7110925763707054693}
+  - component: {fileID: 7110925763707054694}
+  - component: {fileID: 7110925763707054688}
+  - component: {fileID: 7110925763707054691}
+  m_Layer: 0
+  m_Name: USNL Management
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7110925763707054693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925763707054699}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7110925764866309299}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7110925763707054694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925763707054699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3170c0cff9c468f4688f069d94633078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 26950
+  maxPlayers: 20
+  serverName: Server
+  welcomeMessage: Holy fuck my code worked! :O :)
+  dataBufferSize: 4096
+--- !u!114 &7110925763707054688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925763707054699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f66b23eb677635438bb46cee4a7e90d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vector2Mode: 1
+  minPosChange: 0.001
+  minRotChange: 0.001
+  minScaleChange: 0.001
+  syncedObjectClientUpdateRate: 0.01667
+  nthSyncedObjectUpdatePerInterpolation: 1
+  nthPositionUpdateRate: 1
+  nthRotationUpdateRate: 1
+  nthScaleUpdateRate: 1
+  nthPositionInterpolateRate: 1
+  nthRotationInterpolateRate: 1
+  nthScaleInterpolateRate: 1
+  serverSideInterpolation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  soVec2PosUpdate: []
+  soVec3PosUpdate: []
+  soRotZUpdate: []
+  soRotUpdate: []
+  soVec2ScaleUpdate: []
+  soVec3ScaleUpdate: []
+  soVec2PosInterpolation: []
+  soVec3PosInterpolation: []
+  soRotZInterpolation: []
+  soRotInterpolation: []
+  soVec2ScaleInterpolation: []
+  soVec3ScaleInterpolation: []
+--- !u!114 &7110925763707054691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925763707054699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bf22ff1a27906b489601a6c21f461cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalBytesSent: 0
+  totalBytesReceived: 0
+  bytesSentPerSecond: 0
+  bytesReceivedPerSecond: 0
+  totalPacketsSent: 0
+  totalPacketsReceived: 0
+  totalPacketsSentPerSecond: 0
+  totalPacketsReceivedPerSecond: 0
+--- !u!1 &7110925764866309298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7110925764866309299}
+  - component: {fileID: 7110925764866309294}
+  - component: {fileID: 7110925764866309293}
+  - component: {fileID: 7110925764866309292}
+  m_Layer: 0
+  m_Name: USNL Utilites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7110925764866309299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925764866309298}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7110925763707054693}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7110925764866309294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925764866309298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb064518b11b1704e841fc13a90e8d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7110925764866309293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925764866309298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6365f3c589d6bb74aa2ed4f3a1e4bafa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7110925764866309292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110925764866309298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e8c802dd69ef724fb88334567f3709d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,0 +1,189 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &298132391392056347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9086848193582738548}
+  - component: {fileID: 3663998234499404411}
+  - component: {fileID: 8686742877200872196}
+  - component: {fileID: 2414857745092067090}
+  m_Layer: 0
+  m_Name: USNL Utilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9086848193582738548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298132391392056347}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8115309673269438038}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3663998234499404411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298132391392056347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f18731eb4b354429dbc9aa7dfc9eb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8686742877200872196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298132391392056347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bae673731612b4db382375b78939e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2414857745092067090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298132391392056347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc0344d82473314eacf0a7c1185d9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8115309673269438032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8115309673269438038}
+  - component: {fileID: 5325183203695712137}
+  - component: {fileID: 5312388765440194745}
+  - component: {fileID: 7365712499779709808}
+  - component: {fileID: 3769673835941896189}
+  m_Layer: 0
+  m_Name: USNL Management
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8115309673269438038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115309673269438032}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9086848193582738548}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5325183203695712137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115309673269438032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6222448ad8328440924d87ec19919a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverID: 0
+  port: 26950
+  connectionTimeout: 10
+  timeBetweenConnectionAttempts: 3
+  timeoutTime: 5
+  serverInfo:
+    ServerName: 
+    ConnectedClientIds: 
+    MaxClients: 0
+    ServerFull: 0
+  serverExeName: USNL-Server-Example-Project.exe
+  serverPath: Server\
+  editorServerPath: G:\_Dev\Unity Projects\Unity-Simple-Networking-Layer\USNL-Server-Example-Project\Build\
+  useApplicationPath: 1
+  serverConfig:
+    serverName: GoodServer
+    serverPort: 26950
+    maxPlayers: 69
+    welcomeMessage: Tovarishch
+    showGUI: 0
+--- !u!114 &5312388765440194745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115309673269438032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f035ae982f6ca14fa273ba8f96da7fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncedObjectsPrefabs: {fileID: 11400000, guid: 774f73ecb3be6a8498ac0afcc29108ef, type: 2}
+  clientSideInterpolation: 0
+--- !u!114 &7365712499779709808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115309673269438032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d734bbb04c203ee4782140af8f2cb085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectInput: 1
+--- !u!114 &3769673835941896189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115309673269438032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742d03a7cad189046bdf8d88a9f05f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalBytesSent: 0
+  totalBytesReceived: 0
+  bytesSentPerSecond: 0
+  bytesReceivedPerSecond: 0
+  totalPacketsSent: 0
+  totalPacketsReceived: 0
+  totalPacketsSentPerSecond: 0
+  totalPacketsReceivedPerSecond: 0
+  packetRTT: 0
+  smoothPacketRTT: 0

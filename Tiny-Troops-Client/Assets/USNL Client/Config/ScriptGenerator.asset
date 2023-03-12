@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d05a1a1c1d22ce4fb1a339517d8329e, type: 3}
+  m_Name: ScriptGenerator
+  m_EditorClassIdentifier: 
+  clientPackets:
+  - packetName: Player Setup Info
+    packetVariables:
+    - variableName: Username
+      variableType: 6
+    protocol: 0
+    notes: 
+  - packetName: Player Ready
+    packetVariables:
+    - variableName: Ready
+      variableType: 5
+    protocol: 0
+    notes: 
+  serverPackets:
+  - packetName: Match Update
+    packetVariables:
+    - variableName: Match State
+      variableType: 2
+    sendType: 1
+    protocol: 0
+    notes: 
+  - packetName: Countdown
+    packetVariables:
+    - variableName: Start Time Array
+      variableType: 12
+    - variableName: Duration
+      variableType: 4
+    - variableName: Countdown Tag
+      variableType: 6
+    sendType: 1
+    protocol: 0
+    notes: 
+  - packetName: Player Ready
+    packetVariables:
+    - variableName: Client ID
+      variableType: 2
+    - variableName: Ready
+      variableType: 5
+    sendType: 1
+    protocol: 0
+    notes: 
+  - packetName: Player Info
+    packetVariables:
+    - variableName: Client ID
+      variableType: 2
+    - variableName: Username
+      variableType: 6
+    - variableName: Score
+      variableType: 2
+    sendType: 1
+    protocol: 0
+    notes: 
+  ClientPacketFoldouts: 0101
+  ServerPacketFoldouts: 01010101
