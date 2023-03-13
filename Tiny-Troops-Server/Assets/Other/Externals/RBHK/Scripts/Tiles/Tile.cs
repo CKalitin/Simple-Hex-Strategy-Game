@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour {
 
     [Header("Tile")]
     [SerializeField] private TileRule[] tileRules;
+    [SerializeField] private Transform structureLocationsParent;
 
     [Header("Debug")]
     [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nThe structures that are on this tile.")]
@@ -24,6 +25,7 @@ public class Tile : MonoBehaviour {
     public Tiles TileId { get => tileId; set => tileId = value; }
     public TileInfo TileInfo { get => tileInfo; set => tileInfo = value; }
     public GameObject DefaultTileObject { get => defaultTileObject; set => defaultTileObject = value; }
+    public Transform StructureLocationsParent { get => structureLocationsParent; set => structureLocationsParent = value; }
     public List<Structure> Structures { get => structures; set => structures = value; }
     public RBHKUtils.IndexList<ResourceModifier> ResourceModifiers { get => resourceModifiers; set => resourceModifiers = value; }
 

@@ -25,6 +25,24 @@ MonoBehaviour:
       variableType: 5
     protocol: 0
     notes: 
+  - packetName: BuildStructure
+    packetVariables:
+    - variableName: Player ID
+      variableType: 2
+    - variableName: Target Tile Location
+      variableType: 7
+    - variableName: StructureID
+      variableType: 2
+    protocol: 0
+    notes: 
+  - packetName: DestroyStructure
+    packetVariables:
+    - variableName: Player ID
+      variableType: 2
+    - variableName: Target Tile Location
+      variableType: 7
+    protocol: 0
+    notes: 
   serverPackets:
   - packetName: Match Update
     packetVariables:
@@ -77,12 +95,23 @@ MonoBehaviour:
     packetVariables:
     - variableName: Player ID
       variableType: 2
-    - variableName: Supply
+    - variableName: Supplys
       variableType: 14
-    - variableName: Demand
+    - variableName: Demands
       variableType: 14
     sendType: 0
     protocol: 0
     notes: 
-  ClientPacketFoldouts: 0000
-  ServerPacketFoldouts: 000000000001
+  - packetName: BuildStructure
+    packetVariables:
+    - variableName: Player ID
+      variableType: 2
+    - variableName: Target Tile Location
+      variableType: 7
+    - variableName: StructureID
+      variableType: 2
+    sendType: 1
+    protocol: 0
+    notes: 
+  ClientPacketFoldouts: 00000101
+  ServerPacketFoldouts: 00000000000001

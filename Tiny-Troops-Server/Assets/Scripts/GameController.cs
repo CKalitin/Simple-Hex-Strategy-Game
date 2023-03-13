@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
 
 public class GameController : MonoBehaviour {
     #region Variables
@@ -132,14 +133,44 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    private void SendStructures(int _toClient) {
+        Structure[] structures = FindObjectsOfType<Structure>();
+
+        for (int i = 0; i < structures.Length; i++) {
+            int structureId = -1;
+            for (int x = 0; x < ServerStructureBuilder.instance.StructureBuildInfos.Length; x++) {
+                if (structures[i].gameObject.name == string.Format("{0}(Clone)", ServerStructureBuilder.instance.StructureBuildInfos[x].StructurePrefab.name)) {
+                    structureId = x;
+                    Debug.Log($"{i}: A");
+                    break;
+                } else if (PrefabUtility.GetPrefabInstanceStatus(structures[i].gameObject) == PrefabInstanceStatus.Connected) {
+                    structureId = x;
+                    Debug.Log($"{i}: B");
+                    break;
+                }
+            }
+            USNL.PacketSend.BuildStructure(_toClient, structures[i].PlayerId, structures[i].Tile.TileInfo.Location, structureId);
+        }
+    }
+    
+    public void SendStructuresToAllClients() {
+        int[] connectedClientIds = USNL.ServerManager.GetConnectedClientIds();
+        for (int i = 0; i < connectedClientIds.Length; i++) {
+            SendStructures(connectedClientIds[i]);
+        }
+    }
+
     #endregion
 
     #region Callbacks
 
     private void OnClientConnected(object _clientIdObject) {
         int clientId = (int)_clientIdObject;
+        
+        // Send all Tiles, Resources, and Structures
         SendTiles(clientId);
         SendResourcesPacket(clientId, clientId);
+        SendStructures(clientId);
     }
 
     private void OnClientDisconnected(object _clientIdObject) {

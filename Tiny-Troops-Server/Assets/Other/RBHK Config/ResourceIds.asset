@@ -17,7 +17,8 @@ MonoBehaviour:
   - Population
   - Food
   - Industry
-  resourceEntryIds: []
+  resourceEntryIds:
+  - Test
   resourceEnumPath: Assets/Other/Externals/RBHK/Enums/
   resourceEnumName: GameResources
   resourceEntryEnumName: ResourceEntries

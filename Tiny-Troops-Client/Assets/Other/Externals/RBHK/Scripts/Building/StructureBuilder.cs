@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq; // For OrderBy()
+using System.Linq;
 using UnityEngine;
 
 public class StructureBuilder : MonoBehaviour {
     [Header("Config")]
-    [Tooltip("Id of the player associated with this Resource Management instance.")]
+    [Tooltip("ID of the player associated with this Resource Management instance.")]
     [SerializeField] private int playerId;
 
     [Header("Building")]
@@ -61,11 +61,14 @@ public class StructureBuilder : MonoBehaviour {
     private void Destroyer() {
         Transform structureLocationsParent;
         Transform structureLoc;
+        Transform tile;
 
         // Checks to exit function
         if ((structureLocationsParent = GetTargetTile()) == null) return; // If there is no tile under the cursor
         if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
-        
+        if ((tile = structureLocationsParent.parent) == null) { return; } // If there is no Tile script on the parent
+        if (CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>()) == false) return; // If structure on the tile belongs to another player
+
         if (!Input.GetMouseButtonDown(1)) return; // If right click is pressed, continue
 
         structureLoc.GetComponent<StructureLocation>().AssignedStructure.GetComponent<Structure>().DestroyStructure();

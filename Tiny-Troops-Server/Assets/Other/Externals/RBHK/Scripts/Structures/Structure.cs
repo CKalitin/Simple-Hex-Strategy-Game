@@ -32,6 +32,7 @@ public class Structure : MonoBehaviour {
 
     public StructureLocation StructureLocation { get => structureLocation; set => structureLocation = value; }
     public ResourceEntry[] ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
+    public Tile Tile { get => tile; set => tile = value; }
 
     #endregion
 

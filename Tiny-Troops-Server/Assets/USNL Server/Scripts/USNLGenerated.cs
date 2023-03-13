@@ -11,6 +11,8 @@ namespace USNL {
         ClientInput,
         PlayerSetupInfo,
         PlayerReady,
+        BuildStructure,
+        DestroyStructure,
     }
 
     public enum ServerPackets {
@@ -39,6 +41,7 @@ namespace USNL {
         PlayerInfo,
         Tiles,
         Resources,
+        BuildStructure,
     }
 
     #endregion
@@ -71,6 +74,43 @@ namespace USNL {
 
         public int FromClient { get => fromClient; set => fromClient = value; }
         public bool Ready { get => ready; set => ready = value; }
+    }
+
+    public struct BuildStructurePacket {
+        private int fromClient;
+
+        private int playerID;
+        private Vector2 targetTileLocation;
+        private int structureID;
+
+        public BuildStructurePacket(int _fromClient, int _playerID, Vector2 _targetTileLocation, int _structureID) {
+            fromClient = _fromClient;
+            playerID = _playerID;
+            targetTileLocation = _targetTileLocation;
+            structureID = _structureID;
+        }
+
+        public int FromClient { get => fromClient; set => fromClient = value; }
+        public int PlayerID { get => playerID; set => playerID = value; }
+        public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
+        public int StructureID { get => structureID; set => structureID = value; }
+    }
+
+    public struct DestroyStructurePacket {
+        private int fromClient;
+
+        private int playerID;
+        private Vector2 targetTileLocation;
+
+        public DestroyStructurePacket(int _fromClient, int _playerID, Vector2 _targetTileLocation) {
+            fromClient = _fromClient;
+            playerID = _playerID;
+            targetTileLocation = _targetTileLocation;
+        }
+
+        public int FromClient { get => fromClient; set => fromClient = value; }
+        public int PlayerID { get => playerID; set => playerID = value; }
+        public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
     }
 
 
@@ -186,6 +226,16 @@ namespace USNL {
                 SendTCPData(_toClient, _packet);
             }
         }
+
+        public static void BuildStructure(int _toClient, int _playerID, Vector2 _targetTileLocation, int _structureID) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.BuildStructure)) {
+                _packet.Write(_playerID);
+                _packet.Write(_targetTileLocation);
+                _packet.Write(_structureID);
+
+                SendTCPData(_toClient, _packet);
+            }
+        }
         }
 
     #endregion
@@ -199,6 +249,8 @@ namespace USNL.Package {
         ClientInput,
         PlayerSetupInfo,
         PlayerReady,
+        BuildStructure,
+        DestroyStructure,
     }
 
     public enum ServerPackets {
@@ -227,6 +279,7 @@ namespace USNL.Package {
         PlayerInfo,
         Tiles,
         Resources,
+        BuildStructure,
     }
     #endregion
 
@@ -293,6 +346,8 @@ namespace USNL.Package {
             { ClientInput },
             { PlayerSetupInfo },
             { PlayerReady },
+            { BuildStructure },
+            { DestroyStructure },
         };
 
         public static void WelcomeReceived(Packet _packet) {
@@ -330,6 +385,23 @@ namespace USNL.Package {
 
             PlayerReadyPacket playerReadyPacket = new PlayerReadyPacket(_packet.FromClient, ready);
             PacketManager.instance.PacketReceived(_packet, playerReadyPacket);
+        }
+
+        public static void BuildStructure(Packet _packet) {
+            int playerID = _packet.ReadInt();
+            Vector2 targetTileLocation = _packet.ReadVector2();
+            int structureID = _packet.ReadInt();
+
+            BuildStructurePacket buildStructurePacket = new BuildStructurePacket(_packet.FromClient, playerID, targetTileLocation, structureID);
+            PacketManager.instance.PacketReceived(_packet, buildStructurePacket);
+        }
+
+        public static void DestroyStructure(Packet _packet) {
+            int playerID = _packet.ReadInt();
+            Vector2 targetTileLocation = _packet.ReadVector2();
+
+            DestroyStructurePacket destroyStructurePacket = new DestroyStructurePacket(_packet.FromClient, playerID, targetTileLocation);
+            PacketManager.instance.PacketReceived(_packet, destroyStructurePacket);
         }
     }
 
@@ -581,6 +653,8 @@ namespace USNL {
             CallOnClientInputPacketCallbacks,
             CallOnPlayerSetupInfoPacketCallbacks,
             CallOnPlayerReadyPacketCallbacks,
+            CallOnBuildStructurePacketCallbacks,
+            CallOnDestroyStructurePacketCallbacks,
         };
 
         public static event CallbackEvent OnServerStarted;
@@ -593,6 +667,8 @@ namespace USNL {
         public static event CallbackEvent OnClientInputPacket;
         public static event CallbackEvent OnPlayerSetupInfoPacket;
         public static event CallbackEvent OnPlayerReadyPacket;
+        public static event CallbackEvent OnBuildStructurePacket;
+        public static event CallbackEvent OnDestroyStructurePacket;
 
         public static void CallOnServerStartedCallbacks(object _param) { if (OnServerStarted != null) { OnServerStarted(_param); } }
         public static void CallOnServerStoppedCallbacks(object _param) { if (OnServerStopped != null) { OnServerStopped(_param); } }
@@ -604,6 +680,8 @@ namespace USNL {
         public static void CallOnClientInputPacketCallbacks(object _param) { if (OnClientInputPacket != null) { OnClientInputPacket(_param); } }
         public static void CallOnPlayerSetupInfoPacketCallbacks(object _param) { if (OnPlayerSetupInfoPacket != null) { OnPlayerSetupInfoPacket(_param); } }
         public static void CallOnPlayerReadyPacketCallbacks(object _param) { if (OnPlayerReadyPacket != null) { OnPlayerReadyPacket(_param); } }
+        public static void CallOnBuildStructurePacketCallbacks(object _param) { if (OnBuildStructurePacket != null) { OnBuildStructurePacket(_param); } }
+        public static void CallOnDestroyStructurePacketCallbacks(object _param) { if (OnDestroyStructurePacket != null) { OnDestroyStructurePacket(_param); } }
     }
 }
 
