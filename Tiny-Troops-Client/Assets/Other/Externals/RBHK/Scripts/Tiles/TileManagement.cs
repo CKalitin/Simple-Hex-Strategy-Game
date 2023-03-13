@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using TMPro;
 
 // This can't be a struct because structs are data types, not reference types. A reference to this is required in the Tile script.
 // Just tested the class reference thing and it is AMAZING! I love references & pointers! hehe
@@ -55,17 +55,15 @@ public class TileManagement : MonoBehaviour {
     #region Variables
 
     public static TileManagement instance;
+    
+    [SerializeField] private Vector2 tileDimensions = new Vector2(4.25f, 5f); // Tile dimensions
 
-    [Header("Tiles")]
     private Dictionary<Vector2Int, TileInfo> tiles = new Dictionary<Vector2Int, TileInfo>();
 
     [Tooltip("This is used in the Structure script so they don't update all ResourceModifiers when they're spawned at first")]
     private bool spawningComplete = false;
 
-    [Header("Specify")]
-    [Tooltip("Tile Dimensions")]
-    [SerializeField] private Vector2 tileDim = new Vector2(4.25f, 5f); // Tile dimensions
-
+    public Dictionary<Vector2Int, TileInfo> GetTiles { get => tiles; }
     public bool SpawningComplete { get => spawningComplete; set => spawningComplete = value; }
 
     #endregion
@@ -160,7 +158,7 @@ public class TileManagement : MonoBehaviour {
 
     // Convert tile location to position in world units
     public Vector3 TileLocationToWorldPosition(Vector2Int _loc, float _y) {
-        return new Vector3(_loc.x * tileDim.x + (tileDim.x / 2 * (_loc.y % 2)), _y, _loc.y * (tileDim.y * 0.75f));
+        return new Vector3(_loc.x * tileDimensions.x + (tileDimensions.x / 2 * (_loc.y % 2)), _y, _loc.y * (tileDimensions.y * 0.75f));
 
         /*** How it's made: ***/
         // _loc = location
@@ -197,6 +195,14 @@ public class TileManagement : MonoBehaviour {
         for (int i = 0; i < appliers.Length; i++) {
             appliers[i].ApplyResourceModifiers();
         }
+    }
+
+    public void ResetAllTiles() {
+        for (int i = 0; i < tiles.Keys.Count; i++) {
+            DestroyTile(tiles.ElementAt(i).Key);
+        }
+
+        tiles = new Dictionary<Vector2Int, TileInfo>();
     }
 
     #endregion

@@ -38,6 +38,7 @@ namespace USNL {
         PlayerReady,
         PlayerInfo,
         Tiles,
+        Resources,
     }
 
     #endregion
@@ -175,6 +176,16 @@ namespace USNL {
                 SendTCPData(_toClient, _packet);
             }
         }
+
+        public static void Resources(int _toClient, int _playerID, float[] _supplys, float[] _demands) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.Resources)) {
+                _packet.Write(_playerID);
+                _packet.Write(_supplys);
+                _packet.Write(_demands);
+
+                SendTCPData(_toClient, _packet);
+            }
+        }
         }
 
     #endregion
@@ -215,6 +226,7 @@ namespace USNL.Package {
         PlayerReady,
         PlayerInfo,
         Tiles,
+        Resources,
     }
     #endregion
 

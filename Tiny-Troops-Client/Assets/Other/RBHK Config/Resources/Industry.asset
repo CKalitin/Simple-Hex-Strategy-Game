@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Industry
   m_EditorClassIdentifier: 
   resourceId: 3
-  resourceInfo: {fileID: 11400000, guid: aa43ccda7ac81874d820dc40f0927d2a, type: 2}
-  supply: 0
-  demand: 0
-  customTickTime: 0
+  resourceInfo: {fileID: 11400000, guid: c9402809d2002c144a3864c198287ab5, type: 2}
+  customTickTime: 5

@@ -188,7 +188,7 @@ public class StructureBuilder : MonoBehaviour {
     public bool CanAffordStructure() {
         bool output = true;
         for (int i = 0; i < currentStructureBuildInfo.Cost.Length; i++) {
-            if (currentStructureBuildInfo.Cost[i].Amount >= ResourceManagement.instances[playerId].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply)
+            if (currentStructureBuildInfo.Cost[i].Amount >= ResourceManager.instances[playerId].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply)
                 output = false;
         }
 
@@ -197,7 +197,7 @@ public class StructureBuilder : MonoBehaviour {
 
     private void ApplyStructureCost() {
         for (int i = 0; i < currentStructureBuildInfo.Cost.Length; i++) {
-            ResourceManagement.instances[playerId].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply -= currentStructureBuildInfo.Cost[i].Amount;
+            ResourceManager.instances[playerId].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply -= currentStructureBuildInfo.Cost[i].Amount;
         }
     }
 

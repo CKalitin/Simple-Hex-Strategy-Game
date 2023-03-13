@@ -6,4 +6,5 @@ public enum GameResources {
 }
 
 public enum ResourceEntries { 
+	Test,
 }

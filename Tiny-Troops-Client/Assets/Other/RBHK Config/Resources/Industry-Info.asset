@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: addbb7506bca68448bd9107adde830e0, type: 3}
   m_Name: Industry-Info
   m_EditorClassIdentifier: 
-  resourceId: 0
+  resourceId: 3
   icon: {fileID: 0}
-  resourceDisplayName: Food
+  resourceDisplayName: Industry

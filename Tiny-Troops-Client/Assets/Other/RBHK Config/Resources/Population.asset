@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Population
   m_EditorClassIdentifier: 
   resourceId: 1
-  resourceInfo: {fileID: 11400000, guid: a7de6fe17af5d9e479793a68579ed8ed, type: 2}
-  supply: 0
-  demand: 0
-  customTickTime: 0
+  resourceInfo: {fileID: 11400000, guid: 9a18d525f3e4d3b46b0fc011ec08533d, type: 2}
+  customTickTime: 5

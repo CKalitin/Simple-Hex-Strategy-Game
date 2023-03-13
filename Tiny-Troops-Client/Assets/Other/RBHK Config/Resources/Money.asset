@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Money
   m_EditorClassIdentifier: 
   resourceId: 0
-  resourceInfo: {fileID: 11400000, guid: d1afb33b72ed09948b6217e194a752f8, type: 2}
-  supply: 0
-  demand: 0
-  customTickTime: 0
+  resourceInfo: {fileID: 11400000, guid: 79232757f46527247a736bc2a4c0c12f, type: 2}
+  customTickTime: 5

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using TMPro;
 
 // This can't be a struct because structs are data types, not reference types. A reference to this is required in the Tile script.
 // Just tested the class reference thing and it is AMAZING! I love references & pointers! hehe
@@ -195,6 +195,14 @@ public class TileManagement : MonoBehaviour {
         for (int i = 0; i < appliers.Length; i++) {
             appliers[i].ApplyResourceModifiers();
         }
+    }
+
+    public void ResetAllTiles() {
+        for (int i = 0; i < tiles.Keys.Count; i++) {
+            DestroyTile(tiles.ElementAt(i).Key);
+        }
+
+        tiles = new Dictionary<Vector2Int, TileInfo>();
     }
 
     #endregion

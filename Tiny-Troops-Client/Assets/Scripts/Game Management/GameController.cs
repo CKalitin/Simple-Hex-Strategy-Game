@@ -36,11 +36,13 @@ public class GameController : MonoBehaviour {
     private void OnEnable() {
         USNL.CallbackEvents.OnConnected += OnConnected;
         USNL.CallbackEvents.OnTilesPacket += OnTilesPacket;
+        USNL.CallbackEvents.OnResourcesPacket += OnResourcesPacket;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnConnected -= OnConnected;
         USNL.CallbackEvents.OnTilesPacket -= OnTilesPacket;
+        USNL.CallbackEvents.OnResourcesPacket -= OnResourcesPacket;
     }
 
     #endregion
@@ -59,6 +61,15 @@ public class GameController : MonoBehaviour {
                 TileManagement.instance.DestroyTile(Vector2Int.RoundToInt(tilesPacket.TileLocations[i]));
             
             TileManagement.instance.SpawnTile(tilePrefabs[tilesPacket.TileIDs[i]], Vector2Int.RoundToInt(tilesPacket.TileLocations[i]));
+        }
+    }
+
+    private void OnResourcesPacket(object _packetObject) {
+        USNL.ResourcesPacket resourcesPacket = (USNL.ResourcesPacket)_packetObject;
+        
+        for (int i = 0; i < ResourceManager.instances[resourcesPacket.PlayerID].Resources.Length; i++) {
+            ResourceManager.instances[resourcesPacket.PlayerID].Resources[i].Supply = resourcesPacket.Supplys[i];
+            ResourceManager.instances[resourcesPacket.PlayerID].Resources[i].Demand = resourcesPacket.Demands[i];
         }
     }
 

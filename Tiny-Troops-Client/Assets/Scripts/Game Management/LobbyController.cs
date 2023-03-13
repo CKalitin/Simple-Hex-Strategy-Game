@@ -46,10 +46,6 @@ public class LobbyController : MonoBehaviour {
         USNL.CallbackEvents.OnPlayerInfoPacket += OnPlayerInfoPacket;
     }
 
-    private void OnDestroy() {
-        Debug.Log("Lobby Controller");
-    }
-
     #endregion
 
     #region Lobby Controller

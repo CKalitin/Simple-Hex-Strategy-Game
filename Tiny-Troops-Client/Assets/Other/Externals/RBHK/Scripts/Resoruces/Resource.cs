@@ -7,9 +7,9 @@ public class Resource : ScriptableObject {
     [SerializeField] private GameResources resourceId;
     [SerializeField] private ResourceInfo resourceInfo;
     [Tooltip("This variable is used by the Resource Management script. It is only Serialize Field so you can see it. If you make changes to it before runtime they will not be used.")]
-    [SerializeField] private float supply;
+    private float supply;
     [Tooltip("This variable is used by the Resource Management script. It is only Serialize Field so you can see it. If you make changes to it before runtime they will not be used.")]
-    [SerializeField] private float demand;
+    private float demand;
     [Space]
     [Tooltip("Leave as 0 to use standard Resource Manager tick time.")]
     [SerializeField] private float customTickTime;

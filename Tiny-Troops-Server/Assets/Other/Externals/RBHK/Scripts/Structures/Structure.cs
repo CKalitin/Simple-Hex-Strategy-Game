@@ -91,7 +91,7 @@ public class Structure : MonoBehaviour {
 
         bool output = true;
         for (int i = 0; i < upgrades[newUpgradeIndex].Cost.Length; i++) {
-            if (upgrades[newUpgradeIndex].Cost[i].Amount >= ResourceManagement.instances[playerId].GetResource(upgrades[newUpgradeIndex].Cost[i].Resource).Supply)
+            if (upgrades[newUpgradeIndex].Cost[i].Amount >= ResourceManager.instances[playerId].GetResource(upgrades[newUpgradeIndex].Cost[i].Resource).Supply)
                 output = false;
         }
 
@@ -100,7 +100,7 @@ public class Structure : MonoBehaviour {
 
     private void ApplyUpgradeCost(StructureUpgrade _su) {
         for (int i = 0; i < upgrades[upgradeIndex].Cost.Length; i++) {
-            ResourceManagement.instances[playerId].GetResource(upgrades[upgradeIndex].Cost[i].Resource).Supply -= upgrades[upgradeIndex].Cost[i].Amount;
+            ResourceManager.instances[playerId].GetResource(upgrades[upgradeIndex].Cost[i].Resource).Supply -= upgrades[upgradeIndex].Cost[i].Amount;
         }
     }
 
@@ -195,13 +195,13 @@ public class Structure : MonoBehaviour {
 
     private void AddResourceEntriesToManagement() {
         for (int i = 0; i < resourceEntries.Length; i++) {
-            appliedResourceEntryIndexes.Add(ResourceManagement.instances[playerId].AddResourceEntry(resourceEntries[i]));
+            appliedResourceEntryIndexes.Add(ResourceManager.instances[playerId].AddResourceEntry(resourceEntries[i]));
         }
     }
 
     private void RemoveResourceEntriesFromManagement() {
         for (int i = 0; i < appliedResourceEntryIndexes.Count; i++) {
-            ResourceManagement.instances[playerId].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
+            ResourceManager.instances[playerId].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
         }
         appliedResourceEntryIndexes = new List<int>();
     }

@@ -33,7 +33,7 @@ public class ResourceIdsEditor : Editor {
             // This is used to refresh the assets which adds the newly generated enums
             AssetDatabase.Refresh();
         }
-
+        
         VerticalBreak();
 
         HelpBox();

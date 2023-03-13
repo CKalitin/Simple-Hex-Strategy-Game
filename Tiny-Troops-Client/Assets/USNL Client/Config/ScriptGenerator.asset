@@ -73,5 +73,16 @@ MonoBehaviour:
     sendType: 0
     protocol: 0
     notes: 
+  - packetName: Resources
+    packetVariables:
+    - variableName: Player ID
+      variableType: 2
+    - variableName: Supplys
+      variableType: 14
+    - variableName: Demands
+      variableType: 14
+    sendType: 0
+    protocol: 0
+    notes: 
   ClientPacketFoldouts: 0000
-  ServerPacketFoldouts: 0000000000
+  ServerPacketFoldouts: 000000000001

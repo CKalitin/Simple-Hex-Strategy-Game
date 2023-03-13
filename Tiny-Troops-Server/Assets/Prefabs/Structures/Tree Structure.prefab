@@ -45,11 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e03f83b90b27d479ef6c00c200e7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerId: -1
+  playerId: 0
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
-  resourceEntries: []
+  resourceEntries:
+  - {fileID: 11400000, guid: c5e8e742ff5e272429039e12139def7e, type: 2}
 --- !u!1001 &4357976619380406615
 PrefabInstance:
   m_ObjectHideFlags: 0

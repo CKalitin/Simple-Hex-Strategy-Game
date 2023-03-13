@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManagement : MonoBehaviour {
+public class ResourceManager : MonoBehaviour {
     #region Varibles
 
-    public static Dictionary<int, ResourceManagement> instances = new Dictionary<int, ResourceManagement>();
+    public static Dictionary<int, ResourceManager> instances = new Dictionary<int, ResourceManager>();
 
     [Header("Config")]
     [Tooltip("Id of the player associated with this Resource Management instance.")]
@@ -20,12 +20,16 @@ public class ResourceManagement : MonoBehaviour {
     [Space]
     [Tooltip("This exists only so you can see the resource entries.")]
     public List<ResourceEntry> resourceEntriesDisplay;
+    
+    public delegate void ResourcesChangedCallback(int playerID);
+    public static event ResourcesChangedCallback OnResourcesChanged;
 
     // Resouces are grouped by their tick time
     // First element in value list is reserved for the number of times the tick has been done, This is used in TickUpdate()
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
     public int PlayerId { get => playerId; set => playerId = value; }
+    public Resource[] Resources { get => resources; set => resources = value; }
 
     private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
 
@@ -37,7 +41,16 @@ public class ResourceManagement : MonoBehaviour {
 
     private void Awake() {
         Singleton();
+        InstantiateNewLocalResources();
         ConfigureResources();
+    }
+
+    private void Singleton() {
+        if (instances.ContainsKey(playerId)) {
+            Debug.LogError($"Resource Management Instance Id: ({playerId}) already exists.");
+        } else {
+            instances.Add(playerId, this);
+        }
     }
 
     private void Update() {
@@ -47,14 +60,28 @@ public class ResourceManagement : MonoBehaviour {
 
     #endregion
 
-    #region Core Utils
+    #region Resources
     
-    private void Singleton() {
-        if (instances.ContainsKey(playerId)) {
-            Debug.LogError($"Resource Management Instance Id: ({playerId}) already exists.");
-        } else {
-            instances.Add(playerId, this);
+    // Can't use the Scriptable Objects because those are shared between all instances of the ResourceManager
+    private void InstantiateNewLocalResources() {
+        // Create list for updated resource entries
+        Resource[] _resources = new Resource[resources.Length];
+
+        // Loop through resourceEntries
+        for (int i = 0; i < resources.Length; i++) {
+            Resource newResource = ScriptableObject.CreateInstance<Resource>(); // Create new resource entry
+
+            // Set values of new resource  entry
+            newResource.ResourceId = resources[i].ResourceId;
+            newResource.ResourceInfo = resources[i].ResourceInfo;
+            newResource.Supply = resources[i].Supply;
+            newResource.Demand = resources[i].Demand;
+            newResource.CustomTickTime = resources[i].CustomTickTime;
+
+            _resources[i] = newResource;
         }
+
+        resources = _resources;
     }
 
     // Called in Awake
@@ -83,7 +110,8 @@ public class ResourceManagement : MonoBehaviour {
     // This updates resource values based on their 
     private void TickUpdate() {
         totalDeltaTime += Time.deltaTime;
-        
+
+        bool resourcesChanged = false;
         foreach (KeyValuePair<float, List<int>> resourceTick in resourceTicks) {
             // Time difference between now and previous tick
             float deltaTimeDifference = totalDeltaTime - (resourceTick.Key * resourceTick.Value[0]);
@@ -100,29 +128,27 @@ public class ResourceManagement : MonoBehaviour {
                 for (int i = 1; i < resourceTick.Value.Count; i++) {
                     UpdateResourceTick(resourceTick.Value[i]); // Update Resource
                 }
+                
+                resourcesChanged = true;
             }
         }
+        
+        if (resourcesChanged & OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
     #endregion
 
-    #region Resources
-
-    public Resource GetResource(GameResources _resourceId) {
-        // Loop through resources and find resource that matches parameter id
-        for (int i = 0; i < resources.Length; i++) {
-            if (resources[i].ResourceId == _resourceId)
-                return resources[i];
-        }
-
-        // If no resources found, return Null
-        Debug.LogWarning($"Resource of Id: {_resourceId} cannot be found.");
-        return null;
-    }
-
+    #region Utils
+    
     private void UpdateResourceTick(int _resourceIndex) {
         // Change supply by demand
         resources[_resourceIndex].Supply += resources[_resourceIndex].Demand;
+    }
+    
+    public void ChangeResource(GameResources _resource, float _change) {
+        GetResource(_resource).Supply += _change;
+
+        if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
     public int AddResourceEntry(ResourceEntry _resourceEntry) {
@@ -130,13 +156,17 @@ public class ResourceManagement : MonoBehaviour {
             int index = resourceEntries.Add(_resourceEntry);
 
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
-            resource.Demand += _resourceEntry.Change; // Add change to demand
+            resource.Demand += _resourceEntry.Change; // Add change to Demand
 
+            if (OnResourcesChanged != null) OnResourcesChanged(playerId);
+            
             return index;
         } else {
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
-            resource.Supply += _resourceEntry.Change; // Add change to demand
+            resource.Supply += _resourceEntry.Change; // Add change to Supply
 
+            if (OnResourcesChanged != null) OnResourcesChanged(playerId);
+            
             // Return fake index because index is not used in this case, it is a single use
             // It's in situations like this where I wish a return function was not alawys needed or something, it's 4aem
             return -1;
@@ -149,6 +179,33 @@ public class ResourceManagement : MonoBehaviour {
 
         // Add index to indexes that are free to use
         resourceEntries.Remove(_index);
+        
+        if (OnResourcesChanged != null) OnResourcesChanged(playerId);
+    }
+
+    public Resource GetResource(GameResources _resourceID) {
+        // Loop through resources and find resource that matches parameter id
+        for (int i = 0; i < resources.Length; i++) {
+            if (resources[i].ResourceId == _resourceID)
+                return resources[i];
+        }
+
+        // If no resources found, return Null
+        Debug.LogWarning($"Resource of ID: {_resourceID} cannot be found.");
+        return null;
+    }
+
+    // Use with extreme care (Best to reset all tiles - and structures - before using this)
+    public void ResetResources() {
+        for (int i = 0; i < resources.Length; i++) {
+            resources[i].Supply = 0;
+            resources[i].Demand = 0;
+        }
+    }
+
+    // Use with extreme care (Best to reset all tiles - and structures - before using this)
+    public void ResetResourceEntries() {
+        resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
     }
 
     #endregion

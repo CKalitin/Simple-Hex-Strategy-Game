@@ -37,6 +37,7 @@ namespace USNL {
         PlayerReady,
         PlayerInfo,
         Tiles,
+        Resources,
     }
 
     #endregion
@@ -111,6 +112,22 @@ namespace USNL {
         public Vector2[] TileLocations { get => tileLocations; set => tileLocations = value; }
     }
 
+    public struct ResourcesPacket {
+        private int playerID;
+        private float[] supplys;
+        private float[] demands;
+
+        public ResourcesPacket(int _playerID, float[] _supplys, float[] _demands) {
+            playerID = _playerID;
+            supplys = _supplys;
+            demands = _demands;
+        }
+
+        public int PlayerID { get => playerID; set => playerID = value; }
+        public float[] Supplys { get => supplys; set => supplys = value; }
+        public float[] Demands { get => demands; set => demands = value; }
+    }
+
 
     #endregion
 
@@ -143,6 +160,7 @@ namespace USNL {
             { PlayerReady },
             { PlayerInfo },
             { Tiles },
+            { Resources },
         };
 
         public static void MatchUpdate(Package.Packet _packet) {
@@ -184,6 +202,15 @@ namespace USNL {
 
             USNL.TilesPacket tilesPacket = new USNL.TilesPacket(tileIDs, tileLocations);
             Package.PacketManager.instance.PacketReceived(_packet, tilesPacket);
+        }
+
+        public static void Resources(Package.Packet _packet) {
+            int playerID = _packet.ReadInt();
+            float[] supplys = _packet.ReadFloats();
+            float[] demands = _packet.ReadFloats();
+
+            USNL.ResourcesPacket resourcesPacket = new USNL.ResourcesPacket(playerID, supplys, demands);
+            Package.PacketManager.instance.PacketReceived(_packet, resourcesPacket);
         }
     }
 
@@ -263,6 +290,7 @@ namespace USNL.Package {
         PlayerReady,
         PlayerInfo,
         Tiles,
+        Resources,
     }
     #endregion
 
@@ -553,6 +581,7 @@ namespace USNL.Package {
             { USNL.PacketHandlers.PlayerReady },
             { USNL.PacketHandlers.PlayerInfo },
             { USNL.PacketHandlers.Tiles },
+            { USNL.PacketHandlers.Resources },
         };
 
         public static void Welcome(Package.Packet _packet) {
@@ -792,6 +821,7 @@ namespace USNL {
             CallOnPlayerReadyPacketCallbacks,
             CallOnPlayerInfoPacketCallbacks,
             CallOnTilesPacketCallbacks,
+            CallOnResourcesPacketCallbacks,
         };
 
         public static event CallbackEvent OnConnected;
@@ -821,6 +851,7 @@ namespace USNL {
         public static event CallbackEvent OnPlayerReadyPacket;
         public static event CallbackEvent OnPlayerInfoPacket;
         public static event CallbackEvent OnTilesPacket;
+        public static event CallbackEvent OnResourcesPacket;
 
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
@@ -849,6 +880,7 @@ namespace USNL {
         public static void CallOnPlayerReadyPacketCallbacks(object _param) { if (OnPlayerReadyPacket != null) { OnPlayerReadyPacket(_param); } }
         public static void CallOnPlayerInfoPacketCallbacks(object _param) { if (OnPlayerInfoPacket != null) { OnPlayerInfoPacket(_param); } }
         public static void CallOnTilesPacketCallbacks(object _param) { if (OnTilesPacket != null) { OnTilesPacket(_param); } }
+        public static void CallOnResourcesPacketCallbacks(object _param) { if (OnResourcesPacket != null) { OnResourcesPacket(_param); } }
     }
 }
 
