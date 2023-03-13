@@ -64,5 +64,14 @@ MonoBehaviour:
     sendType: 1
     protocol: 0
     notes: 
-  ClientPacketFoldouts: 0101
-  ServerPacketFoldouts: 01010101
+  - packetName: Tiles
+    packetVariables:
+    - variableName: Tile IDs
+      variableType: 12
+    - variableName: Tile Locations
+      variableType: 17
+    sendType: 0
+    protocol: 0
+    notes: 
+  ClientPacketFoldouts: 0000
+  ServerPacketFoldouts: 0000000000

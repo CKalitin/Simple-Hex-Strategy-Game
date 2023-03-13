@@ -37,6 +37,7 @@ namespace USNL {
         Countdown,
         PlayerReady,
         PlayerInfo,
+        Tiles,
     }
 
     #endregion
@@ -165,6 +166,15 @@ namespace USNL {
                 SendTCPDataToAll(_packet);
             }
         }
+
+        public static void Tiles(int _toClient, int[] _tileIDs, Vector2[] _tileLocations) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.Tiles)) {
+                _packet.Write(_tileIDs);
+                _packet.Write(_tileLocations);
+
+                SendTCPData(_toClient, _packet);
+            }
+        }
         }
 
     #endregion
@@ -204,6 +214,7 @@ namespace USNL.Package {
         Countdown,
         PlayerReady,
         PlayerInfo,
+        Tiles,
     }
     #endregion
 

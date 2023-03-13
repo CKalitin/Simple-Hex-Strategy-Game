@@ -63,6 +63,7 @@ public class TileManagement : MonoBehaviour {
     [Tooltip("This is used in the Structure script so they don't update all ResourceModifiers when they're spawned at first")]
     private bool spawningComplete = false;
 
+    public Dictionary<Vector2Int, TileInfo> GetTiles { get => tiles; }
     public bool SpawningComplete { get => spawningComplete; set => spawningComplete = value; }
 
     #endregion

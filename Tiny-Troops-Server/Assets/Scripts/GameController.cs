@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -69,11 +70,39 @@ public class GameController : MonoBehaviour {
 
     #endregion
 
+    #region Utils
+
+    private void SendTiles(int _clientId) {
+        // Send tiles in batches of 250 because of 4096 byte limit
+        int tileCount = TileManagement.instance.GetTiles.Count;
+        for (int i = 0; i < tileCount; i++) {
+            List<int> tileIds = new List<int>();
+            List<Vector2> tileLocations = new List<Vector2>();
+            
+            for (int x = i * 250; x < 250 & x < tileCount; x++) {
+                var item = TileManagement.instance.GetTiles.ElementAt(x);
+                tileIds.Add((int)item.Value.TileId - 1);
+                tileLocations.Add((Vector2)item.Key);
+            }
+
+            USNL.PacketSend.Tiles(_clientId, tileIds.ToArray(), tileLocations.ToArray());
+        }  
+    }
+    
+    public void SendTilesToAllClients() {
+        int[] connectedClientIds = USNL.ServerManager.GetConnectedClientIds();
+        for (int i = 0; i < connectedClientIds.Length; i++) {
+            SendTiles(connectedClientIds[i]);
+        }
+    }
+
+    #endregion
+
     #region Callbacks
 
     private void OnClientConnected(object _clientIdObject) {
         int clientId = (int)_clientIdObject;
-        
+        SendTiles(clientId);
     }
 
     private void OnClientDisconnected(object _clientIdObject) {

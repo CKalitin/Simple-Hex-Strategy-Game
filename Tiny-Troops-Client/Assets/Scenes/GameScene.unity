@@ -2395,6 +2395,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: tilePrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: tilePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: tilePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 2450458459561363271, guid: a8ac9325e9dcaf44796558b9b4bb94dc,
+        type: 3}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: tilePrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 2471017130971047749, guid: 0aab7ec1bd12a854f8dd8df060b898c4,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4, type: 3}
 --- !u!1001 &7692067223188936237

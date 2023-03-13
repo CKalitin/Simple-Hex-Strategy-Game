@@ -36,6 +36,7 @@ namespace USNL {
         Countdown,
         PlayerReady,
         PlayerInfo,
+        Tiles,
     }
 
     #endregion
@@ -97,6 +98,19 @@ namespace USNL {
         public int Score { get => score; set => score = value; }
     }
 
+    public struct TilesPacket {
+        private int[] tileIDs;
+        private Vector2[] tileLocations;
+
+        public TilesPacket(int[] _tileIDs, Vector2[] _tileLocations) {
+            tileIDs = _tileIDs;
+            tileLocations = _tileLocations;
+        }
+
+        public int[] TileIDs { get => tileIDs; set => tileIDs = value; }
+        public Vector2[] TileLocations { get => tileLocations; set => tileLocations = value; }
+    }
+
 
     #endregion
 
@@ -128,6 +142,7 @@ namespace USNL {
             { Countdown },
             { PlayerReady },
             { PlayerInfo },
+            { Tiles },
         };
 
         public static void MatchUpdate(Package.Packet _packet) {
@@ -161,6 +176,14 @@ namespace USNL {
 
             USNL.PlayerInfoPacket playerInfoPacket = new USNL.PlayerInfoPacket(clientID, username, score);
             Package.PacketManager.instance.PacketReceived(_packet, playerInfoPacket);
+        }
+
+        public static void Tiles(Package.Packet _packet) {
+            int[] tileIDs = _packet.ReadInts();
+            Vector2[] tileLocations = _packet.ReadVector2s();
+
+            USNL.TilesPacket tilesPacket = new USNL.TilesPacket(tileIDs, tileLocations);
+            Package.PacketManager.instance.PacketReceived(_packet, tilesPacket);
         }
     }
 
@@ -239,6 +262,7 @@ namespace USNL.Package {
         Countdown,
         PlayerReady,
         PlayerInfo,
+        Tiles,
     }
     #endregion
 
@@ -528,6 +552,7 @@ namespace USNL.Package {
             { USNL.PacketHandlers.Countdown },
             { USNL.PacketHandlers.PlayerReady },
             { USNL.PacketHandlers.PlayerInfo },
+            { USNL.PacketHandlers.Tiles },
         };
 
         public static void Welcome(Package.Packet _packet) {
@@ -766,6 +791,7 @@ namespace USNL {
             CallOnCountdownPacketCallbacks,
             CallOnPlayerReadyPacketCallbacks,
             CallOnPlayerInfoPacketCallbacks,
+            CallOnTilesPacketCallbacks,
         };
 
         public static event CallbackEvent OnConnected;
@@ -794,6 +820,7 @@ namespace USNL {
         public static event CallbackEvent OnCountdownPacket;
         public static event CallbackEvent OnPlayerReadyPacket;
         public static event CallbackEvent OnPlayerInfoPacket;
+        public static event CallbackEvent OnTilesPacket;
 
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
@@ -821,6 +848,7 @@ namespace USNL {
         public static void CallOnCountdownPacketCallbacks(object _param) { if (OnCountdownPacket != null) { OnCountdownPacket(_param); } }
         public static void CallOnPlayerReadyPacketCallbacks(object _param) { if (OnPlayerReadyPacket != null) { OnPlayerReadyPacket(_param); } }
         public static void CallOnPlayerInfoPacketCallbacks(object _param) { if (OnPlayerInfoPacket != null) { OnPlayerInfoPacket(_param); } }
+        public static void CallOnTilesPacketCallbacks(object _param) { if (OnTilesPacket != null) { OnTilesPacket(_param); } }
     }
 }
 
