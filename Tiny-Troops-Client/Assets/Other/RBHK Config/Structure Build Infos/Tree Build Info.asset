@@ -10,8 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b70385e1eb2b34ea420924b1c346db, type: 3}
-  m_Name: Test Structure
+  m_Name: Tree Build Info
   m_EditorClassIdentifier: 
   structureSize: 0
-  structurePrefab: {fileID: 3743287005477722622, guid: f94206ae655fb6748a99aac0098b3d03, type: 3}
-  structureDisplayPrefab: {fileID: 4423393170262804841, guid: 224705ad11c7b434b8b56267e7dfd175, type: 3}
+  structurePrefab: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
+    type: 3}
+  structureDisplayPrefab: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
+    type: 3}
+  cost:
+  - resource: 0
+    amount: 100

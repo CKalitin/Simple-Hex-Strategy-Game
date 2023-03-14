@@ -49,7 +49,9 @@ MonoBehaviour:
   tileId: 2
   defaultTileObject: {fileID: 6155148994116578843}
   tileRules: []
-  structures: []
+  structureLocationsParent: {fileID: 2643032663665907786}
+  structures:
+  - {fileID: 2995977097240955666}
 --- !u!1 &3658373037873609651
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structureSize: 0
-  assignedStructure: {fileID: 0}
+  assignedStructure: {fileID: 7605306105512007701}
 --- !u!1 &6356181438687321218
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,9 +200,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c0733522d5eb114a971aa55842e28d8, type: 3}
+--- !u!114 &2995977097240955666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2492549420120896310, guid: 9c0733522d5eb114a971aa55842e28d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 793910300404987940}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605306105512007701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e03f83b90b27d479ef6c00c200e7bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7403049924841536924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906178655695455672, guid: 9c0733522d5eb114a971aa55842e28d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 793910300404987940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7605306105512007701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
     type: 3}
   m_PrefabInstance: {fileID: 793910300404987940}
   m_PrefabAsset: {fileID: 0}

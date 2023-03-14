@@ -95,6 +95,7 @@ MonoBehaviour:
   tileId: 1
   defaultTileObject: {fileID: 921365548931741768}
   tileRules: []
+  structureLocationsParent: {fileID: 8142464372625547582}
   structures: []
 --- !u!1 &8142464372625547583
 GameObject:

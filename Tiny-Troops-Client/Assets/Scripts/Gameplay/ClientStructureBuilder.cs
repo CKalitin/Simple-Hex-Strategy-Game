@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ServerStructureBuilder : MonoBehaviour {
+public class ClientStructureBuilder : MonoBehaviour {
     #region Variables
 
-    public static ServerStructureBuilder instance;
+    public static ClientStructureBuilder instance;
 
     [SerializeField] private StructureBuildInfo[] structureBuildInfos;
 
@@ -29,56 +29,48 @@ public class ServerStructureBuilder : MonoBehaviour {
     }
 
     private void OnEnable() {
-        USNL.CallbackEvents.OnBuildStructurePacket += OnBuildSturcturePacket;
-        USNL.CallbackEvents.OnDestroyStructurePacket += OnDestroyStructurePacket;
+        USNL.CallbackEvents.OnBuildStructurePacket += OnBuildStructurePacket;
     }
 
     private void OnDisable() {
-        USNL.CallbackEvents.OnBuildStructurePacket -= OnBuildSturcturePacket;
-        USNL.CallbackEvents.OnDestroyStructurePacket -= OnDestroyStructurePacket;
+        USNL.CallbackEvents.OnBuildStructurePacket -= OnBuildStructurePacket;
     }
-    
+
     #endregion
 
     #region Builder
 
-    private void BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
+    private bool BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
         StructureBuildInfo sbi = structureBuildInfos[_structureID];
-        bool canBuild = true;
 
-        // If can't afford structure
-        if (!CanAffordStructure(_playerID, sbi)) canBuild = false;
+        // If can't afford structure - Not needed for Server-side building
+        //if (!CanAffordStructure(_playerID, sbi)) return false;
         // If there is no available structure location
-        if ((structureLoc = GetClosestAvailableStructureLocation(structureLocationsParent, sbi.StructureSize)) == null) canBuild = false;
+        if ((structureLoc = GetClosestAvailableStructureLocation(structureLocationsParent, sbi.StructureSize)) == null) return false;
         // If there is no Tile script on the parent
-        if ((tile = structureLocationsParent.parent) == null) canBuild = false;
+        if ((tile = structureLocationsParent.parent) == null) return false;
         // If tile is not taken by another player
-        if (!CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID)) canBuild = false;
+        if (!CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID)) return false;
 
-        if (canBuild) {
-            InstantiateStructure(structureLoc, structureLoc, _playerID, sbi);
-            SendBuildStructurePacketToAllClients(_playerID, _targetTileLocation, _structureID);
-        } else {
-            // The -1 signifies the structure cannot be built
-            SendBuildStructurePacketToAllClients(_playerID, _targetTileLocation, -1);
-        }
+        InstantiateStructure(structureLoc, structureLoc, _playerID, sbi);
+        return true;
     }
 
-    private void DestroyStructure(int _playerID, Vector2Int _targetTileLocation) {
+    private bool DestroyStructure(int _playerID, Vector2Int _targetTileLocation) {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
-
+        
         // Checks to exit function
-        if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
-        if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent
-        if (CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID) == false) return; // If structure on the tile belongs to another player
+        if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return false; // If there is no available structure location
+        if ((tile = structureLocationsParent.parent) == null) return false; // If there is no Tile script on the parent
+        if (CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID) == false) return false; // If structure on the tile belongs to another player
 
-        // The -1 signifies the structure will be destroyed
-        SendBuildStructurePacketToAllClients(_playerID, _targetTileLocation, -1);
+        structureLoc.GetComponent<StructureLocation>().AssignedStructure.GetComponent<Structure>().DestroyStructure();
+        return true;
     }
 
     private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo) {
@@ -86,11 +78,10 @@ public class ServerStructureBuilder : MonoBehaviour {
 
         _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
         newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
-        newStructure.GetComponent<Structure>().PlayerID = _playerID;
+        newStructure.GetComponent<Structure>().PlayerId = _playerID;
 
         ApplyStructureCost(_playerID, _structureBuildInfo);
     }
-
     #endregion
 
     #region Builder Utils
@@ -140,7 +131,7 @@ public class ServerStructureBuilder : MonoBehaviour {
         // Return false if there is another player's structure on the tile
         bool output = true;
         for (int i = 0; i < _tile.Structures.Count; i++) {
-            if (_tile.Structures[i].PlayerID != _playerID & _tile.Structures[i].PlayerID != -1) output = false;
+            if (_tile.Structures[i].PlayerId != _playerID & _tile.Structures[i].PlayerId != -1) output = false;
         }
         return output;
     }
@@ -154,35 +145,40 @@ public class ServerStructureBuilder : MonoBehaviour {
 
         return output;
     }
-    
+
     private void ApplyStructureCost(int _playerID, StructureBuildInfo _structureBuildInfo) {
         for (int i = 0; i < _structureBuildInfo.Cost.Length; i++) {
             ResourceManager.instances[_playerID].GetResource(_structureBuildInfo.Cost[i].Resource).Supply -= _structureBuildInfo.Cost[i].Amount;
         }
     }
 
-    private void SendBuildStructurePacketToAllClients(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
-        Debug.Log($"{_playerID}, {_targetTileLocation}, {_structureID}");
-        int[] connectedClientIDs = USNL.ServerManager.GetConnectedClientIds();
-        for (int i = 0; i < connectedClientIDs.Length; i++) {
-            USNL.PacketSend.BuildStructure(connectedClientIDs[i], _playerID, _targetTileLocation, _structureID);
-        }
+    #endregion
+    
+    #region Client Build and Destroy
+
+    public void BuildStructureClient(Vector2Int _targetTileLocation, int _structureID, StructureBuildInfo _sbi) {
+        USNL.PacketSend.BuildStructure(USNL.ClientManager.instance.ClientId, _targetTileLocation, _structureID);
+    }
+
+    public void DestroyStructureClient(Vector2Int _targetTileLocation) {
+        USNL.PacketSend.DestroyStructure(USNL.ClientManager.instance.ClientId, _targetTileLocation);
     }
 
     #endregion
 
     #region Callbacks
 
-    private void OnBuildSturcturePacket(object _packetObject) {
+    private void OnBuildStructurePacket(object _packetObject) {
         USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
 
-        BuildStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation), packet.StructureID);
-    }
-
-    private void OnDestroyStructurePacket(object _packetObject) {
-        USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
-        
-        DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation));
+        // If packet means to destroy a structure
+        if (packet.StructureID < 0) {
+            if (!DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation)))
+                Debug.Log($"Could not Destroy structure at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) for PlayerID ({packet.PlayerID}).");
+        } else if (!BuildStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation), packet.StructureID)) {
+            //Debug.Log($"Could not Build structure at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) for PlayerID ({packet.PlayerID}).");
+            // TODO, disabled this because some tiles spawn with sturctures already on them
+        }
     }
 
     #endregion

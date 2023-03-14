@@ -132,17 +132,17 @@ namespace USNL {
     }
 
     public struct BuildStructurePacket {
-        private int buildStructure;
+        private int playerID;
         private Vector2 targetTileLocation;
         private int structureID;
 
-        public BuildStructurePacket(int _buildStructure, Vector2 _targetTileLocation, int _structureID) {
-            buildStructure = _buildStructure;
+        public BuildStructurePacket(int _playerID, Vector2 _targetTileLocation, int _structureID) {
+            playerID = _playerID;
             targetTileLocation = _targetTileLocation;
             structureID = _structureID;
         }
 
-        public int BuildStructure { get => buildStructure; set => buildStructure = value; }
+        public int PlayerID { get => playerID; set => playerID = value; }
         public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
         public int StructureID { get => structureID; set => structureID = value; }
     }
@@ -234,11 +234,11 @@ namespace USNL {
         }
 
         public static void BuildStructure(Package.Packet _packet) {
-            int buildStructure = _packet.ReadInt();
+            int playerID = _packet.ReadInt();
             Vector2 targetTileLocation = _packet.ReadVector2();
             int structureID = _packet.ReadInt();
 
-            USNL.BuildStructurePacket buildStructurePacket = new USNL.BuildStructurePacket(buildStructure, targetTileLocation, structureID);
+            USNL.BuildStructurePacket buildStructurePacket = new USNL.BuildStructurePacket(playerID, targetTileLocation, structureID);
             Package.PacketManager.instance.PacketReceived(_packet, buildStructurePacket);
         }
     }

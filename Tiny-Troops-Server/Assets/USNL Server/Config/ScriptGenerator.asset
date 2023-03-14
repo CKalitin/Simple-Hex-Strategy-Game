@@ -110,7 +110,7 @@ MonoBehaviour:
       variableType: 7
     - variableName: StructureID
       variableType: 2
-    sendType: 1
+    sendType: 0
     protocol: 0
     notes: 
   ClientPacketFoldouts: 00000101

@@ -27,7 +27,7 @@ MonoBehaviour:
     notes: 
   - packetName: BuildStructure
     packetVariables:
-    - variableName: Player ID
+    - variableName: PlayerID
       variableType: 2
     - variableName: Target Tile Location
       variableType: 7
@@ -102,15 +102,15 @@ MonoBehaviour:
     sendType: 0
     protocol: 0
     notes: 
-  - packetName: Resources
+  - packetName: BuildStructure
     packetVariables:
-    - variableName: BuildStructure
+    - variableName: PlayerID
       variableType: 2
     - variableName: Target Tile Location
       variableType: 7
     - variableName: StructureID
       variableType: 2
-    sendType: 1
+    sendType: 0
     protocol: 0
     notes: 
   ClientPacketFoldouts: 00000101

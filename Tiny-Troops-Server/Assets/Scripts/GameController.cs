@@ -137,19 +137,7 @@ public class GameController : MonoBehaviour {
         Structure[] structures = FindObjectsOfType<Structure>();
 
         for (int i = 0; i < structures.Length; i++) {
-            int structureId = -1;
-            for (int x = 0; x < ServerStructureBuilder.instance.StructureBuildInfos.Length; x++) {
-                if (structures[i].gameObject.name == string.Format("{0}(Clone)", ServerStructureBuilder.instance.StructureBuildInfos[x].StructurePrefab.name)) {
-                    structureId = x;
-                    Debug.Log($"{i}: A");
-                    break;
-                } else if (PrefabUtility.GetPrefabInstanceStatus(structures[i].gameObject) == PrefabInstanceStatus.Connected) {
-                    structureId = x;
-                    Debug.Log($"{i}: B");
-                    break;
-                }
-            }
-            USNL.PacketSend.BuildStructure(_toClient, structures[i].PlayerId, structures[i].Tile.TileInfo.Location, structureId);
+            USNL.PacketSend.BuildStructure(_toClient, structures[i].PlayerID, structures[i].Tile.TileInfo.Location, structures[i].StructureID);
         }
     }
     

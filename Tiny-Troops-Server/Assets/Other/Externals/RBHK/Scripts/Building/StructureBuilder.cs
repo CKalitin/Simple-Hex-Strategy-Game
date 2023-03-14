@@ -7,7 +7,7 @@ using UnityEngine;
 public class StructureBuilder : MonoBehaviour {
     [Header("Config")]
     [Tooltip("ID of the player associated with this Resource Management instance.")]
-    [SerializeField] private int playerId;
+    [SerializeField] private int playerID;
 
     [Header("Building")]
     [SerializeField] private StructureBuildInfo currentStructureBuildInfo;
@@ -17,7 +17,7 @@ public class StructureBuilder : MonoBehaviour {
 
     private bool buildingAllowedOnTile = false; // Determined in Builder(), if structure can be placed on tile
 
-    public int PlayerId { get => playerId; set => playerId = value; }
+    public int PlayerID { get => playerID; set => playerID = value; }
 
     private GameObject displayStructure; // Transparent thingy that shows where it's gonna be built
     private StructureBuildInfo previousStructureBuildInfo; // This is for switching buildInfo and updating display structure
@@ -79,6 +79,7 @@ public class StructureBuilder : MonoBehaviour {
 
         _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
         newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
+        newStructure.GetComponent<Structure>().PlayerID = playerID;
 
         ApplyStructureCost();
     }
@@ -183,7 +184,7 @@ public class StructureBuilder : MonoBehaviour {
         // Return false if there is another player's structure on the tile
         bool output = true;
         for (int i = 0; i < _tile.Structures.Count; i++) {
-            if (_tile.Structures[i].PlayerId != playerId & _tile.Structures[i].PlayerId != -1) output = false;
+            if (_tile.Structures[i].PlayerID != playerID & _tile.Structures[i].PlayerID != -1) output = false;
         }
         return output;
     }
@@ -191,7 +192,7 @@ public class StructureBuilder : MonoBehaviour {
     public bool CanAffordStructure() {
         bool output = true;
         for (int i = 0; i < currentStructureBuildInfo.Cost.Length; i++) {
-            if (currentStructureBuildInfo.Cost[i].Amount >= ResourceManager.instances[playerId].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply)
+            if (currentStructureBuildInfo.Cost[i].Amount >= ResourceManager.instances[playerID].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply)
                 output = false;
         }
 
@@ -200,7 +201,7 @@ public class StructureBuilder : MonoBehaviour {
 
     private void ApplyStructureCost() {
         for (int i = 0; i < currentStructureBuildInfo.Cost.Length; i++) {
-            ResourceManager.instances[playerId].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply -= currentStructureBuildInfo.Cost[i].Amount;
+            ResourceManager.instances[playerID].GetResource(currentStructureBuildInfo.Cost[i].Resource).Supply -= currentStructureBuildInfo.Cost[i].Amount;
         }
     }
 

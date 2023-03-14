@@ -7,7 +7,9 @@ public class Structure : MonoBehaviour {
 
     [Header("Config")]
     [Tooltip("Id of the player associated with this Structure.")]
-    [SerializeField] private int playerId;
+    [SerializeField] private int playerID;
+    [Tooltip("Use this if you need to, it does nothing in RBHK itself.")]
+    [SerializeField] private int structureID;
 
     [Header("Upgrades")]
     [Tooltip("This field always has to be set, the first upgrade is what's used to initialize the resourceEntries.")]
@@ -26,8 +28,9 @@ public class Structure : MonoBehaviour {
     private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
     private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
 
-    public int PlayerId { get => playerId; set => playerId = value; }
-    
+    public int PlayerID { get => playerID; set => playerID = value; }
+    public int StructureID { get => structureID; set => structureID = value; }
+
     public int UpgradeIndex { get => upgradeIndex; set => upgradeIndex = value; }
 
     public StructureLocation StructureLocation { get => structureLocation; set => structureLocation = value; }
@@ -92,7 +95,7 @@ public class Structure : MonoBehaviour {
 
         bool output = true;
         for (int i = 0; i < upgrades[newUpgradeIndex].Cost.Length; i++) {
-            if (upgrades[newUpgradeIndex].Cost[i].Amount >= ResourceManager.instances[playerId].GetResource(upgrades[newUpgradeIndex].Cost[i].Resource).Supply)
+            if (upgrades[newUpgradeIndex].Cost[i].Amount >= ResourceManager.instances[playerID].GetResource(upgrades[newUpgradeIndex].Cost[i].Resource).Supply)
                 output = false;
         }
 
@@ -101,7 +104,7 @@ public class Structure : MonoBehaviour {
 
     private void ApplyUpgradeCost(StructureUpgrade _su) {
         for (int i = 0; i < upgrades[upgradeIndex].Cost.Length; i++) {
-            ResourceManager.instances[playerId].GetResource(upgrades[upgradeIndex].Cost[i].Resource).Supply -= upgrades[upgradeIndex].Cost[i].Amount;
+            ResourceManager.instances[playerID].GetResource(upgrades[upgradeIndex].Cost[i].Resource).Supply -= upgrades[upgradeIndex].Cost[i].Amount;
         }
     }
 
@@ -159,7 +162,7 @@ public class Structure : MonoBehaviour {
 
         // Loop through ResourceModifiers on the tile and see which need to be added to this structure
         for (int i = 0; i < tile.ResourceModifiers.Count; i++) {
-            if (!appliedResourceModifiers.Contains(tile.ResourceModifiers[i]) & (tile.ResourceModifiers[i].TargetPlayerID == playerId | tile.ResourceModifiers[i].TargetPlayerID == -1)) {
+            if (!appliedResourceModifiers.Contains(tile.ResourceModifiers[i]) & (tile.ResourceModifiers[i].TargetPlayerID == playerID | tile.ResourceModifiers[i].TargetPlayerID == -1)) {
                 applyResourceModifiers.Add(tile.ResourceModifiers[i]);
             }
         }
@@ -196,13 +199,13 @@ public class Structure : MonoBehaviour {
 
     private void AddResourceEntriesToManagement() {
         for (int i = 0; i < resourceEntries.Length; i++) {
-            appliedResourceEntryIndexes.Add(ResourceManager.instances[playerId].AddResourceEntry(resourceEntries[i]));
+            appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
         }
     }
 
     private void RemoveResourceEntriesFromManagement() {
         for (int i = 0; i < appliedResourceEntryIndexes.Count; i++) {
-            ResourceManager.instances[playerId].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
+            ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
         }
         appliedResourceEntryIndexes = new List<int>();
     }
