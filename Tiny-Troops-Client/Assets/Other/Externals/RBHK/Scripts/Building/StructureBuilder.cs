@@ -183,7 +183,7 @@ public class StructureBuilder : MonoBehaviour {
         // Return false if there is another player's structure on the tile
         bool output = true;
         for (int i = 0; i < _tile.Structures.Count; i++) {
-            if (_tile.Structures[i].PlayerId != playerId & _tile.Structures[i].PlayerId != -1) output = false;
+            if (_tile.Structures[i].PlayerID != playerId & _tile.Structures[i].PlayerID != -1) output = false;
         }
         return output;
     }

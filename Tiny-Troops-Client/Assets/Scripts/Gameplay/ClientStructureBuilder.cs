@@ -78,7 +78,7 @@ public class ClientStructureBuilder : MonoBehaviour {
 
         _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
         newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
-        newStructure.GetComponent<Structure>().PlayerId = _playerID;
+        newStructure.GetComponent<Structure>().PlayerID = _playerID;
 
         ApplyStructureCost(_playerID, _structureBuildInfo);
     }
@@ -131,7 +131,7 @@ public class ClientStructureBuilder : MonoBehaviour {
         // Return false if there is another player's structure on the tile
         bool output = true;
         for (int i = 0; i < _tile.Structures.Count; i++) {
-            if (_tile.Structures[i].PlayerId != _playerID & _tile.Structures[i].PlayerId != -1) output = false;
+            if (_tile.Structures[i].PlayerID != _playerID & _tile.Structures[i].PlayerID != -1) output = false;
         }
         return output;
     }
