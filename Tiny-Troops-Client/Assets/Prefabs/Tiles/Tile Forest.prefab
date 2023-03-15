@@ -242,6 +242,11 @@ PrefabInstance:
       propertyPath: tile
       value: 
       objectReference: {fileID: 6124775860058393942}
+    - target: {fileID: 6992084148642368798, guid: f197e1a2bbf655a4aba6a8832b19988f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBuildButtonPressed
+      objectReference: {fileID: 0}
     - target: {fileID: 7007307691954093681, guid: f197e1a2bbf655a4aba6a8832b19988f,
         type: 3}
       propertyPath: m_RootOrder

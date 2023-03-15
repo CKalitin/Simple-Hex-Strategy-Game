@@ -36,21 +36,38 @@ public class TileSelector : MonoBehaviour {
             return;
         }
 
+        OnLeftClick();
+        OnRightClick();
+    }
+
+    private void OnLeftClick() {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             TileActionMenu newTile = GetTileUnderCursor();
-            if (newTile != null) {
-                if (currentTile != null) currentTile.ToggleActive(false);
-                
-                if (currentTile == newTile) {
-                    currentTile = null;
-                } else {
-                    currentTile = newTile;
-                    currentTile.ToggleActive(true);
-                }
+            // If cursor is over UI, return.
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
+            // If clicked on same tile, close menu.
+            // If clicked on new tile, close old tile menu and open new tile menu.
+            // If clicked on empty space, close old tile menu.
+            if (newTile != null && currentTile != null && currentTile.gameObject == newTile.gameObject) {
+                currentTile.ToggleActive(false);
+                currentTile = null;
+            } else if (newTile != null) {
+                if (currentTile) currentTile.ToggleActive(false);
+                currentTile = newTile;
+                currentTile.ToggleActive(true);
+            } else {
+                currentTile.ToggleActive(false);
+                currentTile = null;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && currentTile != null)
-            currentTile.ToggleActive(false);    
+    }
+
+    private void OnRightClick() {
+        if (Input.GetKeyDown(KeyCode.Mouse1) && currentTile != null) {
+            currentTile.ToggleActive(false);
+            currentTile = null;
+        }
     }
 
     #endregion
@@ -58,9 +75,6 @@ public class TileSelector : MonoBehaviour {
     #region Helper Methods
 
     private TileActionMenu GetTileUnderCursor() {
-        // If cursor is over UI
-        if (EventSystem.current.IsPointerOverGameObject()) return null;
-
         // Get Layermask target of Raycast
         int layer_mask = LayerMask.GetMask("Tile");
         
