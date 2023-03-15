@@ -175,12 +175,12 @@ public class ServerStructureBuilder : MonoBehaviour {
 
     private void OnBuildSturcturePacket(object _packetObject) {
         USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
-
+        
         BuildStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation), packet.StructureID);
     }
 
     private void OnDestroyStructurePacket(object _packetObject) {
-        USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
+        USNL.DestroyStructurePacket packet = (USNL.DestroyStructurePacket)_packetObject;
         
         DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation));
     }

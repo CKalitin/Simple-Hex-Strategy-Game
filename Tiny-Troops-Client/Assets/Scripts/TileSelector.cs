@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TileSelector : MonoBehaviour {
     #region Variables
@@ -30,12 +31,15 @@ public class TileSelector : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            currentTile = GetTileUnderCursor();
-            if (currentTile != null) currentTile.ToggleActive(true);
+            TileActionMenu newTile = GetTileUnderCursor();
+            if (newTile != null) {
+                if (currentTile != null) currentTile.ToggleActive(false);
+                currentTile = newTile;
+                currentTile.ToggleActive(true);
+            }
         }
-
         if (Input.GetKeyDown(KeyCode.Mouse1) && currentTile != null)
-            currentTile.ToggleActive(false);
+            currentTile.ToggleActive(false);    
     }
 
     #endregion
@@ -43,6 +47,9 @@ public class TileSelector : MonoBehaviour {
     #region Helper Methods
 
     private TileActionMenu GetTileUnderCursor() {
+        // If cursor is over UI
+        if (EventSystem.current.IsPointerOverGameObject()) return null;
+
         // Get Layermask target of Raycast
         int layer_mask = LayerMask.GetMask("Tile");
         
@@ -59,10 +66,6 @@ public class TileSelector : MonoBehaviour {
         } else {
             return null;
         }
-    }
-
-    public bool IsPointerOverUIElement() {
-        return IsPointerOverUIElement(GetEventSystemRaycastResults());
     }
 
     #endregion

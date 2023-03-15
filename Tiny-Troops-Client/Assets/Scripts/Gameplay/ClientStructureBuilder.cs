@@ -173,8 +173,10 @@ public class ClientStructureBuilder : MonoBehaviour {
 
         // If packet means to destroy a structure
         if (packet.StructureID < 0) {
-            if (!DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation)))
-                Debug.Log($"Could not Destroy structure at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) for PlayerID ({packet.PlayerID}).");
+            if (!DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation))) {
+                //Debug.Log($"Could not Destroy structure at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) for PlayerID ({packet.PlayerID}).");
+                // If can't build a structure, this is sent
+            }
         } else if (!BuildStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation), packet.StructureID)) {
             //Debug.Log($"Could not Build structure at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) for PlayerID ({packet.PlayerID}).");
             // TODO, disabled this because some tiles spawn with sturctures already on them
