@@ -87,10 +87,7 @@ public class TileManagement : MonoBehaviour {
     #region Tiles
 
     public Vector2Int SpawnTile(GameObject _tilePrefab, Vector2Int _location) {
-        // If tile already exists in location, return
-        //if (tiles.ContainsKey(_location)) { return new Vector2Int(-999999999, -999999999); }
-
-        // If tile already exists in location, delete old tile u idiot why would u just return ^^^
+        // If tile already exists in location
         if (tiles.ContainsKey(_location)) { Destroy(tiles[_location].ParentObject); }
 
         GameObject tileObject = Instantiate(_tilePrefab, TileLocationToWorldPosition(_location, 0), Quaternion.identity); // Instantiate Tile Prefab
@@ -198,8 +195,9 @@ public class TileManagement : MonoBehaviour {
     }
 
     public void ResetAllTiles() {
-        for (int i = 0; i < tiles.Keys.Count; i++) {
-            DestroyTile(tiles.ElementAt(i).Key);
+        Vector2Int[] keys = tiles.Keys.ToArray();
+        for (int i = 0; i < keys.Length; i++) {
+            DestroyTile(keys[i]);
         }
 
         tiles = new Dictionary<Vector2Int, TileInfo>();

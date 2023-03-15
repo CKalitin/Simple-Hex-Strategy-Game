@@ -1,18 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
 
 public class GameController : MonoBehaviour {
     #region Variables
 
     public static GameController instance;
-    
-    private MatchState previousMatchState = MatchState.Lobby;
 
-    // Max players:
-    List<int> resourcesChangedOnPlayerId = new List<int>();
+    [SerializeField] private InitialResource[] initialResources;
+
+    private List<int> resourcesChangedOnPlayerId = new List<int>();
+
+    [Serializable]
+    public struct InitialResource {
+        [SerializeField] private GameResource resource;
+        [SerializeField] private int initialSupply;
+
+        public GameResource Resource { get => resource; set => resource = value; }
+        public int InitialSupply { get => initialSupply; set => initialSupply = value; }
+    }
 
     #endregion
 
@@ -30,29 +38,34 @@ public class GameController : MonoBehaviour {
 
     private void Start() {
         USNL.ServerManager.instance.StartServer();
+
+        ToggleResourceManagers(false);
     }
 
     private void Update() {
-        if (previousMatchState != MatchManager.instance.MatchState) OnMatchStateChange(MatchManager.instance.MatchState);
-        previousMatchState = MatchManager.instance.MatchState;
-
+        // When a player's resources are changed, send an update
         if (resourcesChangedOnPlayerId.Count > 0) {
             for (int i = 0; i < resourcesChangedOnPlayerId.Count; i++)
                 SendResourcesPacket(resourcesChangedOnPlayerId[i], resourcesChangedOnPlayerId[i]);
             resourcesChangedOnPlayerId = new List<int>();
         }
+        
+        if (MatchManager.instance.MatchState == MatchState.InGame && USNL.ServerManager.GetNumberOfConnectedClients() <= 0)
+            MatchManager.instance.ChangeMatchState(MatchState.Ended);
     }
 
     private void OnEnable() {
         USNL.CallbackEvents.OnClientConnected += OnClientConnected;
         USNL.CallbackEvents.OnClientDisconnected += OnClientDisconnected;
         ResourceManager.OnResourcesChanged += OnResourcesChanged;
+        MatchManager.OnMatchStateChanged += OnMatchStateChange;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnClientConnected -= OnClientConnected;
         USNL.CallbackEvents.OnClientDisconnected -= OnClientDisconnected;
         ResourceManager.OnResourcesChanged -= OnResourcesChanged;
+        MatchManager.OnMatchStateChanged -= OnMatchStateChange;
     }
 
     #endregion
@@ -67,12 +80,22 @@ public class GameController : MonoBehaviour {
             StartGame();
         } else if (_ms == MatchState.Ended) {
             ResetGame();
+            if (USNL.ServerManager.GetNumberOfConnectedClients() <= 0)
+                MatchManager.instance.ChangeMatchState(MatchState.Lobby);
         }
     }
 
     private void StartGame() {
+        ToggleResourceManagers(true);
+
         for (int i = 0; i < USNL.ServerManager.GetConnectedClientIds().Length; i++) {
             SendResourcesPacketToAllClients();
+        }
+
+        for (int i = 0; i < ResourceManager.instances.Count; i++) {
+            for (int x = 0; x < initialResources.Length; x++) {
+                ResourceManager.instances[i].ChangeResource(initialResources[x].Resource, initialResources[x].InitialSupply);
+            }
         }
     }
 
@@ -84,11 +107,22 @@ public class GameController : MonoBehaviour {
             ResourceManager.instances[i].ResetResources();
             ResourceManager.instances[i].ResetResourceEntries();
         }
+
+        ToggleResourceManagers(false);
     }
 
     #endregion
 
     #region Utils
+
+    private void ToggleResourceManagers(bool _toggle) {
+        for (int i = 0; i < ResourceManager.instances.Count; i++)
+            ResourceManager.instances[i].enabled = _toggle;
+    }
+
+    #endregion
+
+    #region Sending Packets
 
     private void SendTiles(int _clientId) {
         // Send tiles in batches of 250 because of 4096 byte limit

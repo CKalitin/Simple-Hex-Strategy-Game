@@ -14,7 +14,7 @@ public class Structure : MonoBehaviour {
     [Header("Upgrades")]
     [Tooltip("This field always has to be set, the first upgrade is what's used to initialize the resourceEntries.")]
     [SerializeField] private StructureUpgrade[] upgrades;
-
+    
     [Tooltip("This is only public so you can see the value, changing it won't do anything.\nbtw hey there future chris")]
     private int upgradeIndex = 0;
 
@@ -135,7 +135,7 @@ public class Structure : MonoBehaviour {
     private void InstantiateCopiesOfResourceEntries() {
         // Create list for updated resource entries
         ResourceEntry[] _resourceEntries = new ResourceEntry[resourceEntries.Length];
-
+        
         // Loop through resourceEntries
         for (int i = 0; i < resourceEntries.Length; i++) {
             ResourceEntry newResourceEntry = ScriptableObject.CreateInstance<ResourceEntry>(); // Create new resource entry

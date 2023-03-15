@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structureSize: 0
-  assignedStructure: {fileID: 0}
+  assignedStructure: {fileID: 2588685383094372819}
 --- !u!1001 &2468988159943431773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,6 +199,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fad5d214bafc2dd4e9c02b205fee3668, type: 3}
+--- !u!1 &2588685383094372819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 121386107371052942, guid: fad5d214bafc2dd4e9c02b205fee3668,
+    type: 3}
+  m_PrefabInstance: {fileID: 2468988159943431773}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8820967588044708229 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6352825281647038424, guid: fad5d214bafc2dd4e9c02b205fee3668,

@@ -71,11 +71,13 @@ public class ServerStructureBuilder : MonoBehaviour {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
-
+        
         // Checks to exit function
         if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
         if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent
         if (CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID) == false) return; // If structure on the tile belongs to another player
+
+        structureLoc.GetComponent<StructureLocation>().AssignedStructure.GetComponent<Structure>().DestroyStructure();
 
         // The -1 signifies the structure will be destroyed
         SendBuildStructurePacketToAllClients(_playerID, _targetTileLocation, -1);
@@ -162,7 +164,6 @@ public class ServerStructureBuilder : MonoBehaviour {
     }
 
     private void SendBuildStructurePacketToAllClients(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
-        Debug.Log($"{_playerID}, {_targetTileLocation}, {_structureID}");
         int[] connectedClientIDs = USNL.ServerManager.GetConnectedClientIds();
         for (int i = 0; i < connectedClientIDs.Length; i++) {
             USNL.PacketSend.BuildStructure(connectedClientIDs[i], _playerID, _targetTileLocation, _structureID);

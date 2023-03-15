@@ -21,6 +21,9 @@ public class MatchManager : MonoBehaviour {
     private MatchState targetMatchState;
     private string countdownTag = "Match State Countdown";
 
+    public delegate void MatchStateChangedCallback(MatchState _matchState);
+    public static event MatchStateChangedCallback OnMatchStateChanged;
+
     public MatchState MatchState { get => matchState; set => matchState = value; }
 
     private void Awake() {
@@ -34,9 +37,6 @@ public class MatchManager : MonoBehaviour {
     
     private void Update() {
         Countdown();
-
-        if (USNL.ServerManager.GetNumberOfConnectedClients() <= 0)
-            ChangeMatchState(MatchState.Lobby);
     }
 
     private void OnEnable() {
@@ -61,6 +61,7 @@ public class MatchManager : MonoBehaviour {
 
         timerActive = false;
 
+        if (OnMatchStateChanged != null) OnMatchStateChanged(matchState);
         USNL.PacketSend.MatchUpdate((int)matchState);
     }
     

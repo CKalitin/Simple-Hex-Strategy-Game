@@ -51,18 +51,4 @@ public class LobbyController : MonoBehaviour {
             return;
         }
     }
-
-    private void OnEnable() {
-        USNL.CallbackEvents.OnPlayerSetupInfoPacket += OnPlayerSetupInfoPacket;
-    }
-
-    private void OnDisable() {
-        USNL.CallbackEvents.OnPlayerSetupInfoPacket -= OnPlayerSetupInfoPacket;
-    }
-
-    private void OnPlayerSetupInfoPacket(object _packetObject) {
-        USNL.PlayerSetupInfoPacket packet = (USNL.PlayerSetupInfoPacket)_packetObject;
-
-        // Do something? TODO DELETE
-    }
 }

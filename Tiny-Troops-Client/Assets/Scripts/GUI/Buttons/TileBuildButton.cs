@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TileBuildButton : MonoBehaviour {
     [SerializeField] private Tile tile;
+    [SerializeField] private TileActionMenu tileActionMenu;
     [Space]
     [SerializeField] private StructureBuildInfo sbi;
     [Space]
@@ -13,5 +14,6 @@ public class TileBuildButton : MonoBehaviour {
     public void OnBuildButtonPressed() {
         if (deleteButton) ClientStructureBuilder.instance.DestroyStructureClient(tile.TileInfo.Location);
         else ClientStructureBuilder.instance.BuildStructureClient(tile.TileInfo.Location, sbi.StructurePrefab.GetComponent<Structure>().StructureID, sbi);
+        tileActionMenu.ToggleActive(false);
     }
 }

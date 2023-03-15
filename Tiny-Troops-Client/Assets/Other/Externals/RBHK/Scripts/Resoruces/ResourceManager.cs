@@ -46,9 +46,10 @@ public class ResourceManager : MonoBehaviour {
     }
 
     private void Singleton() {
-        if (instances.ContainsKey(playerId)) {
+        if (instances.ContainsKey(playerId) && instances[playerId] != null) {
             Debug.LogError($"Resource Management Instance Id: ({playerId}) already exists.");
         } else {
+            if (instances.ContainsKey(PlayerId)) instances.Remove(PlayerId);
             instances.Add(playerId, this);
         }
     }
@@ -145,7 +146,7 @@ public class ResourceManager : MonoBehaviour {
         resources[_resourceIndex].Supply += resources[_resourceIndex].Demand;
     }
     
-    public void ChangeResource(GameResources _resource, float _change) {
+    public void ChangeResource(GameResource _resource, float _change) {
         GetResource(_resource).Supply += _change;
 
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
@@ -183,7 +184,7 @@ public class ResourceManager : MonoBehaviour {
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
-    public Resource GetResource(GameResources _resourceID) {
+    public Resource GetResource(GameResource _resourceID) {
         // Loop through resources and find resource that matches parameter id
         for (int i = 0; i < resources.Length; i++) {
             if (resources[i].ResourceId == _resourceID)

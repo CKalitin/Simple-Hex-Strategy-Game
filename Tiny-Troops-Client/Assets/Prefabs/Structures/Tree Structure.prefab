@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e03f83b90b27d479ef6c00c200e7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
+  playerID: -1
   structureID: 1
   upgrades: []
   tile: {fileID: 0}

@@ -199,13 +199,13 @@ public class Structure : MonoBehaviour {
 
     private void AddResourceEntriesToManagement() {
         for (int i = 0; i < resourceEntries.Length; i++) {
-            appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
+            if (playerID >= 0) appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
         }
     }
-
+    
     private void RemoveResourceEntriesFromManagement() {
         for (int i = 0; i < appliedResourceEntryIndexes.Count; i++) {
-            ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
+            if (playerID >= 0) ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
         }
         appliedResourceEntryIndexes = new List<int>();
     }

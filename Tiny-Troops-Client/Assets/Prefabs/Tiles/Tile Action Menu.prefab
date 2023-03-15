@@ -522,6 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+  tileActionMenu: {fileID: 8110097050186027607}
   sbi: {fileID: 11400000, guid: cf709bd9d2359184b88daaf233a37ca2, type: 2}
   deleteButton: 1
 --- !u!1 &2633230267562504374
@@ -672,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+  tileActionMenu: {fileID: 8110097050186027607}
   sbi: {fileID: 11400000, guid: 8fc441de728abfc4cafeb08611d250f3, type: 2}
   deleteButton: 0
 --- !u!1 &3916053260728187225
@@ -957,6 +959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+  tileActionMenu: {fileID: 8110097050186027607}
   sbi: {fileID: 11400000, guid: cf709bd9d2359184b88daaf233a37ca2, type: 2}
   deleteButton: 0
 --- !u!1 &7550397123618151483

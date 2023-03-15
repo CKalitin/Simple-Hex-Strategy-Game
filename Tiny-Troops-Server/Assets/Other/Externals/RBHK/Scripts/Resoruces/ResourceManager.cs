@@ -17,9 +17,6 @@ public class ResourceManager : MonoBehaviour {
     [Tooltip("Period of time between changes to resource supply by demand.")]
     [SerializeField] private float tickTime;
     [SerializeField] private bool updateResourcesOnTick = true;
-    [Space]
-    [Tooltip("This exists only so you can see the resource entries.")]
-    public List<ResourceEntry> resourceEntriesDisplay;
     
     public delegate void ResourcesChangedCallback(int playerID);
     public static event ResourcesChangedCallback OnResourcesChanged;
@@ -46,7 +43,7 @@ public class ResourceManager : MonoBehaviour {
     }
 
     private void Singleton() {
-        if (instances.ContainsKey(playerId)) {
+        if (instances.ContainsKey(playerId) && instances[playerId] != null) {
             Debug.LogError($"Resource Management Instance Id: ({playerId}) already exists.");
         } else {
             instances.Add(playerId, this);
@@ -55,7 +52,6 @@ public class ResourceManager : MonoBehaviour {
 
     private void Update() {
         if (updateResourcesOnTick) TickUpdate();
-        resourceEntriesDisplay = resourceEntries.Values;
     }
 
     #endregion
@@ -145,7 +141,7 @@ public class ResourceManager : MonoBehaviour {
         resources[_resourceIndex].Supply += resources[_resourceIndex].Demand;
     }
     
-    public void ChangeResource(GameResources _resource, float _change) {
+    public void ChangeResource(GameResource _resource, float _change) {
         GetResource(_resource).Supply += _change;
 
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
@@ -164,9 +160,9 @@ public class ResourceManager : MonoBehaviour {
         } else {
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
             resource.Supply += _resourceEntry.Change; // Add change to Supply
-
-            if (OnResourcesChanged != null) OnResourcesChanged(playerId);
             
+            if (OnResourcesChanged != null) OnResourcesChanged(playerId);
+
             // Return fake index because index is not used in this case, it is a single use
             // It's in situations like this where I wish a return function was not alawys needed or something, it's 4aem
             return -1;
@@ -174,6 +170,7 @@ public class ResourceManager : MonoBehaviour {
     }
 
     public void RemoveResourceEntry(int _index) {
+        if (resourceEntries.Count <= 0) return;
         Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
         resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
 
@@ -183,7 +180,7 @@ public class ResourceManager : MonoBehaviour {
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
-    public Resource GetResource(GameResources _resourceID) {
+    public Resource GetResource(GameResource _resourceID) {
         // Loop through resources and find resource that matches parameter id
         for (int i = 0; i < resources.Length; i++) {
             if (resources[i].ResourceId == _resourceID)

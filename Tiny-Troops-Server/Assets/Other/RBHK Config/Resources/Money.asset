@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceId: 0
   resourceInfo: {fileID: 11400000, guid: d1afb33b72ed09948b6217e194a752f8, type: 2}
-  supply: 0
+  supply: 1000
   demand: 0
   customTickTime: 0

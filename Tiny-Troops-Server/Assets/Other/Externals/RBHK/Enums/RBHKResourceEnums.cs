@@ -1,10 +1,10 @@
-public enum GameResources { 
+public enum GameResource { 
 	Money,
 	Population,
 	Food,
 	Industry,
 }
 
-public enum ResourceEntries { 
+public enum GameResourceEntry { 
 	Test,
 }

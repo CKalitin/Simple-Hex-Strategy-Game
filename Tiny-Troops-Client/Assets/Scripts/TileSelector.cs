@@ -30,12 +30,23 @@ public class TileSelector : MonoBehaviour {
     }
 
     private void Update() {
+        if (MatchManager.instance.MatchState != MatchState.InGame) {
+            if (currentTile != null) currentTile.ToggleActive(false);
+            currentTile = null;
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             TileActionMenu newTile = GetTileUnderCursor();
             if (newTile != null) {
                 if (currentTile != null) currentTile.ToggleActive(false);
-                currentTile = newTile;
-                currentTile.ToggleActive(true);
+                
+                if (currentTile == newTile) {
+                    currentTile = null;
+                } else {
+                    currentTile = newTile;
+                    currentTile.ToggleActive(true);
+                }
             }
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && currentTile != null)

@@ -20,5 +20,5 @@ MonoBehaviour:
   resourceEntryIds:
   - Test
   resourceEnumPath: Assets/Other/Externals/RBHK/Enums/
-  resourceEnumName: GameResources
-  resourceEntryEnumName: ResourceEntries
+  resourceEnumName: GameResource
+  resourceEntryEnumName: GameResourceEntry
