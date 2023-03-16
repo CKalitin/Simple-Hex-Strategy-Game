@@ -57,7 +57,7 @@ public class TileSelector : MonoBehaviour {
                 currentTile = newTile;
                 currentTile.ToggleActive(true);
             } else {
-                currentTile.ToggleActive(false);
+                if (currentTile) currentTile.ToggleActive(false);
                 currentTile = null;
             }
         }
