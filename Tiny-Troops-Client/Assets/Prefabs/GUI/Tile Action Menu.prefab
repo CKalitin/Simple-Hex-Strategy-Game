@@ -431,9 +431,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457540497951747808}
-  m_LocalRotation: {x: 0.7071068, y: -0.7071068, z: -0.000001013279, w: 0.000001013279}
-  m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 0.39999998, y: 0.4, z: 2}
+  m_LocalRotation: {x: 0.68301266, y: -0.68301266, z: -0.18301292, w: 0.18301292}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 591602755692743029}
@@ -442,10 +442,10 @@ RectTransform:
   - {fileID: 849733605140930433}
   m_Father: {fileID: 7007307691954093681}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 30, z: 90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0, y: 0}
   m_SizeDelta: {x: 8, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3839631913092102982
@@ -657,7 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 8110097050186027607}
+  tileActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 0}
   sbi: {fileID: 11400000, guid: cf709bd9d2359184b88daaf233a37ca2, type: 2}
   deleteButton: 1
@@ -813,7 +813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 8110097050186027607}
+  tileActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 6786772714440541110}
   sbi: {fileID: 11400000, guid: 8fc441de728abfc4cafeb08611d250f3, type: 2}
   deleteButton: 0
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 8110097050186027607}
+  tileActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 1087454124479408027}
   sbi: {fileID: 11400000, guid: cf709bd9d2359184b88daaf233a37ca2, type: 2}
   deleteButton: 0
@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8110097050186027607}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TileActionMenu, Assembly-CSharp
         m_MethodName: OnCloseButton
         m_Mode: 1
@@ -1495,7 +1495,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &7671078860707423435
+--- !u!1 &7609066232400679635
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1503,49 +1503,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7007307691954093681}
-  - component: {fileID: 6237818281408213460}
-  - component: {fileID: 8175680274501649694}
-  - component: {fileID: 2150759685196874165}
-  - component: {fileID: 8110097050186027607}
+  - component: {fileID: 8103188178168176683}
+  - component: {fileID: 344353337498031816}
+  - component: {fileID: 7249009039696709968}
+  - component: {fileID: 3410117604512847056}
+  - component: {fileID: 1820456183065733522}
   m_Layer: 6
-  m_Name: Tile Action Menu
+  m_Name: Tile Selector Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7007307691954093681
+--- !u!4 &8103188178168176683
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671078860707423435}
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_GameObject: {fileID: 7609066232400679635}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 0.5}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8108757469863095163}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 7007307691954093681}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
---- !u!33 &6237818281408213460
+--- !u!33 &344353337498031816
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671078860707423435}
+  m_GameObject: {fileID: 7609066232400679635}
   m_Mesh: {fileID: -462981019419857548, guid: 15ad4d005a9abc54fbe8005f39ab8a13, type: 3}
---- !u!23 &8175680274501649694
+--- !u!23 &7249009039696709968
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671078860707423435}
+  m_GameObject: {fileID: 7609066232400679635}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -1581,13 +1580,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2150759685196874165
+--- !u!64 &3410117604512847056
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671078860707423435}
+  m_GameObject: {fileID: 7609066232400679635}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -1595,19 +1594,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -462981019419857548, guid: 15ad4d005a9abc54fbe8005f39ab8a13, type: 3}
---- !u!114 &8110097050186027607
+--- !u!114 &1820456183065733522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671078860707423435}
+  m_GameObject: {fileID: 7609066232400679635}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 396084a6a624147469d50c4a9dcfc3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   togglableUI: {fileID: 1457540497951747808}
+  scale: 0.04
+--- !u!1 &7671078860707423435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7007307691954093681}
+  m_Layer: 6
+  m_Name: Tile Action Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7007307691954093681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7671078860707423435}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8108757469863095163}
+  - {fileID: 8103188178168176683}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!1 &8304656768692392984
 GameObject:
   m_ObjectHideFlags: 0
