@@ -11,10 +11,7 @@ public class PathfindingManager : MonoBehaviour {
     public static PathfindingManager instance;
 
     [SerializeField] private int[] walkableTileIds;
-
-    [Space]
-    [SerializeField] private GameObject prefab; 
-
+    
     Dictionary<Vector2Int, int> map = null;
 
     private void Awake() {
@@ -28,25 +25,7 @@ public class PathfindingManager : MonoBehaviour {
             instance = this;
         }
     }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.P)) {
-            PrintPath();
-        }
-    }
-
-    private void PrintPath() {
-        List<Vector2Int> path = FindPath(new Vector2Int(0, 0), new Vector2Int(4, 4));
-        foreach (var tile in path) {
-            //Debug.Log(tile);
-        }
-        foreach (var tile in path) {
-            Vector3 pos = TileManagement.instance.TileLocationToWorldPosition(PathfindingLocationToRBHKLocation(tile), 1.5f);
-            Instantiate(prefab, pos, Quaternion.identity);
-            Debug.Log(PathfindingLocationToRBHKLocation(tile));
-        }
-    }
-
+    
     // Convert from my tile system to the pathfinding system
     private static void TileMapToPathfindingMap() {
         instance.map = new Dictionary<Vector2Int, int>();
@@ -119,7 +98,13 @@ public class PathfindingManager : MonoBehaviour {
             }
         }
         result.Reverse();
-        return result;
+        
+        List<Vector2Int> finalResult = new List<Vector2Int>();
+        for (int i = 0; i < result.Count; i++) {
+            finalResult.Add(PathfindingLocationToRBHKLocation(result[i]));
+        }
+        
+        return finalResult;
     }
 
     private static bool findDest(Node currentNode, List<Node> openList,
