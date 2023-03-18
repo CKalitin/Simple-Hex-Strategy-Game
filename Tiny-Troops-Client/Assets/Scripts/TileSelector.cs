@@ -51,14 +51,12 @@ public class TileSelector : MonoBehaviour {
             // If clicked on empty space, close old tile menu.
             if (newTile != null && currentTile != null && currentTile.gameObject == newTile.gameObject) {
                 currentTile.ToggleActive(false);
-                currentTile = null;
             } else if (newTile != null) {
                 if (currentTile) currentTile.ToggleActive(false);
                 currentTile = newTile;
                 currentTile.ToggleActive(true);
             } else {
                 if (currentTile) currentTile.ToggleActive(false);
-                currentTile = null;
             }
         }
     }

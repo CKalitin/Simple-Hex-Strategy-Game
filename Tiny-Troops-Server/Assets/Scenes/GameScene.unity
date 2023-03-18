@@ -498,8 +498,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structureBuildInfos:
-  - {fileID: 11400000, guid: 15fee796bd146fe42a420e46988de03c, type: 2}
-  - {fileID: 11400000, guid: c204c2f43709f0e4886a38e639fc038a, type: 2}
+  - {fileID: 11400000, guid: 383dff02c58649148b04fa54f9fca19f, type: 2}
+  - {fileID: 11400000, guid: 53c01605e7a91ef4ea97b022e7153e1a, type: 2}
+  - {fileID: 11400000, guid: fe125df9c92b0364bb7ae69530a3fc4c, type: 2}
+  - {fileID: 11400000, guid: e18bfb552d3d56a4280acb4fa6cade5f, type: 2}
+  - {fileID: 11400000, guid: d25f6de468b202a449772517c7a987e2, type: 2}
 --- !u!1001 &1084677342
 PrefabInstance:
   m_ObjectHideFlags: 0
