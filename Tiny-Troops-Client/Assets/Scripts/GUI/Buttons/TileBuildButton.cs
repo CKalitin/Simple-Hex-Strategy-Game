@@ -32,7 +32,7 @@ public class TileBuildButton : MonoBehaviour {
     private void Update() {
         if (deleteButton || sbi == null || cantAffordDisplayParent == null) return;
 
-        if (ClientStructureBuilder.instance.CanAffordStructure(USNL.ClientManager.instance.ClientId, sbi)) {
+        if (ClientStructureBuilder.instance.CanAffordStructure(MatchManager.instance.PlayerID, sbi)) {
             cantAffordDisplayParent.SetActive(false);
         } else {
             cantAffordDisplayParent.SetActive(true);

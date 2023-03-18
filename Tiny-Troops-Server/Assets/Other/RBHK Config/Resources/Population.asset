@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9231b8e7b10ed4e9c54675259d8c9e, type: 3}
   m_Name: Population
   m_EditorClassIdentifier: 
-  resourceId: 1
+  resourceId: 0
   resourceInfo: {fileID: 11400000, guid: a7de6fe17af5d9e479793a68579ed8ed, type: 2}
-  supply: 0
-  demand: 0
   customTickTime: 0

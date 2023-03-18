@@ -28,6 +28,7 @@ public class ResourceManager : MonoBehaviour {
     public int PlayerId { get => playerId; set => playerId = value; }
     public Resource[] Resources { get => resources; set => resources = value; }
 
+    private List<ResourceEntry> resourceEntriesDisplay; // For debug purposes
     private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
 
     private float totalDeltaTime = 0;
@@ -52,6 +53,7 @@ public class ResourceManager : MonoBehaviour {
 
     private void Update() {
         if (updateResourcesOnTick) TickUpdate();
+        resourceEntriesDisplay = resourceEntries.Values;
     }
 
     #endregion
@@ -63,7 +65,7 @@ public class ResourceManager : MonoBehaviour {
         // Create list for updated resource entries
         Resource[] _resources = new Resource[resources.Length];
 
-        // Loop through resourceEntries
+        // Loop through resources
         for (int i = 0; i < resources.Length; i++) {
             Resource newResource = ScriptableObject.CreateInstance<Resource>(); // Create new resource entry
 
@@ -158,24 +160,37 @@ public class ResourceManager : MonoBehaviour {
             
             return index;
         } else {
+            int index = resourceEntries.Add(_resourceEntry);
+            
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
             resource.Supply += _resourceEntry.Change; // Add change to Supply
             
             if (OnResourcesChanged != null) OnResourcesChanged(playerId);
 
+            // This fucked everything up:
+            // You need an index to be able to subtract the change later on in the RemoveResourceEntry function
             // Return fake index because index is not used in this case, it is a single use
             // It's in situations like this where I wish a return function was not alawys needed or something, it's 4aem
-            return -1;
+            return index;
         }
     }
 
     public void RemoveResourceEntry(int _index) {
         if (resourceEntries.Count <= 0) return;
-        Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
-        resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
 
-        // Add index to indexes that are free to use
-        resourceEntries.Remove(_index);
+        if (resourceEntries[_index].ChangeOnTick) {
+            Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
+            resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
+
+            // Add index to indexes that are free to use
+            resourceEntries.Remove(_index);
+        } else {
+            Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
+            resource.Supply -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
+
+            // Add index to indexes that are free to use
+            resourceEntries.Remove(_index);
+        }
         
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }

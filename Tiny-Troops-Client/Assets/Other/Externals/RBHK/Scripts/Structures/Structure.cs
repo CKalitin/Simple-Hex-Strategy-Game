@@ -10,6 +10,7 @@ public class Structure : MonoBehaviour {
     [SerializeField] private int playerID;
     [Tooltip("Use this if you need to, it does nothing in RBHK itself.")]
     [SerializeField] private int structureID;
+    [SerializeField] private StructureBuildInfo structureBuildInfo;
 
     [Header("Upgrades")]
     [Tooltip("This field always has to be set, the first upgrade is what's used to initialize the resourceEntries.")]
@@ -58,7 +59,7 @@ public class Structure : MonoBehaviour {
     private void InitVars() {
         if (transform.parent.parent.parent.GetComponent<Tile>()) {
             tile = transform.parent.parent.parent.GetComponent<Tile>();
-            if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
+            transform.parent.parent.parent.GetComponent<Tile>().Structures.Add(this);
         }
     }
 
@@ -71,6 +72,7 @@ public class Structure : MonoBehaviour {
     }
 
     public void DestroyStructure() {
+        RefundNoTickCost();
         Destroy(gameObject);
     }
 
@@ -199,13 +201,13 @@ public class Structure : MonoBehaviour {
 
     private void AddResourceEntriesToManagement() {
         for (int i = 0; i < resourceEntries.Length; i++) {
-            appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
+            if (playerID >= 0) appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
         }
     }
-
+    
     private void RemoveResourceEntriesFromManagement() {
         for (int i = 0; i < appliedResourceEntryIndexes.Count; i++) {
-            ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
+            if (playerID >= 0) ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
         }
         appliedResourceEntryIndexes = new List<int>();
     }
@@ -250,6 +252,16 @@ public class Structure : MonoBehaviour {
             return resourceEntries[i];
         }
         return null;
+    }
+
+    // No tick cost is costs that are applied to the supply and not demand. The changeOnTick toggle
+    private void RefundNoTickCost() {
+        if (playerID < 0) return;
+        for (int i = 0; i < structureBuildInfo.Cost.Length; i++) {
+            // If resource is updated on tick, skip it
+            if (ResourceManager.instances[playerID].GetResource(structureBuildInfo.Cost[i].Resource).ChangeOnTickResource) continue;
+             ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(structureBuildInfo.Cost[i].Amount));
+        }
     }
 
     #endregion

@@ -1,10 +1,14 @@
 public enum GameResource { 
-	Money,
 	Population,
 	Food,
-	Industry,
+	Wood,
+	Steel,
 }
 
 public enum GameResourceEntry { 
-	Test,
+	Village,
+	Farm,
+	Lumberhut,
+	Foundry,
+	Base,
 }

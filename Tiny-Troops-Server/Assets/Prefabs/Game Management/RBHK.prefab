@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4571661714303459077}
   - component: {fileID: 4571661714303459098}
   m_Layer: 0
-  m_Name: Resource Manager
+  m_Name: Resource Manager 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,13 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 0
   resources:
-  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
-  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
-  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
   - {fileID: 11400000, guid: 187d8edd354e132449c556dc9816bdb6, type: 2}
+  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
+  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
+  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
   tickTime: 5
   updateResourcesOnTick: 1
-  resourceEntriesDisplay: []
 --- !u!1 &4571661714935279177
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +63,7 @@ GameObject:
   - component: {fileID: 4571661714935279182}
   - component: {fileID: 4571661714935279183}
   m_Layer: 0
-  m_Name: Resource Manager (1)
+  m_Name: Resource Manager 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,13 +98,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 1
   resources:
-  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
-  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
-  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
   - {fileID: 11400000, guid: 187d8edd354e132449c556dc9816bdb6, type: 2}
+  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
+  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
+  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
   tickTime: 5
   updateResourcesOnTick: 1
-  resourceEntriesDisplay: []
 --- !u!1 &4571661715180189768
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +115,7 @@ GameObject:
   - component: {fileID: 4571661715180189769}
   - component: {fileID: 4571661715180189774}
   m_Layer: 0
-  m_Name: Resource Manager (2)
+  m_Name: Resource Manager 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,13 +150,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 2
   resources:
-  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
-  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
-  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
   - {fileID: 11400000, guid: 187d8edd354e132449c556dc9816bdb6, type: 2}
+  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
+  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
+  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
   tickTime: 5
   updateResourcesOnTick: 1
-  resourceEntriesDisplay: []
 --- !u!1 &4571661715469168643
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +167,7 @@ GameObject:
   - component: {fileID: 4571661715469168640}
   - component: {fileID: 4571661715469168641}
   m_Layer: 0
-  m_Name: Resource Manager (3)
+  m_Name: Resource Manager 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,13 +202,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 3
   resources:
-  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
-  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
-  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
   - {fileID: 11400000, guid: 187d8edd354e132449c556dc9816bdb6, type: 2}
+  - {fileID: 11400000, guid: a1d725fac5c3e2f46bde1fc28e758ce8, type: 2}
+  - {fileID: 11400000, guid: 5934b5b705fee974a85023147e508ef0, type: 2}
+  - {fileID: 11400000, guid: a13a67b471b634b41bf500c283e9618e, type: 2}
   tickTime: 5
   updateResourcesOnTick: 1
-  resourceEntriesDisplay: []
 --- !u!1 &4571661716153691176
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +233,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4571661716153691176}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -279,7 +275,7 @@ MonoBehaviour:
     - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
     - {fileID: 2450458459561363271, guid: a8ac9325e9dcaf44796558b9b4bb94dc, type: 3}
     - {fileID: 2450458459561363271, guid: a8ac9325e9dcaf44796558b9b4bb94dc, type: 3}
-    - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
+    - {fileID: 8142464371967572720, guid: 2cd7985540aa8d74fa28dccb8fdb0786, type: 3}
     - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
   - tilePrefabs:
     - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
@@ -301,7 +297,7 @@ MonoBehaviour:
     - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
   - tilePrefabs:
     - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
-    - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
+    - {fileID: 8142464371967572720, guid: 9e34d4921df8b3741a7a26ae8232ec93, type: 3}
     - {fileID: 2450458459561363271, guid: a8ac9325e9dcaf44796558b9b4bb94dc, type: 3}
     - {fileID: 2450458459561363271, guid: a8ac9325e9dcaf44796558b9b4bb94dc, type: 3}
     - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}

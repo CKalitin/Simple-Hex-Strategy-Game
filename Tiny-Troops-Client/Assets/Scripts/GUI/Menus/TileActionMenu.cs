@@ -8,6 +8,7 @@ public class TileActionMenu : MonoBehaviour {
     [SerializeField] private Tile tile;
 
     public bool Active { get => togglableUI.activeSelf; }
+    public Tile Tile { get => tile; set => tile = value; }
 
     private void Awake() {
         if (tile == null)

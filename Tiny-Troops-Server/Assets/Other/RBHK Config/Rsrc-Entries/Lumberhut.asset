@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addbb7506bca68448bd9107adde830e0, type: 3}
-  m_Name: Industry-Info
+  m_Script: {fileID: 11500000, guid: 64343a74f0b6953408dec4837b55982e, type: 3}
+  m_Name: Lumberhut
   m_EditorClassIdentifier: 
-  resourceId: 3
-  icon: {fileID: 0}
-  resourceDisplayName: Industry
+  resourceId: 2
+  resourceEntryIds: 02000000
+  change: 5
+  changeOnTick: 1

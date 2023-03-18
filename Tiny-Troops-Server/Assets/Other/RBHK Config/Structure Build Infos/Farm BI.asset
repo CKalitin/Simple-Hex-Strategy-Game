@@ -19,4 +19,6 @@ MonoBehaviour:
     type: 3}
   cost:
   - resource: 0
-    amount: 100
+    amount: 10
+  - resource: 2
+    amount: 50

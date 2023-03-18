@@ -145,10 +145,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: -1
   structureID: 4
+  structureBuildInfo: {fileID: 11400000, guid: e18bfb552d3d56a4280acb4fa6cade5f, type: 2}
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
-  resourceEntries: []
+  resourceEntries:
+  - {fileID: 11400000, guid: 0a1e743e772004a4fbce084809617de3, type: 2}
 --- !u!1001 &1250888206851917422
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -139,7 +139,7 @@ public class ClientStructureBuilder : MonoBehaviour {
     public bool CanAffordStructure(int _playerID, StructureBuildInfo _structureBuildInfo) {
         bool output = true;
         for (int i = 0; i < _structureBuildInfo.Cost.Length; i++) {
-            if (_structureBuildInfo.Cost[i].Amount >= ResourceManager.instances[_playerID].GetResource(_structureBuildInfo.Cost[i].Resource).Supply)
+            if (_structureBuildInfo.Cost[i].Amount > ResourceManager.instances[_playerID].GetResource(_structureBuildInfo.Cost[i].Resource).Supply)
                 output = false;
         }
 
@@ -157,11 +157,11 @@ public class ClientStructureBuilder : MonoBehaviour {
     #region Client Build and Destroy
 
     public void BuildStructureClient(Vector2Int _targetTileLocation, int _structureID, StructureBuildInfo _sbi) {
-        USNL.PacketSend.BuildStructure(USNL.ClientManager.instance.ClientId, _targetTileLocation, _structureID);
+        USNL.PacketSend.BuildStructure(MatchManager.instance.PlayerID, _targetTileLocation, _structureID);
     }
 
     public void DestroyStructureClient(Vector2Int _targetTileLocation) {
-        USNL.PacketSend.DestroyStructure(USNL.ClientManager.instance.ClientId, _targetTileLocation);
+        USNL.PacketSend.DestroyStructure(MatchManager.instance.PlayerID, _targetTileLocation);
     }
 
     #endregion

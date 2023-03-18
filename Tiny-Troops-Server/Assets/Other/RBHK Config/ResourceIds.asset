@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: ResourceIds
   m_EditorClassIdentifier: 
   resourceIds:
-  - Money
   - Population
   - Food
-  - Industry
+  - Wood
+  - Steel
   resourceEntryIds:
-  - Test
+  - Village
+  - Farm
+  - Lumberhut
+  - Foundry
+  - Base
   resourceEnumPath: Assets/Other/Externals/RBHK/Enums/
   resourceEnumName: GameResource
   resourceEntryEnumName: GameResourceEntry

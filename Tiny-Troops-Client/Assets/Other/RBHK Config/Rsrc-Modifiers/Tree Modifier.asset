@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53de629b1aae2f4a9c01de3648d50c8, type: 3}
   m_Name: Tree Modifier
   m_EditorClassIdentifier: 
-  resourceIdTarget: 0
-  resourceEntryIdTarget: 0
+  resourceIdTarget: 2
+  resourceEntryIdTarget: 2
   change: 1
-  percentageChange: 1.5
+  percentageChange: 0

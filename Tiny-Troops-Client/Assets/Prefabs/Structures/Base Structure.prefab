@@ -346,7 +346,8 @@ MonoBehaviour:
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
-  resourceEntries: []
+  resourceEntries:
+  - {fileID: 11400000, guid: a5e96bd926522a1439076fbb4f2e05e0, type: 2}
 --- !u!114 &2682231161970667900
 MonoBehaviour:
   m_ObjectHideFlags: 0

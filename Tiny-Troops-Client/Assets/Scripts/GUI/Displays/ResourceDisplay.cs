@@ -25,6 +25,6 @@ public class ResourceDisplay : MonoBehaviour {
     }
 
     private void OnConnected(object _object) {
-        resourceReference = ResourceManager.instances[USNL.ClientManager.instance.ClientId].GetResource(resource);
+        resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
     }
 }

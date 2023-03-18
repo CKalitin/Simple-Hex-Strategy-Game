@@ -53,8 +53,10 @@ public class TileSelector : MonoBehaviour {
                 currentTile.ToggleActive(false);
             } else if (newTile != null) {
                 if (currentTile) currentTile.ToggleActive(false);
-                currentTile = newTile;
-                currentTile.ToggleActive(true);
+                if (CheckTilePlayerID(newTile.Tile)) {
+                    currentTile = newTile;
+                    currentTile.ToggleActive(true);
+                }
             } else {
                 if (currentTile) currentTile.ToggleActive(false);
             }
@@ -89,6 +91,14 @@ public class TileSelector : MonoBehaviour {
         } else {
             return null;
         }
+    }
+
+    // If player is allowed to click on the tile
+    private bool CheckTilePlayerID(Tile _tile) {
+        if (_tile.Structures.Count <= 0) return true;
+        if (_tile.Structures[0].GetComponent<Structure>().PlayerID == MatchManager.instance.PlayerID) return true; // MatchManager.instance.CurrentPlayerID genius copilot
+        if (_tile.Structures[0].GetComponent<Structure>().PlayerID == -1) return true;
+        return false;
     }
 
     #endregion

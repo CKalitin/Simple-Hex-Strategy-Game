@@ -3006,12 +3006,23 @@ PrefabInstance:
     - target: {fileID: 6119621409498370449, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: This is a Tree! Tree's make $5/tick. Tree's cost $100
+      value: 'Forts are the strongest buildings. You can use them to defend or produce
+        troops.
+
+
+        Cost:
+
+        20 Population
+
+        100 Wood
+
+        100
+        Steel'
       objectReference: {fileID: 0}
     - target: {fileID: 7095569659047737461, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: Tree
+      value: Fort
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 501cf2265dec9644f88b5ec193fa46b4, type: 3}
@@ -3167,12 +3178,25 @@ PrefabInstance:
     - target: {fileID: 6119621409498370449, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: This is a Tree! Tree's make $5/tick. Tree's cost $100
+      value: 'Foundry''s produce steel.
+
+
+        Output:
+
+        5 Steel
+
+
+        Cost:
+
+        20
+        Population
+
+        100 Wood'
       objectReference: {fileID: 0}
     - target: {fileID: 7095569659047737461, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: Tree
+      value: Foundry
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 501cf2265dec9644f88b5ec193fa46b4, type: 3}
@@ -3328,12 +3352,25 @@ PrefabInstance:
     - target: {fileID: 6119621409498370449, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: This is a Tree! Tree's make $5/tick. Tree's cost $100
+      value: 'People live here.
+
+
+        Output:
+
+        20 Population
+
+
+        Cost:
+
+        50
+        Food
+
+        50 Wood'
       objectReference: {fileID: 0}
     - target: {fileID: 7095569659047737461, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: Tree
+      value: Village
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 501cf2265dec9644f88b5ec193fa46b4, type: 3}
@@ -3489,12 +3526,22 @@ PrefabInstance:
     - target: {fileID: 6119621409498370449, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: This is a Tree! Tree's make $5/tick. Tree's cost $100
+      value: 'Output:
+
+        5 Food
+
+
+        Cost:
+
+        10 Population
+
+        50
+        Wood'
       objectReference: {fileID: 0}
     - target: {fileID: 7095569659047737461, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: Tree
+      value: Farm
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 501cf2265dec9644f88b5ec193fa46b4, type: 3}
@@ -3650,12 +3697,22 @@ PrefabInstance:
     - target: {fileID: 6119621409498370449, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: This is a Tree! Tree's make $5/tick. Tree's cost $100
+      value: 'Output:
+
+        5 Wood
+
+
+        Cost:
+
+        10 Population
+
+        50
+        Wood'
       objectReference: {fileID: 0}
     - target: {fileID: 7095569659047737461, guid: 501cf2265dec9644f88b5ec193fa46b4,
         type: 3}
       propertyPath: m_text
-      value: Tree
+      value: Lumber Hut
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 501cf2265dec9644f88b5ec193fa46b4, type: 3}

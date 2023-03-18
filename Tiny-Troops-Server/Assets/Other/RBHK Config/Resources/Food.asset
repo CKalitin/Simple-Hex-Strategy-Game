@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9231b8e7b10ed4e9c54675259d8c9e, type: 3}
   m_Name: Food
   m_EditorClassIdentifier: 
-  resourceId: 2
+  resourceId: 1
   resourceInfo: {fileID: 11400000, guid: aa43ccda7ac81874d820dc40f0927d2a, type: 2}
-  supply: 0
-  demand: 0
   customTickTime: 0
+  changeOnTickResource: 1
