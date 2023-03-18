@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Farm BI
   m_EditorClassIdentifier: 
   structureSize: 0
-  structurePrefab: {fileID: 2300357837749734927, guid: 844f9fa40878128408b4065e41fa69f1,
+  structurePrefab: {fileID: 2300357837749734927, guid: 247b4e2f068256e48b611596e49ee7b3,
     type: 3}
   structureDisplayPrefab: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
     type: 3}

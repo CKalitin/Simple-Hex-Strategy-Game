@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: -1
-  structureID: 0
+  structureID: 5
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 764b7fd5c7f50204284d0c2f82e21771,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 764b7fd5c7f50204284d0c2f82e21771,
         type: 3}

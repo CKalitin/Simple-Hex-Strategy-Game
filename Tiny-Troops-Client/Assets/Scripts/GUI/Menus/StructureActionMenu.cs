@@ -8,6 +8,6 @@ public class StructureActionMenu : MonoBehaviour {
     public TileActionMenu TileActionMenu { get => tileActionMenu; set => tileActionMenu = value; }
 
     public void OnCloseButton() {
-        tileActionMenu.ToggleActive(false);
+        if (tileActionMenu) tileActionMenu.ToggleActive(false);
     }
 }

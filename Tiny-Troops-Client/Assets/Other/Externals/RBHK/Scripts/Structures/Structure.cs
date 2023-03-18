@@ -58,7 +58,7 @@ public class Structure : MonoBehaviour {
     private void InitVars() {
         if (transform.parent.parent.parent.GetComponent<Tile>()) {
             tile = transform.parent.parent.parent.GetComponent<Tile>();
-            transform.parent.parent.parent.GetComponent<Tile>().Structures.Add(this);
+            if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
         }
     }
 

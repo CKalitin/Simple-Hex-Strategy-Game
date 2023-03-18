@@ -15,8 +15,18 @@ public class TileBuildButton : MonoBehaviour {
     [SerializeField] private bool deleteButton;
 
     private void Start() {
-        if (tile == null && transform.parent.parent.parent.parent.GetComponent<Tile>()) tile = transform.parent.parent.parent.parent.GetComponent<Tile>();
-        if (tile == null && transform.parent.parent.parent.parent.parent.GetComponent<Tile>()) tile = transform.parent.parent.parent.parent.parent.GetComponent<Tile>();
+        Transform t = transform.parent;
+        while (true) {
+            if (t.GetComponent<Tile>()) {
+                // If tile script found
+                tile = t.GetComponent<Tile>();
+                break;
+            } else {
+                // If we're at the top of the heirarchy, break out of the loop.
+                if (t.parent == null) break;
+                t = t.parent;
+            }
+        }
     }
 
     private void Update() {
@@ -31,8 +41,12 @@ public class TileBuildButton : MonoBehaviour {
 
     public void OnBuildButtonPressed() {
         if (deleteButton) ClientStructureBuilder.instance.DestroyStructureClient(tile.TileInfo.Location);
-        else ClientStructureBuilder.instance.BuildStructureClient(tile.TileInfo.Location, sbi.StructurePrefab.GetComponent<Structure>().StructureID, sbi);
+        else {
+            if (tile.Structures.Count > 0) return;
+            ClientStructureBuilder.instance.BuildStructureClient(tile.TileInfo.Location, sbi.StructurePrefab.GetComponent<Structure>().StructureID, sbi);
+        }
+        
         if (tileActionMenu) tileActionMenu.ToggleActive(false);
-        if (structureActionMenu) structureActionMenu.TileActionMenu.ToggleActive(false);
+        if (structureActionMenu && structureActionMenu.TileActionMenu) structureActionMenu.TileActionMenu.ToggleActive(false);
     }
 }

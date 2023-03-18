@@ -865,9 +865,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 0}
+  tileActionMenu: {fileID: 1820456183065733522}
+  structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 0}
-  sbi: {fileID: 11400000, guid: cf709bd9d2359184b88daaf233a37ca2, type: 2}
+  sbi: {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
   deleteButton: 1
 --- !u!1 &2136531189431159385
 GameObject:
@@ -878,6 +879,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5948384240535414196}
+  - component: {fileID: 4023032321878546358}
   m_Layer: 5
   m_Name: Togglable Action Menu
   m_TagString: Untagged
@@ -899,11 +901,11 @@ RectTransform:
   m_Children:
   - {fileID: 591602755692743029}
   - {fileID: 849733605140930433}
-  - {fileID: 6408170812869796311}
-  - {fileID: 6915269138206881799}
-  - {fileID: 8569935485287908580}
-  - {fileID: 2873140989371833925}
   - {fileID: 5163947335336703241}
+  - {fileID: 2873140989371833925}
+  - {fileID: 8569935485287908580}
+  - {fileID: 6915269138206881799}
+  - {fileID: 6408170812869796311}
   m_Father: {fileID: 8108757469863095163}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -912,6 +914,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4023032321878546358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136531189431159385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d135abfdd2ae4d4eb51b85d85ad9204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  uiScale: 0.04
 --- !u!1 &2633230267562504374
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,7 +966,7 @@ RectTransform:
   - {fileID: 8004357383176561698}
   - {fileID: 6611168221872986587}
   m_Father: {fileID: 5948384240535414196}
-  m_RootOrder: 2
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1064,7 +1080,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 0}
+  tileActionMenu: {fileID: 1820456183065733522}
+  structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 1019415833586507826}
   sbi: {fileID: 11400000, guid: 503df08416bfafb4dad189eb69abf194, type: 2}
   deleteButton: 0
@@ -1165,7 +1182,7 @@ RectTransform:
   - {fileID: 4379135928067463291}
   - {fileID: 5986239987340227797}
   m_Father: {fileID: 5948384240535414196}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1279,7 +1296,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 0}
+  tileActionMenu: {fileID: 1820456183065733522}
+  structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 7983417800678036610}
   sbi: {fileID: 11400000, guid: 874e97b2e290e794f9dc899616b32799, type: 2}
   deleteButton: 0
@@ -1380,7 +1398,7 @@ RectTransform:
   - {fileID: 7073377571393289481}
   - {fileID: 4759056138616810633}
   m_Father: {fileID: 5948384240535414196}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1494,7 +1512,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 0}
+  tileActionMenu: {fileID: 1820456183065733522}
+  structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 5136264787953177924}
   sbi: {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
   deleteButton: 0
@@ -1709,7 +1728,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 0}
+  tileActionMenu: {fileID: 1820456183065733522}
+  structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 6271691699355868964}
   sbi: {fileID: 11400000, guid: afb77eb87fdeeb049ae070df4c248c18, type: 2}
   deleteButton: 0
@@ -2014,7 +2034,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5952337932774932712}
   m_LocalRotation: {x: 0.000000029802322, y: -0, z: 0.000000029802322, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.00000023841864}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2022,7 +2042,7 @@ RectTransform:
   - {fileID: 6552682478832632607}
   - {fileID: 3307890901307830944}
   m_Father: {fileID: 5948384240535414196}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2136,7 +2156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
-  tileActionMenu: {fileID: 0}
+  tileActionMenu: {fileID: 1820456183065733522}
+  structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 9120740787888974575}
   sbi: {fileID: 11400000, guid: f20f3cb4e2996f5409715ffcd5700da6, type: 2}
   deleteButton: 0
@@ -2533,7 +2554,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1820456183065733522}
         m_TargetAssemblyTypeName: TileActionMenu, Assembly-CSharp
         m_MethodName: OnCloseButton
         m_Mode: 1
@@ -2657,9 +2678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   togglableUI: {fileID: 2136531189431159385}
-  structureUI: {fileID: 0}
   tile: {fileID: 0}
-  uiScale: 1
 --- !u!1 &7671078860707423435
 GameObject:
   m_ObjectHideFlags: 0

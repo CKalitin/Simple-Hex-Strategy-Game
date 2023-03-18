@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Villiage BI
   m_EditorClassIdentifier: 
   structureSize: 0
-  structurePrefab: {fileID: 7077788535158634454, guid: b15eccf2c6934154a9ad4d3a566e4790,
+  structurePrefab: {fileID: 7077788535158634454, guid: 2eddff5f12330044a8fabae9edd15140,
     type: 3}
   structureDisplayPrefab: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
     type: 3}

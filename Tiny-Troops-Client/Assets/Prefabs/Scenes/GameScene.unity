@@ -1367,10 +1367,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structureBuildInfos:
+  - {fileID: 11400000, guid: 7cde1964be540a245bdf9d268f2a145a, type: 2}
   - {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
   - {fileID: 11400000, guid: f20f3cb4e2996f5409715ffcd5700da6, type: 2}
   - {fileID: 11400000, guid: 874e97b2e290e794f9dc899616b32799, type: 2}
   - {fileID: 11400000, guid: afb77eb87fdeeb049ae070df4c248c18, type: 2}
+  - {fileID: 11400000, guid: ae1ee29294b16e2458f6bb04d3a7a859, type: 2}
+  - {fileID: 11400000, guid: f1d70555f4a68ef44bf44f1fe3829b6d, type: 2}
   - {fileID: 11400000, guid: 503df08416bfafb4dad189eb69abf194, type: 2}
 --- !u!114 &2071603836
 MonoBehaviour:

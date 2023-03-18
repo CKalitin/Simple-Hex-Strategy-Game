@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lumber Hut UI
   m_EditorClassIdentifier: 
   structureSize: 0
-  structurePrefab: {fileID: 3595485209442517939, guid: f10f1187f3d2231449a90d59d631d212,
+  structurePrefab: {fileID: 3595485209442517939, guid: 02bad6ce2e82d37408f185f13c4697f6,
     type: 3}
   structureDisplayPrefab: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
     type: 3}
