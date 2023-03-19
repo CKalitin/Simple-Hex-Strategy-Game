@@ -30,7 +30,7 @@ public class PathfindingManager : MonoBehaviour {
     private static void TileMapToPathfindingMap() {
         instance.map = new Dictionary<Vector2Int, int>();
         Dictionary<Vector2Int, int> tempMap = TileManagement.instance.GetTiles.ToDictionary(x => x.Key, x => (int)x.Value.TileId);
-
+        
         foreach (var tile in tempMap) {
             instance.map.Add(RBHKLocationToPathfindingLocation(tile.Key), tile.Value);
         }
@@ -41,8 +41,12 @@ public class PathfindingManager : MonoBehaviour {
         if (output.y % 2 == 0) {
             output.x /= 2;
         } else {
-            if (output.x > 1) output.x /= 2;
-            output.x -= 1;
+            if (output.x > 1) {
+                if (output.x % 2 != 0) output.x -= 1;
+                output.x /= 2;
+            } else {
+                output.x -= 1;
+            }
         }
         return output;
     }

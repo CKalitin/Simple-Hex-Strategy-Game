@@ -915,7 +915,7 @@ PrefabInstance:
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
       propertyPath: initialResources.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
@@ -925,7 +925,7 @@ PrefabInstance:
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
       propertyPath: initialResources.Array.data[1].resource
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
@@ -956,6 +956,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialResources.Array.data[3].initialSupply
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924313470513003413, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: waitTimeAllReady
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb578f7f2a42c5348afba16623239457, type: 3}

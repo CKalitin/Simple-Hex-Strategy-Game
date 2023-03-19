@@ -11,7 +11,7 @@ public class PathfindingManager : MonoBehaviour {
     public static PathfindingManager instance;
 
     [SerializeField] private int[] walkableTileIds;
-    
+
     Dictionary<Vector2Int, int> map = null;
 
     private void Awake() {
@@ -25,7 +25,7 @@ public class PathfindingManager : MonoBehaviour {
             instance = this;
         }
     }
-    
+
     // Convert from my tile system to the pathfinding system
     private static void TileMapToPathfindingMap() {
         instance.map = new Dictionary<Vector2Int, int>();
@@ -41,8 +41,12 @@ public class PathfindingManager : MonoBehaviour {
         if (output.y % 2 == 0) {
             output.x /= 2;
         } else {
-            if (output.x > 1) output.x /= 2;
-            output.x -= 1;
+            if (output.x > 1) {
+                if (output.x % 2 != 0) output.x -= 1;
+                output.x /= 2;
+            } else {
+                output.x -= 1;
+            }
         }
         return output;
     }
@@ -60,7 +64,7 @@ public class PathfindingManager : MonoBehaviour {
     /** find a path in hexagonal grid tilemaps (when grid rows are staggered with each other) **/
     public static List<Vector2Int> FindPath(Vector2Int from, Vector2Int to) {
         if (instance.map == null) TileMapToPathfindingMap();
-        
+
         from = RBHKLocationToPathfindingLocation(from);
         to = RBHKLocationToPathfindingLocation(to);
 
@@ -81,7 +85,7 @@ public class PathfindingManager : MonoBehaviour {
         };
         return astar(from, to, instance.map, instance.walkableTileIds.ToList(), getDistance, getNeighbors);
     }
-    
+
     private static List<Vector2Int> astar(Vector2Int from, Vector2Int to, Dictionary<Vector2Int, int> map, List<int> passableValues,
                       Func<Vector2Int, Vector2Int, float> getDistance, Func<Vector2Int, List<Vector2Int>> getNeighbors) {
         var result = new List<Vector2Int>();
@@ -98,12 +102,12 @@ public class PathfindingManager : MonoBehaviour {
             }
         }
         result.Reverse();
-        
+
         List<Vector2Int> finalResult = new List<Vector2Int>();
         for (int i = 0; i < result.Count; i++) {
             finalResult.Add(PathfindingLocationToRBHKLocation(result[i]));
         }
-        
+
         return finalResult;
     }
 

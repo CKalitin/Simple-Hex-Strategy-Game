@@ -329,6 +329,7 @@ Transform:
   - {fileID: 5240855551222410002}
   - {fileID: 4826466288695200376}
   - {fileID: 975865947195939796}
+  - {fileID: 1447078159747641943}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -365,7 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structureUI: {fileID: 2262170751717698508}
-  tilePathfinding: {fileID: 0}
+  tilePathfinding: {fileID: 6067388628783372995}
 --- !u!1001 &1363948858337537062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -654,6 +655,93 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3557269980176284819}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4475206958674012188
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1712771547096706858}
+    m_Modifications:
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153738028110355147, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+        type: 3}
+      propertyPath: m_Name
+      value: Edges Tile Pathfinding
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0dcb737340ea2154eb2af2e9d8dbf367, type: 3}
+--- !u!4 &1447078159747641943 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+    type: 3}
+  m_PrefabInstance: {fileID: 4475206958674012188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6067388628783372995 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7649523168926659295, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+    type: 3}
+  m_PrefabInstance: {fileID: 4475206958674012188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d61a421c81cb694f8e5cd00c09eef9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5706618344405437689
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -63,19 +63,19 @@ public class TilePathfindingEditor : Editor {
         //    (0,-1)  (1,-1)
         TopBotRowLabel("Top-Left (0, 1)", "Top-Right (1, 1)");
         VerticalLabelBreak();
-        TopBotRow(4, 5);
+        TopBotRow(5, 0);
 
         VerticalBreak();
 
         MiddleRowLabel("Left (-1,0)", "", "Right (1, 0)");
         VerticalLabelBreak();
-        MiddleRow(2, 3);
+        MiddleRow(4, 1);
 
         VerticalBreak();
 
         TopBotRowLabel("Btm-Left  (0,-1)", "Btm-Right (1,-1)");
         VerticalLabelBreak();
-        TopBotRow(0, 1);
+        TopBotRow(3, 2);
 
         VerticalBreak();
 

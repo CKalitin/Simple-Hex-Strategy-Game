@@ -63,22 +63,22 @@ public class PathfindingNodeEditor : Editor {
         //    (0,-1)  (1,-1)
         TopBotRowLabel("Top-Left (0, 1)", "Top-Right (1, 1)");
         VerticalLabelBreak();
-        TopBotRow(4, 5);
+        TopBotRow(5, 0);
 
         VerticalBreak();
 
         MiddleRowLabel("Left (-1,0)", "", "Right (1, 0)");
         VerticalLabelBreak();
-        MiddleRow(2, 3);
+        MiddleRow(4, 1);
 
         VerticalBreak();
 
         TopBotRowLabel("Btm-Left  (0,-1)", "Btm-Right (1,-1)");
         VerticalLabelBreak();
-        TopBotRow(0, 1);
+        TopBotRow(3, 2);
 
         VerticalBreak();
-        
+
         pathfindingNode.FinalNode = EditorGUILayout.Toggle("Final Node", pathfindingNode.FinalNode);
         pathfindingNode.Radius = EditorGUILayout.FloatField("Radius", pathfindingNode.Radius);
 
@@ -100,9 +100,9 @@ public class PathfindingNodeEditor : Editor {
         EditorGUILayout.BeginHorizontal();
 
         GUILayout.Label("", GUILayout.Width(topbotRowEdgeGap - topbotRowOffset)); // This is a break
-        pathfindingNode.NodesArray[_textAreaOneIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaOneIndex], typeof(PathfindingNode), false, GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
+        pathfindingNode.NodesArray[_textAreaOneIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaOneIndex], typeof(PathfindingNode), true, GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(topbotRowMidGap - topbotRowOffset)); // This is a break
-        pathfindingNode.NodesArray[_textAreaTwoIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaTwoIndex], typeof(PathfindingNode), false, GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
+        pathfindingNode.NodesArray[_textAreaTwoIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaTwoIndex], typeof(PathfindingNode), true, GUILayout.Width(textFieldWidth - topbotRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(topbotRowEdgeGap - topbotRowOffset)); // This is a break
 
         // End horizontal line of elements
@@ -115,11 +115,11 @@ public class PathfindingNodeEditor : Editor {
         EditorGUILayout.BeginHorizontal();
 
         GUILayout.Label("", GUILayout.Width(middleRowEdgeGap - middleRowOffset)); // This is a break
-        pathfindingNode.NodesArray[_textAreaOneIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaOneIndex], typeof(PathfindingNode), false, GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
+        pathfindingNode.NodesArray[_textAreaOneIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaOneIndex], typeof(PathfindingNode), true, GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(middleRowMidGap - middleRowOffset)); // This is a break
         GUILayout.Label("", GUILayout.Width(textFieldWidth - middleRowOffset)); // This is a break
         GUILayout.Label("", GUILayout.Width(middleRowMidGap - middleRowOffset)); // This is a break
-        pathfindingNode.NodesArray[_textAreaTwoIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaTwoIndex], typeof(PathfindingNode), false, GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
+        pathfindingNode.NodesArray[_textAreaTwoIndex] = (PathfindingNode)EditorGUILayout.ObjectField(pathfindingNode.NodesArray[_textAreaTwoIndex], typeof(PathfindingNode), true, GUILayout.Width(textFieldWidth - middleRowOffset), GUILayout.Height(textFieldHeight));
         GUILayout.Label("", GUILayout.Width(middleRowEdgeGap - middleRowOffset)); // This is a break
 
         // End horizontal line of elements
@@ -167,7 +167,7 @@ public class PathfindingNodeEditor : Editor {
         GUILayout.Label("", GUILayout.Height(labelVerticalBreakSize)); // This is a break
         EditorGUILayout.EndHorizontal();
     }
-    
+
     private void HelpBox() {
         string helpMessage =
             "This is how troops know which nodes to move to.\n" +
