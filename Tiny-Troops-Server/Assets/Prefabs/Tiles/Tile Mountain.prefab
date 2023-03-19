@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3156760442925059071}
   - component: {fileID: 4410263235552160487}
+  - component: {fileID: 2170599938594726362}
   m_Layer: 0
   m_Name: Tile Mountain
   m_TagString: Untagged
@@ -83,6 +84,19 @@ MonoBehaviour:
   tileRules: []
   structureLocationsParent: {fileID: 4139870243794291158}
   structures: []
+--- !u!114 &2170599938594726362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2471017130971047749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4066f24bb6107454aacc01dd67f02831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePathfinding: {fileID: 0}
 --- !u!1 &3582357762319890397
 GameObject:
   m_ObjectHideFlags: 0
