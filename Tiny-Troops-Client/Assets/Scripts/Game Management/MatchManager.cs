@@ -29,16 +29,19 @@ public class MatchManager : MonoBehaviour {
             Debug.Log($"Match Manager instance already exists on ({gameObject}), destroying this.");
             Destroy(this);
         }
+        
+        // Calling this from Awake means it will be called before other OnConnected() callbacks, see Unity Core of Execution for Event Functions
+        // Also, this doesn't work from OnEnable()
+        USNL.CallbackEvents.OnWelcomePacket += OnWelcomePacket;
     }
     
     private void OnEnable() {
         USNL.CallbackEvents.OnMatchUpdatePacket += OnMatchUpdatePacket;
-        USNL.CallbackEvents.OnConnected += OnConnected;
     }
 
     private void OnDisable() {
+        USNL.CallbackEvents.OnWelcomePacket -= OnWelcomePacket;
         USNL.CallbackEvents.OnMatchUpdatePacket -= OnMatchUpdatePacket;
-        USNL.CallbackEvents.OnConnected -= OnConnected;
     }
 
     private void OnMatchUpdatePacket(object _packetObject) {
@@ -48,8 +51,9 @@ public class MatchManager : MonoBehaviour {
         // Call callbacks
         if (OnMatchStateChanged != null) OnMatchStateChanged(matchState);
     }
-
-    private void OnConnected(object _object) {
-        playerID = USNL.ClientManager.instance.ClientId;
+    
+    private void OnWelcomePacket(object _packetObject) {
+        USNL.Package.WelcomePacket _wp = (USNL.Package.WelcomePacket)_packetObject;
+        playerID = _wp.ClientId;
     }
 }

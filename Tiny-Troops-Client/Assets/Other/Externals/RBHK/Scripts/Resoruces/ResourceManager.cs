@@ -47,6 +47,7 @@ public class ResourceManager : MonoBehaviour {
         if (instances.ContainsKey(playerId) && instances[playerId] != null) {
             Debug.LogError($"Resource Management Instance Id: ({playerId}) already exists.");
         } else {
+            if (instances.ContainsKey(playerId)) instances.Remove(playerId);
             instances.Add(playerId, this);
         }
     }
