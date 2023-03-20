@@ -23,6 +23,8 @@ public class PathfindingAgent : MonoBehaviour {
     private bool finishedMoving = true;
     private Vector2Int[] directions = new Vector2Int[6] { new Vector2Int(1, 1), new Vector2Int(1, 0), new Vector2Int(1, -1), new Vector2Int(0, -1), new Vector2Int(-1, 0), new Vector2Int(0, 1) };
 
+    public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
+
     private void Start() {
         PathfindToLocation(new Vector2Int(4, 4));
     }
@@ -102,5 +104,22 @@ public class PathfindingAgent : MonoBehaviour {
         Vector2Int _targetDirection = _targetLocation - _currentLocation;
         if (_currentLocation.y % 2 == 0 && _targetDirection.y != 0) _targetDirection.x += 1;
         return _targetDirection;
+    }
+    
+    public void SetLocation(Vector2Int _location) {
+        currentLocation = _location;
+        targetLocation = _location;
+
+        currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).TileObject.GetComponent<GameplayTile>().TilePathfinding.NodesArray[0];
+        targetNode = currentNode;
+
+        transform.position = currentNode.transform.position + new Vector3(Random.Range(-currentNode.Radius, currentNode.Radius), 0, Random.Range(-currentNode.Radius, currentNode.Radius));
+
+        startPos = transform.position;
+        targetPos = transform.position;
+
+        path = null;
+        targetDirection = Vector2Int.zero;
+        finishedMoving = true;
     }
 }
