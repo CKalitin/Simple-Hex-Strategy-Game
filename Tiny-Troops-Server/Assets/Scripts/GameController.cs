@@ -86,6 +86,10 @@ public class GameController : MonoBehaviour {
     }
 
     private void StartGame() {
+        if (TileManagement.instance.GetTiles.Count <= 0) {
+            TestTileGenerator.instance.GenerateTiles();
+        }
+
         ToggleResourceManagers(true);
 
         for (int i = 0; i < USNL.ServerManager.GetConnectedClientIds().Length; i++) {

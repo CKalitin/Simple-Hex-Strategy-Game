@@ -58,10 +58,17 @@ public class PathfindingAgent : MonoBehaviour {
 
     private void ReachedTargetNode() {
         // If reached final location
-        if (path.Count <= 0 && currentLocation == targetLocation) {
+        if ((path == null || path.Count <= 0) && currentLocation == targetLocation) {
             currentLocation = targetLocation;
+            currentNode = targetNode;
+
+            startPos = transform.position;
+            targetPos = transform.position;
+
             path = null;
+            targetDirection = Vector2Int.zero;
             finishedMoving = true;
+            
             return;
         }
         
@@ -90,6 +97,14 @@ public class PathfindingAgent : MonoBehaviour {
     
     public void PathfindToLocation(Vector2Int _targetLocation) {
         path = PathfindingManager.FindPath(currentLocation, _targetLocation);
+        
+        if (path == null) return;
+        if (path.Count <= 1) {
+            targetLocation = currentLocation;
+            path = null;
+            MoveInRandomDirectionOnCurrentTile(targetNode);
+            return;
+        }
 
         path.RemoveAt(0);
         targetLocation = path[0];
@@ -97,7 +112,23 @@ public class PathfindingAgent : MonoBehaviour {
         finishedMoving = false;
         
         targetNode = currentNode;
-        MoveToTargetNode(currentNode.PathfindingNodes[targetDirection]);
+
+        if (currentNode.PathfindingNodes[targetDirection] != null) {
+            MoveToTargetNode(currentNode);
+        } else {
+            // If next node is on another tile
+            if (targetNode.PathfindingNodes[targetDirection] == null && targetNode.FinalNode) {
+                Vector2Int fromDirection = GetTargetDirection(targetLocation, currentLocation);
+
+                MoveToTargetNode(TileManagement.instance.GetTileAtLocation(targetLocation).TileObject.transform.parent.GetComponent<GameplayTile>().TilePathfinding.PathfindingNodes[fromDirection]);
+
+                path.RemoveAt(0);
+                currentLocation = targetLocation;
+                if (path.Count > 0) targetLocation = path[0];
+                targetDirection = GetTargetDirection(currentLocation, targetLocation);
+                return;
+            }
+        }
     }
 
     private Vector2Int GetTargetDirection(Vector2Int _currentLocation, Vector2Int _targetLocation) {
@@ -106,6 +137,16 @@ public class PathfindingAgent : MonoBehaviour {
         return _targetDirection;
     }
     
+    private void MoveInRandomDirectionOnCurrentTile(PathfindingNode _startNode) {
+        while (true) {
+            Vector2Int _targetDirection = directions[Random.Range(0, directions.Length)];
+            if (_startNode.PathfindingNodes[_targetDirection] != null) {
+                MoveToTargetNode(_startNode.PathfindingNodes[_targetDirection]);
+                return;
+            }
+        }
+    }
+
     public void SetLocation(Vector2Int _location) {
         currentLocation = _location;
         targetLocation = _location;

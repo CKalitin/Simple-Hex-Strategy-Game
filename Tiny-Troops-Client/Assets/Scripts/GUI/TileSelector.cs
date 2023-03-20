@@ -24,7 +24,7 @@ public class TileSelector : MonoBehaviour {
         if (instance == null) {
             instance = this;
         } else {
-            Debug.Log($"Match Manager instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Tile Selector instance already exists on ({gameObject}), destroying this.");
             Destroy(this);
         }
     }
@@ -41,10 +41,62 @@ public class TileSelector : MonoBehaviour {
     }
 
     private void OnLeftClick() {
+        // Handle selecting units
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                if (currentTile != null) currentTile.ToggleActive(false);
+
+                if (EventSystem.current.IsPointerOverGameObject()) return; // If cursor is over UI, return
+                TileActionMenu newTile = GetTileUnderCursor();
+
+                if (newTile == null) return;
+                
+                // Deselect all units
+                for (int i = 0; i < UnitSelector.instance.SelectedUnits.Count; i++) {
+                    UnitSelector.instance.SelectedUnits[i].Script.ToggleSelectedIndicator(false);
+                }
+                UnitSelector.instance.SelectedUnits = new List<UnitInfo>();
+                
+                // Get new units and select them
+                List<int> selectedUnitUUIDs = UnitManager.instance.GetUnitsOfIdAtLocation(newTile.Tile.TileInfo.Location, MatchManager.instance.PlayerID);
+                for (int i = 0; i < selectedUnitUUIDs.Count; i++) {
+                    UnitSelector.instance.SelectedUnits.Add(UnitManager.instance.Units[selectedUnitUUIDs[i]]);
+                    UnitSelector.instance.SelectedUnits[i].Script.ToggleSelectedIndicator(true);
+                }
+                return;
+            }
+        }
+        if (UnitSelector.instance.SelectedUnits.Count > 0) {
+            // Handle moving units
+            if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                if (EventSystem.current.IsPointerOverGameObject()) return; // If cursor is over UI, return
+                TileActionMenu newTile = GetTileUnderCursor();
+
+                if (newTile == null) return;
+                if (!PathfindingManager.instance.WalkableTileIds.Contains((int)newTile.Tile.TileInfo.TileId)) return;
+
+                // Move units to new tile
+                for (int i = 0; i < UnitSelector.instance.SelectedUnits.Count; i++) {
+                    // TODO MULTIPLAYER
+                    UnitSelector.instance.SelectedUnits[i].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(newTile.Tile.TileInfo.Location);
+                }
+                return;
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1)) {
+                // Deselect all units
+                for (int i = 0; i < UnitSelector.instance.SelectedUnits.Count; i++) {
+                    UnitSelector.instance.SelectedUnits[i].Script.ToggleSelectedIndicator(false);
+                }
+                UnitSelector.instance.SelectedUnits = new List<UnitInfo>();
+                return;
+            }
+            return;
+        }
+
+        // Handle selecting tiles
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
+            if (EventSystem.current.IsPointerOverGameObject()) return; // If cursor is over UI, return
             TileActionMenu newTile = GetTileUnderCursor();
-            // If cursor is over UI, return.
-            if (EventSystem.current.IsPointerOverGameObject()) return;
 
             // If clicked on same tile, close menu.
             // If clicked on new tile, close old tile menu and open new tile menu.
