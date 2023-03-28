@@ -147,11 +147,11 @@ public class PathfindingAgent : MonoBehaviour {
         }
     }
 
-    public void SetLocation(Vector2Int _location) {
+    public void SetLocation(Vector2Int _location, int _nodeIndex) {
         currentLocation = _location;
         targetLocation = _location;
 
-        currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).TileObject.GetComponent<GameplayTile>().TilePathfinding.NodesArray[0];
+        currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).TileObject.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[_nodeIndex];
         targetNode = currentNode;
 
         transform.position = currentNode.transform.position + new Vector3(Random.Range(-currentNode.Radius, currentNode.Radius), 0, Random.Range(-currentNode.Radius, currentNode.Radius));

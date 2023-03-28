@@ -12,6 +12,8 @@ namespace USNL {
         PlayerReady,
         BuildStructure,
         DestroyStructure,
+        StructureAction,
+        UnitPathfind,
     }
 
     public enum ServerPackets {
@@ -41,6 +43,9 @@ namespace USNL {
         Tiles,
         Resources,
         BuildStructure,
+        StructureAction,
+        UnitPathfind,
+        SetUnitLocation,
     }
 
     #endregion
@@ -147,6 +152,51 @@ namespace USNL {
         public int StructureID { get => structureID; set => structureID = value; }
     }
 
+    public struct StructureActionPacket {
+        private int playerID;
+        private Vector2 targetTileLocation;
+        private int actionID;
+
+        public StructureActionPacket(int _playerID, Vector2 _targetTileLocation, int _actionID) {
+            playerID = _playerID;
+            targetTileLocation = _targetTileLocation;
+            actionID = _actionID;
+        }
+
+        public int PlayerID { get => playerID; set => playerID = value; }
+        public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
+        public int ActionID { get => actionID; set => actionID = value; }
+    }
+
+    public struct UnitPathfindPacket {
+        private int[] unitUUIDs;
+        private Vector2 targetTileLocation;
+
+        public UnitPathfindPacket(int[] _unitUUIDs, Vector2 _targetTileLocation) {
+            unitUUIDs = _unitUUIDs;
+            targetTileLocation = _targetTileLocation;
+        }
+
+        public int[] UnitUUIDs { get => unitUUIDs; set => unitUUIDs = value; }
+        public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
+    }
+
+    public struct SetUnitLocationPacket {
+        private int unitUUID;
+        private Vector2 targetTileLocation;
+        private int pathfindingNodeIndex;
+
+        public SetUnitLocationPacket(int _unitUUID, Vector2 _targetTileLocation, int _pathfindingNodeIndex) {
+            unitUUID = _unitUUID;
+            targetTileLocation = _targetTileLocation;
+            pathfindingNodeIndex = _pathfindingNodeIndex;
+        }
+
+        public int UnitUUID { get => unitUUID; set => unitUUID = value; }
+        public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
+        public int PathfindingNodeIndex { get => pathfindingNodeIndex; set => pathfindingNodeIndex = value; }
+    }
+
 
     #endregion
 
@@ -181,6 +231,9 @@ namespace USNL {
             { Tiles },
             { Resources },
             { BuildStructure },
+            { StructureAction },
+            { UnitPathfind },
+            { SetUnitLocation },
         };
 
         public static void MatchUpdate(Package.Packet _packet) {
@@ -241,6 +294,32 @@ namespace USNL {
             USNL.BuildStructurePacket buildStructurePacket = new USNL.BuildStructurePacket(playerID, targetTileLocation, structureID);
             Package.PacketManager.instance.PacketReceived(_packet, buildStructurePacket);
         }
+
+        public static void StructureAction(Package.Packet _packet) {
+            int playerID = _packet.ReadInt();
+            Vector2 targetTileLocation = _packet.ReadVector2();
+            int actionID = _packet.ReadInt();
+
+            USNL.StructureActionPacket structureActionPacket = new USNL.StructureActionPacket(playerID, targetTileLocation, actionID);
+            Package.PacketManager.instance.PacketReceived(_packet, structureActionPacket);
+        }
+
+        public static void UnitPathfind(Package.Packet _packet) {
+            int[] unitUUIDs = _packet.ReadInts();
+            Vector2 targetTileLocation = _packet.ReadVector2();
+
+            USNL.UnitPathfindPacket unitPathfindPacket = new USNL.UnitPathfindPacket(unitUUIDs, targetTileLocation);
+            Package.PacketManager.instance.PacketReceived(_packet, unitPathfindPacket);
+        }
+
+        public static void SetUnitLocation(Package.Packet _packet) {
+            int unitUUID = _packet.ReadInt();
+            Vector2 targetTileLocation = _packet.ReadVector2();
+            int pathfindingNodeIndex = _packet.ReadInt();
+
+            USNL.SetUnitLocationPacket setUnitLocationPacket = new USNL.SetUnitLocationPacket(unitUUID, targetTileLocation, pathfindingNodeIndex);
+            Package.PacketManager.instance.PacketReceived(_packet, setUnitLocationPacket);
+        }
     }
 
     #endregion
@@ -298,6 +377,24 @@ namespace USNL {
                 SendTCPData(_packet);
             }
         }
+
+        public static void StructureAction(int _actionID, Vector2 _targetTileLocation) {
+            using (Package.Packet _packet = new Package.Packet((int)USNL.ClientPackets.StructureAction)) {
+                _packet.Write(_actionID);
+                _packet.Write(_targetTileLocation);
+
+                SendTCPData(_packet);
+            }
+        }
+
+        public static void UnitPathfind(int[] _unitUUIDs, Vector2 _targetTileLocation) {
+            using (Package.Packet _packet = new Package.Packet((int)USNL.ClientPackets.UnitPathfind)) {
+                _packet.Write(_unitUUIDs);
+                _packet.Write(_targetTileLocation);
+
+                SendTCPData(_packet);
+            }
+        }
     }
 
 #endregion
@@ -313,6 +410,8 @@ namespace USNL.Package {
         PlayerReady,
         BuildStructure,
         DestroyStructure,
+        StructureAction,
+        UnitPathfind,
     }
 
     public enum ServerPackets {
@@ -342,6 +441,9 @@ namespace USNL.Package {
         Tiles,
         Resources,
         BuildStructure,
+        StructureAction,
+        UnitPathfind,
+        SetUnitLocation,
     }
     #endregion
 
@@ -634,6 +736,9 @@ namespace USNL.Package {
             { USNL.PacketHandlers.Tiles },
             { USNL.PacketHandlers.Resources },
             { USNL.PacketHandlers.BuildStructure },
+            { USNL.PacketHandlers.StructureAction },
+            { USNL.PacketHandlers.UnitPathfind },
+            { USNL.PacketHandlers.SetUnitLocation },
         };
 
         public static void Welcome(Package.Packet _packet) {
@@ -875,6 +980,9 @@ namespace USNL {
             CallOnTilesPacketCallbacks,
             CallOnResourcesPacketCallbacks,
             CallOnBuildStructurePacketCallbacks,
+            CallOnStructureActionPacketCallbacks,
+            CallOnUnitPathfindPacketCallbacks,
+            CallOnSetUnitLocationPacketCallbacks,
         };
 
         public static event CallbackEvent OnConnected;
@@ -906,6 +1014,9 @@ namespace USNL {
         public static event CallbackEvent OnTilesPacket;
         public static event CallbackEvent OnResourcesPacket;
         public static event CallbackEvent OnBuildStructurePacket;
+        public static event CallbackEvent OnStructureActionPacket;
+        public static event CallbackEvent OnUnitPathfindPacket;
+        public static event CallbackEvent OnSetUnitLocationPacket;
 
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
@@ -936,6 +1047,9 @@ namespace USNL {
         public static void CallOnTilesPacketCallbacks(object _param) { if (OnTilesPacket != null) { OnTilesPacket(_param); } }
         public static void CallOnResourcesPacketCallbacks(object _param) { if (OnResourcesPacket != null) { OnResourcesPacket(_param); } }
         public static void CallOnBuildStructurePacketCallbacks(object _param) { if (OnBuildStructurePacket != null) { OnBuildStructurePacket(_param); } }
+        public static void CallOnStructureActionPacketCallbacks(object _param) { if (OnStructureActionPacket != null) { OnStructureActionPacket(_param); } }
+        public static void CallOnUnitPathfindPacketCallbacks(object _param) { if (OnUnitPathfindPacket != null) { OnUnitPathfindPacket(_param); } }
+        public static void CallOnSetUnitLocationPacketCallbacks(object _param) { if (OnSetUnitLocationPacket != null) { OnSetUnitLocationPacket(_param); } }
     }
 }
 

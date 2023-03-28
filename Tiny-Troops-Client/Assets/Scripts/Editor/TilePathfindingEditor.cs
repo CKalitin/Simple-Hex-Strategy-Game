@@ -76,7 +76,7 @@ public class TilePathfindingEditor : Editor {
         TopBotRowLabel("Btm-Left  (0,-1)", "Btm-Right (1,-1)");
         VerticalLabelBreak();
         TopBotRow(3, 2);
-
+        
         VerticalBreak();
 
         HelpBox();
@@ -169,7 +169,9 @@ public class TilePathfindingEditor : Editor {
             "Agents know which tile they are coming from when entering this tile. That is what the nodes are.\n" +
             "Eg. an agent coming from the the right would go to the rightmost pathfinding node specified here (1, 0).\n" +
             "After reaching the specified node, the agent will then move to the next node in the direction of its target tile.\n" +
-            "This next node is specified by the PathfindingNode script.";
+            "This next node is specified by the PathfindingNode script.\n" +
+            "\n" +
+            "The nodes array is an array of all the nodes on this tile. The nodes array on the same tile on the server and client must be the same.";
 
         GUILayout.TextArea(helpMessage, helpBoxStyle);
     }

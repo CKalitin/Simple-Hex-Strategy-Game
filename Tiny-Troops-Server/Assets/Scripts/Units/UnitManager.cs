@@ -18,17 +18,23 @@ public struct UnitInfo {
 
     public GameObject GameObject { get => gameObject; set => gameObject = value; }
     public Unit Script { get => script; set => script = value; }
-    public Vector2Int Location { get => script.Location; set => gameObject.GetComponent<PathfindingAgent>().SetLocation(value); }
+    public Vector2Int Location { get => script.Location; }
     public int PlayerID { get => playerID; set => playerID = value; }
 }
 
 
 public class UnitManager : MonoBehaviour {
+    #region Variables
+
     public static UnitManager instance;
 
     private Dictionary<int, UnitInfo> units = new Dictionary<int, UnitInfo>(); // The key is a UUID
 
     public Dictionary<int, UnitInfo> Units { get => units; set => units = value; }
+
+    #endregion
+
+    #region Core
 
     private void Awake() {
         Singleton();
@@ -41,6 +47,10 @@ public class UnitManager : MonoBehaviour {
             Destroy(this);
         }
     }
+
+    #endregion
+
+    #region Tile Management
 
     public void AddUnit(int _uuid, GameObject _gameObject, Unit _script, int _playerID) {
         units.Add(_uuid, new UnitInfo(_gameObject, _script, _playerID));
@@ -87,4 +97,14 @@ public class UnitManager : MonoBehaviour {
         return units[closestUnitUUID];
 
     }
+
+    #endregion
+
+    #region Packets & Callbacks
+
+    private void OnUnitPathfindPacket() {
+        
+    }
+
+    #endregion
 }

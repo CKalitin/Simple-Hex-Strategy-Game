@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -77,8 +78,8 @@ public class TileSelector : MonoBehaviour {
 
                 // Move units to new tile
                 for (int i = 0; i < UnitSelector.instance.SelectedUnits.Count; i++) {
-                    // TODO MULTIPLAYER
-                    UnitSelector.instance.SelectedUnits[i].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(newTile.Tile.TileInfo.Location);
+                    // System<func>, beautiful
+                    USNL.PacketSend.UnitPathfind(UnitSelector.instance.SelectedUnits.Select(x => x.Script.UnitUUID).ToArray(), newTile.Tile.TileInfo.Location);
                 }
                 return;
             }

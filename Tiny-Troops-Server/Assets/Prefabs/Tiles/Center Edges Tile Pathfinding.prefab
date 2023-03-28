@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: 7302540299953223680}
   - {fileID: 393043711503931052}
   - {fileID: 8508563764698859072}
+  nodesOnTile: []
 --- !u!1 &2866857953296236993
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,12 +210,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 393043711503931052}
-  - {fileID: 393043711503931052}
-  - {fileID: 393043711503931052}
   - {fileID: 8535076271676442580}
+  - {fileID: 5168483320068237082}
+  - {fileID: 521558223443716300}
+  - {fileID: 7302540299953223680}
+  - {fileID: 393043711503931052}
   - {fileID: 8508563764698859072}
-  - {fileID: 8535076271676442580}
   finalNode: 1
   radius: 0.5
 --- !u!1 &4440186125798488390

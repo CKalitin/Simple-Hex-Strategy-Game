@@ -18,17 +18,23 @@ public struct UnitInfo {
 
     public GameObject GameObject { get => gameObject; set => gameObject = value; }
     public Unit Script { get => script; set => script = value; }
-    public Vector2Int Location { get => script.Location; set => gameObject.GetComponent<PathfindingAgent>().SetLocation(value); }
+    public Vector2Int Location { get => script.Location; }
     public int PlayerID { get => playerID; set => playerID = value; }
 }
 
 
 public class UnitManager : MonoBehaviour {
+    #region Variables
+
     public static UnitManager instance;
 
     private Dictionary<int, UnitInfo> units = new Dictionary<int, UnitInfo>(); // The key is a UUID
 
     public Dictionary<int, UnitInfo> Units { get => units; set => units = value; }
+
+    #endregion
+
+    #region Core
 
     private void Awake() {
         Singleton();
@@ -41,6 +47,22 @@ public class UnitManager : MonoBehaviour {
             Destroy(this);
         }
     }
+
+    private void OnEnable() {
+        //USNL.CallbackEvents.OnSpawnUnitPacket += OnSpawnUnitPacket;
+        USNL.CallbackEvents.OnUnitPathfindPacket += OnUnitPathfindPacket;
+        USNL.CallbackEvents.OnSetUnitLocationPacket += OnSetUnitLocationPacket;
+    }
+
+    private void OnDisable() {
+        //USNL.CallbackEvents.OnSpawnUnitPacket -= OnSpawnUnitPacket;
+        USNL.CallbackEvents.OnUnitPathfindPacket -= OnUnitPathfindPacket;
+        USNL.CallbackEvents.OnSetUnitLocationPacket -= OnSetUnitLocationPacket;
+    }
+
+    #endregion
+
+    #region Unit Management
 
     public void AddUnit(int _uuid, GameObject _gameObject, Unit _script, int _playerID) {
         units.Add(_uuid, new UnitInfo(_gameObject, _script, _playerID));
@@ -87,4 +109,46 @@ public class UnitManager : MonoBehaviour {
         return units[closestUnitUUID];
 
     }
+
+    #endregion
+
+    #region Packets & Callbacks
+
+    public void SendSpawnUnitPacket(int _unitID, Vector2Int _targetTileLocation) {
+        USNL.PacketSend.StructureAction(_unitID, _targetTileLocation);
+    }
+
+    /*private void OnSpawnUnitPacket(object _packetObject) {
+        USNL.SpawnUnitPacket packet = (USNL.SpawnUnitPacket)_packetObject;
+
+        if (TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.Structures.Count < 0 || TileManagement.instance.GetTiles[Vector2Int.RoundToInt(packet.TargetTileLocation)].Tile.Structures[0].GetComponent<UnitSpawner>() == null) {
+            Debug.Log("Desync Detected");
+        }
+
+        TileManagement.instance.GetTiles[Vector2Int.RoundToInt(packet.TargetTileLocation)].Tile.Structures[0].GetComponent<UnitSpawner>().SpawnUnit(packet.UnitID, packet.PlayerID);
+    }*/ // TODO DELETE
+
+    private void OnUnitPathfindPacket(object _packetObject) {
+        USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
+
+        for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
+            if (units.ContainsKey(packet.UnitUUIDs[i])) {
+                units[packet.UnitUUIDs[i]].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
+            } else {
+                Debug.Log("Desync Detected");
+            }
+        }
+    }
+
+    private void OnSetUnitLocationPacket(object _packetObject) {
+        USNL.SetUnitLocationPacket packet = (USNL.SetUnitLocationPacket)_packetObject;
+
+        if (units.ContainsKey(packet.UnitUUID)) {
+            units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.PathfindingNodeIndex);
+        } else {
+            Debug.Log("Desync Detected");
+        }
+    }
+
+    #endregion
 }
