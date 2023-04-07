@@ -26,7 +26,7 @@ public class StructureManager : MonoBehaviour {
             Destroy(this);
         }
     }
-    
+
     private void OnEnable() {
         USNL.CallbackEvents.OnStructureActionPacket += OnStructureActionPacket;
     }
@@ -44,6 +44,7 @@ public class StructureManager : MonoBehaviour {
             gameplayStructures[_location].Add(_gameplayStructure);
         else
             gameplayStructures.Add(_location, new List<GameplayStructure>() { _gameplayStructure });
+        Debug.Log(string.Join(",", gameplayStructures.Keys));
     }
 
     public void RemoveGameplayStructure(Vector2Int _location, GameplayStructure _gameplayStructure) {
@@ -55,9 +56,9 @@ public class StructureManager : MonoBehaviour {
 
     private void OnStructureActionPacket(object _packetObject) {
         USNL.StructureActionPacket packet = (USNL.StructureActionPacket)_packetObject;
-        
+
         if (gameplayStructures.ContainsKey(Vector2Int.RoundToInt(packet.TargetTileLocation)))
-            gameplayStructures[Vector2Int.RoundToInt(packet.TargetTileLocation)].ForEach(x => x.OnStructureActionPacket(packet.PlayerID, packet.ActionID));
+            gameplayStructures[Vector2Int.RoundToInt(packet.TargetTileLocation)].ForEach(x => x.OnStructureActionPacket(packet.FromClient, packet.ActionID));
     }
 
     #endregion

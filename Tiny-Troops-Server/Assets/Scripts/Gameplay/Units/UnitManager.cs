@@ -48,6 +48,14 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
+    private void OnEnable() {
+        USNL.CallbackEvents.OnUnitPathfindPacket += OnUnitPathfindPacket;
+    }
+
+    private void OnDisable() {
+        USNL.CallbackEvents.OnUnitPathfindPacket -= OnUnitPathfindPacket;
+    }
+
     #endregion
 
     #region Tile Management
@@ -102,9 +110,11 @@ public class UnitManager : MonoBehaviour {
 
     #region Packets & Callbacks
 
-    private void OnUnitPathfindPacket() {
-        
+    private void OnUnitPathfindPacket(object _packetObject) {
+        USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
+        // TODO
     }
-
+    
     #endregion
 }
+

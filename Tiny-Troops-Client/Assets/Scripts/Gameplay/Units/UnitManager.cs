@@ -118,16 +118,6 @@ public class UnitManager : MonoBehaviour {
         USNL.PacketSend.StructureAction(_unitID, _targetTileLocation);
     }
 
-    /*private void OnSpawnUnitPacket(object _packetObject) {
-        USNL.SpawnUnitPacket packet = (USNL.SpawnUnitPacket)_packetObject;
-
-        if (TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.Structures.Count < 0 || TileManagement.instance.GetTiles[Vector2Int.RoundToInt(packet.TargetTileLocation)].Tile.Structures[0].GetComponent<UnitSpawner>() == null) {
-            Debug.Log("Desync Detected");
-        }
-
-        TileManagement.instance.GetTiles[Vector2Int.RoundToInt(packet.TargetTileLocation)].Tile.Structures[0].GetComponent<UnitSpawner>().SpawnUnit(packet.UnitID, packet.PlayerID);
-    }*/ // TODO DELETE
-
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
 

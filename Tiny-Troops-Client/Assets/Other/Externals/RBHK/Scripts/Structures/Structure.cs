@@ -19,13 +19,13 @@ public class Structure : MonoBehaviour {
     [Tooltip("This is only public so you can see the value, changing it won't do anything.\nbtw hey there future chris")]
     private int upgradeIndex = 0;
 
-    [Header("Other")]
+    //[Header("Other")]
     [Tooltip("These fields need to be specified if the Structure if placed in editor and not in game.\nIf it's placed in game using the Structure Building these fields are determiend.")]
-    [SerializeField] private Tile tile;
-    [SerializeField] private StructureLocation structureLocation;
+    private Tile tile;
+    private StructureLocation structureLocation;
 
     /*** Resources don't need to be public ***/
-    public ResourceEntry[] resourceEntries;
+    private ResourceEntry[] resourceEntries;
     private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
     private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
 

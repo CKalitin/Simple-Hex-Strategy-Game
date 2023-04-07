@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: 7302540299953223680}
   - {fileID: 393043711503931052}
   - {fileID: 8508563764698859072}
+  nodesOnTile: []
 --- !u!1 &2866857953296236993
 GameObject:
   m_ObjectHideFlags: 0
