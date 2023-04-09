@@ -25,7 +25,7 @@ public class Structure : MonoBehaviour {
     private StructureLocation structureLocation;
 
     /*** Resources don't need to be public ***/
-    private ResourceEntry[] resourceEntries;
+    private ResourceEntry[] resourceEntries = new ResourceEntry[0];
     private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
     private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
 

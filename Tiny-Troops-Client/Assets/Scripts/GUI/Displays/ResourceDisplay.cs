@@ -25,6 +25,7 @@ public class ResourceDisplay : MonoBehaviour {
     }
 
     private void OnConnected(object _object) {
+        MatchManager.instance.SetPlayerID();
         resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
     }
 }

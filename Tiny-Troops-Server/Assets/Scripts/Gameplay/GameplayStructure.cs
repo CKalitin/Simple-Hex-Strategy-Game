@@ -9,22 +9,36 @@ public class GameplayStructure : MonoBehaviour {
 
     private Vector2Int tileLocation;
     
-    public TilePathfinding TilePathfinding { get => tilePathfinding; set => tilePathfinding = value; }
+    private bool addedToStructureManager = false;
 
     public delegate void StructureActionCallback(int playerID, int actionID);
     public event StructureActionCallback OnStructureAction;
 
+    public TilePathfinding TilePathfinding { get => tilePathfinding; set => tilePathfinding = value; }
+
     #endregion
 
     #region Core
-    
+
+    private void Start() {
+        if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
+            tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
+            StructureManager.instance.AddGameplayStructure(tileLocation, this);
+            addedToStructureManager = true;
+        }
+    }
+
     private void OnEnable() {
-        tileLocation = gameObject.GetComponent<Structure>().Tile.TileInfo.Location;
-        StructureManager.instance.AddGameplayStructure(tileLocation, this);
+        if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
+            tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
+            StructureManager.instance.AddGameplayStructure(tileLocation, this);
+            addedToStructureManager = true;
+        }
     }
 
     private void OnDisable() {
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
+        addedToStructureManager = false;
     }
 
     #endregion

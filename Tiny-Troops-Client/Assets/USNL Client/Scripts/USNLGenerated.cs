@@ -985,6 +985,7 @@ namespace USNL {
             CallOnSetUnitLocationPacketCallbacks,
         };
 
+        public static event CallbackEvent PreOnConnected;
         public static event CallbackEvent OnConnected;
         public static event CallbackEvent OnDisconnected;
 
@@ -1018,6 +1019,7 @@ namespace USNL {
         public static event CallbackEvent OnUnitPathfindPacket;
         public static event CallbackEvent OnSetUnitLocationPacket;
 
+        public static void CallPreOnConnectedCallbacks(object _param) { if (PreOnConnected != null) { PreOnConnected(_param); } }
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
 

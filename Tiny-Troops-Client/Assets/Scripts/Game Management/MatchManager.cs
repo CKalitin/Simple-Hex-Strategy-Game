@@ -32,10 +32,11 @@ public class MatchManager : MonoBehaviour {
         
         // Calling this from Awake means it will be called before other OnConnected() callbacks, see Unity Core of Execution for Event Functions
         // Also, this doesn't work from OnEnable()
-        USNL.CallbackEvents.OnWelcomePacket += OnWelcomePacket;
+        //USNL.CallbackEvents.OnWelcomePacket += OnWelcomePacket;
     }
     
     private void OnEnable() {
+        USNL.CallbackEvents.OnWelcomePacket += OnWelcomePacket;
         USNL.CallbackEvents.OnMatchUpdatePacket += OnMatchUpdatePacket;
     }
 
@@ -55,5 +56,9 @@ public class MatchManager : MonoBehaviour {
     private void OnWelcomePacket(object _packetObject) {
         USNL.Package.WelcomePacket _wp = (USNL.Package.WelcomePacket)_packetObject;
         playerID = _wp.ClientId;
+    }
+
+    public void SetPlayerID() {
+        playerID = USNL.ClientManager.instance.ClientId;
     }
 }

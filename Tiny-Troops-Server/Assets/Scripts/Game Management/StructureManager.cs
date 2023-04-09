@@ -40,11 +40,8 @@ public class StructureManager : MonoBehaviour {
     #region Structure Management
 
     public void AddGameplayStructure(Vector2Int _location, GameplayStructure _gameplayStructure) {
-        if (gameplayStructures.ContainsKey(_location))
-            gameplayStructures[_location].Add(_gameplayStructure);
-        else
-            gameplayStructures.Add(_location, new List<GameplayStructure>() { _gameplayStructure });
-        Debug.Log(string.Join(",", gameplayStructures.Keys));
+        if (gameplayStructures.ContainsKey(_location)) gameplayStructures[_location].Add(_gameplayStructure);
+        else gameplayStructures.Add(_location, new List<GameplayStructure>() { _gameplayStructure });
     }
 
     public void RemoveGameplayStructure(Vector2Int _location, GameplayStructure _gameplayStructure) {
