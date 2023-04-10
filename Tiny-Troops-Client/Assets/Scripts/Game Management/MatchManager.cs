@@ -29,10 +29,6 @@ public class MatchManager : MonoBehaviour {
             Debug.Log($"Match Manager instance already exists on ({gameObject}), destroying this.");
             Destroy(this);
         }
-        
-        // Calling this from Awake means it will be called before other OnConnected() callbacks, see Unity Core of Execution for Event Functions
-        // Also, this doesn't work from OnEnable()
-        //USNL.CallbackEvents.OnWelcomePacket += OnWelcomePacket;
     }
     
     private void OnEnable() {

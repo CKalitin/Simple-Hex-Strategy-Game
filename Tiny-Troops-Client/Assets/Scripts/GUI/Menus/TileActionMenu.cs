@@ -15,6 +15,11 @@ public class TileActionMenu : MonoBehaviour {
             tile = transform.parent.parent.GetComponent<Tile>();
     }
 
+    private void Start() {
+        if (tile.Structures.Count > 0 && tile.Structures[0].GetComponent<GameplayStructure>())
+            tile.Structures[0].GetComponent<GameplayStructure>().SetTileActionMenu(this);
+    }
+
     public void ToggleActive(bool _active) {
         if (!_active) TileSelector.instance.CurrentTile = null;
         

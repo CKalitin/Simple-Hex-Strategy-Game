@@ -9,19 +9,21 @@ public struct UnitInfo {
     private GameObject gameObject;
     private Unit script;
     private int playerID;
+    private int randomSeed;
 
-    public UnitInfo(GameObject gameObject, Unit script, int playerID) {
+    public UnitInfo(GameObject gameObject, Unit script, int playerID, int randomSeed) {
         this.gameObject = gameObject;
         this.script = script;
         this.playerID = playerID;
+        this.randomSeed = randomSeed;
     }
 
     public GameObject GameObject { get => gameObject; set => gameObject = value; }
     public Unit Script { get => script; set => script = value; }
     public Vector2Int Location { get => script.Location; }
     public int PlayerID { get => playerID; set => playerID = value; }
+    public int RandomSeed { get => randomSeed; set => randomSeed = value; }
 }
-
 
 public class UnitManager : MonoBehaviour {
     #region Variables
@@ -58,10 +60,10 @@ public class UnitManager : MonoBehaviour {
 
     #endregion
 
-    #region Tile Management
+    #region Unit Management
 
-    public void AddUnit(int _uuid, GameObject _gameObject, Unit _script, int _playerID) {
-        units.Add(_uuid, new UnitInfo(_gameObject, _script, _playerID));
+    public void AddUnit(int _uuid, GameObject _gameObject, Unit _script, int _playerID, int _randomSeed) {
+        units.Add(_uuid, new UnitInfo(_gameObject, _script, _playerID, _randomSeed));
     }
 
     public void RemoveUnit(int _uuid) {
@@ -91,7 +93,7 @@ public class UnitManager : MonoBehaviour {
 
     public UnitInfo GetClosestEnemyUnitAtLocation(Vector2Int _location, int _playerID, Vector3 _pos) {
         List<int> unitsAtLocation = GetUnitsAtLocation(_location);
-        if (unitsAtLocation.Count == 0) return new UnitInfo(null, null, -1);
+        if (unitsAtLocation.Count == 0) return new UnitInfo(null, null, -1, -1);
 
         int numRemoved = 0;
         for (int i = 0; i < unitsAtLocation.Count; i++) {
@@ -103,7 +105,13 @@ public class UnitManager : MonoBehaviour {
 
         int closestUnitUUID = unitsAtLocation.OrderBy(o => Vector2.Distance(_pos, new Vector2(units[o].GameObject.transform.position.x, units[o].GameObject.transform.position.z))).ToArray()[0]; // Sort enemy units by (x, z) position
         return units[closestUnitUUID];
+    }
 
+    public void DestroyAllUnits() {
+        foreach (KeyValuePair<int, UnitInfo> unit in units) {
+            Destroy(unit.Value.GameObject);
+        }
+        units.Clear();
     }
 
     #endregion
@@ -112,7 +120,14 @@ public class UnitManager : MonoBehaviour {
 
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
-        // TODO
+        
+        for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
+            if (units.ContainsKey(packet.UnitUUIDs[i])) {
+                units[packet.UnitUUIDs[i]].Script.PathfindingAgent.PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
+            }
+            else Debug.Log("Desync Detected");
+        }
+        USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, packet.TargetTileLocation);
     }
     
     #endregion

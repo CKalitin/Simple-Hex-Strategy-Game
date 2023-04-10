@@ -9,17 +9,20 @@ public struct UnitInfo {
     private GameObject gameObject;
     private Unit script;
     private int playerID;
+    private int randomSeed;
 
-    public UnitInfo(GameObject gameObject, Unit script, int playerID) {
+    public UnitInfo(GameObject gameObject, Unit script, int playerID, int randomSeed) {
         this.gameObject = gameObject;
         this.script = script;
         this.playerID = playerID;
+        this.randomSeed = randomSeed;
     }
 
     public GameObject GameObject { get => gameObject; set => gameObject = value; }
     public Unit Script { get => script; set => script = value; }
     public Vector2Int Location { get => script.Location; }
     public int PlayerID { get => playerID; set => playerID = value; }
+    public int RandomSeed { get => randomSeed; set => randomSeed = value; }
 }
 
 
@@ -49,13 +52,11 @@ public class UnitManager : MonoBehaviour {
     }
 
     private void OnEnable() {
-        //USNL.CallbackEvents.OnSpawnUnitPacket += OnSpawnUnitPacket;
         USNL.CallbackEvents.OnUnitPathfindPacket += OnUnitPathfindPacket;
         USNL.CallbackEvents.OnSetUnitLocationPacket += OnSetUnitLocationPacket;
     }
 
     private void OnDisable() {
-        //USNL.CallbackEvents.OnSpawnUnitPacket -= OnSpawnUnitPacket;
         USNL.CallbackEvents.OnUnitPathfindPacket -= OnUnitPathfindPacket;
         USNL.CallbackEvents.OnSetUnitLocationPacket -= OnSetUnitLocationPacket;
     }
@@ -64,8 +65,8 @@ public class UnitManager : MonoBehaviour {
 
     #region Unit Management
 
-    public void AddUnit(int _uuid, GameObject _gameObject, Unit _script, int _playerID) {
-        units.Add(_uuid, new UnitInfo(_gameObject, _script, _playerID));
+    public void AddUnit(int _uuid, GameObject _gameObject, Unit _script, int _playerID, int _randomSeed) {
+        units.Add(_uuid, new UnitInfo(_gameObject, _script, _playerID, _randomSeed));
     }
 
     public void RemoveUnit(int _uuid) {
@@ -95,7 +96,7 @@ public class UnitManager : MonoBehaviour {
 
     public UnitInfo GetClosestEnemyUnitAtLocation(Vector2Int _location, int _playerID, Vector3 _pos) {
         List<int> unitsAtLocation = GetUnitsAtLocation(_location);
-        if (unitsAtLocation.Count == 0) return new UnitInfo(null, null, -1);
+        if (unitsAtLocation.Count == 0) return new UnitInfo(null, null, -1, -1);
 
         int numRemoved = 0;
         for (int i = 0; i < unitsAtLocation.Count; i++) {
@@ -107,16 +108,18 @@ public class UnitManager : MonoBehaviour {
 
         int closestUnitUUID = unitsAtLocation.OrderBy(o => Vector2.Distance(_pos, new Vector2(units[o].GameObject.transform.position.x, units[o].GameObject.transform.position.z))).ToArray()[0]; // Sort enemy units by (x, z) position
         return units[closestUnitUUID];
+    }
 
+    public void DestroyAllUnits() {
+        foreach (KeyValuePair<int, UnitInfo> unit in units) {
+            Destroy(unit.Value.GameObject);
+        }
+        units.Clear();
     }
 
     #endregion
 
     #region Packets & Callbacks
-
-    public void SendSpawnUnitPacket(int _unitID, Vector2Int _targetTileLocation) {
-        USNL.PacketSend.StructureAction(_unitID, _targetTileLocation);
-    }
 
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
@@ -133,11 +136,9 @@ public class UnitManager : MonoBehaviour {
     private void OnSetUnitLocationPacket(object _packetObject) {
         USNL.SetUnitLocationPacket packet = (USNL.SetUnitLocationPacket)_packetObject;
 
-        if (units.ContainsKey(packet.UnitUUID)) {
+        if (units.ContainsKey(packet.UnitUUID))
             units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.PathfindingNodeIndex);
-        } else {
-            Debug.Log("Desync Detected");
-        }
+        else Debug.Log("Desync Detected");
     }
 
     #endregion

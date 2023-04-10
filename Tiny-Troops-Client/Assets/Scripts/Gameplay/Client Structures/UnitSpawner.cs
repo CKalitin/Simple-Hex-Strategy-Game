@@ -20,11 +20,9 @@ public class UnitSpawner : MonoBehaviour {
 
     #region Core
 
-    private void Start() {
+    private void Awake() {
         GetTileParent();
         location = tile.TileInfo.Location;
-
-        SpawnUnit(0, 0);
     }
 
     private void OnEnable() { gameplayStructure.OnStructureAction += SpawnUnit; }
@@ -51,13 +49,20 @@ public class UnitSpawner : MonoBehaviour {
 
     // ActionID is the UnitID
     // UnitID is ActionID - 1000 so other building scripts on the same tile can have different actions
-    public void SpawnUnit(int _playerID, int _unitID) {
+    public void SpawnUnit(int _playerID, int _unitID, int[] _configurationInts) {
         _unitID -= 1000;
+
         Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * Random.Range(-spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
         pos.y = spawnPathfindingNode.transform.position.y;
+
         GameObject unit = Instantiate(unitPrefabs[_unitID], pos, Quaternion.identity);
-        unit.GetComponent<PathfindingAgent>().Initialize(location, spawnPathfindingNode);
         unit.GetComponent<Unit>().PlayerID = _playerID;
+        unit.GetComponent<Unit>().UnitUUID = _configurationInts[0];
+        unit.GetComponent<Unit>().RandomSeed = _configurationInts[1];
+        Debug.Log("Initial Location: " + tile.TileInfo.Location);
+        unit.GetComponent<PathfindingAgent>().Initialize(tile.TileInfo.Location, spawnPathfindingNode, unit.GetComponent<Unit>().RandomSeed);
+        
+        USNL.PacketSend.UnitPathfind(new int[] { unit.GetComponent<Unit>().UnitUUID }, new Vector2(4,4));
     }
 
     #endregion

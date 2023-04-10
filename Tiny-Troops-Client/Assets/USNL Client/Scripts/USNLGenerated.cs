@@ -156,16 +156,19 @@ namespace USNL {
         private int playerID;
         private Vector2 targetTileLocation;
         private int actionID;
+        private int[] configurationInts;
 
-        public StructureActionPacket(int _playerID, Vector2 _targetTileLocation, int _actionID) {
+        public StructureActionPacket(int _playerID, Vector2 _targetTileLocation, int _actionID, int[] _configurationInts) {
             playerID = _playerID;
             targetTileLocation = _targetTileLocation;
             actionID = _actionID;
+            configurationInts = _configurationInts;
         }
 
         public int PlayerID { get => playerID; set => playerID = value; }
         public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
         public int ActionID { get => actionID; set => actionID = value; }
+        public int[] ConfigurationInts { get => configurationInts; set => configurationInts = value; }
     }
 
     public struct UnitPathfindPacket {
@@ -299,8 +302,9 @@ namespace USNL {
             int playerID = _packet.ReadInt();
             Vector2 targetTileLocation = _packet.ReadVector2();
             int actionID = _packet.ReadInt();
+            int[] configurationInts = _packet.ReadInts();
 
-            USNL.StructureActionPacket structureActionPacket = new USNL.StructureActionPacket(playerID, targetTileLocation, actionID);
+            USNL.StructureActionPacket structureActionPacket = new USNL.StructureActionPacket(playerID, targetTileLocation, actionID, configurationInts);
             Package.PacketManager.instance.PacketReceived(_packet, structureActionPacket);
         }
 
@@ -378,10 +382,11 @@ namespace USNL {
             }
         }
 
-        public static void StructureAction(int _actionID, Vector2 _targetTileLocation) {
+        public static void StructureAction(int _actionID, Vector2 _targetTileLocation, int[] _configurationInts) {
             using (Package.Packet _packet = new Package.Packet((int)USNL.ClientPackets.StructureAction)) {
                 _packet.Write(_actionID);
                 _packet.Write(_targetTileLocation);
+                _packet.Write(_configurationInts);
 
                 SendTCPData(_packet);
             }
@@ -985,7 +990,6 @@ namespace USNL {
             CallOnSetUnitLocationPacketCallbacks,
         };
 
-        public static event CallbackEvent PreOnConnected;
         public static event CallbackEvent OnConnected;
         public static event CallbackEvent OnDisconnected;
 
@@ -1019,7 +1023,6 @@ namespace USNL {
         public static event CallbackEvent OnUnitPathfindPacket;
         public static event CallbackEvent OnSetUnitLocationPacket;
 
-        public static void CallPreOnConnectedCallbacks(object _param) { if (PreOnConnected != null) { PreOnConnected(_param); } }
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
 

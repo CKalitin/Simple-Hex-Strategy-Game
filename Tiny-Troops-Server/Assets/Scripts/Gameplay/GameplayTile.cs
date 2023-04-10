@@ -24,6 +24,7 @@ public class GameplayTile : MonoBehaviour {
 
     private void Update() {
         if (tilePathfinding != null) CheckTileStructures();
+        if (currentTilePathfinding == null) currentTilePathfinding = tilePathfinding;
     }
 
     private void CheckTileStructures() {

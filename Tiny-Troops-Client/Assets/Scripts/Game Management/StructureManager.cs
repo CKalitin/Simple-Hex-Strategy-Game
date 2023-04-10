@@ -57,7 +57,7 @@ public class StructureManager : MonoBehaviour {
         USNL.StructureActionPacket packet = (USNL.StructureActionPacket)_packetObject;
         
         if (gameplayStructures.ContainsKey(Vector2Int.RoundToInt(packet.TargetTileLocation)))
-            gameplayStructures[Vector2Int.RoundToInt(packet.TargetTileLocation)].ForEach(x => x.OnStructureActionPacket(packet.PlayerID, packet.ActionID));
+            gameplayStructures[Vector2Int.RoundToInt(packet.TargetTileLocation)].ForEach(x => x.OnStructureActionPacket(packet.PlayerID, packet.ActionID, packet.ConfigurationInts));
     }
 
     #endregion

@@ -10,9 +10,11 @@ using UnityEngine;
 public class PathfindingManager : MonoBehaviour {
     public static PathfindingManager instance;
 
-    [SerializeField] private int[] walkableTileIds;
+    [SerializeField] private List<int> walkableTileIds;
 
     Dictionary<Vector2Int, int> map = null;
+
+    public List<int> WalkableTileIds { get => walkableTileIds; set => walkableTileIds = value; }
 
     private void Awake() {
         Singleton();
@@ -83,7 +85,7 @@ public class PathfindingManager : MonoBehaviour {
             neighbors.Add(new Vector2Int(pos.x + 2, pos.y));
             return neighbors;
         };
-        return astar(from, to, instance.map, instance.walkableTileIds.ToList(), getDistance, getNeighbors);
+        return astar(from, to, instance.map, instance.walkableTileIds, getDistance, getNeighbors);
     }
 
     private static List<Vector2Int> astar(Vector2Int from, Vector2Int to, Dictionary<Vector2Int, int> map, List<int> passableValues,

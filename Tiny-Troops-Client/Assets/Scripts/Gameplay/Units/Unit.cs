@@ -9,27 +9,30 @@ public class Unit : MonoBehaviour {
     [Space]
     [Tooltip("Shown to dev only for debug purposes.")]
     [SerializeField] private int playerID;
+    [Tooltip("Shown to dev only for debug purposes.")]
+    [SerializeField] private int randomSeed;
 
     private int unitUUID;
 
     private PathfindingAgent pathfindingAgent;
 
     public int PlayerID { get => playerID; set => playerID = value; }
-    public int UnitUUID { get => unitUUID; }
+    public int RandomSeed { get => randomSeed; set => randomSeed = value; }
+    
+    public int UnitUUID { get => unitUUID; set => unitUUID = value; }
     public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
     public bool Selected { get => selectedIndicator.activeSelf; }
+    public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
 
     private void Awake() {
         pathfindingAgent = GetComponent<PathfindingAgent>();
-        
-        unitUUID = BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0); // Generate UUID
-        
+
         // The if is here so configuration is easier on the Server
         if (selectedIndicator) selectedIndicator.SetActive(false);
     }
 
     private void Start() {
-        UnitManager.instance.AddUnit(UnitUUID, gameObject, this, playerID);
+        UnitManager.instance.AddUnit(UnitUUID, gameObject, this, playerID, randomSeed);
     }
 
     private void OnDestroy() {

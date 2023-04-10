@@ -11,10 +11,11 @@ public class GameplayStructure : MonoBehaviour {
     
     private bool addedToStructureManager = false;
 
-    public delegate void StructureActionCallback(int playerID, int actionID);
+    public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
     public event StructureActionCallback OnStructureAction;
 
     public TilePathfinding TilePathfinding { get => tilePathfinding; set => tilePathfinding = value; }
+    public Vector2Int TileLocation { get => tileLocation; set => tileLocation = value; }
 
     #endregion
 
@@ -45,8 +46,8 @@ public class GameplayStructure : MonoBehaviour {
 
     #region Structure Actions
 
-    public void OnStructureActionPacket(int _playerID, int _actionID) {
-        OnStructureAction(_playerID, _actionID);
+    public void OnStructureActionPacket(int _playerID, int _actionID, int[] _configurationInts) {
+        OnStructureAction(_playerID, _actionID, _configurationInts);
     }
 
     #endregion

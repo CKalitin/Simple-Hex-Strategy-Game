@@ -13,6 +13,9 @@ public class PathfindingNode : MonoBehaviour {
     [Tooltip("Radius around this node that agents can move to.\n So they don't all stay in the same exact position.")]
     [SerializeField] private float radius;
 
+    [Tooltip("Debug Purposes")]
+    public Vector3 globalPosition;
+
     // nodes around the tile in every direction
     //    (0, 1)  (1, 1)
     // (-1,0) (self) (1, 0)
@@ -29,5 +32,9 @@ public class PathfindingNode : MonoBehaviour {
         for (int i = 0; i < pathfindingNodes.Keys.Count; i++) {
             pathfindingNodes[pathfindingNodes.Keys.ElementAt(i)] = nodes[i];
         }
+    }
+    
+    private void Start() {
+        globalPosition = transform.position;
     }
 }

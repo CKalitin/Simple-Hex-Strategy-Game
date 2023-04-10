@@ -113,6 +113,8 @@ public class GameController : MonoBehaviour {
         }
 
         ToggleResourceManagers(false);
+
+        UnitManager.instance.DestroyAllUnits();
     }
 
     #endregion

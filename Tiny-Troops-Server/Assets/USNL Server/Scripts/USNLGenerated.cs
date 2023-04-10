@@ -123,16 +123,19 @@ namespace USNL {
 
         private int actionID;
         private Vector2 targetTileLocation;
+        private int[] configurationInts;
 
-        public StructureActionPacket(int _fromClient, int _actionID, Vector2 _targetTileLocation) {
+        public StructureActionPacket(int _fromClient, int _actionID, Vector2 _targetTileLocation, int[] _configurationInts) {
             fromClient = _fromClient;
             actionID = _actionID;
             targetTileLocation = _targetTileLocation;
+            configurationInts = _configurationInts;
         }
 
         public int FromClient { get => fromClient; set => fromClient = value; }
         public int ActionID { get => actionID; set => actionID = value; }
         public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
+        public int[] ConfigurationInts { get => configurationInts; set => configurationInts = value; }
     }
 
     public struct UnitPathfindPacket {
@@ -276,11 +279,12 @@ namespace USNL {
             }
         }
 
-        public static void StructureAction(int _playerID, Vector2 _targetTileLocation, int _actionID) {
+        public static void StructureAction(int _playerID, Vector2 _targetTileLocation, int _actionID, int[] _configurationInts) {
             using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.StructureAction)) {
                 _packet.Write(_playerID);
                 _packet.Write(_targetTileLocation);
                 _packet.Write(_actionID);
+                _packet.Write(_configurationInts);
 
                 SendTCPDataToAll(_packet);
             }
@@ -482,8 +486,9 @@ namespace USNL.Package {
         public static void StructureAction(Packet _packet) {
             int actionID = _packet.ReadInt();
             Vector2 targetTileLocation = _packet.ReadVector2();
+            int[] configurationInts = _packet.ReadInts();
 
-            StructureActionPacket structureActionPacket = new StructureActionPacket(_packet.FromClient, actionID, targetTileLocation);
+            StructureActionPacket structureActionPacket = new StructureActionPacket(_packet.FromClient, actionID, targetTileLocation, configurationInts);
             PacketManager.instance.PacketReceived(_packet, structureActionPacket);
         }
 

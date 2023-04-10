@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4924313470513003414}
   - component: {fileID: 4924313470513003413}
   - component: {fileID: 849493386}
+  - component: {fileID: 6191977743528913419}
+  - component: {fileID: 5958586252882216149}
   - component: {fileID: 849493391}
   m_Layer: 0
   m_Name: Game Controller
@@ -114,6 +116,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e43cc90c9a8950743afc68cfe3a1c4f2, type: 2}
   - {fileID: 11400000, guid: 731842bb311bf9849b71d99f073ecddb, type: 2}
   - {fileID: 11400000, guid: d25f6de468b202a449772517c7a987e2, type: 2}
+--- !u!114 &6191977743528913419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924313470513003408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5200b0c463face4f9effa6ef3b2d961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkableTileIds: 0100000002000000
+--- !u!114 &5958586252882216149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924313470513003408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4dd933a6516ab24aa6be663d8c36c4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &849493391
 MonoBehaviour:
   m_ObjectHideFlags: 0
