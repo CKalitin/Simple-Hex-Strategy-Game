@@ -85,6 +85,7 @@ public class PathfindingManager : MonoBehaviour {
             neighbors.Add(new Vector2Int(pos.x + 2, pos.y));
             return neighbors;
         };
+        
         return astar(from, to, instance.map, instance.walkableTileIds, getDistance, getNeighbors);
     }
 

@@ -16,13 +16,15 @@ public class Unit : MonoBehaviour {
 
     private PathfindingAgent pathfindingAgent;
 
+    private bool previousFinishedMoving = true;
+
     public int PlayerID { get => playerID; set => playerID = value; }
     public int RandomSeed { get => randomSeed; set => randomSeed = value; }
-    
     public int UnitUUID { get => unitUUID; set => unitUUID = value; }
+    public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
+
     public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
     public bool Selected { get => selectedIndicator.activeSelf; }
-    public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
 
     private void Awake() {
         pathfindingAgent = GetComponent<PathfindingAgent>();
@@ -33,6 +35,14 @@ public class Unit : MonoBehaviour {
 
     private void Start() {
         UnitManager.instance.AddUnit(UnitUUID, gameObject, this, playerID, randomSeed);
+        previousFinishedMoving = pathfindingAgent.FinishedMoving;
+    }
+
+    private void Update() {
+        if (previousFinishedMoving != pathfindingAgent.FinishedMoving) {
+            if (pathfindingAgent.FinishedMoving) StartCoroutine(SendLocation());
+            previousFinishedMoving = pathfindingAgent.FinishedMoving;
+        }
     }
 
     private void OnDestroy() {
@@ -41,5 +51,22 @@ public class Unit : MonoBehaviour {
 
     public void ToggleSelectedIndicator(bool _toggle) {
         selectedIndicator.SetActive(_toggle);
+    }
+
+    private IEnumerator SendLocation() {
+        yield return new WaitForSeconds(UnitManager.instance.UnitPositionSyncDelay);
+
+        int nodeIndex = -1;
+        
+        for (int i = 0; i < TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile.Count; i++) {
+            if (TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[i] == pathfindingAgent.CurrentNode) {
+                nodeIndex = i;
+                break;
+            }
+        }
+
+        if (nodeIndex >= 0) {
+            USNL.PacketSend.SetUnitLocation(UnitUUID, Location, nodeIndex);
+        }
     }
 }

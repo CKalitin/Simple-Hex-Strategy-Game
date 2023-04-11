@@ -136,8 +136,9 @@ public class UnitManager : MonoBehaviour {
     private void OnSetUnitLocationPacket(object _packetObject) {
         USNL.SetUnitLocationPacket packet = (USNL.SetUnitLocationPacket)_packetObject;
 
-        if (units.ContainsKey(packet.UnitUUID))
+        if (units.ContainsKey(packet.UnitUUID)) {
             units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.PathfindingNodeIndex);
+        }
         else Debug.Log("Desync Detected");
     }
 

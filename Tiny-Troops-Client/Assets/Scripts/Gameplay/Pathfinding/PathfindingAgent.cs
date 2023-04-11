@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathfindingAgent : MonoBehaviour {
+    #region Variables
+
     [SerializeField] private float moveSpeed = 1f;
 
     private Vector2Int currentLocation;
@@ -28,6 +30,12 @@ public class PathfindingAgent : MonoBehaviour {
     private int randomSeed = 0;
 
     public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
+    public PathfindingNode CurrentNode { get => currentNode; set => currentNode = value; }
+    public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
+
+    #endregion
+
+    #region Core
 
     private void Awake() {
         if (randomSeed == 0) randomSeed = Random.Range(0, 999999999);
@@ -44,13 +52,16 @@ public class PathfindingAgent : MonoBehaviour {
         startPos = transform.position;
         targetPos = transform.position;
 
-        Debug.Log("3");
         path = null;
         targetDirection = Vector2Int.zero;
         finishedMoving = true;
 
         randomSeed = _randomSeed;
     }
+
+    #endregion
+
+    #region Movement
 
     private void Move() {
         if (finishedMoving) return;
@@ -67,16 +78,12 @@ public class PathfindingAgent : MonoBehaviour {
 
         if (Vector3.Distance(new Vector3(transform.position.x, targetPos.y, transform.position.z), targetPos) > previousDistance) {
             ReachedTargetNode();
-            Debug.Log($"Reached Target Position. My Pos: {transform.position}, Target Pos: {targetPos}");
         }
         previousDistance = Vector3.Distance(new Vector3(transform.position.x, targetPos.y, transform.position.z), targetPos);
     }
 
     private void ReachedTargetNode() {
         // If reached final location
-        Debug.Log((path == null || path.Count <= 0));
-        Debug.Log(currentLocation == targetLocation);
-        Debug.Log(currentLocation + ", " + targetLocation);
         if ((path == null || path.Count <= 0) && currentLocation == targetLocation) {
             currentLocation = targetLocation;
             currentNode = targetNode;
@@ -85,7 +92,6 @@ public class PathfindingAgent : MonoBehaviour {
             targetPos = transform.position;
 
             path = null;
-            Debug.Log("1");
             targetDirection = Vector2Int.zero;
             finishedMoving = true;
 
@@ -101,12 +107,13 @@ public class PathfindingAgent : MonoBehaviour {
             MoveToTargetNode(TileManagement.instance.GetTileAtLocation(targetLocation).TileObject.transform.parent.GetComponent<GameplayTile>().TilePathfinding.PathfindingNodes[fromDirection]);
 
             currentLocation = targetLocation;
-            Debug.Log(path);
+
             if (path != null) path.RemoveAt(0);
             if (path.Count > 0) targetLocation = path[0];
             targetDirection = GetTargetDirection(currentLocation, targetLocation);
             return;
         }
+
         MoveToTargetNode(targetNode.PathfindingNodes[targetDirection]);
     }
 
@@ -120,15 +127,16 @@ public class PathfindingAgent : MonoBehaviour {
         previousDistance = 999999999f;
     }
 
+    #endregion
+
+    #region Public Functions
+
     public void PathfindToLocation(Vector2Int _targetLocation) {
         path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-        Debug.Log($"{currentLocation}, {_targetLocation}");
-        Debug.Log(path);
-        Debug.Log(System.String.Join(", ", PathfindingManager.FindPath(currentLocation, _targetLocation)));
+
         if (path == null) return;
         if (path.Count <= 1) {
             targetLocation = currentLocation;
-            Debug.Log("2");
             path = null;
             MoveInRandomDirectionOnCurrentTile(targetNode);
             return;
@@ -144,7 +152,7 @@ public class PathfindingAgent : MonoBehaviour {
         previousDistance = 999999999f;
 
         if (currentNode.PathfindingNodes[targetDirection] != null) {
-            MoveToTargetNode(targetNode);
+            MoveToTargetNode(targetNode.PathfindingNodes[targetDirection]);
         } else {
             // If next node is on another tile
             if (targetNode.PathfindingNodes[targetDirection] == null && targetNode.FinalNode) {
@@ -156,22 +164,7 @@ public class PathfindingAgent : MonoBehaviour {
                 currentLocation = targetLocation;
                 if (path.Count > 0) targetLocation = path[0];
                 targetDirection = GetTargetDirection(currentLocation, targetLocation);
-                return;
-            }
-        }
-    }
 
-    private Vector2Int GetTargetDirection(Vector2Int _currentLocation, Vector2Int _targetLocation) {
-        Vector2Int _targetDirection = _targetLocation - _currentLocation;
-        if (_currentLocation.y % 2 == 0 && _targetDirection.y != 0) _targetDirection.x += 1;
-        return _targetDirection;
-    }
-
-    private void MoveInRandomDirectionOnCurrentTile(PathfindingNode _startNode) {
-        while (true) {
-            Vector2Int _targetDirection = directions[GameUtils.Random(randomSeed, 0, directions.Length)];
-            if (_startNode.PathfindingNodes[_targetDirection] != null) {
-                MoveToTargetNode(_startNode.PathfindingNodes[_targetDirection]);
                 return;
             }
         }
@@ -181,7 +174,7 @@ public class PathfindingAgent : MonoBehaviour {
         currentLocation = _location;
         targetLocation = _location;
 
-        currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).TileObject.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[_nodeIndex];
+        currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[_nodeIndex];
         targetNode = currentNode;
 
         transform.position = currentNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -currentNode.Radius, currentNode.Radius), 0, GameUtils.Random(randomSeed, -currentNode.Radius, currentNode.Radius));
@@ -189,11 +182,35 @@ public class PathfindingAgent : MonoBehaviour {
         startPos = transform.position;
         targetPos = transform.position;
 
-        Debug.Log("4");
         path = null;
         targetDirection = Vector2Int.zero;
         finishedMoving = true;
 
-        previousDistance = 999999999f;
+        previousDistance = 0;
     }
+
+    #endregion
+
+    #region Helper Functions
+
+    private Vector2Int GetTargetDirection(Vector2Int _currentLocation, Vector2Int _targetLocation) {
+        Vector2Int _targetDirection = _targetLocation - _currentLocation;
+        if (_currentLocation.y % 2 == 0 && _targetDirection.y != 0) _targetDirection.x += 1;
+        return _targetDirection;
+    }
+
+    private void MoveInRandomDirectionOnCurrentTile(PathfindingNode _startNode) {
+        int iters = 0;
+        while (true) {
+            Vector2Int _targetDirection = directions[GameUtils.Random(randomSeed, 0, directions.Length)];
+            if (_startNode.PathfindingNodes[_targetDirection] != null) {
+                MoveToTargetNode(_startNode.PathfindingNodes[_targetDirection]);
+                return;
+            }
+            iters++;
+            if (iters > 10) break;
+        }
+    }
+
+    #endregion
 }

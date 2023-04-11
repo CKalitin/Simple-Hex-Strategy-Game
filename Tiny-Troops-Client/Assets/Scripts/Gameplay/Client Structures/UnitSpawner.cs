@@ -59,7 +59,7 @@ public class UnitSpawner : MonoBehaviour {
         unit.GetComponent<Unit>().PlayerID = _playerID;
         unit.GetComponent<Unit>().UnitUUID = _configurationInts[0];
         unit.GetComponent<Unit>().RandomSeed = _configurationInts[1];
-        Debug.Log("Initial Location: " + tile.TileInfo.Location);
+        
         unit.GetComponent<PathfindingAgent>().Initialize(tile.TileInfo.Location, spawnPathfindingNode, unit.GetComponent<Unit>().RandomSeed);
         
         USNL.PacketSend.UnitPathfind(new int[] { unit.GetComponent<Unit>().UnitUUID }, new Vector2(4,4));

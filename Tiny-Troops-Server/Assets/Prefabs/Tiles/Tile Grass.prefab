@@ -156,6 +156,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Center Tile Pathfinding
       objectReference: {fileID: 0}
+    - target: {fileID: 4321841003381789094, guid: 20ae16f650d28d343be2afc553008f66,
+        type: 3}
+      propertyPath: finalNode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7797489755804643082, guid: 20ae16f650d28d343be2afc553008f66,
         type: 3}
       propertyPath: m_RootOrder

@@ -919,6 +919,7 @@ MonoBehaviour:
   - {fileID: 2759047694621674373}
   finalNode: 0
   radius: 0.5
+  globalPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &370946109968221892
 PrefabInstance:
   m_ObjectHideFlags: 0

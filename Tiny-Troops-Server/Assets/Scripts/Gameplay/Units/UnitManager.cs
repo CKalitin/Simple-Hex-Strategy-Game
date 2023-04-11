@@ -30,9 +30,13 @@ public class UnitManager : MonoBehaviour {
 
     public static UnitManager instance;
 
+    [Tooltip("Amount of time to wait after a unit arriving at it's destination before sending it's location to the Clients.")]
+    [SerializeField] private float unitPositionSyncDelay = 1f;
+
     private Dictionary<int, UnitInfo> units = new Dictionary<int, UnitInfo>(); // The key is a UUID
 
     public Dictionary<int, UnitInfo> Units { get => units; set => units = value; }
+    public float UnitPositionSyncDelay { get => unitPositionSyncDelay; set => unitPositionSyncDelay = value; }
 
     #endregion
 

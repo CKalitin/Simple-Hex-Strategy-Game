@@ -63,7 +63,7 @@ public class UnitSpawner : MonoBehaviour {
         unit.GetComponent<Unit>().PlayerID = _playerID;
         unit.GetComponent<Unit>().RandomSeed = Random.Range(0, 99999999);
         unit.GetComponent<Unit>().UnitUUID = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
-        Debug.Log("Initial Location: " + location);
+        
         unit.GetComponent<PathfindingAgent>().Initialize(location, spawnPathfindingNode, unit.GetComponent<Unit>().RandomSeed);
 
         int[] configurationInts = { unit.GetComponent<Unit>().UnitUUID, unit.GetComponent<Unit>().RandomSeed };
