@@ -6,6 +6,9 @@ public class PathfindingAgent : MonoBehaviour {
     #region Variables
 
     [SerializeField] private float moveSpeed = 1f;
+    [Space]
+    [Tooltip("When location is set by server, how fast does the agent lerp there.")]
+    [SerializeField] private float lerpToLocationSpeed = 0.5f;
 
     private Vector2Int currentLocation;
     private Vector2Int targetLocation;
@@ -28,6 +31,8 @@ public class PathfindingAgent : MonoBehaviour {
     private float previousDistance = 999999999f;
 
     private int randomSeed = 0;
+
+    private System.Random random;
 
     public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
     public PathfindingNode CurrentNode { get => currentNode; set => currentNode = value; }
@@ -57,6 +62,8 @@ public class PathfindingAgent : MonoBehaviour {
         finishedMoving = true;
 
         randomSeed = _randomSeed;
+
+        random = new System.Random(_randomSeed);
     }
 
     #endregion
@@ -122,7 +129,7 @@ public class PathfindingAgent : MonoBehaviour {
         startPos = transform.position;
 
         targetNode = _targetNode;
-        targetPos = targetNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius), 0, GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius));
+        targetPos = targetNode.transform.position + new Vector3(GameUtils.Random(ref random, -targetNode.Radius, targetNode.Radius), 0, GameUtils.Random(ref random, -targetNode.Radius, targetNode.Radius));
 
         previousDistance = 999999999f;
     }
@@ -170,14 +177,15 @@ public class PathfindingAgent : MonoBehaviour {
         }
     }
 
-    public void SetLocation(Vector2Int _location, int _nodeIndex) {
+    public void SetLocation(Vector2Int _location, int _nodeIndex, Vector2 _pos) {
         currentLocation = _location;
         targetLocation = _location;
 
         currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[_nodeIndex];
         targetNode = currentNode;
 
-        transform.position = currentNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -currentNode.Radius, currentNode.Radius), 0, GameUtils.Random(randomSeed, -currentNode.Radius, currentNode.Radius));
+        //transform.position = currentNode.transform.position + new Vector3(GameUtils.Random(ref random, -currentNode.Radius, currentNode.Radius), 0, GameUtils.Random(ref random, -currentNode.Radius, currentNode.Radius));
+        Vector3 targetPostion = new Vector3(_pos.x, transform.position.y, _pos.y);
 
         startPos = transform.position;
         targetPos = transform.position;
@@ -187,6 +195,8 @@ public class PathfindingAgent : MonoBehaviour {
         finishedMoving = true;
 
         previousDistance = 0;
+
+        StartCoroutine(LerpToLocation(targetPostion));
     }
 
     #endregion
@@ -202,13 +212,25 @@ public class PathfindingAgent : MonoBehaviour {
     private void MoveInRandomDirectionOnCurrentTile(PathfindingNode _startNode) {
         int iters = 0;
         while (true) {
-            Vector2Int _targetDirection = directions[GameUtils.Random(randomSeed, 0, directions.Length)];
+            Vector2Int _targetDirection = directions[GameUtils.Random(ref random, 0, directions.Length)];
             if (_startNode.PathfindingNodes[_targetDirection] != null) {
                 MoveToTargetNode(_startNode.PathfindingNodes[_targetDirection]);
                 return;
             }
             iters++;
             if (iters > 10) break;
+        }
+    }
+
+    private IEnumerator LerpToLocation(Vector3 _targetPostion) {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = new Vector3(_targetPostion.x, transform.position.y, _targetPostion.z);
+        float lerpTime = 0;
+        
+        while (Vector3.Distance(transform.position, endPos) >= 0.01f) {
+            transform.position = Vector3.Lerp(startPos, endPos, lerpTime);
+            lerpTime += Mathf.Clamp(Time.deltaTime * lerpToLocationSpeed, 0, 1);
+            yield return new WaitForEndOfFrame();
         }
     }
 

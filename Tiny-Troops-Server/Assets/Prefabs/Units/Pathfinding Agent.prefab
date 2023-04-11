@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  lerpToLocationSpeed: 2
 --- !u!114 &323771522811961258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedIndicator: {fileID: 1478261029944141374}
   playerID: 0
+  randomSeed: 0
 --- !u!1 &2216679837849901799
 GameObject:
   m_ObjectHideFlags: 0

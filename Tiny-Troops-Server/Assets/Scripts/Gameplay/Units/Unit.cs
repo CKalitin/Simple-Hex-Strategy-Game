@@ -66,7 +66,7 @@ public class Unit : MonoBehaviour {
         }
 
         if (nodeIndex >= 0) {
-            USNL.PacketSend.SetUnitLocation(UnitUUID, Location, nodeIndex);
+            USNL.PacketSend.SetUnitLocation(UnitUUID, Location, nodeIndex, new Vector2(transform.position.x, transform.position.z));
         }
     }
 }

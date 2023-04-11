@@ -161,6 +161,8 @@ MonoBehaviour:
       variableType: 7
     - variableName: Pathfinding Node Index
       variableType: 2
+    - variableName: Position
+      variableType: 7
     sendType: 1
     protocol: 0
     notes: 
