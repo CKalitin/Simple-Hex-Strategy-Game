@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 252404273224574547}
   - component: {fileID: 8753616706299457283}
   - component: {fileID: 536201286231317597}
+  - component: {fileID: 5288104342542355879}
   m_Layer: 0
   m_Name: Lumber Hut Structure
   m_TagString: Untagged
@@ -157,10 +158,6 @@ MonoBehaviour:
   structureID: 4
   structureBuildInfo: {fileID: 11400000, guid: afb77eb87fdeeb049ae070df4c248c18, type: 2}
   upgrades: []
-  tile: {fileID: 0}
-  structureLocation: {fileID: 0}
-  resourceEntries:
-  - {fileID: 11400000, guid: 183d0b25026430548affec89de8ba676, type: 2}
 --- !u!114 &536201286231317597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,8 +170,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945bcc7841f683743a5fd5aa14533e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOwnedStructure: 1
   structureUI: {fileID: 1539103090107551985}
   tilePathfinding: {fileID: 8746338465632852069}
+  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
+--- !u!114 &5288104342542355879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3595485209442517939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &482246564137131730
 PrefabInstance:
   m_ObjectHideFlags: 0

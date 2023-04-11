@@ -5,7 +5,10 @@ using UnityEngine;
 
 // Code to control units is in Tile Selector and Unit Selector
 public class Unit : MonoBehaviour {
+    #region Variables
+
     [SerializeField] private GameObject selectedIndicator;
+    [SerializeField] private Health health;
     [Space]
     [Tooltip("Shown to dev only for debug purposes.")]
     [SerializeField] private int playerID;
@@ -17,6 +20,7 @@ public class Unit : MonoBehaviour {
     private PathfindingAgent pathfindingAgent;
 
     private bool previousFinishedMoving = true;
+    private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
 
     public int PlayerID { get => playerID; set => playerID = value; }
     public int RandomSeed { get => randomSeed; set => randomSeed = value; }
@@ -25,6 +29,10 @@ public class Unit : MonoBehaviour {
 
     public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
     public bool Selected { get => selectedIndicator.activeSelf; }
+
+    #endregion
+
+    #region Core
 
     private void Awake() {
         pathfindingAgent = GetComponent<PathfindingAgent>();
@@ -35,6 +43,7 @@ public class Unit : MonoBehaviour {
 
     private void Start() {
         UnitManager.instance.AddUnit(UnitUUID, gameObject, this, playerID, randomSeed);
+        
         previousFinishedMoving = pathfindingAgent.FinishedMoving;
     }
 
@@ -43,11 +52,23 @@ public class Unit : MonoBehaviour {
             if (pathfindingAgent.FinishedMoving) StartCoroutine(SendLocation());
             previousFinishedMoving = pathfindingAgent.FinishedMoving;
         }
+
+        if (previousHealth != health.CurrentHealth) {
+            previousHealth = health.CurrentHealth;
+            
+            USNL.PacketSend.UnitHealth(unitUUID, health.CurrentHealth, health.MaxHealth);
+
+            if (health.CurrentHealth <= 0) Destroy(gameObject);
+        }
     }
 
     private void OnDestroy() {
         UnitManager.instance.RemoveUnit(UnitUUID);
     }
+
+    #endregion
+
+    #region Unit
 
     public void ToggleSelectedIndicator(bool _toggle) {
         selectedIndicator.SetActive(_toggle);
@@ -55,6 +76,8 @@ public class Unit : MonoBehaviour {
 
     private IEnumerator SendLocation() {
         yield return new WaitForSeconds(UnitManager.instance.UnitPositionSyncDelay);
+
+        if (pathfindingAgent.FinishedMoving == false) yield break;
 
         int nodeIndex = -1;
         
@@ -69,4 +92,6 @@ public class Unit : MonoBehaviour {
             USNL.PacketSend.SetUnitLocation(UnitUUID, Location, nodeIndex, new Vector2(transform.position.x, transform.position.z));
         }
     }
+
+    #endregion
 }

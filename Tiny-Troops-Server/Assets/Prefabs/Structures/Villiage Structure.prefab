@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 1712771547096706858}
   - component: {fileID: 3590107383518481374}
   - component: {fileID: 6682321816953465994}
+  - component: {fileID: -4559885924555552860}
   m_Layer: 0
   m_Name: Villiage Structure
   m_TagString: Untagged
@@ -361,6 +362,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 5278144829239087938}
+  health: {fileID: 8505481600790248693, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27, type: 3}
+--- !u!114 &-4559885924555552860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7077788535158634454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead6534f487291148ae4a5d0eefeafff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &2528538141332218269
 PrefabInstance:
   m_ObjectHideFlags: 0

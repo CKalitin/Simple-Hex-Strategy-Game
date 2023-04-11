@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 2599408547284778100}
   - component: {fileID: 6775775654978332716}
   - component: {fileID: 1102691380515925237}
+  - component: {fileID: 8505481600790248693}
   m_Layer: 0
   m_Name: Base Structure
   m_TagString: Untagged
@@ -165,6 +166,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 7369542255057627320}
+  health: {fileID: 8505481600790248693}
+--- !u!114 &8505481600790248693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7814785468153325786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead6534f487291148ae4a5d0eefeafff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &895459216478607975
 PrefabInstance:
   m_ObjectHideFlags: 0

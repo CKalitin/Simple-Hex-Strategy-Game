@@ -6,10 +6,14 @@ public class GameplayStructure : MonoBehaviour {
     #region Variables
 
     [SerializeField] private TilePathfinding tilePathfinding;
+    [Space]
+    [SerializeField] private Health health;
 
     private Vector2Int tileLocation;
     
     private bool addedToStructureManager = false;
+
+    private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
 
     public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
     public event StructureActionCallback OnStructureAction;
@@ -26,6 +30,16 @@ public class GameplayStructure : MonoBehaviour {
             tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
             StructureManager.instance.AddGameplayStructure(tileLocation, this);
             addedToStructureManager = true;
+        }
+    }
+
+    private void Update() {
+        if (previousHealth != health.CurrentHealth) {
+            previousHealth = health.CurrentHealth;
+
+            USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
+
+            if (health.CurrentHealth <= 0) GetComponent<Structure>().DestroyStructure();
         }
     }
 

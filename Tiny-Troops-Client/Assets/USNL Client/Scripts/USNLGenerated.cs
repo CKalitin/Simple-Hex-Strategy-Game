@@ -46,6 +46,8 @@ namespace USNL {
         StructureAction,
         UnitPathfind,
         SetUnitLocation,
+        UnitHealth,
+        StructureHealth,
     }
 
     #endregion
@@ -203,6 +205,38 @@ namespace USNL {
         public Vector2 Position { get => position; set => position = value; }
     }
 
+    public struct UnitHealthPacket {
+        private int unitUUID;
+        private float health;
+        private float maxHealth;
+
+        public UnitHealthPacket(int _unitUUID, float _health, float _maxHealth) {
+            unitUUID = _unitUUID;
+            health = _health;
+            maxHealth = _maxHealth;
+        }
+
+        public int UnitUUID { get => unitUUID; set => unitUUID = value; }
+        public float Health { get => health; set => health = value; }
+        public float MaxHealth { get => maxHealth; set => maxHealth = value; }
+    }
+
+    public struct StructureHealthPacket {
+        private Vector2 location;
+        private float health;
+        private float maxHealth;
+
+        public StructureHealthPacket(Vector2 _location, float _health, float _maxHealth) {
+            location = _location;
+            health = _health;
+            maxHealth = _maxHealth;
+        }
+
+        public Vector2 Location { get => location; set => location = value; }
+        public float Health { get => health; set => health = value; }
+        public float MaxHealth { get => maxHealth; set => maxHealth = value; }
+    }
+
 
     #endregion
 
@@ -240,6 +274,8 @@ namespace USNL {
             { StructureAction },
             { UnitPathfind },
             { SetUnitLocation },
+            { UnitHealth },
+            { StructureHealth },
         };
 
         public static void MatchUpdate(Package.Packet _packet) {
@@ -327,6 +363,24 @@ namespace USNL {
 
             USNL.SetUnitLocationPacket setUnitLocationPacket = new USNL.SetUnitLocationPacket(unitUUID, targetTileLocation, pathfindingNodeIndex, position);
             Package.PacketManager.instance.PacketReceived(_packet, setUnitLocationPacket);
+        }
+
+        public static void UnitHealth(Package.Packet _packet) {
+            int unitUUID = _packet.ReadInt();
+            float health = _packet.ReadFloat();
+            float maxHealth = _packet.ReadFloat();
+
+            USNL.UnitHealthPacket unitHealthPacket = new USNL.UnitHealthPacket(unitUUID, health, maxHealth);
+            Package.PacketManager.instance.PacketReceived(_packet, unitHealthPacket);
+        }
+
+        public static void StructureHealth(Package.Packet _packet) {
+            Vector2 location = _packet.ReadVector2();
+            float health = _packet.ReadFloat();
+            float maxHealth = _packet.ReadFloat();
+
+            USNL.StructureHealthPacket structureHealthPacket = new USNL.StructureHealthPacket(location, health, maxHealth);
+            Package.PacketManager.instance.PacketReceived(_packet, structureHealthPacket);
         }
     }
 
@@ -453,6 +507,8 @@ namespace USNL.Package {
         StructureAction,
         UnitPathfind,
         SetUnitLocation,
+        UnitHealth,
+        StructureHealth,
     }
     #endregion
 
@@ -748,6 +804,8 @@ namespace USNL.Package {
             { USNL.PacketHandlers.StructureAction },
             { USNL.PacketHandlers.UnitPathfind },
             { USNL.PacketHandlers.SetUnitLocation },
+            { USNL.PacketHandlers.UnitHealth },
+            { USNL.PacketHandlers.StructureHealth },
         };
 
         public static void Welcome(Package.Packet _packet) {
@@ -992,6 +1050,8 @@ namespace USNL {
             CallOnStructureActionPacketCallbacks,
             CallOnUnitPathfindPacketCallbacks,
             CallOnSetUnitLocationPacketCallbacks,
+            CallOnUnitHealthPacketCallbacks,
+            CallOnStructureHealthPacketCallbacks,
         };
 
         public static event CallbackEvent OnConnected;
@@ -1026,6 +1086,8 @@ namespace USNL {
         public static event CallbackEvent OnStructureActionPacket;
         public static event CallbackEvent OnUnitPathfindPacket;
         public static event CallbackEvent OnSetUnitLocationPacket;
+        public static event CallbackEvent OnUnitHealthPacket;
+        public static event CallbackEvent OnStructureHealthPacket;
 
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
@@ -1059,6 +1121,8 @@ namespace USNL {
         public static void CallOnStructureActionPacketCallbacks(object _param) { if (OnStructureActionPacket != null) { OnStructureActionPacket(_param); } }
         public static void CallOnUnitPathfindPacketCallbacks(object _param) { if (OnUnitPathfindPacket != null) { OnUnitPathfindPacket(_param); } }
         public static void CallOnSetUnitLocationPacketCallbacks(object _param) { if (OnSetUnitLocationPacket != null) { OnSetUnitLocationPacket(_param); } }
+        public static void CallOnUnitHealthPacketCallbacks(object _param) { if (OnUnitHealthPacket != null) { OnUnitHealthPacket(_param); } }
+        public static void CallOnStructureHealthPacketCallbacks(object _param) { if (OnStructureHealthPacket != null) { OnStructureHealthPacket(_param); } }
     }
 }
 

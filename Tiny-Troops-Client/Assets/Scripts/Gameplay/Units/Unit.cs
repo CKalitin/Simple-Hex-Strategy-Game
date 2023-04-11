@@ -6,6 +6,7 @@ using UnityEngine;
 // Code to control units is in Tile Selector and Unit Selector
 public class Unit : MonoBehaviour {
     [SerializeField] private GameObject selectedIndicator;
+    [SerializeField] private Health health;
     [Space]
     [Tooltip("Shown to dev only for debug purposes.")]
     [SerializeField] private int playerID;
@@ -16,6 +17,7 @@ public class Unit : MonoBehaviour {
 
     private PathfindingAgent pathfindingAgent;
 
+    public Health Health { get => health; set => health = value; }
     public int PlayerID { get => playerID; set => playerID = value; }
     public int RandomSeed { get => randomSeed; set => randomSeed = value; }
     

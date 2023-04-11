@@ -54,11 +54,13 @@ public class UnitManager : MonoBehaviour {
     private void OnEnable() {
         USNL.CallbackEvents.OnUnitPathfindPacket += OnUnitPathfindPacket;
         USNL.CallbackEvents.OnSetUnitLocationPacket += OnSetUnitLocationPacket;
+        USNL.CallbackEvents.OnUnitHealthPacket += OnUnitHealthPacket;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnUnitPathfindPacket -= OnUnitPathfindPacket;
         USNL.CallbackEvents.OnSetUnitLocationPacket -= OnSetUnitLocationPacket;
+        USNL.CallbackEvents.OnUnitHealthPacket -= OnUnitHealthPacket;
     }
 
     #endregion
@@ -140,6 +142,14 @@ public class UnitManager : MonoBehaviour {
             units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.PathfindingNodeIndex, packet.Position);
         }
         else Debug.Log("Desync Detected");
+    }
+
+    private void OnUnitHealthPacket(object _packetObject) {
+        USNL.UnitHealthPacket packet = (USNL.UnitHealthPacket)_packetObject;
+
+        if (units.ContainsKey(packet.UnitUUID)) {
+            units[packet.UnitUUID].Script.Health.SetHealth(packet.Health, packet.MaxHealth);
+        } else Debug.Log("Desync Detected");
     }
 
     #endregion

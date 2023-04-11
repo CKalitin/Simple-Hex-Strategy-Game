@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 8441011377346133327}
   - component: {fileID: 703715036427101858}
   - component: {fileID: 2753558383308048600}
+  - component: {fileID: -8087070044743891598}
   m_Layer: 0
   m_Name: Foundry Structure
   m_TagString: Untagged
@@ -165,6 +166,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 2893799320768022622}
+  health: {fileID: 8505481600790248693, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27, type: 3}
+--- !u!114 &-8087070044743891598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303691592343286854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead6534f487291148ae4a5d0eefeafff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &4755880291436558977
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 1868883890237362748}
   - component: {fileID: 5030939243600213860}
   - component: {fileID: 1817041810881419730}
+  - component: {fileID: 5676230866130057859}
   m_Layer: 0
   m_Name: Fort Structure
   m_TagString: Untagged
@@ -169,8 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945bcc7841f683743a5fd5aa14533e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOwnedStructure: 1
   structureUI: {fileID: 4978343187084980201}
   tilePathfinding: {fileID: 8002137112919307291}
+  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
 --- !u!114 &1817041810881419730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +190,21 @@ MonoBehaviour:
   unitPrefabs:
   - {fileID: 2216679837717455195, guid: b1838516cd4974649bac2c1d0c5efb86, type: 3}
   gameplayStructure: {fileID: 5030939243600213860}
+--- !u!114 &5676230866130057859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831136151368802486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1 &4831136151569201934
 GameObject:
   m_ObjectHideFlags: 0

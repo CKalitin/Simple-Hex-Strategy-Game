@@ -166,5 +166,27 @@ MonoBehaviour:
     sendType: 1
     protocol: 0
     notes: 
-  ClientPacketFoldouts: 000000000101
-  ServerPacketFoldouts: 00000000000000010101
+  - packetName: Unit Health
+    packetVariables:
+    - variableName: UnitUUID
+      variableType: 2
+    - variableName: Health
+      variableType: 4
+    - variableName: Max Health
+      variableType: 4
+    sendType: 1
+    protocol: 0
+    notes: 
+  - packetName: Structure Health
+    packetVariables:
+    - variableName: Location
+      variableType: 7
+    - variableName: Health
+      variableType: 4
+    - variableName: Max Health
+      variableType: 4
+    sendType: 1
+    protocol: 0
+    notes: 
+  ClientPacketFoldouts: 000000000000
+  ServerPacketFoldouts: 000000000000000000000101

@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 1712771547096706858}
   - component: {fileID: -2276666104577372860}
   - component: {fileID: 3576508560949234680}
+  - component: {fileID: -4877733925028958089}
   m_Layer: 0
   m_Name: Villiage Structure
   m_TagString: Untagged
@@ -349,10 +350,6 @@ MonoBehaviour:
   structureID: 7
   structureBuildInfo: {fileID: 11400000, guid: 503df08416bfafb4dad189eb69abf194, type: 2}
   upgrades: []
-  tile: {fileID: 0}
-  structureLocation: {fileID: 0}
-  resourceEntries:
-  - {fileID: 11400000, guid: bb55c6be64a3f36459c39f806ec242ee, type: 2}
 --- !u!114 &3576508560949234680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,8 +362,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945bcc7841f683743a5fd5aa14533e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOwnedStructure: 1
   structureUI: {fileID: 2262170751717698508}
   tilePathfinding: {fileID: 6067388628783372995}
+  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
+--- !u!114 &-4877733925028958089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7077788535158634454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &1363948858337537062
 PrefabInstance:
   m_ObjectHideFlags: 0

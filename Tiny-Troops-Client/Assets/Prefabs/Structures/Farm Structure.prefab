@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 7124443898104714450}
   - component: {fileID: 267531097531546578}
   - component: {fileID: 3264303431299052330}
+  - component: {fileID: -8801341391181171677}
   m_Layer: 0
   m_Name: Farm Structure
   m_TagString: Untagged
@@ -252,10 +253,6 @@ MonoBehaviour:
   structureID: 1
   structureBuildInfo: {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
   upgrades: []
-  tile: {fileID: 0}
-  structureLocation: {fileID: 0}
-  resourceEntries:
-  - {fileID: 11400000, guid: 6eb320851db94ae41852914e88f7c366, type: 2}
 --- !u!114 &3264303431299052330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +265,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945bcc7841f683743a5fd5aa14533e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOwnedStructure: 1
   structureUI: {fileID: 2715006143921305332}
   tilePathfinding: {fileID: 2591933485907062594}
+  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
+--- !u!114 &-8801341391181171677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300357837749734927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1 &4081990468175112950
 GameObject:
   m_ObjectHideFlags: 0

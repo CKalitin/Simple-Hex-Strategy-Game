@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 252404273224574547}
   - component: {fileID: 8753616706299457283}
   - component: {fileID: 3757580158440892691}
+  - component: {fileID: -3258484358154849425}
   m_Layer: 0
   m_Name: Lumber Hut Structure
   m_TagString: Untagged
@@ -166,6 +167,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 8703131233515207086}
+  health: {fileID: 8505481600790248693, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27, type: 3}
+--- !u!114 &-3258484358154849425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3595485209442517939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead6534f487291148ae4a5d0eefeafff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &1250888206851917422
 PrefabInstance:
   m_ObjectHideFlags: 0

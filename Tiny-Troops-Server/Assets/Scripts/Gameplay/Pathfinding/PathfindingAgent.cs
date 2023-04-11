@@ -129,7 +129,7 @@ public class PathfindingAgent : MonoBehaviour {
         startPos = transform.position;
 
         targetNode = _targetNode;
-        targetPos = targetNode.transform.position + new Vector3(GameUtils.Random(ref random, -targetNode.Radius, targetNode.Radius), 0, GameUtils.Random(ref random, -targetNode.Radius, targetNode.Radius));
+        targetPos = targetNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius), 0, GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius));
 
         previousDistance = 999999999f;
     }
@@ -184,7 +184,7 @@ public class PathfindingAgent : MonoBehaviour {
         currentNode = TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[_nodeIndex];
         targetNode = currentNode;
 
-        //transform.position = currentNode.transform.position + new Vector3(GameUtils.Random(ref random, -currentNode.Radius, currentNode.Radius), 0, GameUtils.Random(ref random, -currentNode.Radius, currentNode.Radius));
+        //transform.position = currentNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -currentNode.Radius, currentNode.Radius), 0, GameUtils.Random(randomSeed, -currentNode.Radius, currentNode.Radius));
         Vector3 targetPostion = new Vector3(_pos.x, transform.position.y, _pos.y);
 
         startPos = transform.position;
@@ -212,7 +212,7 @@ public class PathfindingAgent : MonoBehaviour {
     private void MoveInRandomDirectionOnCurrentTile(PathfindingNode _startNode) {
         int iters = 0;
         while (true) {
-            Vector2Int _targetDirection = directions[GameUtils.Random(ref random, 0, directions.Length)];
+            Vector2Int _targetDirection = directions[GameUtils.Random(randomSeed, 0, directions.Length)];
             if (_startNode.PathfindingNodes[_targetDirection] != null) {
                 MoveToTargetNode(_startNode.PathfindingNodes[_targetDirection]);
                 return;

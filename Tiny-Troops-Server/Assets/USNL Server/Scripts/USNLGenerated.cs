@@ -47,6 +47,8 @@ namespace USNL {
         StructureAction,
         UnitPathfind,
         SetUnitLocation,
+        UnitHealth,
+        StructureHealth,
     }
 
     #endregion
@@ -309,6 +311,26 @@ namespace USNL {
                 SendTCPDataToAll(_packet);
             }
         }
+
+        public static void UnitHealth(int _unitUUID, float _health, float _maxHealth) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.UnitHealth)) {
+                _packet.Write(_unitUUID);
+                _packet.Write(_health);
+                _packet.Write(_maxHealth);
+
+                SendTCPDataToAll(_packet);
+            }
+        }
+
+        public static void StructureHealth(Vector2 _location, float _health, float _maxHealth) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.StructureHealth)) {
+                _packet.Write(_location);
+                _packet.Write(_health);
+                _packet.Write(_maxHealth);
+
+                SendTCPDataToAll(_packet);
+            }
+        }
         }
 
     #endregion
@@ -358,6 +380,8 @@ namespace USNL.Package {
         StructureAction,
         UnitPathfind,
         SetUnitLocation,
+        UnitHealth,
+        StructureHealth,
     }
     #endregion
 

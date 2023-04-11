@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 8441011377346133327}
   - component: {fileID: 703715036427101858}
   - component: {fileID: 3686204627651969542}
+  - component: {fileID: 6238586514056320157}
   m_Layer: 0
   m_Name: Foundry Structure
   m_TagString: Untagged
@@ -150,10 +151,6 @@ MonoBehaviour:
   structureID: 3
   structureBuildInfo: {fileID: 11400000, guid: 874e97b2e290e794f9dc899616b32799, type: 2}
   upgrades: []
-  tile: {fileID: 0}
-  structureLocation: {fileID: 0}
-  resourceEntries:
-  - {fileID: 11400000, guid: 6a756eafcfc7a864ba71e7d167810d5c, type: 2}
 --- !u!114 &3686204627651969542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,8 +163,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945bcc7841f683743a5fd5aa14533e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOwnedStructure: 1
   structureUI: {fileID: 8245500383770387876}
   tilePathfinding: {fileID: 222496274139667883}
+  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
+--- !u!114 &6238586514056320157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303691592343286854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &3223463129614965637
 PrefabInstance:
   m_ObjectHideFlags: 0

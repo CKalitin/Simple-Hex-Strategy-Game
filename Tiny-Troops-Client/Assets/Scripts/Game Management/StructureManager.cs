@@ -29,10 +29,12 @@ public class StructureManager : MonoBehaviour {
     
     private void OnEnable() {
         USNL.CallbackEvents.OnStructureActionPacket += OnStructureActionPacket;
+        USNL.CallbackEvents.OnStructureHealthPacket += OnStructureHealthPacket;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnStructureActionPacket -= OnStructureActionPacket;
+        USNL.CallbackEvents.OnStructureHealthPacket -= OnStructureHealthPacket;
     }
 
     #endregion
@@ -58,6 +60,14 @@ public class StructureManager : MonoBehaviour {
         
         if (gameplayStructures.ContainsKey(Vector2Int.RoundToInt(packet.TargetTileLocation)))
             gameplayStructures[Vector2Int.RoundToInt(packet.TargetTileLocation)].ForEach(x => x.OnStructureActionPacket(packet.PlayerID, packet.ActionID, packet.ConfigurationInts));
+    }
+
+    private void OnStructureHealthPacket(object _packetObject) {
+        USNL.StructureHealthPacket packet = (USNL.StructureHealthPacket)_packetObject;
+        
+        if (gameplayStructures.ContainsKey(Vector2Int.RoundToInt(packet.Location))) {
+            gameplayStructures[Vector2Int.RoundToInt(packet.Location)].ForEach(x => x.OnStructureHealthPacket(packet.Health, packet.MaxHealth));
+        }
     }
 
     #endregion

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7906178655695455672}
   - component: {fileID: 2492549420120896310}
+  - component: {fileID: -2301818540706402244}
+  - component: {fileID: 3905409778525281734}
   m_Layer: 0
   m_Name: Tree Structure
   m_TagString: Untagged
@@ -56,9 +58,37 @@ MonoBehaviour:
   structureID: 6
   structureBuildInfo: {fileID: 11400000, guid: f1d70555f4a68ef44bf44f1fe3829b6d, type: 2}
   upgrades: []
-  tile: {fileID: 0}
-  structureLocation: {fileID: 0}
-  resourceEntries: []
+--- !u!114 &-2301818540706402244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7102159765422121009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945bcc7841f683743a5fd5aa14533e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOwnedStructure: 0
+  structureUI: {fileID: 0}
+  tilePathfinding: {fileID: 3316684614282821657}
+  health: {fileID: 3905409778525281734}
+--- !u!114 &3905409778525281734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7102159765422121009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  destroyOnZeroHealth: 0
 --- !u!1001 &1218701702436949677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -578,6 +608,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dcb737340ea2154eb2af2e9d8dbf367, type: 3}
+--- !u!114 &3316684614282821657 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7649523168926659295, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
+    type: 3}
+  m_PrefabInstance: {fileID: 4913334691050468038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d61a421c81cb694f8e5cd00c09eef9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7935772664794163341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
