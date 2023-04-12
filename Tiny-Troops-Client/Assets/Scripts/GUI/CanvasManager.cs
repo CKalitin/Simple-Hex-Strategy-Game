@@ -35,15 +35,23 @@ public class CanvasManager : MonoBehaviour {
 
     private void OnEnable() {
         MatchManager.OnMatchStateChanged += OnMatchStateChanged;
-        USNL.CallbackEvents.OnConnected += OnConnected;
+        GameController.OnGameInitialized += OnGameInitialized;
+        //USNL.CallbackEvents.OnConnected += OnConnected;
     }
 
     private void OnDisable() {
         MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
-        USNL.CallbackEvents.OnConnected -= OnConnected;
+        GameController.OnGameInitialized += OnGameInitialized;
+        //USNL.CallbackEvents.OnConnected -= OnConnected;
     }
 
-    private void OnMatchStateChanged(MatchState _matchState) { 
+
+    private void TogglePrimaryCanvases(bool _lobbyCanvas, bool _gameCanvas) {
+        lobbyCanvas.SetActive(_lobbyCanvas);
+        gameCanvas.SetActive(_gameCanvas);
+    }
+    
+    private void OnMatchStateChanged(MatchState _matchState) {
         if (_matchState == MatchState.InGame) {
             TogglePrimaryCanvases(false, true);
         } else if (_matchState == MatchState.Lobby) {
@@ -51,12 +59,11 @@ public class CanvasManager : MonoBehaviour {
         }
     }
 
-    private void TogglePrimaryCanvases(bool _lobbyCanvas, bool _gameCanvas) {
-        lobbyCanvas.SetActive(_lobbyCanvas);
-        gameCanvas.SetActive(_gameCanvas);
-    }
-
-    private void OnConnected(object _object) {
+    private void OnGameInitialized() {
         connectingCanvas.SetActive(false);
     }
+
+    /*private void OnConnected(object _object) {
+        connectingCanvas.SetActive(false);
+    }*/
 }

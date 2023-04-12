@@ -95,6 +95,15 @@ public class UnitManager : MonoBehaviour {
         return output;
     }
 
+    // List of player's with units at location
+    public List<int> GetPlayerUnitsAtLocation(Vector2Int _location) {
+        List<int> output = new List<int>();
+        foreach (KeyValuePair<int, UnitInfo> unit in units) {
+            if (unit.Value.Location == _location && !output.Contains(unit.Value.PlayerID)) output.Add(unit.Value.PlayerID);
+        }
+        return output;
+    }
+
     public UnitInfo GetClosestEnemyUnitAtLocation(Vector2Int _location, int _playerID, Vector3 _pos) {
         List<int> unitsAtLocation = GetUnitsAtLocation(_location);
         if (unitsAtLocation.Count == 0) return new UnitInfo(null, null, -1, -1);

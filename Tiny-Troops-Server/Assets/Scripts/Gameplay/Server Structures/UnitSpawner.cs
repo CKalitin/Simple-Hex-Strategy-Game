@@ -59,16 +59,17 @@ public class UnitSpawner : MonoBehaviour {
         Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * Random.Range(-spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
         pos.y = spawnPathfindingNode.transform.position.y;
 
+        int uuid = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
+        int randomSeed = Random.Range(0, 99999999);
+        
+        int[] configurationInts = { uuid, randomSeed };
+        USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, _unitID + 1000, configurationInts);
+
         GameObject unit = Instantiate(unitPrefabs[_unitID], pos, Quaternion.identity);
         unit.GetComponent<Unit>().PlayerID = _playerID;
-        unit.GetComponent<Unit>().RandomSeed = Random.Range(0, 99999999);
-        unit.GetComponent<Unit>().UnitUUID = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
-        
+        unit.GetComponent<Unit>().RandomSeed = randomSeed;
+        unit.GetComponent<Unit>().UnitUUID = uuid;
         unit.GetComponent<PathfindingAgent>().Initialize(location, spawnPathfindingNode, unit.GetComponent<Unit>().RandomSeed);
-
-        int[] configurationInts = { unit.GetComponent<Unit>().UnitUUID, unit.GetComponent<Unit>().RandomSeed };
-
-        USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, _unitID + 1000, configurationInts);
     }
 
     #endregion

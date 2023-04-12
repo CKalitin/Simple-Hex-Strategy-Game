@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
@@ -69,10 +70,12 @@ public class CameraController : MonoBehaviour {
 
     private void OnEnable() {
         MatchManager.OnMatchStateChanged += OnMatchStateChanged;
+        GameController.OnGameInitialized += OnGameInitialized;
     }
 
     private void OnDisable() {
         MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
+        GameController.OnGameInitialized -= OnGameInitialized;
     }
 
     #endregion
@@ -129,6 +132,31 @@ public class CameraController : MonoBehaviour {
         if (_matchState == MatchState.Lobby) {
             gameCamera = false;
         }
+    }
+
+    private void OnGameInitialized() {
+        Vector3 pos = GetPositionOfPlayerBase();
+        if (pos == Vector3.zero) return;
+
+        pos.y = lobbyCameraPosition.position.y;
+        lobbyCameraPosition.position = pos;
+        transform.position = pos;
+    }
+    
+    private Vector3 GetPositionOfPlayerBase() {
+        Vector3 position = Vector3.zero;
+
+        Dictionary<Vector2Int, TileInfo> tiles = TileManagement.instance.GetTiles;
+        for (int i = 0; i < tiles.Count; i++) {
+            if (tiles.ElementAt(i).Value.Tile.Structures.Count <= 0) continue;
+            if (!tiles.ElementAt(i).Value.Tile.Structures[0].GetComponent<ClientBase>()) continue;
+            if (tiles.ElementAt(i).Value.Tile.Structures[0].PlayerID == MatchManager.instance.PlayerID){
+                position = tiles.ElementAt(i).Value.Tile.transform.position;
+                break;
+            }
+        }
+
+        return position;
     }
 
     #endregion

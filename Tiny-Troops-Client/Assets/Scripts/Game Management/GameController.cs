@@ -11,10 +11,21 @@ public class GameController : MonoBehaviour {
     [SerializeField] private bool connectOnStart = true;
     [Space]
     [SerializeField] private int port;
-
+    
     [Header("Game")]
     [Tooltip("In order of Tile ID")]
     [SerializeField] private GameObject[] tilePrefabs;
+    [Space]
+    [SerializeField] private int numTilesToExpect = 400;
+    [SerializeField] private float gameInitalizedCallbackDelay;
+
+    private bool gameReady = false;
+
+    private bool tilesPacketReceived = false;
+    private bool resourcesPacketReceived = false;
+    
+    public delegate void GameInitializedCallback();
+    public static event GameInitializedCallback OnGameInitialized;
 
     #endregion
 
@@ -37,12 +48,14 @@ public class GameController : MonoBehaviour {
         USNL.CallbackEvents.OnConnected += OnConnected;
         USNL.CallbackEvents.OnTilesPacket += OnTilesPacket;
         USNL.CallbackEvents.OnResourcesPacket += OnResourcesPacket;
+        MatchManager.OnMatchStateChanged += OnMatchStateChanged;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnConnected -= OnConnected;
         USNL.CallbackEvents.OnTilesPacket -= OnTilesPacket;
         USNL.CallbackEvents.OnResourcesPacket -= OnResourcesPacket;
+        MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
     }
 
     #endregion
@@ -62,6 +75,11 @@ public class GameController : MonoBehaviour {
             
             TileManagement.instance.SpawnTile(tilePrefabs[tilesPacket.TileIDs[i]], Vector2Int.RoundToInt(tilesPacket.TileLocations[i]));
         }
+
+        if (numTilesToExpect >= TileManagement.instance.GetTiles.Count) {
+            tilesPacketReceived = true;
+            CheckGameReady();
+        }
     }
 
     private void OnResourcesPacket(object _packetObject) {
@@ -70,6 +88,31 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < ResourceManager.instances[resourcesPacket.PlayerID].Resources.Length; i++) {
             ResourceManager.instances[resourcesPacket.PlayerID].Resources[i].Supply = resourcesPacket.Supplys[i];
             ResourceManager.instances[resourcesPacket.PlayerID].Resources[i].Demand = resourcesPacket.Demands[i];
+        }
+        
+        resourcesPacketReceived = true;
+        CheckGameReady();
+    }
+
+    private void CheckGameReady() {
+        if (tilesPacketReceived && resourcesPacketReceived) {
+            if (!gameReady && OnGameInitialized != null) {
+                gameReady = true;
+                StartCoroutine(CallOnGameInitialized());
+            }
+        }
+    }
+
+    private IEnumerator CallOnGameInitialized() {
+        yield return new WaitForSeconds(gameInitalizedCallbackDelay);
+        OnGameInitialized();
+    }
+    
+    private void OnMatchStateChanged(MatchState _matchState) {
+        if (_matchState == MatchState.Ended) {
+            tilesPacketReceived = false;
+            resourcesPacketReceived = false;
+            gameReady = false;
         }
     }
 

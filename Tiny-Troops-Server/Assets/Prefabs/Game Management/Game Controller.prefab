@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6191977743528913419}
   - component: {fileID: 5958586252882216149}
   - component: {fileID: 849493391}
+  - component: {fileID: 2763714619592498046}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -141,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4dd933a6516ab24aa6be663d8c36c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitPositionSyncDelay: 1
 --- !u!114 &849493391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,3 +155,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e493fd5ebf9a4544180c29616bab00fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2763714619592498046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924313470513003408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd559217da4a7d244b227a970ac5e11e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackTickTime: 3

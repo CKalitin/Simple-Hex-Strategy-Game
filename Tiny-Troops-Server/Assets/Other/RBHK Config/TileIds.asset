@@ -16,5 +16,6 @@ MonoBehaviour:
   - Grass
   - Forest
   - Mountain
+  - Water
   tileEnumPath: Assets/Other/Externals/RBHK/Enums/
   tileEnumName: Tiles

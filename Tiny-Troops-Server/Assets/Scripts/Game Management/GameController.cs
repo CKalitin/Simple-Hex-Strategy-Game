@@ -133,16 +133,17 @@ public class GameController : MonoBehaviour {
     private void SendTiles(int _clientId) {
         // Send tiles in batches of 250 because of 4096 byte limit
         int tileCount = TileManagement.instance.GetTiles.Count;
-        for (int i = 0; i < tileCount; i++) {
+        
+        for (int i = 0; i < Mathf.CeilToInt(tileCount / 250f); i++) {
             List<int> tileIds = new List<int>();
             List<Vector2> tileLocations = new List<Vector2>();
             
-            for (int x = i * 250; x < 250 & x < tileCount; x++) {
+            for (int x = i * 250; x < (i + 1) * 250 & x < tileCount; x++) {
                 var item = TileManagement.instance.GetTiles.ElementAt(x);
                 tileIds.Add((int)item.Value.TileId - 1);
                 tileLocations.Add((Vector2)item.Key);
             }
-
+            
             USNL.PacketSend.Tiles(_clientId, tileIds.ToArray(), tileLocations.ToArray());
         }  
     }

@@ -4,6 +4,8 @@ using System.Linq;
 using UnityEngine;
 
 public class UnitAttackManager : MonoBehaviour {
+    #region Variables
+
     [SerializeField] private float attackTickTime;
 
     private float totalDeltaTime = 0;
@@ -25,6 +27,10 @@ public class UnitAttackManager : MonoBehaviour {
         public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
         public float TotalHealth { get => totalHealth; set => totalHealth = value; }
     }
+
+    #endregion
+
+    #region Core
 
     private void Update() {
         TickUpdate();
@@ -52,9 +58,11 @@ public class UnitAttackManager : MonoBehaviour {
                 foreach (int defendingPlayerID in tileAttackInfo[location].Keys) {
                     if (playerID != defendingPlayerID) AttackUnitsOnTile(location, playerID, defendingPlayerID);
                 }
+                AttackStructureOnTile(location, playerID);
 
                 if (tileAttackInfo[location].Values.Count > 1) attacking = true; // If more than 1 player's units on tile, attack
-                if (AttackStructureOnTile(location, playerID, true)) attacking = true; // If enemy structure on tile, attack
+                if (TileManagement.instance.GetTileAtLocation(location).Tile.Structures.Count > 0 && TileManagement.instance.GetTileAtLocation(location).Tile.Structures[0].PlayerID != playerID)
+                    attacking = true; // If enemy structure on tile, attack
 
                 if (attacking) UnitManager.instance.GetUnitsOfIdAtLocation(location, playerID).ForEach(x => UnitManager.instance.Units[x].Script.Attacking = true);
             }
@@ -63,6 +71,10 @@ public class UnitAttackManager : MonoBehaviour {
         // Update after attack so the player's have accurate information
         SetTileAttackInfo();
     }
+
+    #endregion
+
+    #region Unit Attack Manager
 
     private void AttackUnitsOnTile(Vector2Int _location, int _attackingPlayerID, int _defendingPlayerID) {
         PlayerTileUnitInfo attackingPlayer = tileAttackInfo[_location][_attackingPlayerID];
@@ -85,13 +97,11 @@ public class UnitAttackManager : MonoBehaviour {
 
     // _attack is used so the Client and Server can have similar code
     // The client doesn't attack, but it needs to know if an attack is possible so the player can see it
-    private bool AttackStructureOnTile(Vector2Int _location, int _attackingPlayerID, bool _attack) {
+    private bool AttackStructureOnTile(Vector2Int _location, int _attackingPlayerID) {
         if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures.Count <= 0) return false;
-        if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].PlayerID != _attackingPlayerID) return false;
-
-        if (_attack) {
-            TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].GetComponent<Health>().ChangeHealth(-Mathf.Abs(tileAttackInfo[_location][_attackingPlayerID].StructureAttackDamage));
-        }
+        if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].PlayerID == _attackingPlayerID) return false;
+        
+        TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].GetComponent<Health>().ChangeHealth(-Mathf.Abs(tileAttackInfo[_location][_attackingPlayerID].StructureAttackDamage));
 
         return true;
     }
@@ -113,9 +123,9 @@ public class UnitAttackManager : MonoBehaviour {
 
             tileAttackInfo[location][unit.PlayerID].Units.Add(unit);
 
-            bool unitsPresent = UnitManager.instance.GetUnitsAtLocation(location).Count > 0;
+            bool unitsPresent = UnitManager.instance.GetPlayerUnitsAtLocation(location).Count > 1; // If enemy units present
             bool structurePresent = TileManagement.instance.GetTileAtLocation(location).Tile.Structures.Count > 0;
-
+            
             // If only units are present
             if (unitsPresent && !structurePresent) {
                 tileAttackInfo[location][unit.PlayerID].UnitAttackDamage += unit.Script.UnitAttackDamage;
@@ -142,4 +152,6 @@ public class UnitAttackManager : MonoBehaviour {
             }
         }
     }
+
+    #endregion
 }

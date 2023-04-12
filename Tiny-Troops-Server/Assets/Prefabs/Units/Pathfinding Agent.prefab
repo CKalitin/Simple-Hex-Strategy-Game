@@ -145,6 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750816017e4dd6a46836ae92743f59b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitAttackDamage: 3
+  structureAttackDamage: 3
+  attackPriority: 0
   selectedIndicator: {fileID: 1478261029944141374}
   health: {fileID: -7539501487356079522}
   playerID: 0
