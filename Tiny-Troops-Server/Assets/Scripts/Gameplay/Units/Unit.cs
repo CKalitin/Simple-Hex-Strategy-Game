@@ -3,28 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackPriority {
+    Units,
+    Structures
+}
+
 // Code to control units is in Tile Selector and Unit Selector
 public class Unit : MonoBehaviour {
     #region Variables
 
+    [Header("Attack")]
+    [SerializeField] private float unitAttackDamage;
+    [SerializeField] private float structureAttackDamage;
+    [SerializeField] private AttackPriority attackPriority;
+
+    [Header("References")]
     [SerializeField] private GameObject selectedIndicator;
     [SerializeField] private Health health;
-    [Space]
+
+    [Header("Debug")]
     [Tooltip("Shown to dev only for debug purposes.")]
     [SerializeField] private int playerID;
     [Tooltip("Shown to dev only for debug purposes.")]
     [SerializeField] private int randomSeed;
 
     private int unitUUID;
+    
+    private bool attacking = false;
 
     private PathfindingAgent pathfindingAgent;
 
     private bool previousFinishedMoving = true;
     private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
 
+    public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
+    public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
+    public AttackPriority AttackPriority { get => attackPriority; set => attackPriority = value; }
+
+    public Health Health { get => health; set => health = value; }
     public int PlayerID { get => playerID; set => playerID = value; }
     public int RandomSeed { get => randomSeed; set => randomSeed = value; }
     public int UnitUUID { get => unitUUID; set => unitUUID = value; }
+    public bool Attacking { get => attacking; set => attacking = value; }
     public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
 
     public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }

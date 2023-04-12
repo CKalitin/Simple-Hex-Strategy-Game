@@ -3,11 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackPriority {
+    Units,
+    Structures
+}
+
 // Code to control units is in Tile Selector and Unit Selector
 public class Unit : MonoBehaviour {
+    #region Variables
+
+    [Header("Attack")]
+    [SerializeField] private float unitAttackDamage;
+    [SerializeField] private float structureAttackDamage;
+    [SerializeField] private AttackPriority attackPriority;
+
+    [Header("References")]
     [SerializeField] private GameObject selectedIndicator;
     [SerializeField] private Health health;
-    [Space]
+    
+    [Header("Debug")]
     [Tooltip("Shown to dev only for debug purposes.")]
     [SerializeField] private int playerID;
     [Tooltip("Shown to dev only for debug purposes.")]
@@ -15,16 +29,27 @@ public class Unit : MonoBehaviour {
 
     private int unitUUID;
 
-    private PathfindingAgent pathfindingAgent;
+    private bool attacking = false;
 
+    private PathfindingAgent pathfindingAgent;
+    
+    public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
+    public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
+    public AttackPriority AttackPriority { get => attackPriority; set => attackPriority = value; }
+    
     public Health Health { get => health; set => health = value; }
     public int PlayerID { get => playerID; set => playerID = value; }
     public int RandomSeed { get => randomSeed; set => randomSeed = value; }
-    
     public int UnitUUID { get => unitUUID; set => unitUUID = value; }
+    public bool Attacking { get => attacking; set => attacking = value; }
+    public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
+
     public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
     public bool Selected { get => selectedIndicator.activeSelf; }
-    public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
+
+    #endregion
+
+    #region Core
 
     private void Awake() {
         pathfindingAgent = GetComponent<PathfindingAgent>();
@@ -41,7 +66,13 @@ public class Unit : MonoBehaviour {
         UnitManager.instance.RemoveUnit(UnitUUID);
     }
 
+    #endregion
+
+    #region Unit
+
     public void ToggleSelectedIndicator(bool _toggle) {
         selectedIndicator.SetActive(_toggle);
     }
+
+    #endregion
 }
