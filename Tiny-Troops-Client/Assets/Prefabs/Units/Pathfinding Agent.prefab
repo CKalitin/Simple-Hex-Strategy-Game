@@ -149,7 +149,7 @@ MonoBehaviour:
   unitAttackDamage: 3
   structureAttackDamage: 3
   attackPriority: 0
-  trainingTime: 5
+  trainingTime: 0.1
   unitDisplayName: Infantry
   unitCost:
   - resource: 1

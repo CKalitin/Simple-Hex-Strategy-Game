@@ -178,7 +178,8 @@ public class ResourceManager : MonoBehaviour {
 
     public void RemoveResourceEntry(int _index) {
         if (resourceEntries.Count <= 0) return;
-
+        if (_index > resourceEntries.Count) return;
+        
         if (resourceEntries[_index].ChangeOnTick) {
             Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
             resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry

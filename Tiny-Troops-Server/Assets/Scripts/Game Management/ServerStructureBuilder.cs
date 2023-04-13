@@ -163,7 +163,7 @@ public class ServerStructureBuilder : MonoBehaviour {
         }
     }
 
-    private void SendBuildStructurePacketToAllClients(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
+    public void SendBuildStructurePacketToAllClients(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
         int[] connectedClientIDs = USNL.ServerManager.GetConnectedClientIds();
         for (int i = 0; i < connectedClientIDs.Length; i++) {
             USNL.PacketSend.BuildStructure(connectedClientIDs[i], _playerID, _targetTileLocation, _structureID);

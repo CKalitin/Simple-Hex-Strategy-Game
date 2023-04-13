@@ -10,8 +10,15 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     [SerializeField] private InitialResource[] initialResources;
+    [Space]
+    [Tooltip("For initial buildings Resoucre Entries to work they need to be rebuild on Game Start.")]
+    [SerializeField] private GameObject[] playerBaseTiles;
 
     private List<int> resourcesChangedOnPlayerId = new List<int>();
+
+    private int winnerPlayerID = -1;
+
+    public int WinnerPlayerID { get => winnerPlayerID; set => winnerPlayerID = value; }
 
     [Serializable]
     public struct InitialResource {
@@ -52,6 +59,8 @@ public class GameController : MonoBehaviour {
         
         if (MatchManager.instance.MatchState == MatchState.InGame && USNL.ServerManager.GetNumberOfConnectedClients() <= 0)
             MatchManager.instance.ChangeMatchState(MatchState.Ended);
+
+        if (MatchManager.instance.MatchState == MatchState.InGame) CheckGameCompleted();
     }
 
     private void OnEnable() {
@@ -81,8 +90,7 @@ public class GameController : MonoBehaviour {
             StartGame();
         } else if (_ms == MatchState.Ended) {
             ResetGame();
-            if (USNL.ServerManager.GetNumberOfConnectedClients() <= 0)
-                MatchManager.instance.ChangeMatchState(MatchState.Lobby);
+            MatchManager.instance.ChangeMatchState(MatchState.Lobby);
         }
     }
 
@@ -94,18 +102,23 @@ public class GameController : MonoBehaviour {
     private void StartGame() {
         ToggleResourceManagers(true);
 
-        for (int i = 0; i < USNL.ServerManager.GetConnectedClientIds().Length; i++) {
-            SendResourcesPacketToAllClients();
-        }
+        RebuildPlayerBases();
+        
+        PlayerInfoManager.instance.ResetPlayerReady();
+        PlayerInfoManager.instance.ResetPlayerScore();
 
         for (int i = 0; i < ResourceManager.instances.Count; i++) {
             for (int x = 0; x < initialResources.Length; x++) {
                 ResourceManager.instances[i].ChangeResource(initialResources[x].Resource, initialResources[x].InitialSupply);
             }
         }
+        
+        SendResourcesPacketToAllClients();
     }
 
     private void ResetGame() {
+        winnerPlayerID = -1;
+
         TileManagement.instance.ResetAllTiles();
 
         // Reset all Resource Managers
@@ -117,15 +130,58 @@ public class GameController : MonoBehaviour {
         ToggleResourceManagers(false);
 
         UnitManager.instance.DestroyAllUnits();
+        UnitAttackManager.instance.ResetManager();
     }
 
     #endregion
 
     #region Utils
 
+    private void CheckGameCompleted() {
+        List<Structure> playerBases = new List<Structure>();
+        
+        // Loop through all tiles and find Bases
+        foreach (TileInfo tile in TileManagement.instance.GetTiles.Values) {
+            if (tile.Tile.Structures.Count <= 0) continue;
+            if (!tile.Tile.Structures[0].GetComponent<PlayerBase>()) continue;
+            
+            bool playerAlreadyAdded = false;
+            for (int i = 0; i < playerBases.Count; i++) {
+                if (tile.Tile.Structures[0].PlayerID == playerBases[i].PlayerID) playerAlreadyAdded = true;
+            }
+            if (!playerAlreadyAdded) playerBases.Add(tile.Tile.Structures[0]);
+        }
+
+        if (playerBases.Count == 1) {
+            winnerPlayerID = playerBases[0].PlayerID;
+            USNL.PacketSend.GameEnded(WinnerPlayerID);
+            MatchManager.instance.ChangeMatchState(MatchState.Ended);
+        } else if (playerBases.Count <= 0){
+            winnerPlayerID = -1;
+            USNL.PacketSend.GameEnded(WinnerPlayerID);
+            MatchManager.instance.ChangeMatchState(MatchState.Ended);
+        }
+    }
+
     private void ToggleResourceManagers(bool _toggle) {
         for (int i = 0; i < ResourceManager.instances.Count; i++)
             ResourceManager.instances[i].enabled = _toggle;
+    }
+
+    private void RebuildPlayerBases() {
+        // Loop through all tiles and find Bases
+        List<TileInfo> tiles = TileManagement.instance.GetTiles.Values.ToList();
+        for (int i = 0; i < tiles.Count; i++) {
+            if (tiles[i].Tile.Structures.Count <= 0) continue;
+            if (!tiles[i].Tile.Structures[0].GetComponent<PlayerBase>()) continue;
+
+            int playerID = tiles[i].Tile.Structures[0].PlayerID;
+            Vector2Int location = tiles[i].Location;
+            TileManagement.instance.DestroyTile(location);
+            TileManagement.instance.SpawnTile(playerBaseTiles[playerID], location);
+
+            ServerStructureBuilder.instance.SendBuildStructurePacketToAllClients(playerID, location, playerBaseTiles[playerID].GetComponent<Tile>().Structures[0].StructureID);
+        }
     }
 
     #endregion

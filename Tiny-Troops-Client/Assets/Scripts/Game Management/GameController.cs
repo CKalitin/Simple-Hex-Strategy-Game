@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     #region Variables
 
+    public static GameController instance;
+
     public static bool ApplicationQuitting = false;
 
     [Header("Connection")]
@@ -23,9 +25,13 @@ public class GameController : MonoBehaviour {
 
     private bool tilesPacketReceived = false;
     private bool resourcesPacketReceived = false;
-    
+
+    private int winnerPlayerID = -1;
+
     public delegate void GameInitializedCallback();
     public static event GameInitializedCallback OnGameInitialized;
+
+    public int WinnerPlayerID { get => winnerPlayerID; set => winnerPlayerID = value; }
 
     #endregion
 
@@ -33,7 +39,17 @@ public class GameController : MonoBehaviour {
 
     private void Awake() {
         Application.runInBackground = true;
+        Singleton();
         Debug.LogError("Opened Console.");
+    }
+
+    private void Singleton() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Debug.Log($"Game Controller instance already exists on ({gameObject}), destroying this.", gameObject);
+            Destroy(this);
+        }
     }
 
     private void Start() {
@@ -48,6 +64,7 @@ public class GameController : MonoBehaviour {
         USNL.CallbackEvents.OnConnected += OnConnected;
         USNL.CallbackEvents.OnTilesPacket += OnTilesPacket;
         USNL.CallbackEvents.OnResourcesPacket += OnResourcesPacket;
+        USNL.CallbackEvents.OnGameEndedPacket += OnGameEndedPacket;
         MatchManager.OnMatchStateChanged += OnMatchStateChanged;
     }
 
@@ -55,6 +72,7 @@ public class GameController : MonoBehaviour {
         USNL.CallbackEvents.OnConnected -= OnConnected;
         USNL.CallbackEvents.OnTilesPacket -= OnTilesPacket;
         USNL.CallbackEvents.OnResourcesPacket -= OnResourcesPacket;
+        USNL.CallbackEvents.OnGameEndedPacket -= OnGameEndedPacket;
         MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
     }
 
@@ -94,6 +112,31 @@ public class GameController : MonoBehaviour {
         CheckGameReady();
     }
 
+    private IEnumerator CallOnGameInitialized() {
+        yield return new WaitForSeconds(gameInitalizedCallbackDelay);
+        OnGameInitialized();
+    }
+    
+    private void OnMatchStateChanged(MatchState _matchState) {
+        if (_matchState == MatchState.InGame) {
+            winnerPlayerID = -1;
+        } else if (_matchState == MatchState.Ended) {
+            tilesPacketReceived = false;
+            resourcesPacketReceived = false;
+            gameReady = false;
+            ResetGame();
+        }
+    }
+
+    private void OnGameEndedPacket(object _packetObject) {
+        USNL.GameEndedPacket packet = (USNL.GameEndedPacket)_packetObject;
+        winnerPlayerID = packet.WinnerPlayerID;
+    }
+
+    #endregion
+
+    #region Utils
+
     private void CheckGameReady() {
         if (tilesPacketReceived && resourcesPacketReceived) {
             if (!gameReady && OnGameInitialized != null) {
@@ -102,18 +145,20 @@ public class GameController : MonoBehaviour {
             }
         }
     }
-
-    private IEnumerator CallOnGameInitialized() {
-        yield return new WaitForSeconds(gameInitalizedCallbackDelay);
-        OnGameInitialized();
-    }
     
-    private void OnMatchStateChanged(MatchState _matchState) {
-        if (_matchState == MatchState.Ended) {
-            tilesPacketReceived = false;
-            resourcesPacketReceived = false;
-            gameReady = false;
+    private void ResetGame() {
+        winnerPlayerID = -1;
+
+        TileManagement.instance.ResetAllTiles();
+
+        // Reset all Resource Managers
+        for (int i = 0; i < ResourceManager.instances.Count; i++) {
+            ResourceManager.instances[i].ResetResources();
+            ResourceManager.instances[i].ResetResourceEntries();
         }
+
+        UnitManager.instance.DestroyAllUnits();
+        UnitAttackManager.instance.ResetManager();
     }
 
     #endregion

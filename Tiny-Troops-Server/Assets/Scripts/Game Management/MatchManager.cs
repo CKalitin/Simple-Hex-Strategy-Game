@@ -61,8 +61,9 @@ public class MatchManager : MonoBehaviour {
 
         timerActive = false;
 
-        if (OnMatchStateChanged != null) OnMatchStateChanged(matchState);
         USNL.PacketSend.MatchUpdate((int)matchState);
+
+        if (OnMatchStateChanged != null) OnMatchStateChanged(matchState);
     }
     
     // If _duration is lower than 0, it cancels the timer client side.

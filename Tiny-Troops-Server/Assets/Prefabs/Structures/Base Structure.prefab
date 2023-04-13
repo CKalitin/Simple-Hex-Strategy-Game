@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 6775775654978332716}
   - component: {fileID: 1102691380515925237}
   - component: {fileID: 8505481600790248693}
+  - component: {fileID: -7200342649014427110}
   m_Layer: 0
   m_Name: Base Structure
   m_TagString: Untagged
@@ -182,6 +183,18 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   destroyOnZeroHealth: 0
+--- !u!114 &-7200342649014427110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7814785468153325786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101c13990fb349d4eb1d99fcba615e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &895459216478607975
 PrefabInstance:
   m_ObjectHideFlags: 0

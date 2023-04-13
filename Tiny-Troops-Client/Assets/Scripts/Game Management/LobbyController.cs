@@ -5,7 +5,7 @@ using UnityEngine;
 public class LobbyController : MonoBehaviour {
     #region Variables
 
-    public static LobbyController instance;
+    //public static LobbyController instance;
 
     [SerializeField] private List<LobbyPlayerDisplay> playerDisplays;
 
@@ -17,11 +17,11 @@ public class LobbyController : MonoBehaviour {
     #region Core
 
     private void Awake() {
-        if (instance == null) instance = this;
+        /*if (instance == null) instance = this;
         else {
             Debug.Log($"Lobby Controller instance already exists on ({gameObject}), destroying this.");
             Destroy(this);
-        }
+        }*/
 
         // Set all player displays to inactive
         for (int i = 0; i < playerDisplays.Count; i++) playerDisplays[i].gameObject.SetActive(false);

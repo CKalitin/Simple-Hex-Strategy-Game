@@ -48,6 +48,7 @@ namespace USNL {
         SetUnitLocation,
         UnitHealth,
         StructureHealth,
+        GameEnded,
     }
 
     #endregion
@@ -237,6 +238,16 @@ namespace USNL {
         public float MaxHealth { get => maxHealth; set => maxHealth = value; }
     }
 
+    public struct GameEndedPacket {
+        private int winnerPlayerID;
+
+        public GameEndedPacket(int _winnerPlayerID) {
+            winnerPlayerID = _winnerPlayerID;
+        }
+
+        public int WinnerPlayerID { get => winnerPlayerID; set => winnerPlayerID = value; }
+    }
+
 
     #endregion
 
@@ -276,6 +287,7 @@ namespace USNL {
             { SetUnitLocation },
             { UnitHealth },
             { StructureHealth },
+            { GameEnded },
         };
 
         public static void MatchUpdate(Package.Packet _packet) {
@@ -381,6 +393,13 @@ namespace USNL {
 
             USNL.StructureHealthPacket structureHealthPacket = new USNL.StructureHealthPacket(location, health, maxHealth);
             Package.PacketManager.instance.PacketReceived(_packet, structureHealthPacket);
+        }
+
+        public static void GameEnded(Package.Packet _packet) {
+            int winnerPlayerID = _packet.ReadInt();
+
+            USNL.GameEndedPacket gameEndedPacket = new USNL.GameEndedPacket(winnerPlayerID);
+            Package.PacketManager.instance.PacketReceived(_packet, gameEndedPacket);
         }
     }
 
@@ -509,6 +528,7 @@ namespace USNL.Package {
         SetUnitLocation,
         UnitHealth,
         StructureHealth,
+        GameEnded,
     }
     #endregion
 
@@ -806,6 +826,7 @@ namespace USNL.Package {
             { USNL.PacketHandlers.SetUnitLocation },
             { USNL.PacketHandlers.UnitHealth },
             { USNL.PacketHandlers.StructureHealth },
+            { USNL.PacketHandlers.GameEnded },
         };
 
         public static void Welcome(Package.Packet _packet) {
@@ -1052,6 +1073,7 @@ namespace USNL {
             CallOnSetUnitLocationPacketCallbacks,
             CallOnUnitHealthPacketCallbacks,
             CallOnStructureHealthPacketCallbacks,
+            CallOnGameEndedPacketCallbacks,
         };
 
         public static event CallbackEvent OnConnected;
@@ -1088,6 +1110,7 @@ namespace USNL {
         public static event CallbackEvent OnSetUnitLocationPacket;
         public static event CallbackEvent OnUnitHealthPacket;
         public static event CallbackEvent OnStructureHealthPacket;
+        public static event CallbackEvent OnGameEndedPacket;
 
         public static void CallOnConnectedCallbacks(object _param) { if (OnConnected != null) { OnConnected(_param); } }
         public static void CallOnDisconnectedCallbacks(object _param) { if (OnDisconnected != null) { OnDisconnected(_param); } }
@@ -1123,6 +1146,7 @@ namespace USNL {
         public static void CallOnSetUnitLocationPacketCallbacks(object _param) { if (OnSetUnitLocationPacket != null) { OnSetUnitLocationPacket(_param); } }
         public static void CallOnUnitHealthPacketCallbacks(object _param) { if (OnUnitHealthPacket != null) { OnUnitHealthPacket(_param); } }
         public static void CallOnStructureHealthPacketCallbacks(object _param) { if (OnStructureHealthPacket != null) { OnStructureHealthPacket(_param); } }
+        public static void CallOnGameEndedPacketCallbacks(object _param) { if (OnGameEndedPacket != null) { OnGameEndedPacket(_param); } }
     }
 }
 

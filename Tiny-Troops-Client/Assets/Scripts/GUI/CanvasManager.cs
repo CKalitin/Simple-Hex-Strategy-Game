@@ -3,14 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CanvasManager : MonoBehaviour {
-    [SerializeField] private GameObject lobbyCanvas;
+    #region Variables
+
+    public static CanvasManager instance;
+
     [SerializeField] private GameObject gameCanvas;
+    [SerializeField] private GameObject lobbyCanvas;
+    [SerializeField] private GameObject gameEndedCanvas;
     [Space]
     [SerializeField] private GameObject pauseMenuCanvas;
     [Space]
     [SerializeField] private GameObject connectingCanvas;
     [SerializeField] private GameObject serverClosedCanvas;
     [SerializeField] private GameObject timedOutCanvas;
+
+    #endregion
+
+    #region Core
+
+    private void Awake() {
+        Singleton();
+
+        TogglePrimaryCanvases(false, false, false);
+    }
+
+    private void Singleton() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Debug.Log($"Canvas Manager instance already exists on ({gameObject}), destroying this.", gameObject);
+            Destroy(this);
+        }
+    }
 
     private void Start() {
         OnMatchStateChanged(MatchManager.instance.MatchState);
@@ -26,36 +50,34 @@ public class CanvasManager : MonoBehaviour {
 
         if (USNL.ClientManager.instance.ServerClosed) {
             serverClosedCanvas.SetActive(true);
-            TogglePrimaryCanvases(false, false);
+            TogglePrimaryCanvases(false, false, false);
         } else if (USNL.ClientManager.instance.TimedOut) {
             timedOutCanvas.SetActive(true);
-            TogglePrimaryCanvases(false, false);
+            TogglePrimaryCanvases(false, false, false);
         }
     }
 
     private void OnEnable() {
         MatchManager.OnMatchStateChanged += OnMatchStateChanged;
         GameController.OnGameInitialized += OnGameInitialized;
-        //USNL.CallbackEvents.OnConnected += OnConnected;
     }
 
     private void OnDisable() {
         MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
         GameController.OnGameInitialized -= OnGameInitialized;
-        //USNL.CallbackEvents.OnConnected -= OnConnected;
     }
 
+    #endregion
 
-    private void TogglePrimaryCanvases(bool _lobbyCanvas, bool _gameCanvas) {
-        lobbyCanvas.SetActive(_lobbyCanvas);
-        gameCanvas.SetActive(_gameCanvas);
-    }
-    
+    #region Callbacks
+
     private void OnMatchStateChanged(MatchState _matchState) {
         if (_matchState == MatchState.InGame) {
-            TogglePrimaryCanvases(false, true);
+            TogglePrimaryCanvases(true, false, false);
         } else if (_matchState == MatchState.Lobby) {
-            TogglePrimaryCanvases(true, false);
+            if (!gameEndedCanvas.activeSelf) TogglePrimaryCanvases(false, true, false);
+        } else if (_matchState == MatchState.Ended) {
+            TogglePrimaryCanvases(false, false, true);
         }
     }
 
@@ -63,7 +85,20 @@ public class CanvasManager : MonoBehaviour {
         connectingCanvas.SetActive(false);
     }
 
-    /*private void OnConnected(object _object) {
-        connectingCanvas.SetActive(false);
-    }*/
+    #endregion
+
+    #region Utils
+
+    public void TogglePrimaryCanvases(bool _gameCanvas, bool _lobbyCanvas, bool _gameEndedCanvas) {
+        gameCanvas.SetActive(_gameCanvas);
+        lobbyCanvas.SetActive(_lobbyCanvas);
+        gameEndedCanvas.SetActive(_gameEndedCanvas);
+    }
+
+    public void TogglePrimaryCanvases(bool _gameCanvas, bool _lobbyCanvas) {
+        gameCanvas.SetActive(_gameCanvas);
+        lobbyCanvas.SetActive(_lobbyCanvas);
+    }
+
+    #endregion
 }

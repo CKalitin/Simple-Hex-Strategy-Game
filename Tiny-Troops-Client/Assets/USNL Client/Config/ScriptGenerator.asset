@@ -188,5 +188,12 @@ MonoBehaviour:
     sendType: 1
     protocol: 0
     notes: 
+  - packetName: Game Ended
+    packetVariables:
+    - variableName: Winner Player ID
+      variableType: 2
+    sendType: 1
+    protocol: 0
+    notes: 
   ClientPacketFoldouts: 000000000000
-  ServerPacketFoldouts: 000000000000000000000101
+  ServerPacketFoldouts: 00000000000000000000000000

@@ -107,6 +107,21 @@ public class PlayerInfoManager : MonoBehaviour {
         USNL.PacketSend.PlayerInfo(_id, playerInfos[_id].Username, playerInfos[_id].Score);
     }
 
+    public void ResetPlayerReady() {
+        for (int i = 0; i < playerInfos.Count; i++) {
+            playerInfos[i].Ready = false;
+            USNL.PacketSend.PlayerReady(i, playerInfos[i].Ready);
+        }
+    }
+
+    public void ResetPlayerScore() {
+        for (int i = 0; i < playerInfos.Count; i++) {
+            playerInfos[i].Ready = false;
+            playerInfos[i].Score = 0;
+            SendPlayerInfo(i);
+        }
+    }
+
     #endregion
 
     #region Callbacks

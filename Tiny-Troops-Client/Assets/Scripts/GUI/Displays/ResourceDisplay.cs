@@ -12,6 +12,8 @@ public class ResourceDisplay : MonoBehaviour {
     private Resource resourceReference;
 
     private void Update() {
+        if (resourceReference == null) resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
+
         if (resourceReference.Supply >= 0) resourceSupplyText.text = "+" + resourceReference.Supply.ToString();
         else resourceSupplyText.text = "-" + resourceReference.Supply.ToString();
 

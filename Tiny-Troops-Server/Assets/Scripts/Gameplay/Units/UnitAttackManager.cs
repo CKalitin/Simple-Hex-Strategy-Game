@@ -189,5 +189,12 @@ public class UnitAttackManager : MonoBehaviour {
         if (OnTileAttackInfoUpdated != null) OnTileAttackInfoUpdated();
     }
 
+    public void ResetManager() {
+        totalDeltaTime = 0f;
+        totalTicks = 0;
+
+        tileAttackInfo = new Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>>();
+    }
+
     #endregion
 }

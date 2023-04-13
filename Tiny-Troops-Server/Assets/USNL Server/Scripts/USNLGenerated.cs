@@ -49,6 +49,7 @@ namespace USNL {
         SetUnitLocation,
         UnitHealth,
         StructureHealth,
+        GameEnded,
     }
 
     #endregion
@@ -331,6 +332,14 @@ namespace USNL {
                 SendTCPDataToAll(_packet);
             }
         }
+
+        public static void GameEnded(int _winnerPlayerID) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.GameEnded)) {
+                _packet.Write(_winnerPlayerID);
+
+                SendTCPDataToAll(_packet);
+            }
+        }
         }
 
     #endregion
@@ -382,6 +391,7 @@ namespace USNL.Package {
         SetUnitLocation,
         UnitHealth,
         StructureHealth,
+        GameEnded,
     }
     #endregion
 

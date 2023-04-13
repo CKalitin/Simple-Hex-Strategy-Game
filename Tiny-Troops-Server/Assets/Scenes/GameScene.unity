@@ -798,15 +798,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[3].tilePrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[5].tilePrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[15].tilePrefabs.Array.data[4]
       value: 
-      objectReference: {fileID: 8142464371967572720, guid: 9e34d4921df8b3741a7a26ae8232ec93,
+      objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[4].tilePrefabs.Array.data[15]
       value: 
       objectReference: {fileID: 8142464371967572720, guid: 2cd7985540aa8d74fa28dccb8fdb0786,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[5].tilePrefabs.Array.data[13]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: 9e34d4921df8b3741a7a26ae8232ec93,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 601841fa392eda148a836e23fe88efd1, type: 3}
@@ -903,9 +921,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
+      propertyPath: playerBaseTiles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
       propertyPath: initialResources.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: playerBaseTiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: 2cd7985540aa8d74fa28dccb8fdb0786,
+        type: 3}
+    - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: playerBaseTiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: 9e34d4921df8b3741a7a26ae8232ec93,
+        type: 3}
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
       propertyPath: initialResources.Array.data[2].resource
