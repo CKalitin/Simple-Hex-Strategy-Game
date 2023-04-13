@@ -148,6 +148,10 @@ MonoBehaviour:
   unitAttackDamage: 3
   structureAttackDamage: 3
   attackPriority: 0
+  trainingTime: 5
+  unitCost:
+  - resource: 1
+    amount: 10
   selectedIndicator: {fileID: 1478261029944141374}
   health: {fileID: -7539501487356079522}
   playerID: 0

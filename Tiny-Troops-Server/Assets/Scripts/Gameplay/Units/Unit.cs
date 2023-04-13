@@ -16,6 +16,9 @@ public class Unit : MonoBehaviour {
     [SerializeField] private float unitAttackDamage;
     [SerializeField] private float structureAttackDamage;
     [SerializeField] private AttackPriority attackPriority;
+    [Space]
+    [SerializeField] private float trainingTime = 5f;
+    [SerializeField] private RBHKCost[] unitCost;
 
     [Header("References")]
     [SerializeField] private GameObject selectedIndicator;
@@ -39,6 +42,8 @@ public class Unit : MonoBehaviour {
     public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
     public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
     public AttackPriority AttackPriority { get => attackPriority; set => attackPriority = value; }
+    public float TrainingTime { get => trainingTime; set => trainingTime = value; }
+    public RBHKCost[] UnitCost { get => unitCost; set => unitCost = value; }
 
     public Health Health { get => health; set => health = value; }
     public int PlayerID { get => playerID; set => playerID = value; }
@@ -101,8 +106,8 @@ public class Unit : MonoBehaviour {
 
         int nodeIndex = -1;
         
-        for (int i = 0; i < TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile.Count; i++) {
-            if (TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().TilePathfinding.NodesOnTile[i] == pathfindingAgent.CurrentNode) {
+        for (int i = 0; i < TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile.Count; i++) {
+            if (TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile[i] == pathfindingAgent.CurrentNode) {
                 nodeIndex = i;
                 break;
             }

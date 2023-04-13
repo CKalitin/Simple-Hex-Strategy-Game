@@ -10,9 +10,7 @@ public class GameplayTile : MonoBehaviour {
     private int previousStructureCount = 0;
 
     private TilePathfinding currentTilePathfinding;
-
-    public TilePathfinding TilePathfinding { get => currentTilePathfinding; set => currentTilePathfinding = value; }
-
+    
     private void Awake() {
         tile = GetComponent<Tile>();
         
@@ -24,7 +22,6 @@ public class GameplayTile : MonoBehaviour {
 
     private void Update() {
         if (tilePathfinding != null) CheckTileStructures();
-        if (currentTilePathfinding == null) currentTilePathfinding = tilePathfinding;
     }
 
     private void CheckTileStructures() {
@@ -36,5 +33,10 @@ public class GameplayTile : MonoBehaviour {
             }
             previousStructureCount = tile.Structures.Count;
         }
+    }
+    
+    public TilePathfinding GetTilePathfinding() {
+        if (currentTilePathfinding == null) currentTilePathfinding = tilePathfinding;
+        return currentTilePathfinding;
     }
 }

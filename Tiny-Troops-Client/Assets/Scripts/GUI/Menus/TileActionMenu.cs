@@ -25,8 +25,8 @@ public class TileActionMenu : MonoBehaviour {
         
         if (tile.Structures.Count <= 0) togglableUI.SetActive(_active);
         if (tile.Structures.Count > 0 && tile.Structures[0].GetComponent<GameplayStructure>() && tile.Structures[0].GetComponent<GameplayStructure>().StructureUI != null) {
-            tile.Structures[0].GetComponent<GameplayStructure>().SetTileActionMenu(this);
             tile.Structures[0].GetComponent<GameplayStructure>().StructureUI.SetActive(_active);
+            tile.Structures[0].GetComponent<GameplayStructure>().SetTileActionMenu(this);
         }
         else togglableUI.SetActive(_active);
     }

@@ -12,8 +12,11 @@ public class ResourceDisplay : MonoBehaviour {
     private Resource resourceReference;
 
     private void Update() {
-        resourceSupplyText.text = resourceReference.Supply.ToString();
-        resourceDemandText.text = resourceReference.Demand.ToString();
+        if (resourceReference.Supply >= 0) resourceSupplyText.text = "+" + resourceReference.Supply.ToString();
+        else resourceSupplyText.text = "-" + resourceReference.Supply.ToString();
+
+        if (resourceReference.Demand >= 0) resourceDemandText.text = "+" + resourceReference.Demand.ToString();
+        else resourceDemandText.text = "-" + resourceReference.Demand.ToString();
     }
 
     private void OnEnable() {

@@ -7,14 +7,30 @@ public class UnitSpawner : MonoBehaviour {
 
     [Header("Spawner")]
     [SerializeField] private PathfindingNode spawnPathfindingNode;
-    [Space]
-    [SerializeField] private GameObject[] unitPrefabs;
 
     [Header("Structure")]
     [SerializeField] private GameplayStructure gameplayStructure;
 
     private Tile tile;
     private Vector2Int location;
+
+    List<UnitSpawnInfo> unitSpawnQueue = new List<UnitSpawnInfo>();
+
+    private struct UnitSpawnInfo {
+        private int playerID;
+        private int unitID;
+        private int[] configurationInts;
+
+        public UnitSpawnInfo(int playerID, int unitID, int[] configurationInts) {
+            this.playerID = playerID;
+            this.unitID = unitID;
+            this.configurationInts = configurationInts;
+        }
+
+        public int PlayerID { get => playerID; set => playerID = value; }
+        public int UnitID { get => unitID; set => unitID = value; }
+        public int[] ConfigurationInts { get => configurationInts; set => configurationInts = value; }
+    }
 
     #endregion
 
@@ -25,12 +41,8 @@ public class UnitSpawner : MonoBehaviour {
         location = tile.TileInfo.Location;
     }
 
-    private void Start() {
-        SpawnUnit(0, 1000, new int[] { });
-    }
-
-    private void OnEnable() { gameplayStructure.OnStructureAction += SpawnUnit; }
-    private void OnDisable() { gameplayStructure.OnStructureAction -= SpawnUnit; }
+    private void OnEnable() { gameplayStructure.OnStructureAction += OnStructureAction; }
+    private void OnDisable() { gameplayStructure.OnStructureAction -= OnStructureAction; }
 
     #endregion
 
@@ -51,11 +63,27 @@ public class UnitSpawner : MonoBehaviour {
         }
     }
 
-    // ActionID is the UnitID
-    // UnitID is ActionID - 1000 so other building scripts on the same tile can have different actions
+    private void OnStructureAction(int _playerID, int _actionID, int[] _configurationInts) {
+        // UnitID is ActionID - 1000 so other building scripts on the same tile can have different actions
+        if (_actionID >= 1000) {
+            unitSpawnQueue.Add(new UnitSpawnInfo(_playerID, _actionID - 1000, _configurationInts));
+            
+            ApplyUnitCosts(_playerID, UnitManager.instance.UnitPrefabs[_actionID - 1000].GetComponent<Unit>().UnitCost);
+
+            // If SpawnUnitCoroutine is not already active
+            if (unitSpawnQueue.Count <= 1) StartCoroutine(SpawnUnitCoroutine());
+        }
+    }
+
+    private IEnumerator SpawnUnitCoroutine() {
+        while (unitSpawnQueue.Count > 0) {
+            yield return new WaitForSeconds(UnitManager.instance.UnitPrefabs[unitSpawnQueue[0].UnitID].GetComponent<Unit>().TrainingTime);
+            SpawnUnit(unitSpawnQueue[0].PlayerID, unitSpawnQueue[0].UnitID, unitSpawnQueue[0].ConfigurationInts);
+            unitSpawnQueue.RemoveAt(0);
+        }
+    }
+    
     public void SpawnUnit(int _playerID, int _unitID, int[] _configurationInts) {
-        _unitID -= 1000;
-        
         Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * Random.Range(-spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
         pos.y = spawnPathfindingNode.transform.position.y;
 
@@ -65,11 +93,18 @@ public class UnitSpawner : MonoBehaviour {
         int[] configurationInts = { uuid, randomSeed };
         USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, _unitID + 1000, configurationInts);
 
-        GameObject unit = Instantiate(unitPrefabs[_unitID], pos, Quaternion.identity);
+        GameObject unit = Instantiate(UnitManager.instance.UnitPrefabs[_unitID], pos, Quaternion.identity);
         unit.GetComponent<Unit>().PlayerID = _playerID;
         unit.GetComponent<Unit>().RandomSeed = randomSeed;
         unit.GetComponent<Unit>().UnitUUID = uuid;
         unit.GetComponent<PathfindingAgent>().Initialize(location, spawnPathfindingNode, unit.GetComponent<Unit>().RandomSeed);
+    }
+
+    private void ApplyUnitCosts(int _playerID, RBHKCost[] costs) {
+        for (int i = 0; i < costs.Length; i++) {
+            ResourceManager.instances[_playerID].GetResource(costs[i].Resource).Supply -= costs[i].Amount;
+        }
+        GameController.instance.SendResourcesPacketToAllClients();
     }
 
     #endregion

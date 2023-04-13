@@ -16,6 +16,10 @@ public class Unit : MonoBehaviour {
     [SerializeField] private float unitAttackDamage;
     [SerializeField] private float structureAttackDamage;
     [SerializeField] private AttackPriority attackPriority;
+    [Space]
+    [SerializeField] private float trainingTime = 5f;
+    [SerializeField] private string unitDisplayName;
+    [SerializeField] private RBHKCost[] unitCost;
 
     [Header("References")]
     [SerializeField] private GameObject selectedIndicator;
@@ -36,7 +40,10 @@ public class Unit : MonoBehaviour {
     public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
     public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
     public AttackPriority AttackPriority { get => attackPriority; set => attackPriority = value; }
-    
+    public float TrainingTime { get => trainingTime; set => trainingTime = value; }
+    public string UnitDisplayName { get => unitDisplayName; set => unitDisplayName = value; }
+    public RBHKCost[] UnitCost { get => unitCost; set => unitCost = value; }
+
     public Health Health { get => health; set => health = value; }
     public int PlayerID { get => playerID; set => playerID = value; }
     public int RandomSeed { get => randomSeed; set => randomSeed = value; }

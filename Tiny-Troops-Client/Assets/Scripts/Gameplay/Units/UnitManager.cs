@@ -31,8 +31,12 @@ public class UnitManager : MonoBehaviour {
 
     public static UnitManager instance;
 
+    [Header("Unit Management")]
+    [SerializeField] private GameObject[] unitPrefabs;
+
     private Dictionary<int, UnitInfo> units = new Dictionary<int, UnitInfo>(); // The key is a UUID
 
+    public GameObject[] UnitPrefabs { get => unitPrefabs; set => unitPrefabs = value; }
     public Dictionary<int, UnitInfo> Units { get => units; set => units = value; }
 
     #endregion
@@ -158,7 +162,7 @@ public class UnitManager : MonoBehaviour {
 
         if (units.ContainsKey(packet.UnitUUID)) {
             units[packet.UnitUUID].Script.Health.SetHealth(packet.Health, packet.MaxHealth);
-        } else Debug.Log("Desync Detected");
+        } //else Debug.Log("Desync Detected"); Lots of these desysnsc, should be fine if Server and Client health is set right from the begining
     }
 
     #endregion

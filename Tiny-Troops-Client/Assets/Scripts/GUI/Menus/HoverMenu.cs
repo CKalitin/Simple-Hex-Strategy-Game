@@ -18,6 +18,11 @@ public class HoverMenu : MonoBehaviour {
         if (openMenuCoroutine != null) StopCoroutine(openMenuCoroutine);
     }
 
+    private void OnDisable() {
+        menuParent.SetActive(false);
+        if (openMenuCoroutine != null) StopCoroutine(openMenuCoroutine);
+    }
+
     private IEnumerator OpenMenu() {
         yield return new WaitForSecondsRealtime(openDelay);
         menuParent.SetActive(true);
