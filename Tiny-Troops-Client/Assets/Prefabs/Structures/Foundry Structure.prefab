@@ -442,6 +442,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Steel Foundry
       objectReference: {fileID: 0}
+    - target: {fileID: 5547220952754279708, guid: 086602cab87c57a4682c77a2719690be,
+        type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 6238586514056320157}
     - target: {fileID: 8241619061096892074, guid: 086602cab87c57a4682c77a2719690be,
         type: 3}
       propertyPath: m_text

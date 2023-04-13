@@ -6,31 +6,61 @@ using UnityEngine;
 public class UnitAttackManager : MonoBehaviour {
     #region Variables
 
+    public static UnitAttackManager instance;
+
     [SerializeField] private float attackTickTime;
 
     private float totalDeltaTime = 0;
     private int totalTicks;
 
-    private Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> tileAttackInfo;
+    private Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> tileAttackInfo = new Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>>();
 
-    private class PlayerTileUnitInfo {
+    public delegate void TileAttackInfoUpdated();
+    public static event TileAttackInfoUpdated OnTileAttackInfoUpdated;
+
+    public Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> TileAttackInfo { get => tileAttackInfo; set => tileAttackInfo = value; }
+
+    public class PlayerTileUnitInfo {
         private Vector2Int location;
 
         private List<UnitInfo> units; // Sorted by health
+        
+        private float totalHealth;
         private float unitAttackDamage;
         private float structureAttackDamage;
-        private float totalHealth;
+
+        private float potentialUnitAttackDamage;
+        private float potentialStructureAttackDamage;
 
         public Vector2Int Location { get => location; set => location = value; }
         public List<UnitInfo> Units { get => units; set => units = value; }
+        public float TotalHealth { get => totalHealth; set => totalHealth = value; }
         public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
         public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
-        public float TotalHealth { get => totalHealth; set => totalHealth = value; }
+        public float PotentialUnitAttackDamage { get => potentialUnitAttackDamage; set => potentialUnitAttackDamage = value; }
+        public float PotentialStructureAttackDamage { get => potentialStructureAttackDamage; set => potentialStructureAttackDamage = value; }
     }
 
     #endregion
 
     #region Core
+
+    private void Awake() {
+        Singleton();
+    }
+
+    private void Singleton() {
+        if (FindObjectsOfType<TileManagement>().Length > 1) {
+            Debug.Log($"Unit Attack Manager already exists on {gameObject}", gameObject);
+            Destroy(this);
+        } else {
+            instance = this;
+        }
+    }
+    
+    private void Start() {
+        SetTileAttackInfo();
+    }
 
     private void Update() {
         TickUpdate();
@@ -124,8 +154,8 @@ public class UnitAttackManager : MonoBehaviour {
             tileAttackInfo[location][unit.PlayerID].Units.Add(unit);
 
             bool unitsPresent = UnitManager.instance.GetPlayerUnitsAtLocation(location).Count > 1; // If enemy units present
-            bool structurePresent = TileManagement.instance.GetTileAtLocation(location).Tile.Structures.Count > 0;
-            
+            bool structurePresent = TileManagement.instance.GetTileAtLocation(location).Tile.Structures.Count > 0 && TileManagement.instance.GetTileAtLocation(location).Tile.Structures[0].PlayerID != -1;
+
             // If only units are present
             if (unitsPresent && !structurePresent) {
                 tileAttackInfo[location][unit.PlayerID].UnitAttackDamage += unit.Script.UnitAttackDamage;
@@ -142,6 +172,10 @@ public class UnitAttackManager : MonoBehaviour {
                     tileAttackInfo[location][unit.PlayerID].StructureAttackDamage += unit.Script.StructureAttackDamage;
             }
 
+            // Used on Client
+            //tileAttackInfo[location][unit.PlayerID].PotentialUnitAttackDamage += unit.Script.UnitAttackDamage;
+            //tileAttackInfo[location][unit.PlayerID].PotentialStructureAttackDamage += unit.Script.StructureAttackDamage;
+
             tileAttackInfo[location][unit.PlayerID].TotalHealth += unit.Script.Health.CurrentHealth;
         }
 
@@ -151,6 +185,8 @@ public class UnitAttackManager : MonoBehaviour {
                 x.Value.Units.OrderBy(d => d.Script.Health.CurrentHealth);
             }
         }
+
+        if (OnTileAttackInfoUpdated != null) OnTileAttackInfoUpdated();
     }
 
     #endregion

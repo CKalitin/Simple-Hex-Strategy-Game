@@ -653,6 +653,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Lumber Hut
       objectReference: {fileID: 0}
+    - target: {fileID: 5547220952754279708, guid: 086602cab87c57a4682c77a2719690be,
+        type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 5288104342542355879}
     - target: {fileID: 8241619061096892074, guid: 086602cab87c57a4682c77a2719690be,
         type: 3}
       propertyPath: m_text

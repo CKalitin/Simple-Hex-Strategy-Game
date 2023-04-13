@@ -86,6 +86,7 @@ MonoBehaviour:
   structureLocationsParent: {fileID: 4139870243794291158}
   structures:
   - {fileID: 82780056994940595}
+  location: {x: 0, y: 0}
 --- !u!114 &2479424706094668891
 MonoBehaviour:
   m_ObjectHideFlags: 0
