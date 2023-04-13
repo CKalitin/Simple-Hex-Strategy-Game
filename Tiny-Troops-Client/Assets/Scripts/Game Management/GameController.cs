@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour {
             
             TileManagement.instance.SpawnTile(tilePrefabs[tilesPacket.TileIDs[i]], Vector2Int.RoundToInt(tilesPacket.TileLocations[i]));
         }
-
+        
         if (numTilesToExpect >= TileManagement.instance.GetTiles.Count) {
             tilesPacketReceived = true;
             CheckGameReady();

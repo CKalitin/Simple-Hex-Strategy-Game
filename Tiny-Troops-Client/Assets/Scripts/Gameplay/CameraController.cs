@@ -138,11 +138,14 @@ public class CameraController : MonoBehaviour {
         Vector3 pos = GetPositionOfPlayerBase();
         if (pos == Vector3.zero) return;
 
-        pos.y = lobbyCameraPosition.position.y;
-        lobbyCameraPosition.position = pos;
-        transform.position = pos;
+        
+        transform.position = new Vector3(pos.x, transform.position.y, pos.z);
+        lobbyCameraPosition.position = new Vector3(pos.x, lobbyCameraPosition.position.y, pos.z - 5);
+        
+        cam.transform.localPosition = new Vector3(lobbyCameraPosition.position.x - transform.position.x, lobbyCameraPosition.position.y - transform.position.y, lobbyCameraPosition.position.z - transform.position.z);
+        cam.transform.rotation = lobbyCameraPosition.rotation;
     }
-    
+
     private Vector3 GetPositionOfPlayerBase() {
         Vector3 position = Vector3.zero;
 

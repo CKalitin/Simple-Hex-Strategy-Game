@@ -75,6 +75,7 @@ public class GameController : MonoBehaviour {
     private void OnMatchStateChange(MatchState _ms) {
         if (_ms == MatchState.Lobby) {
             USNL.ServerManager.instance.AllowNewConnections = true;
+            Lobby();
         } else if (_ms == MatchState.InGame) {
             USNL.ServerManager.instance.AllowNewConnections = false;
             StartGame();
@@ -85,11 +86,12 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    private void StartGame() {
-        if (TileManagement.instance.GetTiles.Count <= 0) {
+    private void Lobby() {
+        if (TileManagement.instance.GetTiles.Count <= 0)
             TestTileGenerator.instance.GenerateTiles();
-        }
+    }
 
+    private void StartGame() {
         ToggleResourceManagers(true);
 
         for (int i = 0; i < USNL.ServerManager.GetConnectedClientIds().Length; i++) {

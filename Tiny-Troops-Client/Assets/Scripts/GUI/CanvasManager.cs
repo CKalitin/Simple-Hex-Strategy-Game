@@ -41,7 +41,7 @@ public class CanvasManager : MonoBehaviour {
 
     private void OnDisable() {
         MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
-        GameController.OnGameInitialized += OnGameInitialized;
+        GameController.OnGameInitialized -= OnGameInitialized;
         //USNL.CallbackEvents.OnConnected -= OnConnected;
     }
 
