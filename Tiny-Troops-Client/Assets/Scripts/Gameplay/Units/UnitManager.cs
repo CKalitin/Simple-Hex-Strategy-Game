@@ -50,7 +50,7 @@ public class UnitManager : MonoBehaviour {
     private void Singleton() {
         if (instance == null) instance = this;
         else {
-            Debug.Log($"Unit Manager instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Unit Manager instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }

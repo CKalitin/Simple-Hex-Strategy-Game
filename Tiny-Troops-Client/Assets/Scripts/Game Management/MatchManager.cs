@@ -26,7 +26,7 @@ public class MatchManager : MonoBehaviour {
         if (instance == null) {
             instance = this;
         } else {
-            Debug.Log($"Match Manager instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Match Manager instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }

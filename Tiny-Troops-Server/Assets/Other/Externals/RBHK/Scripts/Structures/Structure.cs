@@ -9,7 +9,7 @@ public class Structure : MonoBehaviour {
     [Tooltip("Id of the player associated with this Structure.")]
     [SerializeField] private int playerID;
     [Tooltip("Use this if you need to, it does nothing in RBHK itself.")]
-    [SerializeField] private int structureID;
+    [SerializeField] private StructureID structureID;
     [SerializeField] private StructureBuildInfo structureBuildInfo;
 
     [Header("Upgrades")]
@@ -22,15 +22,16 @@ public class Structure : MonoBehaviour {
     [Header("Other")]
     [Tooltip("These fields need to be specified if the Structure if placed in editor and not in game.\nIf it's placed in game using the Structure Building these fields are determiend.")]
     [SerializeField] private Tile tile;
+    [Tooltip("These fields need to be specified if the Structure if placed in editor and not in game.\nIf it's placed in game using the Structure Building these fields are determiend.")]
     [SerializeField] private StructureLocation structureLocation;
+    [Tooltip("If this is not specified by an upgrade, this is the default value.")]
+    [SerializeField] ResourceEntry[] resourceEntries = new ResourceEntry[0];
 
-    /*** Resources don't need to be public ***/
-    public ResourceEntry[] resourceEntries;
     private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
     private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
 
     public int PlayerID { get => playerID; set => playerID = value; }
-    public int StructureID { get => structureID; set => structureID = value; }
+    public StructureID StructureID { get => structureID; set => structureID = value; }
 
     public int UpgradeIndex { get => upgradeIndex; set => upgradeIndex = value; }
 

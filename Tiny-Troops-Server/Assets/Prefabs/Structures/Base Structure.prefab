@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 1102691380515925237}
   - component: {fileID: 8505481600790248693}
   - component: {fileID: -7200342649014427110}
+  - component: {fileID: -5170108563163427783}
   m_Layer: 0
   m_Name: Base Structure
   m_TagString: Untagged
@@ -195,6 +196,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101c13990fb349d4eb1d99fcba615e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5170108563163427783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7814785468153325786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822beb07f7fe0114a9ae60b109c8664d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPathfindingNode: {fileID: 5578181375923308522}
+  villagerPrefab: {fileID: 2216679837717455195, guid: 55758b2a0e136f640876bf156110bbee,
+    type: 3}
+  gameplayStructure: {fileID: 1102691380515925237}
 --- !u!1001 &895459216478607975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -270,6 +287,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 895459216478607975}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5578181375923308522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4685116909225860493, guid: 5a6ba90ae5fb3db4285f6999f9f09401,
+    type: 3}
+  m_PrefabInstance: {fileID: 895459216478607975}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f114534be3a658a48bf83fe5feaf2758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7369542255057627320 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7649523168926659295, guid: 5a6ba90ae5fb3db4285f6999f9f09401,

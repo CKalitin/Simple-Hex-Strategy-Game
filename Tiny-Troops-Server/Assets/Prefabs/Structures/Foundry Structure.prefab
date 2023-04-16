@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: -1
-  structureID: 3
+  structureID: 8
   structureBuildInfo: {fileID: 11400000, guid: fe125df9c92b0364bb7ae69530a3fc4c, type: 2}
   upgrades: []
   tile: {fileID: 0}

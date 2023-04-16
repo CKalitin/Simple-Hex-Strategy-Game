@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: -1
-  structureID: 2
+  structureID: 7
   structureBuildInfo: {fileID: 11400000, guid: 53c01605e7a91ef4ea97b022e7153e1a, type: 2}
   upgrades: []
   tile: {fileID: 0}
@@ -241,8 +241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPathfindingNode: {fileID: 8794074579891417232}
-  unitPrefabs:
-  - {fileID: 2216679837717455195, guid: b1838516cd4974649bac2c1d0c5efb86, type: 3}
   gameplayStructure: {fileID: 6338126397553229452}
 --- !u!114 &-3670653844062473235
 MonoBehaviour:

@@ -19,7 +19,7 @@ public class LobbyController : MonoBehaviour {
     private void Awake() {
         /*if (instance == null) instance = this;
         else {
-            Debug.Log($"Lobby Controller instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Lobby Controller instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }*/
 

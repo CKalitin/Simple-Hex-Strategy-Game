@@ -25,7 +25,7 @@ public class TileSelector : MonoBehaviour {
         if (instance == null) {
             instance = this;
         } else {
-            Debug.Log($"Tile Selector instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Tile Selector instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }

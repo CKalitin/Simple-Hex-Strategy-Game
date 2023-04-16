@@ -84,11 +84,11 @@ public class UnitSpawner : MonoBehaviour {
     }
     
     public void SpawnUnit(int _playerID, int _unitID, int[] _configurationInts) {
-        Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * Random.Range(-spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
-        pos.y = spawnPathfindingNode.transform.position.y;
-
         int uuid = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
         int randomSeed = Random.Range(0, 99999999);
+
+        Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * GameUtils.Random(randomSeed, -spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
+        pos.y = spawnPathfindingNode.transform.position.y;
         
         int[] configurationInts = { uuid, randomSeed };
         USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, _unitID + 1000, configurationInts);

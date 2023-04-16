@@ -43,7 +43,7 @@ public class TileBuildButton : MonoBehaviour {
         if (deleteButton) ClientStructureBuilder.instance.DestroyStructureClient(tile.TileInfo.Location);
         else {
             if (tile.Structures.Count > 0) return;
-            ClientStructureBuilder.instance.BuildStructureClient(tile.TileInfo.Location, sbi.StructurePrefab.GetComponent<Structure>().StructureID, sbi);
+            ClientStructureBuilder.instance.BuildStructureClient(tile.TileInfo.Location, (int)sbi.StructurePrefab.GetComponent<Structure>().StructureID, sbi);
         }
         
         if (tileActionMenu) tileActionMenu.ToggleActive(false);

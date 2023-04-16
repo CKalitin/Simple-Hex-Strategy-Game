@@ -17,7 +17,7 @@ public class UnitSelector : MonoBehaviour {
         if (instance == null) {
             instance = this;
         } else {
-            Debug.Log($"Unit Selector instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Unit Selector instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }

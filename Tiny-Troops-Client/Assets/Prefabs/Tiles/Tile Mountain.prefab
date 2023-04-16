@@ -159,6 +159,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock Structure
       objectReference: {fileID: 0}
+    - target: {fileID: 2550589502355230958, guid: fad5d214bafc2dd4e9c02b205fee3668,
+        type: 3}
+      propertyPath: tile
+      value: 
+      objectReference: {fileID: 4410263235552160487}
+    - target: {fileID: 2550589502355230958, guid: fad5d214bafc2dd4e9c02b205fee3668,
+        type: 3}
+      propertyPath: structureLocation
+      value: 
+      objectReference: {fileID: 4198354640138476423}
     - target: {fileID: 4896951678123530944, guid: fad5d214bafc2dd4e9c02b205fee3668,
         type: 3}
       propertyPath: m_LocalScale.x

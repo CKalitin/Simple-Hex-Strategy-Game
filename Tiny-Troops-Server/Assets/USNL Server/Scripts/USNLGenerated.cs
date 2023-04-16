@@ -50,6 +50,7 @@ namespace USNL {
         UnitHealth,
         StructureHealth,
         GameEnded,
+        StructureConstruction,
     }
 
     #endregion
@@ -340,6 +341,15 @@ namespace USNL {
                 SendTCPDataToAll(_packet);
             }
         }
+
+        public static void StructureConstruction(Vector2 _location, float _percentage) {
+            using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.StructureConstruction)) {
+                _packet.Write(_location);
+                _packet.Write(_percentage);
+
+                SendTCPDataToAll(_packet);
+            }
+        }
         }
 
     #endregion
@@ -392,6 +402,7 @@ namespace USNL.Package {
         UnitHealth,
         StructureHealth,
         GameEnded,
+        StructureConstruction,
     }
     #endregion
 

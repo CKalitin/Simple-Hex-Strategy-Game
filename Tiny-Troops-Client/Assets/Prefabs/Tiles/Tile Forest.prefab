@@ -156,6 +156,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7617209427380362025}
     m_Modifications:
+    - target: {fileID: 2492549420120896310, guid: 9c0733522d5eb114a971aa55842e28d8,
+        type: 3}
+      propertyPath: tile
+      value: 
+      objectReference: {fileID: 6124775860058393942}
+    - target: {fileID: 2492549420120896310, guid: 9c0733522d5eb114a971aa55842e28d8,
+        type: 3}
+      propertyPath: structureLocation
+      value: 
+      objectReference: {fileID: 5308263584203151423}
     - target: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
         type: 3}
       propertyPath: m_Name

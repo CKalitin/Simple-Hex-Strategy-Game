@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour {
 
         if (instance == null) instance = this;
         else {
-            Debug.Log($"Game Controller instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Game Controller instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }
@@ -180,7 +180,7 @@ public class GameController : MonoBehaviour {
             TileManagement.instance.DestroyTile(location);
             TileManagement.instance.SpawnTile(playerBaseTiles[playerID], location);
 
-            ServerStructureBuilder.instance.SendBuildStructurePacketToAllClients(playerID, location, playerBaseTiles[playerID].GetComponent<Tile>().Structures[0].StructureID);
+            ServerStructureBuilder.instance.SendBuildStructurePacketToAllClients(playerID, location, (int)playerBaseTiles[playerID].GetComponent<Tile>().Structures[0].StructureID);
         }
     }
 
@@ -236,7 +236,7 @@ public class GameController : MonoBehaviour {
         Structure[] structures = FindObjectsOfType<Structure>();
 
         for (int i = 0; i < structures.Length; i++) {
-            USNL.PacketSend.BuildStructure(_toClient, structures[i].PlayerID, structures[i].Tile.TileInfo.Location, structures[i].StructureID);
+            USNL.PacketSend.BuildStructure(_toClient, structures[i].PlayerID, structures[i].Tile.TileInfo.Location, (int)structures[i].StructureID);
         }
     }
     

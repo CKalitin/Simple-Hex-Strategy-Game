@@ -23,7 +23,7 @@ public class ServerStructureBuilder : MonoBehaviour {
     private void Singleton() {
         if (instance == null) instance = this;
         else {
-            Debug.Log($"Server Structure Builder instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Server Structure Builder instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }
@@ -91,6 +91,15 @@ public class ServerStructureBuilder : MonoBehaviour {
         newStructure.GetComponent<Structure>().PlayerID = _playerID;
 
         ApplyStructureCost(_playerID, _structureBuildInfo);
+    }
+
+    #endregion
+
+    #region Public Functions
+    
+    public void ReplaceConstructionStructure(Vector2Int _location, int _structureID, int _playerID) {
+        DestroyStructure(_playerID, _location);
+        BuildStructure(_playerID, _location, _structureID);
     }
 
     #endregion

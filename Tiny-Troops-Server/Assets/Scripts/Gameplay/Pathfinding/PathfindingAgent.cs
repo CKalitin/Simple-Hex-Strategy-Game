@@ -35,6 +35,7 @@ public class PathfindingAgent : MonoBehaviour {
     private System.Random random;
 
     public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
+    public Vector2Int TargetLocation { get => targetLocation; set => targetLocation = value; }
     public PathfindingNode CurrentNode { get => currentNode; set => currentNode = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
 

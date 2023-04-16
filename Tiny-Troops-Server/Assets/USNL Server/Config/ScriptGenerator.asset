@@ -195,5 +195,14 @@ MonoBehaviour:
     sendType: 1
     protocol: 0
     notes: 
+  - packetName: Structure Construction
+    packetVariables:
+    - variableName: Location
+      variableType: 7
+    - variableName: Percentage
+      variableType: 4
+    sendType: 1
+    protocol: 0
+    notes: 
   ClientPacketFoldouts: 000000000000
-  ServerPacketFoldouts: 00000000000000000000000000
+  ServerPacketFoldouts: 0000000000000000000000000001

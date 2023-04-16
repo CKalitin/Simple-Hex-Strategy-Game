@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b70385e1eb2b34ea420924b1c346db, type: 3}
-  m_Name: Villiage BI
+  m_Name: Village BI
   m_EditorClassIdentifier: 
   structureSize: 0
   structurePrefab: {fileID: 7077788535158634454, guid: b15eccf2c6934154a9ad4d3a566e4790,

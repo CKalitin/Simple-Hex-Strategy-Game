@@ -50,7 +50,7 @@ public class UnitSpawner : MonoBehaviour {
     public void SpawnUnit(int _playerID, int _unitID, int[] _configurationInts) {
         _unitID -= 1000;
 
-        Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * Random.Range(-spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
+        Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * GameUtils.Random(_configurationInts[1], -spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
         pos.y = spawnPathfindingNode.transform.position.y;
 
         GameObject unit = Instantiate(UnitManager.instance.UnitPrefabs[_unitID], pos, Quaternion.identity);

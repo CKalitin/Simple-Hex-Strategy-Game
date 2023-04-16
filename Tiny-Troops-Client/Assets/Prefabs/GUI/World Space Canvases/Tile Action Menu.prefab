@@ -1083,7 +1083,7 @@ MonoBehaviour:
   tileActionMenu: {fileID: 1820456183065733522}
   structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 1019415833586507826}
-  sbi: {fileID: 11400000, guid: 503df08416bfafb4dad189eb69abf194, type: 2}
+  sbi: {fileID: 11400000, guid: 47ce89625d59c76479740c301df72acb, type: 2}
   deleteButton: 0
 --- !u!114 &4138265836191522855
 MonoBehaviour:
@@ -1299,7 +1299,7 @@ MonoBehaviour:
   tileActionMenu: {fileID: 1820456183065733522}
   structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 7983417800678036610}
-  sbi: {fileID: 11400000, guid: 874e97b2e290e794f9dc899616b32799, type: 2}
+  sbi: {fileID: 11400000, guid: df273875406bc0f49bb406455378971f, type: 2}
   deleteButton: 0
 --- !u!114 &6344180631619712169
 MonoBehaviour:
@@ -1515,7 +1515,7 @@ MonoBehaviour:
   tileActionMenu: {fileID: 1820456183065733522}
   structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 5136264787953177924}
-  sbi: {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
+  sbi: {fileID: 11400000, guid: cb908c2f96a57da4997794c74072ea6e, type: 2}
   deleteButton: 0
 --- !u!114 &843956979521827021
 MonoBehaviour:
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   tileActionMenu: {fileID: 1820456183065733522}
   structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 6271691699355868964}
-  sbi: {fileID: 11400000, guid: afb77eb87fdeeb049ae070df4c248c18, type: 2}
+  sbi: {fileID: 11400000, guid: 09bbbb22a2e4f764387e4ddc7837f386, type: 2}
   deleteButton: 0
 --- !u!114 &7053384831810016588
 MonoBehaviour:
@@ -2159,7 +2159,7 @@ MonoBehaviour:
   tileActionMenu: {fileID: 1820456183065733522}
   structureActionMenu: {fileID: 0}
   cantAffordDisplayParent: {fileID: 9120740787888974575}
-  sbi: {fileID: 11400000, guid: f20f3cb4e2996f5409715ffcd5700da6, type: 2}
+  sbi: {fileID: 11400000, guid: 24e2f6a34a5329f4db1e7b3d6a92261c, type: 2}
   deleteButton: 0
 --- !u!114 &5689931293910477047
 MonoBehaviour:

@@ -837,25 +837,70 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.size
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f27628874ebee86479d12404f78365b8,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 99c0c5d363ee80344837fde4c855bc49,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfb4307008d556d4683438945fa4ba63,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: af715863d945db747825d1270158d88c,
+        type: 2}
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 2b85f38f1f365c94bb01e121c85277fc,
+      objectReference: {fileID: 11400000, guid: 9c72702003933884eac8007ab8da75a3,
         type: 2}
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.data[6]
       value: 
-      objectReference: {fileID: 11400000, guid: e43cc90c9a8950743afc68cfe3a1c4f2,
+      objectReference: {fileID: 11400000, guid: 383dff02c58649148b04fa54f9fca19f,
         type: 2}
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.data[7]
       value: 
-      objectReference: {fileID: 11400000, guid: 731842bb311bf9849b71d99f073ecddb,
+      objectReference: {fileID: 11400000, guid: 53c01605e7a91ef4ea97b022e7153e1a,
         type: 2}
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: fe125df9c92b0364bb7ae69530a3fc4c,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: e18bfb552d3d56a4280acb4fa6cade5f,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b85f38f1f365c94bb01e121c85277fc,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: e43cc90c9a8950743afc68cfe3a1c4f2,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: 731842bb311bf9849b71d99f073ecddb,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[13]
       value: 
       objectReference: {fileID: 11400000, guid: d25f6de468b202a449772517c7a987e2,
         type: 2}
@@ -974,3 +1019,23 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+--- !u!1 &4924313469997341811 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4924313470513003408, guid: cb578f7f2a42c5348afba16623239457,
+    type: 3}
+  m_PrefabInstance: {fileID: 4924313469997341810}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4924313469997341812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924313469997341811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abc1c8ca6e679c4184b651f22220113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  villagerConstructionTickTime: 3
+  villagerConstructionChangePerTick: 0.2

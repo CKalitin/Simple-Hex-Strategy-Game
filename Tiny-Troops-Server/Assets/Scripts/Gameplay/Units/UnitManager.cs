@@ -53,7 +53,7 @@ public class UnitManager : MonoBehaviour {
     private void Singleton() {
         if (instance == null) instance = this;
         else {
-            Debug.Log($"Unit Manager instance already exists on ({gameObject}), destroying this.");
+            Debug.Log($"Unit Manager instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
     }
@@ -142,7 +142,7 @@ public class UnitManager : MonoBehaviour {
             if (units.ContainsKey(packet.UnitUUIDs[i])) {
                 units[packet.UnitUUIDs[i]].Script.PathfindingAgent.PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
             }
-            else Debug.Log("Desync Detected");
+            //else Debug.Log("Desync Detected"); Villages used UUIDS now
         }
         USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, packet.TargetTileLocation);
     }

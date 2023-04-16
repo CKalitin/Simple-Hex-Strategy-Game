@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: -1
-  structureID: 7
+  structureID: 12
   structureBuildInfo: {fileID: 11400000, guid: 731842bb311bf9849b71d99f073ecddb, type: 2}
   upgrades: []
   tile: {fileID: 0}

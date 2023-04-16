@@ -317,6 +317,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6775775654978332716, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4,
+        type: 3}
+      propertyPath: tile
+      value: 
+      objectReference: {fileID: 8142464371967572687}
+    - target: {fileID: 6775775654978332716, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4,
+        type: 3}
+      propertyPath: structureLocation
+      value: 
+      objectReference: {fileID: 8142464371831691949}
     - target: {fileID: 7814785468153325786, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4,
         type: 3}
       propertyPath: m_Name
