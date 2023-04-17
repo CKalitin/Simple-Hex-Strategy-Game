@@ -1037,5 +1037,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abc1c8ca6e679c4184b651f22220113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerConstructionTickTime: 3
+  villagerConstructionTickTime: 1
   villagerConstructionChangePerTick: 0.2

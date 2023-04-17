@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,23 @@ public class VillagerManager : MonoBehaviour {
     private Dictionary<int, List<Villager>> villagers = new Dictionary<int, List<Villager>>();
     private Dictionary<int, List<PlayerVillage>> villages = new Dictionary<int, List<PlayerVillage>>();
     private Dictionary<int, List<ConstructionStructureInfo>> constructionStructures = new Dictionary<int, List<ConstructionStructureInfo>>();
+
+    [SerializeField] private List<thing> things = new List<thing>();
+
+    [Serializable]
+    private struct thing {
+        public int id;
+        public Vector2Int Location;
+        public ConstructionStructure ConstructionStructure;
+        public List<Villager> ConstructionVillagers;
+
+        public thing(int id, Vector2Int location, ConstructionStructure constructionStructure, List<Villager> constructionVillagers) {
+            this.id = id;
+            Location = location;
+            ConstructionStructure = constructionStructure;
+            ConstructionVillagers = constructionVillagers;
+        }
+    }
 
     public float VillagerConstructionTickTime { get => villagerConstructionTickTime; set => villagerConstructionTickTime = value; }
     public float VillagerConstructionChangePerTick { get => villagerConstructionChangePerTick; set => villagerConstructionChangePerTick = value; }
@@ -48,6 +66,16 @@ public class VillagerManager : MonoBehaviour {
 
     private void Start() {
         StartCoroutine(VillagerConstructionCoroutine());
+    }
+
+    private void Update() {
+        // Copy consrtuction structures into things
+        things.Clear();
+        foreach (KeyValuePair<int, List<ConstructionStructureInfo>> kvp in constructionStructures) {
+            for (int i = 0; i < kvp.Value.Count; i++) {
+                things.Add(new thing(kvp.Key, kvp.Value[i].Location, kvp.Value[i].ConstructionStructure, kvp.Value[i].ConstructionVillagers));
+            }
+        }
     }
 
     private void OnEnable() {
@@ -89,9 +117,12 @@ public class VillagerManager : MonoBehaviour {
 
     public void RemoveConstructionStructure(ConstructionStructure _constructionStructure) {
         int playerID = _constructionStructure.PlayerID;
-        foreach (ConstructionStructureInfo csi in constructionStructures[playerID]) {
-            if (csi.Location == _constructionStructure.Location)
-                constructionStructures[playerID].Remove(csi);
+        if (!constructionStructures.ContainsKey(playerID)) return;
+        for (int i = 0; i < constructionStructures[playerID].Count; i++) {
+            if (constructionStructures[playerID][i].ConstructionStructure == _constructionStructure) {
+                constructionStructures[playerID].RemoveAt(i);
+                break;
+            }
         }
     }
 
@@ -145,7 +176,7 @@ public class VillagerManager : MonoBehaviour {
         if (!villages.ContainsKey(_playerID)) return null;
 
         List<PlayerVillage> playerVillages = villages[_playerID];
-        playerVillages.OrderBy(x => Vector2.Distance(_location, x.Location));
+        playerVillages = playerVillages.OrderBy(x => Vector3.Distance(TileManagement.instance.TileLocationToWorldPosition(_location, 0), TileManagement.instance.TileLocationToWorldPosition(x.Location, 0))).ToList();
 
         return playerVillages[0];
     }

@@ -87,7 +87,7 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     #region Public Functions
 
-    public void ReplaceConstructionStructure(Vector2Int _location, int _structureID, int _playerID) {
+    public void ReplaceStructure(Vector2Int _location, int _structureID, int _playerID) {
         DestroyStructure(_playerID, _location);
         BuildStructure(_playerID, _location, _structureID);
     }

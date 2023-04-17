@@ -142,8 +142,6 @@ public class UnitManager : MonoBehaviour {
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
             if (units.ContainsKey(packet.UnitUUIDs[i])) {
                 units[packet.UnitUUIDs[i]].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
-            } else {
-                Debug.Log("Desync Detected");
             }
         }
     }
@@ -154,7 +152,6 @@ public class UnitManager : MonoBehaviour {
         if (units.ContainsKey(packet.UnitUUID)) {
             units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.PathfindingNodeIndex, packet.Position);
         }
-        else Debug.Log("Desync Detected");
     }
 
     private void OnUnitHealthPacket(object _packetObject) {

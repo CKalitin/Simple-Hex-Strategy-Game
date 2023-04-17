@@ -31,6 +31,9 @@ public class PlayerVillage : MonoBehaviour {
     }
 
     private void Start() {
+        if (!VillagerManager.instance.Villages.ContainsKey(PlayerID)) VillagerManager.instance.Villages.Add(PlayerID, new List<PlayerVillage>());
+        VillagerManager.instance.Villages[PlayerID].Add(this);
+        
         SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
     }
 
@@ -49,9 +52,6 @@ public class PlayerVillage : MonoBehaviour {
         }
     }
     private void OnEnable() {
-        if (!VillagerManager.instance.Villages.ContainsKey(PlayerID)) VillagerManager.instance.Villages.Add(PlayerID, new List<PlayerVillage>());
-        VillagerManager.instance.Villages[PlayerID].Add(this);
-        
         gameplayStructure.OnStructureAction += SpawnVillager;
         USNL.CallbackEvents.OnUnitPathfindPacket += OnUnitPathfindPacket;
     }
@@ -66,8 +66,9 @@ public class PlayerVillage : MonoBehaviour {
     private void OnDestroy() {
         // Loop through villagers and destroy them all
         List<Villager> villagersList = new List<Villager>(villagers.Values);
+        
         for (int i = 0; i < villagersList.Count; i++) {
-            Destroy(villagersList[i]);
+            Destroy(villagersList[i].gameObject);
         }
         villagers.Clear();
     }

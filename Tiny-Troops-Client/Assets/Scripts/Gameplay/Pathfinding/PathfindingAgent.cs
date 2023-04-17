@@ -35,6 +35,7 @@ public class PathfindingAgent : MonoBehaviour {
     private System.Random random;
 
     public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
+    public Vector2Int TargetLocation { get => targetLocation; set => targetLocation = value; }
     public PathfindingNode CurrentNode { get => currentNode; set => currentNode = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
 
@@ -56,7 +57,7 @@ public class PathfindingAgent : MonoBehaviour {
         targetNode = _currentNode;
         startPos = transform.position;
         targetPos = transform.position;
-        
+
         path = null;
         targetDirection = Vector2Int.zero;
         finishedMoving = true;
@@ -73,10 +74,14 @@ public class PathfindingAgent : MonoBehaviour {
     private void Move() {
         if (finishedMoving) return;
         if (targetNode == null || currentNode == null) {
-            targetNode = TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().GetTilePathfinding().PathfindingNodes[GetTargetDirection(targetLocation, currentLocation)];
-            MoveToTargetNode(TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().GetTilePathfinding().PathfindingNodes[GetTargetDirection(targetLocation, currentLocation)]);
+            if (TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().GetTilePathfinding().PathfindingNodes.ContainsKey(GetTargetDirection(CurrentLocation, TargetLocation))) {
+                targetNode = TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().GetTilePathfinding().PathfindingNodes[GetTargetDirection(CurrentLocation, TargetLocation)];
+                MoveToTargetNode(targetNode);
+            } else {
+                targetNode = GetClosestNodeToPosition(transform.position);
+                MoveToTargetNode(targetNode);
+            }
         }
-
         Vector3 direction = transform.position + (targetPos - startPos).normalized;
         direction.y = transform.position.y;
 
@@ -97,7 +102,7 @@ public class PathfindingAgent : MonoBehaviour {
 
             startPos = transform.position;
             targetPos = transform.position;
-            
+
             path = null;
             targetDirection = Vector2Int.zero;
             finishedMoving = true;
@@ -189,7 +194,7 @@ public class PathfindingAgent : MonoBehaviour {
 
         startPos = transform.position;
         targetPos = transform.position;
-        
+
         path = null;
         targetDirection = Vector2Int.zero;
         finishedMoving = true;
@@ -226,12 +231,27 @@ public class PathfindingAgent : MonoBehaviour {
         Vector3 startPos = transform.position;
         Vector3 endPos = new Vector3(_targetPostion.x, transform.position.y, _targetPostion.z);
         float lerpTime = 0;
-        
+
         while (Vector3.Distance(transform.position, endPos) >= 0.01f) {
             transform.position = Vector3.Lerp(startPos, endPos, lerpTime);
             lerpTime += Mathf.Clamp(Time.deltaTime * lerpToLocationSpeed, 0, 1);
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    private PathfindingNode GetClosestNodeToPosition(Vector3 _position) {
+        PathfindingNode closestNode = null;
+        float closestDistance = 999999999f;
+
+        foreach (PathfindingNode node in TileManagement.instance.GetTileAtLocation(currentLocation).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile) {
+            float distance = Vector3.Distance(node.transform.position, _position);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestNode = node;
+            }
+        }
+
+        return closestNode;
     }
 
     #endregion

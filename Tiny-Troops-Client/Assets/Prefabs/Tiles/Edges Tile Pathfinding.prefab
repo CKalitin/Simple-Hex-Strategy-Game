@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 3471271289610334977}
   finalNode: 1
   radius: 0.3
+  globalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2010291991219501096
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +107,7 @@ MonoBehaviour:
   - {fileID: 3471271289610334977}
   finalNode: 1
   radius: 0.3
+  globalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &4489259259004982340
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +161,7 @@ MonoBehaviour:
   - {fileID: 3479802383410492053}
   finalNode: 1
   radius: 0.3
+  globalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &5079138912935256726
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +215,7 @@ MonoBehaviour:
   - {fileID: 0}
   finalNode: 1
   radius: 0.3
+  globalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7057478646258693248
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,6 +269,7 @@ MonoBehaviour:
   - {fileID: 2553478072132242753}
   finalNode: 1
   radius: 0.3
+  globalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7153738028110355147
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,3 +381,4 @@ MonoBehaviour:
   - {fileID: 4849334861539451885}
   finalNode: 1
   radius: 0.3
+  globalPosition: {x: 0, y: 0, z: 0}

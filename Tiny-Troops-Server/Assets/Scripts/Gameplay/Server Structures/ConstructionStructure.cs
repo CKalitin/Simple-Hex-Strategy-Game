@@ -19,10 +19,10 @@ public class ConstructionStructure : MonoBehaviour {
 
     private void Awake() {
         GetTileParent();
-        VillagerManager.instance.AddConstructionStructure(Location, this);
     }
 
     private void Start() {
+        VillagerManager.instance.AddConstructionStructure(Location, this);
         VillagerManager.instance.SetVillagersTargetLocation();
     }
 
@@ -42,7 +42,6 @@ public class ConstructionStructure : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        Debug.Log("OnDestroy");
         VillagerManager.instance.RemoveConstructionStructure(this);
         VillagerManager.instance.SetVillagersTargetLocation();
     }
@@ -54,9 +53,7 @@ public class ConstructionStructure : MonoBehaviour {
         USNL.PacketSend.StructureConstruction(Location, buildPercentage);
         
         if (buildPercentage >= 1f) {
-            Debug.Log("Structure Done");
-            ServerStructureBuilder.instance.ReplaceConstructionStructure(Location, (int)constructedStructureID, structure.PlayerID);
-            Debug.Log("Structure Built");
+            ServerStructureBuilder.instance.ReplaceStructure(Location, (int)constructedStructureID, structure.PlayerID);
         }
     }
 
@@ -67,9 +64,7 @@ public class ConstructionStructure : MonoBehaviour {
         USNL.PacketSend.StructureConstruction(Location, buildPercentage);
 
         if (buildPercentage >= 1f) {
-            Debug.Log("Structure Done");
-            ServerStructureBuilder.instance.ReplaceConstructionStructure(Location, (int)constructedStructureID, structure.PlayerID);
-            Debug.Log("Structure Built");
+            ServerStructureBuilder.instance.ReplaceStructure(Location, (int)constructedStructureID, structure.PlayerID);
         }
     }
 }

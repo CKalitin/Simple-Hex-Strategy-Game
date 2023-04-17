@@ -49,7 +49,7 @@ public class ConstructionStructure : MonoBehaviour {
         health.CurrentHealth = Mathf.RoundToInt(health.MaxHealth / packet.Percentage);
 
         if (buildPercentage >= 1) { 
-            ClientStructureBuilder.instance.ReplaceConstructionStructure(tile.TileInfo.Location, (int)constructedStructureID, structure.PlayerID);
+            //ClientStructureBuilder.instance.ReplaceConstructionStructure(tile.TileInfo.Location, (int)constructedStructureID, structure.PlayerID);
         }
     }
 }

@@ -38,7 +38,7 @@ public class Villager : MonoBehaviour {
     private void OnDestroy() {
         if (VillagerManager.instance.Villagers.ContainsKey(PlayerID) && VillagerManager.instance.Villagers[playerID].Contains(this))
             VillagerManager.instance.Villagers[playerID].Remove(this);
-
+        
         if (village.Villagers.ContainsKey(VillagerUUID))
             village.Villagers.Remove(VillagerUUID);
     }
@@ -47,6 +47,7 @@ public class Villager : MonoBehaviour {
         if (previousFinishedMoving != pathfindingAgent.FinishedMoving) {
             if (pathfindingAgent.FinishedMoving) StartCoroutine(SendLocation());
             previousFinishedMoving = pathfindingAgent.FinishedMoving;
+            VillagerManager.instance.SetVillagersTargetLocation();
         }
 
         if (previousHealth != health.CurrentHealth) {
