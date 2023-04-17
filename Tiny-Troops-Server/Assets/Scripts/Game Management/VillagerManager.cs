@@ -152,16 +152,22 @@ public class VillagerManager : MonoBehaviour {
             for (int x = 0; x < kvp.Value.Count; x++) {
                 if (kvp.Value[x].ConstructionVillagers.Count > 0) continue;
                 
-                PlayerVillage playerVillage = null;
-                if ((playerVillage = GetClosestVillage(kvp.Value[x].ConstructionStructure.PlayerID, kvp.Value[x].Location)) != null) {
-                    foreach (KeyValuePair<int, Villager> v in playerVillage.Villagers) {
-                        // If villager is not moving to construction, and not at construction
-                        if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value)) {
-                            v.Value.PathfindingAgent.PathfindToLocation(kvp.Value[x].Location);
-                            kvp.Value[x].ConstructionVillagers.Add(v.Value);
-                            USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location);
-                            break;
+                List<PlayerVillage> playerVillages = null;
+                bool villagerFound = false;
+                if ((playerVillages = GetClosestVillages(kvp.Value[x].ConstructionStructure.PlayerID, kvp.Value[x].Location)) != null) {
+                    for (int i = 0; i < playerVillages.Count && i < 3; i++) {
+                        foreach (KeyValuePair<int, Villager> v in playerVillages[i].Villagers) {
+                            Debug.Log($"{v.Value.VillagerUUID}, ({!IsVillagerMovingToConstruction(v.Value)} && {!IsVillagerAtConstruction(v.Value)})");
+                            // If villager is not moving to construction, and not at construction
+                            if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value)) {
+                                v.Value.PathfindingAgent.PathfindToLocation(kvp.Value[x].Location);
+                                kvp.Value[x].ConstructionVillagers.Add(v.Value);
+                                USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location);
+                                villagerFound = true;
+                                break;
+                            }
                         }
+                        if (villagerFound) break;
                     }
                 }
             }
@@ -172,13 +178,13 @@ public class VillagerManager : MonoBehaviour {
 
     #region Utils
 
-    private PlayerVillage GetClosestVillage(int _playerID, Vector2Int _location) {
+    private List<PlayerVillage> GetClosestVillages(int _playerID, Vector2Int _location) {
         if (!villages.ContainsKey(_playerID)) return null;
 
         List<PlayerVillage> playerVillages = villages[_playerID];
         playerVillages = playerVillages.OrderBy(x => Vector3.Distance(TileManagement.instance.TileLocationToWorldPosition(_location, 0), TileManagement.instance.TileLocationToWorldPosition(x.Location, 0))).ToList();
 
-        return playerVillages[0];
+        return playerVillages;
     }
 
     private bool IsVillagerAtVillage(Villager _villager) {
