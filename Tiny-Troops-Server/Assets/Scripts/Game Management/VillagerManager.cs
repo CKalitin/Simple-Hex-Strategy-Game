@@ -159,7 +159,9 @@ public class VillagerManager : MonoBehaviour {
                         foreach (KeyValuePair<int, Villager> v in playerVillages[i].Villagers) {
                             Debug.Log($"{v.Value.VillagerUUID}, ({!IsVillagerMovingToConstruction(v.Value)} && {!IsVillagerAtConstruction(v.Value)})");
                             // If villager is not moving to construction, and not at construction
-                            if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value)) {
+                            // TODO check if the villager is in the list of construction villager infos
+                            Debug.Log("TODO");
+                            if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value) {
                                 v.Value.PathfindingAgent.PathfindToLocation(kvp.Value[x].Location);
                                 kvp.Value[x].ConstructionVillagers.Add(v.Value);
                                 USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location);

@@ -13,12 +13,13 @@ public class ResourceDisplay : MonoBehaviour {
 
     private void Update() {
         if (resourceReference == null) resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
+        
+        if (resourceSupplyText) resourceSupplyText.text = resourceReference.Supply.ToString();
 
-        if (resourceReference.Supply >= 0) resourceSupplyText.text = "+" + resourceReference.Supply.ToString();
-        else resourceSupplyText.text = "-" + resourceReference.Supply.ToString();
-
-        if (resourceReference.Demand >= 0) resourceDemandText.text = "+" + resourceReference.Demand.ToString();
-        else resourceDemandText.text = "-" + resourceReference.Demand.ToString();
+        if (resourceDemandText) {
+            if (resourceReference.Demand >= 0) resourceDemandText.text = "+" + resourceReference.Demand.ToString();
+            else resourceDemandText.text = "-" + resourceReference.Demand.ToString();
+        }
     }
 
     private void OnEnable() {
