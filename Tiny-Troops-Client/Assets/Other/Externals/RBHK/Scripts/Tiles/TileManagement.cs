@@ -87,6 +87,8 @@ public class TileManagement : MonoBehaviour {
     #region Tiles
 
     public Vector2Int SpawnTile(GameObject _tilePrefab, Vector2Int _location) {
+        Debug.Log("Spawning Tile at location: " + _location + " of name: " + _tilePrefab.name);
+
         // If tile already exists in location
         if (tiles.ContainsKey(_location)) { Destroy(tiles[_location].ParentObject); }
 
@@ -99,6 +101,7 @@ public class TileManagement : MonoBehaviour {
     }
 
     public void DestroyTile(Vector2Int _location) {
+        Debug.Log("Destroying Tile at location: " + _location);
         // Check if tile exists at location
         if (!tiles.ContainsKey(_location)) {
             //Debug.LogWarning("No tile to destroy at location: " + _location);

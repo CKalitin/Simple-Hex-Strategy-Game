@@ -120,6 +120,12 @@ public class VillagerManager : MonoBehaviour {
         if (!constructionStructures.ContainsKey(playerID)) return;
         for (int i = 0; i < constructionStructures[playerID].Count; i++) {
             if (constructionStructures[playerID][i].ConstructionStructure == _constructionStructure) {
+                // Pathfind villagers back to village
+                for (int x = 0; x < constructionStructures[playerID][i].ConstructionVillagers.Count; x++) {
+                    Villager v = constructionStructures[playerID][i].ConstructionVillagers[x];
+                    v.PathfindingAgent.PathfindToLocation(v.Village.Location);
+                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location);
+                }
                 constructionStructures[playerID].RemoveAt(i);
                 break;
             }
@@ -157,11 +163,7 @@ public class VillagerManager : MonoBehaviour {
                 if ((playerVillages = GetClosestVillages(kvp.Value[x].ConstructionStructure.PlayerID, kvp.Value[x].Location)) != null) {
                     for (int i = 0; i < playerVillages.Count && i < 3; i++) {
                         foreach (KeyValuePair<int, Villager> v in playerVillages[i].Villagers) {
-                            Debug.Log($"{v.Value.VillagerUUID}, ({!IsVillagerMovingToConstruction(v.Value)} && {!IsVillagerAtConstruction(v.Value)})");
-                            // If villager is not moving to construction, and not at construction
-                            // TODO check if the villager is in the list of construction villager infos
-                            Debug.Log("TODO");
-                            if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value) {
+                            if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value && !VillagerInConstructionInfosList(v.Value)) {
                                 v.Value.PathfindingAgent.PathfindToLocation(kvp.Value[x].Location);
                                 kvp.Value[x].ConstructionVillagers.Add(v.Value);
                                 USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location);
@@ -207,6 +209,15 @@ public class VillagerManager : MonoBehaviour {
         if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.TargetLocation).Tile.Structures.Count <= 0) return false;
         if (!TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.TargetLocation).Tile.Structures[0].GetComponent<ConstructionStructure>()) return false;
         return true;
+    }
+
+    private bool VillagerInConstructionInfosList(Villager villager) {
+        foreach (KeyValuePair<int, List<ConstructionStructureInfo>> kvp in constructionStructures) {
+            for (int x = 0; x < kvp.Value.Count; x++) {
+                if (kvp.Value[x].ConstructionVillagers.Contains(villager)) return true;
+            }
+        }
+        return false;
     }
 
     private Villager GetVillager(int _uuid) {

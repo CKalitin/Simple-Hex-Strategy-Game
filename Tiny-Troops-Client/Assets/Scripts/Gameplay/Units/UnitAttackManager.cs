@@ -63,6 +63,7 @@ public class UnitAttackManager : MonoBehaviour {
     }
 
     private void Update() {
+        SetTileAttackInfo();
         TickUpdate();
     }
 
@@ -77,9 +78,6 @@ public class UnitAttackManager : MonoBehaviour {
     }
     
     private void AttackUpdate() {
-        // Update before attack - Thing's have changed in the tickTime since last execution
-        SetTileAttackInfo();
-
         foreach (Vector2Int location in tileAttackInfo.Keys) {
             foreach (int playerID in tileAttackInfo[location].Keys) {
                 bool attacking = false;
@@ -98,9 +96,6 @@ public class UnitAttackManager : MonoBehaviour {
                 if (attacking) UnitManager.instance.GetUnitsOfIdAtLocation(location, playerID).ForEach(x => UnitManager.instance.Units[x].Script.Attacking = true);
             }
         }
-
-        // Update after attack so the player's have accurate information
-        SetTileAttackInfo();
     }
 
     #endregion

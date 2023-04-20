@@ -727,6 +727,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6136945490280527772, guid: deaebb01156ce384c980e22f70388d41,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136945490280527772, guid: deaebb01156ce384c980e22f70388d41,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1145
+      objectReference: {fileID: 0}
     - target: {fileID: 6136945490335295278, guid: deaebb01156ce384c980e22f70388d41,
         type: 3}
       propertyPath: hostIdField

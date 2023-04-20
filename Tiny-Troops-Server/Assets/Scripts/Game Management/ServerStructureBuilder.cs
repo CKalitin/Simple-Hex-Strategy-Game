@@ -42,7 +42,7 @@ public class ServerStructureBuilder : MonoBehaviour {
 
     #region Builder
 
-    private void BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
+    private void BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID, bool _applyCost = true) {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
@@ -50,7 +50,7 @@ public class ServerStructureBuilder : MonoBehaviour {
         bool canBuild = true;
 
         // If can't afford structure
-        if (!CanAffordStructure(_playerID, sbi)) canBuild = false;
+        if (!CanAffordStructure(_playerID, sbi) && _applyCost) canBuild = false;
         // If there is no available structure location
         if ((structureLoc = GetClosestAvailableStructureLocation(structureLocationsParent, sbi.StructureSize)) == null) canBuild = false;
         // If there is no Tile script on the parent
@@ -83,14 +83,14 @@ public class ServerStructureBuilder : MonoBehaviour {
         SendBuildStructurePacketToAllClients(_playerID, _targetTileLocation, -1);
     }
 
-    private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo) {
+    private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo, bool _applyCost = true) {
         GameObject newStructure = Instantiate(_structureBuildInfo.StructurePrefab, _structureLocation.position, Quaternion.identity, _parent);
 
         _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
         newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
         newStructure.GetComponent<Structure>().PlayerID = _playerID;
 
-        ApplyStructureCost(_playerID, _structureBuildInfo);
+        if (_applyCost) ApplyStructureCost(_playerID, _structureBuildInfo);
     }
 
     #endregion
@@ -99,7 +99,7 @@ public class ServerStructureBuilder : MonoBehaviour {
     
     public void ReplaceStructure(Vector2Int _location, int _structureID, int _playerID) {
         DestroyStructure(_playerID, _location);
-        BuildStructure(_playerID, _location, _structureID);
+        BuildStructure(_playerID, _location, _structureID, false);
     }
 
     #endregion
@@ -151,7 +151,7 @@ public class ServerStructureBuilder : MonoBehaviour {
         // Return false if there is another player's structure on the tile
         bool output = true;
         for (int i = 0; i < _tile.Structures.Count; i++) {
-            if (_tile.Structures[i].PlayerID != _playerID & _tile.Structures[i].PlayerID != -1) output = false;
+            if (_tile.Structures[i].PlayerID != _playerID && _tile.Structures[i].PlayerID != -1) output = false;
         }
         return output;
     }

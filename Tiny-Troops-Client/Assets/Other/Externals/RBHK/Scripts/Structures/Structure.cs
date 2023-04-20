@@ -70,6 +70,7 @@ public class Structure : MonoBehaviour {
     }
 
     public void DestroyStructure() {
+        Debug.Log("Destroying Structure at location: " + StructureLocation);
         RefundNoTickCost();
         structureLocation.AssignedStructure = null;
         Destroy(gameObject);

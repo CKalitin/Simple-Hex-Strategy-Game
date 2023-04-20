@@ -191,6 +191,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 62e8dec700409454f8645605512190de, type: 2}
   - {fileID: 2100000, guid: be21bc3893fe53f46ba6a87e0920e479, type: 2}
   meshRenderer: {fileID: 2216679837849901796}
+  unit: {fileID: 323771522811961258}
 --- !u!1 &2216679837849901799
 GameObject:
   m_ObjectHideFlags: 0

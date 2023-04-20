@@ -35,14 +35,18 @@ public class CameraController : MonoBehaviour {
     private bool gameCamera = false;
     private bool lerpToGameCamPos = false;
 
+    private float defaultZoom;
+
     #endregion
 
     #region Core
 
+    private void Awake() {
+        defaultZoom = currentZoom;
+    }
+
     private void Start() {
-        if (MatchManager.instance.MatchState == MatchState.InGame | MatchManager.instance.MatchState == MatchState.Paused)
-            gameCamera = true;
-        else if (MatchManager.instance.MatchState == MatchState.Lobby) {
+        if (MatchManager.instance.MatchState == MatchState.Lobby) {
             cam.transform.position = lobbyCameraPosition.position;
             cam.transform.rotation = lobbyCameraPosition.rotation;
         }
@@ -77,7 +81,7 @@ public class CameraController : MonoBehaviour {
         MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
         GameController.OnGameInitialized -= OnGameInitialized;
     }
-
+    
     #endregion
 
     #region Camera Movement
@@ -117,8 +121,11 @@ public class CameraController : MonoBehaviour {
     public void ResetCamera() {
         gameCamera = false;
         lerpToGameCamPos = false;
+        currentZoom = defaultZoom;
+        lobbyLerpProgress = 0f;
 
-        cam.transform.position = lobbyCameraPosition.position;
+        cam.transform.position = Vector3.Lerp(lobbyCameraPosition.position, Vector3.Lerp(defaultCamPosition.position, transform.position, currentZoom), lobbyLerpProgress);
+        cam.transform.rotation = Quaternion.Lerp(lobbyCameraPosition.rotation, defaultCamPosition.rotation, lobbyLerpProgress);
     }
 
     #endregion
@@ -130,7 +137,9 @@ public class CameraController : MonoBehaviour {
             lerpToGameCamPos = true;
         }
         if (_matchState == MatchState.Lobby) {
-            gameCamera = false;
+            ResetCamera();
+            cam.transform.position = lobbyCameraPosition.position;
+            cam.transform.rotation = lobbyCameraPosition.rotation;
         }
     }
 
@@ -138,7 +147,6 @@ public class CameraController : MonoBehaviour {
         Vector3 pos = GetPositionOfPlayerBase();
         if (pos == Vector3.zero) return;
 
-        
         transform.position = new Vector3(pos.x, transform.position.y, pos.z);
         lobbyCameraPosition.position = new Vector3(pos.x, lobbyCameraPosition.position.y, pos.z - 5);
         

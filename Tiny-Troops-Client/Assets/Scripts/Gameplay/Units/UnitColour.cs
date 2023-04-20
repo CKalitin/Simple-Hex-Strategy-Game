@@ -6,8 +6,10 @@ public class UnitColour : MonoBehaviour {
     [SerializeField] private Material[] materials;
     [Space]
     [SerializeField] private MeshRenderer meshRenderer;
+    [Space]
+    [SerializeField] private Unit unit;
 
     private void Start() {
-        meshRenderer.material = materials[MatchManager.instance.PlayerID];
+        meshRenderer.material = materials[unit.PlayerID];
     }
 }

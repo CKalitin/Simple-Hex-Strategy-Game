@@ -40,14 +40,14 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     #region Builder
 
-    private bool BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
+    private bool BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID, bool _applyCost = true) {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
         StructureBuildInfo sbi = structureBuildInfos[_structureID];
 
         // If can't afford structure - Not needed for Server-side building
-        //if (!CanAffordStructure(_playerID, sbi)) return false;
+        //if (!CanAffordStructure(_playerID, sbi) && _applyCost) return false;
         // If there is no available structure location
         if ((structureLoc = GetClosestAvailableStructureLocation(structureLocationsParent, sbi.StructureSize)) == null) return false;
         // If there is no Tile script on the parent
@@ -55,7 +55,7 @@ public class ClientStructureBuilder : MonoBehaviour {
         // If tile is not taken by another player
         if (!CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID)) return false;
 
-        InstantiateStructure(structureLoc, structureLoc, _playerID, sbi);
+        InstantiateStructure(structureLoc, structureLoc, _playerID, sbi, _applyCost);
         return true;
     }
 
@@ -73,14 +73,14 @@ public class ClientStructureBuilder : MonoBehaviour {
         return true;
     }
 
-    private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo) {
+    private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo, bool _applyCost) {
         GameObject newStructure = Instantiate(_structureBuildInfo.StructurePrefab, _structureLocation.position, Quaternion.identity, _parent);
 
         _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
         newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
         newStructure.GetComponent<Structure>().PlayerID = _playerID;
 
-        ApplyStructureCost(_playerID, _structureBuildInfo);
+        if (_applyCost) ApplyStructureCost(_playerID, _structureBuildInfo);
     }
 
     #endregion
@@ -89,7 +89,7 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     public void ReplaceStructure(Vector2Int _location, int _structureID, int _playerID) {
         DestroyStructure(_playerID, _location);
-        BuildStructure(_playerID, _location, _structureID);
+        BuildStructure(_playerID, _location, _structureID, false);
     }
 
     #endregion
@@ -180,7 +180,7 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     private void OnBuildStructurePacket(object _packetObject) {
         USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
-
+        Debug.Log($"Received BuildStructurePacket from PlayerID ({packet.PlayerID}) at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) ({structureBuildInfos[packet.StructureID].name})");
         // If packet means to destroy a structure
         if (packet.StructureID < 0) {
             if (!DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation))) {

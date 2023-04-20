@@ -71,7 +71,7 @@ public class Structure : MonoBehaviour {
 
     public void DestroyStructure() {
         RefundNoTickCost();
-        structureLocation.AssignedStructure = null;
+        if (structureLocation.AssignedStructure) structureLocation.AssignedStructure = null;
         Destroy(gameObject);
     }
 

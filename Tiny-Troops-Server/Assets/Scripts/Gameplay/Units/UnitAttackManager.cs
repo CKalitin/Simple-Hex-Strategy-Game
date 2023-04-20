@@ -86,7 +86,9 @@ public class UnitAttackManager : MonoBehaviour {
 
                 // Attack enemy player's units on tile
                 foreach (int defendingPlayerID in tileAttackInfo[location].Keys) {
-                    if (playerID != defendingPlayerID) AttackUnitsOnTile(location, playerID, defendingPlayerID);
+                    if (playerID != defendingPlayerID) {
+                        AttackUnitsOnTile(location, playerID, defendingPlayerID);
+                    }
                 }
                 AttackStructureOnTile(location, playerID);
 
@@ -116,6 +118,7 @@ public class UnitAttackManager : MonoBehaviour {
             for (int i = 0; i < defendingPlayer.Units.Count; i++) {
                 if (defendingPlayer.Units[i].Script.Health.CurrentHealth > damageToBeDealt / tileAttackInfo[_location].Keys.Count) {
                     defendingPlayer.Units[i].Script.Health.ChangeHealth(-Mathf.Abs(damageToBeDealt / tileAttackInfo[_location].Keys.Count));
+                    damageToBeDealt -= damageToBeDealt / tileAttackInfo[_location].Keys.Count;
                     break;
                 } else {
                     defendingPlayer.Units[i].Script.Health.SetHealth(0f);
