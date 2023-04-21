@@ -97,13 +97,17 @@ public class GameController : MonoBehaviour {
     private void Lobby() {
         if (TileManagement.instance.GetTiles.Count <= 0)
             TestTileGenerator.instance.GenerateTiles();
+
+        RebuildPlayerBases();
+        //SendStructuresToAllClients();
     }
 
     private void StartGame() {
         ToggleResourceManagers(true);
-
-        RebuildPlayerBases();
         
+        RebuildPlayerBases();
+        SendStructuresToAllClients();
+
         PlayerInfoManager.instance.ResetPlayerReady();
         PlayerInfoManager.instance.ResetPlayerScore();
 
@@ -179,7 +183,7 @@ public class GameController : MonoBehaviour {
             Vector2Int location = tiles[i].Location;
             TileManagement.instance.DestroyTile(location);
             TileManagement.instance.SpawnTile(playerBaseTiles[playerID], location);
-
+            
             ServerStructureBuilder.instance.SendBuildStructurePacketToAllClients(playerID, location, (int)playerBaseTiles[playerID].GetComponent<Tile>().Structures[0].StructureID);
         }
     }

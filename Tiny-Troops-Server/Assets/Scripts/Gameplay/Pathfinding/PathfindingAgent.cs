@@ -134,7 +134,7 @@ public class PathfindingAgent : MonoBehaviour {
         startPos = transform.position;
 
         targetNode = _targetNode;
-        targetPos = targetNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius), 0, GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius));
+        targetPos = targetNode.transform.position + new Vector3(GameUtils.Random(randomSeed, -targetNode.Radius, targetNode.Radius), 0, GameUtils.Random(randomSeed + 1, -targetNode.Radius, targetNode.Radius));
 
         previousDistance = 999999999f;
     }

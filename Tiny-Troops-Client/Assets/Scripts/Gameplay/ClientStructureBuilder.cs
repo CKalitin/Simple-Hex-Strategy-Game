@@ -180,7 +180,6 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     private void OnBuildStructurePacket(object _packetObject) {
         USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
-        Debug.Log($"Received BuildStructurePacket from PlayerID ({packet.PlayerID}) at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) ({structureBuildInfos[packet.StructureID].name})");
         // If packet means to destroy a structure
         if (packet.StructureID < 0) {
             if (!DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation))) {

@@ -118,7 +118,8 @@ public class ClientVillage : MonoBehaviour {
         GameObject villager = Instantiate(villagerPrefab, pos, Quaternion.identity);
         
         villager.GetComponent<PathfindingAgent>().Initialize(tile.TileInfo.Location, spawnPathfindingNode, _randomSeed);
-        
+        villager.GetComponent<Villager>().Village = this;
+
         villagers.Add(_villagerUUID, villager);
     }
 

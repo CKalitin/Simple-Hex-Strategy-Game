@@ -34,7 +34,9 @@ public class PlayerVillage : MonoBehaviour {
         if (!VillagerManager.instance.Villages.ContainsKey(PlayerID)) VillagerManager.instance.Villages.Add(PlayerID, new List<PlayerVillage>());
         VillagerManager.instance.Villages[PlayerID].Add(this);
         
-        SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
+        if (MatchManager.instance.MatchState != MatchState.Lobby) {
+            SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
+        }
     }
 
     private void GetTileParent() {

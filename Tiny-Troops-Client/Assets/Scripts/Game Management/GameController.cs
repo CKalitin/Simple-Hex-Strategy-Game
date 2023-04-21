@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject[] tilePrefabs;
     [Space]
     [SerializeField] private int numTilesToExpect = 400;
+    // I don't know either, goddamn tech debt
     [SerializeField] private float gameInitalizedCallbackDelay;
 
     private bool gameReady = false;
