@@ -14,11 +14,34 @@ public class UnitAttackManager : MonoBehaviour {
     private int totalTicks;
 
     private Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> tileAttackInfo = new Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>>();
-    
+    private Dictionary<int, PlayerUnitInfo> playerUnitInfos = new Dictionary<int, PlayerUnitInfo>();
+    private PlayerUnitInfo playerSelectedUnitInfo;
+
     public delegate void TileAttackInfoUpdated();
     public static event TileAttackInfoUpdated OnTileAttackInfoUpdated;
     
     public Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> TileAttackInfo { get => tileAttackInfo; set => tileAttackInfo = value; }
+    public Dictionary<int, PlayerUnitInfo> PlayerUnitInfos { get => playerUnitInfos; set => playerUnitInfos = value; }
+    public PlayerUnitInfo PlayerSelectedUnitInfo { get => playerSelectedUnitInfo; set => playerSelectedUnitInfo = value; }
+
+    public class PlayerUnitInfo {
+        private List<int> numUnitsByType = new List<int>();
+
+        private float totalMaxHealth;
+        private float totalCurrentHealth;
+        private float totalUnitAttackDamage;
+        private float totalStructureAttackDamage;
+
+        public PlayerUnitInfo() {
+            numUnitsByType = new List<int>() { 0, 0 };
+        }
+
+        public List<int> NumUnitsByType { get => numUnitsByType; set => numUnitsByType = value; }
+        public float TotalMaxHealth { get => totalMaxHealth; set => totalMaxHealth = value; }
+        public float TotalCurrentHealth { get => totalCurrentHealth; set => totalCurrentHealth = value; }
+        public float TotalUnitAttackDamage { get => totalUnitAttackDamage; set => totalUnitAttackDamage = value; }
+        public float TotalStructureAttackDamage { get => totalStructureAttackDamage; set => totalStructureAttackDamage = value; }
+    }
 
     public class PlayerTileUnitInfo {
         private Vector2Int location;
@@ -134,6 +157,8 @@ public class UnitAttackManager : MonoBehaviour {
 
     private void SetTileAttackInfo() {
         tileAttackInfo = new Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>>();
+        playerUnitInfos = new Dictionary<int, PlayerUnitInfo>();
+        playerSelectedUnitInfo = new PlayerUnitInfo();
 
         foreach (UnitInfo unit in UnitManager.instance.Units.Values) {
             Vector2Int location = unit.Location;
@@ -146,6 +171,9 @@ public class UnitAttackManager : MonoBehaviour {
                 tileAttackInfo[location][unit.PlayerID].Location = location;
                 tileAttackInfo[location][unit.PlayerID].Units = new List<UnitInfo>();
             }
+
+            if (!playerUnitInfos.ContainsKey(unit.PlayerID))
+                playerUnitInfos.Add(unit.PlayerID, new PlayerUnitInfo());
 
             tileAttackInfo[location][unit.PlayerID].Units.Add(unit);
 
@@ -172,6 +200,20 @@ public class UnitAttackManager : MonoBehaviour {
             tileAttackInfo[location][unit.PlayerID].PotentialStructureAttackDamage += unit.Script.StructureAttackDamage;
 
             tileAttackInfo[location][unit.PlayerID].TotalHealth += unit.Script.Health.CurrentHealth;
+            
+            playerUnitInfos[unit.PlayerID].NumUnitsByType[0]++;
+            playerUnitInfos[unit.PlayerID].TotalUnitAttackDamage += unit.Script.UnitAttackDamage;
+            playerUnitInfos[unit.PlayerID].TotalStructureAttackDamage += unit.Script.StructureAttackDamage;
+            playerUnitInfos[unit.PlayerID].TotalMaxHealth += unit.Script.GetComponent<Health>().MaxHealth;
+            playerUnitInfos[unit.PlayerID].TotalCurrentHealth += unit.Script.GetComponent<Health>().CurrentHealth;
+
+            if (UnitSelector.instance.SelectedUnits.ContainsKey(unit.Script.UnitUUID)) {
+                playerSelectedUnitInfo.NumUnitsByType[0]++;
+                playerSelectedUnitInfo.TotalUnitAttackDamage += unit.Script.UnitAttackDamage;
+                playerSelectedUnitInfo.TotalStructureAttackDamage += unit.Script.StructureAttackDamage;
+                playerSelectedUnitInfo.TotalMaxHealth += unit.Script.GetComponent<Health>().MaxHealth;
+                playerSelectedUnitInfo.TotalCurrentHealth += unit.Script.GetComponent<Health>().CurrentHealth;
+            }
         }
 
         // Sort units on each tile by health

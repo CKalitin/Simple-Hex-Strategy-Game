@@ -52,7 +52,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 19a99e058dbe1ba4bb875b6580c50904, type: 2}
   tickTime: 5
   updateResourcesOnTick: 0
-  resourceEntriesDisplay: []
 --- !u!1 &4571661714935279177
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +104,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 19a99e058dbe1ba4bb875b6580c50904, type: 2}
   tickTime: 5
   updateResourcesOnTick: 0
-  resourceEntriesDisplay: []
 --- !u!1 &4571661715180189768
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +156,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 19a99e058dbe1ba4bb875b6580c50904, type: 2}
   tickTime: 5
   updateResourcesOnTick: 0
-  resourceEntriesDisplay: []
 --- !u!1 &4571661715469168643
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +208,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 19a99e058dbe1ba4bb875b6580c50904, type: 2}
   tickTime: 5
   updateResourcesOnTick: 0
-  resourceEntriesDisplay: []
 --- !u!1 &4571661716153691176
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,4 +256,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03632db92ce10db4a90627016580fe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileDimensions: {x: 4.25, y: 5}
+  tileDimensions: {x: 4.395, y: 5}

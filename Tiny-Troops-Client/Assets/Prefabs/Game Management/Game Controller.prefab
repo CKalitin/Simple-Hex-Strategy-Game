@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2071603838}
   - component: {fileID: 2071603846}
   - component: {fileID: 5226934764394996829}
+  - component: {fileID: 7956063896306745600}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -59,6 +60,9 @@ MonoBehaviour:
   - {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c, type: 3}
   - {fileID: 2450458459561363271, guid: a8ac9325e9dcaf44796558b9b4bb94dc, type: 3}
   - {fileID: 2471017130971047749, guid: 0aab7ec1bd12a854f8dd8df060b898c4, type: 3}
+  - {fileID: 2471017130971047749, guid: a2903b74ba8b02145a5810ea3116ffb4, type: 3}
+  numTilesToExpect: 400
+  gameInitalizedCallbackDelay: 0
 --- !u!114 &6617243320722010879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,10 +126,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structureBuildInfos:
   - {fileID: 11400000, guid: 7cde1964be540a245bdf9d268f2a145a, type: 2}
+  - {fileID: 11400000, guid: cb908c2f96a57da4997794c74072ea6e, type: 2}
+  - {fileID: 11400000, guid: 24e2f6a34a5329f4db1e7b3d6a92261c, type: 2}
+  - {fileID: 11400000, guid: df273875406bc0f49bb406455378971f, type: 2}
+  - {fileID: 11400000, guid: 09bbbb22a2e4f764387e4ddc7837f386, type: 2}
+  - {fileID: 11400000, guid: 47ce89625d59c76479740c301df72acb, type: 2}
   - {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
   - {fileID: 11400000, guid: f20f3cb4e2996f5409715ffcd5700da6, type: 2}
   - {fileID: 11400000, guid: 874e97b2e290e794f9dc899616b32799, type: 2}
   - {fileID: 11400000, guid: afb77eb87fdeeb049ae070df4c248c18, type: 2}
+  - {fileID: 11400000, guid: 5643c3e20e18e164580efe93c715089f, type: 2}
   - {fileID: 11400000, guid: ae1ee29294b16e2458f6bb04d3a7a859, type: 2}
   - {fileID: 11400000, guid: f1d70555f4a68ef44bf44f1fe3829b6d, type: 2}
   - {fileID: 11400000, guid: 503df08416bfafb4dad189eb69abf194, type: 2}
@@ -154,6 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4dd933a6516ab24aa6be663d8c36c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitPrefabs:
+  - {fileID: 2216679837717455195, guid: b1838516cd4974649bac2c1d0c5efb86, type: 3}
 --- !u!114 &2071603846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,3 +191,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackTickTime: 3
+--- !u!114 &7956063896306745600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617243320722010875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686de8d9cdd17064ba79302bd5c031a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStructureBuildInfo: {fileID: 0}
+  buildingEnabled: 0
+  destroyingEnabled: 0
+  destroyDisplay: {fileID: 2300357837749734927, guid: 097120256c16f9d41a3a6696f13f539e,
+    type: 3}

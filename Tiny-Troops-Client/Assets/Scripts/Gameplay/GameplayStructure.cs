@@ -18,8 +18,6 @@ public class GameplayStructure : MonoBehaviour {
 
     private Vector2Int tileLocation;
 
-    private TileActionMenu tileActionMenu;
-
     private bool addedToStructureManager = false;
 
     public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
@@ -54,21 +52,6 @@ public class GameplayStructure : MonoBehaviour {
         if (!playerOwnedStructure) return;
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
-    }
-
-    #endregion
-
-    #region UI
-
-    public void OnStructureUICloseButton() {
-        if (!playerOwnedStructure) return;
-        tileActionMenu.ToggleActive(false);
-    }
-
-    public void SetTileActionMenu(TileActionMenu _tam) {
-        if (!playerOwnedStructure) return;
-        tileActionMenu = _tam;
-        structureUI.GetComponent<StructureActionMenu>().TileActionMenu = _tam;
     }
 
     #endregion

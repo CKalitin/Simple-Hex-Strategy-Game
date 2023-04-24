@@ -143,9 +143,10 @@ public class PathfindingAgent : MonoBehaviour {
 
     #region Public Functions
 
-    public void PathfindToLocation(Vector2Int _targetLocation) {
-        path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-
+    public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
+        if (_path != null) path = _path;
+        else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
+        
         if (path == null) return;
         if (path.Count <= 1) {
             targetLocation = currentLocation;

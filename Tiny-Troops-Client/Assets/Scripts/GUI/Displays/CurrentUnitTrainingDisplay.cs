@@ -9,9 +9,13 @@ public class CurrentUnitTrainingDisplay : MonoBehaviour {
     [SerializeField] private Image unitTrainingPercentage;
     [SerializeField] private TextMeshProUGUI unitNameText;
     [Space]
-    [SerializeField] private ClientUnitSpawner clientUnitSpawner;
+    [SerializeField] private StructureUI structureUI;
+
+    private ClientUnitSpawner clientUnitSpawner;
 
     private void Update() {
+        if (clientUnitSpawner == null) clientUnitSpawner = structureUI.ClientUnitSpawner;
+
         if (clientUnitSpawner.UnitSpawnQueue.Count > 0) {
             unitTrainingPercentage.fillAmount = clientUnitSpawner.UnitTrainingPercentage;
             string unitNameString = UnitManager.instance.UnitPrefabs[clientUnitSpawner.UnitSpawnQueue[0]].GetComponent<Unit>().UnitDisplayName;
@@ -21,5 +25,9 @@ public class CurrentUnitTrainingDisplay : MonoBehaviour {
             unitTrainingPercentage.fillAmount = 0;
             unitNameText.text = "";
         }
+    }
+
+    private void OnDisable() {
+        clientUnitSpawner = null;
     }
 }

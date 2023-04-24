@@ -5,9 +5,9 @@ using UnityEngine;
 public class UnitSelector : MonoBehaviour {
     public static UnitSelector instance;
 
-    private List<UnitInfo> selectedUnits = new List<UnitInfo>();
+    private Dictionary<int, UnitInfo> selectedUnits = new Dictionary<int, UnitInfo>();
 
-    public List<UnitInfo> SelectedUnits { get => selectedUnits; set => selectedUnits = value; }
+    public Dictionary<int, UnitInfo> SelectedUnits { get => selectedUnits; set => selectedUnits = value; }
 
     private void Awake() {
         Singleton();

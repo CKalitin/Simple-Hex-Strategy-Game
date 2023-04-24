@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 
 public class StructureBuilder : MonoBehaviour {
+    public static StructureBuilder instance;
+
     [Header("Config")]
     [Tooltip("ID of the player associated with this Resource Management instance.")]
     [SerializeField] private int playerID;
@@ -23,7 +25,21 @@ public class StructureBuilder : MonoBehaviour {
     private StructureBuildInfo previousStructureBuildInfo; // This is for switching buildInfo and updating display structure
 
     public bool BuildingEnabled { get => buildingEnabled; set => buildingEnabled = value; }
+    public bool DestroyingEnabled { get => destroyingEnabled; set => destroyingEnabled = value; }
     public StructureBuildInfo CurrentStructureBuildInfo { get => currentStructureBuildInfo; set => currentStructureBuildInfo = value; }
+
+    private void Awake() {
+        Singleton();
+    }
+
+    private void Singleton() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Debug.Log($"Structure Builder instance already exists on ({gameObject}), destroying this.", gameObject);
+            Destroy(this);
+        }
+    }
 
     void Update() {
         if (buildingEnabled) {

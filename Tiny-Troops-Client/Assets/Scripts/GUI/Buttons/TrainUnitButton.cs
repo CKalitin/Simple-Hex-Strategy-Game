@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TrainUnitButton : MonoBehaviour {
-    [SerializeField] private ClientUnitSpawner clientUnitSpawner;
-    [Space]
+    [Header("Spawning")]
     [SerializeField] private int unitID;
     [Tooltip("This is here only for display purposes")]
     [SerializeField] private GameObject unitPrefab;
-    [Space]
+    
+    [Header("References")]
+    [SerializeField] private StructureUI structureUI;
     [SerializeField] private GameObject cantAffordDisplayParent;
+
+    private ClientUnitSpawner clientUnitSpawner;
 
     private void Update() {
         if (cantAffordDisplayParent == null) return;
@@ -22,6 +25,8 @@ public class TrainUnitButton : MonoBehaviour {
     }
 
     public void OnButtonDown() {
+        if (clientUnitSpawner == null) clientUnitSpawner = structureUI.ClientUnitSpawner;
+
         if (CanAffordCosts(MatchManager.instance.PlayerID, UnitManager.instance.UnitPrefabs[unitID].GetComponent<Unit>().UnitCost))
             clientUnitSpawner.AddUnitToQuene(unitID);
     }
@@ -34,5 +39,9 @@ public class TrainUnitButton : MonoBehaviour {
         }
 
         return output;
+    }
+
+    private void OnDisable() {
+        clientUnitSpawner = null;
     }
 }

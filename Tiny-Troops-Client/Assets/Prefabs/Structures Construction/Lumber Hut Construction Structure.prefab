@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9151981503895353636}
   - component: {fileID: 6410329172442648452}
   - component: {fileID: 3269242735708625892}
-  - component: {fileID: 210942997572971775}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -85,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &210942997572971775
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45983736073340495}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3595485209442517939
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +124,6 @@ Transform:
   - {fileID: 4341467189148626231}
   - {fileID: 6562312878606069185}
   - {fileID: 791095525254668542}
-  - {fileID: 555594923546239209}
   - {fileID: 4127408709497975025}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -175,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOwnedStructure: 1
-  structureUI: {fileID: 1539103090107551985}
+  structureUI: {fileID: 0}
   tilePathfinding: {fileID: 8746338465632852069}
   health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
 --- !u!114 &5288104342542355879
@@ -579,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3030409008401160779, guid: 0dcb737340ea2154eb2af2e9d8dbf367,
         type: 3}
@@ -656,110 +641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d61a421c81cb694f8e5cd00c09eef9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1788665766379935515
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 252404273224574547}
-    m_Modifications:
-    - target: {fileID: 907344535969427319, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_Name
-      value: Structure Action Menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 975416427755030506, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969116236586037070, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_text
-      value: Lumber Hut
-      objectReference: {fileID: 0}
-    - target: {fileID: 5547220952754279708, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: health
-      value: 
-      objectReference: {fileID: 5288104342542355879}
-    - target: {fileID: 8241619061096892074, guid: 086602cab87c57a4682c77a2719690be,
-        type: 3}
-      propertyPath: m_text
-      value: 'Inside that little building is a small Canadian man. He sits there
-        patiently eating stray cats that wonder into his house while he waits for
-        trees to grow. When trees finally grow he performs a sacred ritual and proceeds
-        to chop down the tree. '
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 086602cab87c57a4682c77a2719690be, type: 3}
---- !u!4 &555594923546239209 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2262848436699248626, guid: 086602cab87c57a4682c77a2719690be,
-    type: 3}
-  m_PrefabInstance: {fileID: 1788665766379935515}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1539103090107551985 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 975416427755030506, guid: 086602cab87c57a4682c77a2719690be,
-    type: 3}
-  m_PrefabInstance: {fileID: 1788665766379935515}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3000260603630051491
 PrefabInstance:
   m_ObjectHideFlags: 0

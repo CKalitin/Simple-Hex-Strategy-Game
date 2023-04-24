@@ -44,7 +44,8 @@ public class Structure : MonoBehaviour {
     #region Core
 
     private void Awake() {
-        InitVars();
+        GetTileParent();
+        if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
 
         InitializeResourceEntries();
         InstantiateCopiesOfResourceEntries();
@@ -57,10 +58,18 @@ public class Structure : MonoBehaviour {
         if (TileManagement.instance.SpawningComplete) GetAndApplyResourceModifiers();
     }
 
-    private void InitVars() {
-        if (transform.parent.parent.parent.GetComponent<Tile>()) {
-            tile = transform.parent.parent.parent.GetComponent<Tile>();
-            if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
+    private void GetTileParent() {
+        Transform t = transform.parent;
+        while (true) {
+            if (t.GetComponent<Tile>()) {
+                // If tile script found
+                tile = t.GetComponent<Tile>();
+                break;
+            } else {
+                // If we're at the top of the heirarchy, break out of the loop.
+                if (t.parent == null) break;
+                t = t.parent;
+            }
         }
     }
 
