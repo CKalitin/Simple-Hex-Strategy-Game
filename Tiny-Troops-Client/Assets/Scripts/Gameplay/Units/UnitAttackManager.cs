@@ -16,9 +16,6 @@ public class UnitAttackManager : MonoBehaviour {
     private Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> tileAttackInfo = new Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>>();
     private Dictionary<int, PlayerUnitInfo> playerUnitInfos = new Dictionary<int, PlayerUnitInfo>();
     private PlayerUnitInfo playerSelectedUnitInfo;
-
-    public delegate void TileAttackInfoUpdated();
-    public static event TileAttackInfoUpdated OnTileAttackInfoUpdated;
     
     public Dictionary<Vector2Int, Dictionary<int, PlayerTileUnitInfo>> TileAttackInfo { get => tileAttackInfo; set => tileAttackInfo = value; }
     public Dictionary<int, PlayerUnitInfo> PlayerUnitInfos { get => playerUnitInfos; set => playerUnitInfos = value; }
@@ -46,18 +43,26 @@ public class UnitAttackManager : MonoBehaviour {
     public class PlayerTileUnitInfo {
         private Vector2Int location;
 
-        private List<UnitInfo> units; // Sorted by health
+        private List<UnitInfo> units = new List<UnitInfo>(); // Sorted by health
+        private List<int> numUnitsByType = new List<int>();
 
-        private float totalHealth;
+        private float totalMaxHealth;
+        private float totalCurrentHealth;
         private float unitAttackDamage;
         private float structureAttackDamage;
 
         private float potentialUnitAttackDamage;
         private float potentialStructureAttackDamage;
 
+        public PlayerTileUnitInfo() {
+            numUnitsByType = new List<int>() { 0, 0 };
+        }
+
         public Vector2Int Location { get => location; set => location = value; }
         public List<UnitInfo> Units { get => units; set => units = value; }
-        public float TotalHealth { get => totalHealth; set => totalHealth = value; }
+        public List<int> NumUnitsByType { get => numUnitsByType; set => numUnitsByType = value; }
+        public float TotalMaxHealth { get => totalMaxHealth; set => totalMaxHealth = value; }
+        public float TotalCurrentHealth { get => totalCurrentHealth; set => totalCurrentHealth = value; }
         public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
         public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
         public float PotentialUnitAttackDamage { get => potentialUnitAttackDamage; set => potentialUnitAttackDamage = value; }
@@ -176,6 +181,7 @@ public class UnitAttackManager : MonoBehaviour {
                 playerUnitInfos.Add(unit.PlayerID, new PlayerUnitInfo());
 
             tileAttackInfo[location][unit.PlayerID].Units.Add(unit);
+            TileAttackInfo[location][unit.PlayerID].NumUnitsByType[0]++;
 
             bool unitsPresent = UnitManager.instance.GetPlayerUnitsAtLocation(location).Count > 1; // If enemy units present
             bool structurePresent = TileManagement.instance.GetTileAtLocation(location).Tile.Structures.Count > 0 && TileManagement.instance.GetTileAtLocation(location).Tile.Structures[0].PlayerID != -1;
@@ -199,8 +205,9 @@ public class UnitAttackManager : MonoBehaviour {
             tileAttackInfo[location][unit.PlayerID].PotentialUnitAttackDamage += unit.Script.UnitAttackDamage;
             tileAttackInfo[location][unit.PlayerID].PotentialStructureAttackDamage += unit.Script.StructureAttackDamage;
 
-            tileAttackInfo[location][unit.PlayerID].TotalHealth += unit.Script.Health.CurrentHealth;
-            
+            tileAttackInfo[location][unit.PlayerID].TotalCurrentHealth += unit.Script.Health.CurrentHealth;
+            tileAttackInfo[location][unit.PlayerID].TotalMaxHealth += unit.Script.Health.CurrentHealth;
+
             playerUnitInfos[unit.PlayerID].NumUnitsByType[0]++;
             playerUnitInfos[unit.PlayerID].TotalUnitAttackDamage += unit.Script.UnitAttackDamage;
             playerUnitInfos[unit.PlayerID].TotalStructureAttackDamage += unit.Script.StructureAttackDamage;
@@ -222,8 +229,6 @@ public class UnitAttackManager : MonoBehaviour {
                 x.Value.Units.OrderBy(d => d.Script.Health.CurrentHealth);
             }
         }
-        
-        if (OnTileAttackInfoUpdated != null) OnTileAttackInfoUpdated();
     }
 
     public void ResetManager() {

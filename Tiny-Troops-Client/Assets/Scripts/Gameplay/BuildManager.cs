@@ -66,6 +66,8 @@ public class BuildManager : MonoBehaviour {
 
         // If can't afford structure
         if (!CanAffordStructure()) { buildingAllowedOnTile = false; return; }
+        // Prevents an error
+        if (GetTileUnderCursor() == null) { buildingAllowedOnTile = false; return; }
         // If there is no tile under the cursor
         if ((structureLocationsParent = GetTileUnderCursor().Tile.StructureLocationsParent) == null) { buildingAllowedOnTile = false; return; }
         // If there is no available structure location
@@ -116,6 +118,8 @@ public class BuildManager : MonoBehaviour {
         Transform tile;
 
         // Checks to exit function (Same as Builder())
+        // Prevents an error
+        if (GetTileUnderCursor() == null) { buildingAllowedOnTile = false; return; }
         // If there is no tile under the cursor
         if ((structureLocationsParent = GetTileUnderCursor().Tile.StructureLocationsParent) == null) { DestroyDisplayStructure(); return; }
         // If there is no available structure location

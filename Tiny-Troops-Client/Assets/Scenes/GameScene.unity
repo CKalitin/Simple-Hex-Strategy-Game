@@ -1115,6 +1115,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1739090086}
     m_Modifications:
+    - target: {fileID: 1677868068, guid: 01ede25dd39f1ff4299c2dfa4c448e74, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1937377446, guid: 01ede25dd39f1ff4299c2dfa4c448e74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1879211017045321074, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1225,7 +1233,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game UI Parent
       objectReference: {fileID: 0}
-    - target: {fileID: 6658417709647245056, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
+    - target: {fileID: 2734374816405072997, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180190956581715510, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276858728724010343, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8603143341754988820, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
         type: 3}
       propertyPath: m_IsActive
       value: 0

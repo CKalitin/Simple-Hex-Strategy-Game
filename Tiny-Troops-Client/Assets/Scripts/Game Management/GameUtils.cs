@@ -18,4 +18,28 @@ public static class GameUtils {
     public static float Random(ref System.Random _random, float _min, float _max) {
         return _random.Next(Mathf.RoundToInt(_min * 1000000), Mathf.RoundToInt(_max * 1000000)) / 1000000f;
     }
+    
+    // This function makes the local client always appear first
+    public static int IdToIndex(int _id) {
+        if (_id == USNL.ClientManager.instance.ClientId) return 0;
+        else if (_id == 0) return USNL.ClientManager.instance.ClientId;
+        return _id;
+    }
+
+    public static Tile GetTileParent(Transform _transform) {
+        Tile output = null;
+        Transform t = _transform.parent;
+        while (true) {
+            if (t.GetComponent<Tile>()) {
+                // If tile script found
+                output = t.GetComponent<Tile>();
+                break;
+            } else {
+                // If we're at the top of the heirarchy, break out of the loop.
+                if (t.parent == null) break;
+                t = t.parent;
+            }
+        }
+        return output;
+    }
 }

@@ -2245,7 +2245,7 @@ GameObject:
   - component: {fileID: 1123482996}
   - component: {fileID: 1123482995}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Default Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6904,7 +6904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3768112743939436768}
   m_Layer: 5
-  m_Name: Units
+  m_Name: Default Units UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6917,7 +6917,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2865142487973794350}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

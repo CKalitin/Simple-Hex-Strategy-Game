@@ -111,7 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 396084a6a624147469d50c4a9dcfc3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  togglableUI: {fileID: 0}
   tile: {fileID: 8142464371967572687}
 --- !u!1 &8142464371831691951
 GameObject:
@@ -381,6 +380,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile Unit Display Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5568598840617054335, guid: 6f3a29b38f21fe34597be5936380c4fd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6783988388458133307, guid: 6f3a29b38f21fe34597be5936380c4fd,
         type: 3}

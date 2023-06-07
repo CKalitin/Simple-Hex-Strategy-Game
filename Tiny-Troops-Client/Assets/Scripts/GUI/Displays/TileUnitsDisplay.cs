@@ -5,63 +5,57 @@ using TMPro;
 
 public class TileUnitsDisplay : MonoBehaviour {
     [Header("UI")]
-    [SerializeField] private GameObject parent;
-    [SerializeField] private GameObject[] playerIdDisplays;
+    [Tooltip("In order of playerID")]
+    [SerializeField] private TileUnitsElement[] unitDisplays;
     [Space]
-    [SerializeField] private TextMeshProUGUI unitCountText;
-    [Space]
-    [SerializeField] private TextMeshProUGUI totalHealthText;
-    [Space]
-    [SerializeField] private TextMeshProUGUI unitAttackText;
-    [SerializeField] private TextMeshProUGUI structureAttackText;
-    [Space]
-    [SerializeField] private TextMeshProUGUI potentialUnitAttackText;
-    [SerializeField] private TextMeshProUGUI potentialStructureAttackText;
-
-    [Header("References")]
-    [SerializeField] private Tile tile;
+    [SerializeField] private TextMeshProUGUI playerUnitCountText;
+    [SerializeField] private TextMeshProUGUI enemyUnitCountText;
+    
+    private Tile tile;
 
     private void Awake() {
-        for (int i = 0; i < playerIdDisplays.Length; i++)
-            playerIdDisplays[i].SetActive(false);
+        for (int i = 0; i < unitDisplays.Length; i++)
+            unitDisplays[i].gameObject.SetActive(false);
+
+        tile = GameUtils.GetTileParent(transform);
     }
 
-    private void OnEnable() {
-        UnitAttackManager.OnTileAttackInfoUpdated += OnTileAttackInfoUpdated;
-    }
-
-    private void OnDisable() {
-        UnitAttackManager.OnTileAttackInfoUpdated -= OnTileAttackInfoUpdated;
-    }
-
-    private void OnTileAttackInfoUpdated() {
+    // This is late update so if an expanded Unit Display is activated, its text will always be updated before the first frame it is visible
+    private void LateUpdate() {
         UpdateUI();
     }
 
     private void UpdateUI() {
-        if (!UnitAttackManager.instance.TileAttackInfo.ContainsKey(tile.TileInfo.Location) || !UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(MatchManager.instance.PlayerID)) {
-            parent.SetActive(false);
+        playerUnitCountText.text = "0";
+        enemyUnitCountText.text = "0";
+
+        if (!UnitAttackManager.instance.TileAttackInfo.ContainsKey(tile.TileInfo.Location)) {
+            for (int i = 0; i < unitDisplays.Length; i++)
+                unitDisplays[i].gameObject.SetActive(false);
             return;
         }
 
-        UnitAttackManager.PlayerTileUnitInfo tileInfo = UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][MatchManager.instance.PlayerID];
+        for (int i = 0; i < unitDisplays.Length; i++) {
+            int index = GameUtils.IdToIndex(MatchManager.instance.PlayerID);
+            if (!UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(index)) {
+                unitDisplays[i].gameObject.SetActive(false);
+                continue;
+            }
 
-        if (tileInfo.Units.Count <= 0) {
-            parent.SetActive(false);
-            return;
+            UnitAttackManager.PlayerTileUnitInfo tileInfo = UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][index];
+            if (tileInfo.Units.Count <= 0) {
+                unitDisplays[i].gameObject.SetActive(false);
+                continue;
+            }
+
+            unitDisplays[i].gameObject.SetActive(true);
+            unitDisplays[i].SetText(tileInfo);
+
+            if (index == MatchManager.instance.PlayerID) {
+                playerUnitCountText.text = tileInfo.Units.Count.ToString();
+            } else {
+                enemyUnitCountText.text = (int.Parse(playerUnitCountText.text) + tileInfo.Units.Count).ToString();
+            }
         }
-        
-        parent.SetActive(true);
-
-        playerIdDisplays[MatchManager.instance.PlayerID].SetActive(true);
-
-        unitCountText.text = tileInfo.Units.Count.ToString();
-        totalHealthText.text = tileInfo.TotalHealth.ToString();
-
-        unitAttackText.text = tileInfo.PotentialUnitAttackDamage.ToString();
-        structureAttackText.text = tileInfo.PotentialStructureAttackDamage.ToString();
-
-        potentialUnitAttackText.text = tileInfo.UnitAttackDamage.ToString();
-        potentialStructureAttackText.text = tileInfo.StructureAttackDamage.ToString();
     }
 }
