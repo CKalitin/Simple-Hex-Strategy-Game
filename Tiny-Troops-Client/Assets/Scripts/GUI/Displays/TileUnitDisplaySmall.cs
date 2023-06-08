@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using USNL;
 
 public class TileUnitDisplaySmall : MonoBehaviour {
     [Tooltip("In order of playerID, mostly.")]
@@ -21,7 +22,7 @@ public class TileUnitDisplaySmall : MonoBehaviour {
     private void Start() {
         ogFooterY = footer.localPosition.y;
         tile = GameUtils.GetTileParent(transform);
-
+        togglableParent.SetActive(false);
     }
 
     private void Update() {
@@ -29,6 +30,7 @@ public class TileUnitDisplaySmall : MonoBehaviour {
     }
 
     public void SetText() {
+        if (!ClientManager.instance.IsConnected) return;
         int iters = 0;
         bool active = false;
         for (int i = 0; i < USNL.ClientManager.instance.ServerInfo.ConnectedClientIds.Length; i++) {

@@ -17,6 +17,8 @@ MonoBehaviour:
     packetVariables:
     - variableName: Username
       variableType: 6
+    - variableName: Color
+      variableType: 8
     protocol: 0
     notes: 
   - packetName: Player Ready
@@ -97,6 +99,8 @@ MonoBehaviour:
       variableType: 6
     - variableName: Score
       variableType: 2
+    - variableName: Color
+      variableType: 8
     sendType: 1
     protocol: 0
     notes: 
@@ -204,5 +208,5 @@ MonoBehaviour:
     sendType: 1
     protocol: 0
     notes: 
-  ClientPacketFoldouts: 000000000000
-  ServerPacketFoldouts: 0000000000000000000000000001
+  ClientPacketFoldouts: 010000000000
+  ServerPacketFoldouts: 0000000100000000000000000001

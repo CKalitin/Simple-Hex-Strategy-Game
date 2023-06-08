@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour {
     #region Callbacks
 
     private void OnConnected(object _object) {
-        USNL.PacketSend.PlayerSetupInfo(PlayerPrefs.GetString("Username", "Username"));
+        USNL.PacketSend.PlayerSetupInfo(PlayerPrefs.GetString("Username", "Username"), Vector3.zero);
     }
 
     private void OnTilesPacket(object _packetObject) {

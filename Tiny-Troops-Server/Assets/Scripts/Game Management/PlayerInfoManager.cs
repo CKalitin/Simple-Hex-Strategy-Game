@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Should be a struct, ugh
@@ -8,17 +9,22 @@ using UnityEngine;
 public class PlayerInfo {
     [SerializeField] private string username;
 
+    [SerializeField] private Color color;
+
     [SerializeField] private bool ready;
     
     [SerializeField] private int score;
 
     public PlayerInfo() {
         username = "";
+        color = Color.white;
         ready = false;
         score = 0;
     }
 
     public string Username { get => username; set => username = value; }
+    
+    public Color Color { get => color; set => color = value; }
 
     public bool Ready { get => ready; set => ready = value; }
     
@@ -104,7 +110,7 @@ public class PlayerInfoManager : MonoBehaviour {
 
     public void SendPlayerInfo(int _id) {
         playerInfos[_id].UpdatePlayerScore();
-        USNL.PacketSend.PlayerInfo(_id, playerInfos[_id].Username, playerInfos[_id].Score);
+        USNL.PacketSend.PlayerInfo(_id, playerInfos[_id].Username, playerInfos[_id].Score, new Vector3(playerInfos[_id].Color.r, playerInfos[_id].Color.g, playerInfos[_id].Color.b));
     }
 
     public void ResetPlayerReady() {
@@ -129,6 +135,7 @@ public class PlayerInfoManager : MonoBehaviour {
     private void OnPlayerSetupInfoPacket(object _packetObject) {
         USNL.PlayerSetupInfoPacket packet = (USNL.PlayerSetupInfoPacket)_packetObject;
         playerInfos[packet.FromClient].Username = packet.Username;
+        playerInfos[packet.FromClient].Color = new Color(packet.Color.x, packet.Color.y, packet.Color.z);
 
         SendPlayerInfo(packet.FromClient);
     }

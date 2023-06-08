@@ -61,14 +61,17 @@ namespace USNL {
         private int fromClient;
 
         private string username;
+        private Vector3 color;
 
-        public PlayerSetupInfoPacket(int _fromClient, string _username) {
+        public PlayerSetupInfoPacket(int _fromClient, string _username, Vector3 _color) {
             fromClient = _fromClient;
             username = _username;
+            color = _color;
         }
 
         public int FromClient { get => fromClient; set => fromClient = value; }
         public string Username { get => username; set => username = value; }
+        public Vector3 Color { get => color; set => color = value; }
     }
 
     public struct PlayerReadyPacket {
@@ -244,11 +247,12 @@ namespace USNL {
             }
         }
 
-        public static void PlayerInfo(int _clientID, string _username, int _score) {
+        public static void PlayerInfo(int _clientID, string _username, int _score, Vector3 _color) {
             using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.PlayerInfo)) {
                 _packet.Write(_clientID);
                 _packet.Write(_username);
                 _packet.Write(_score);
+                _packet.Write(_color);
 
                 SendTCPDataToAll(_packet);
             }
@@ -500,8 +504,9 @@ namespace USNL.Package {
 
         public static void PlayerSetupInfo(Packet _packet) {
             string username = _packet.ReadString();
+            Vector3 color = _packet.ReadVector3();
 
-            PlayerSetupInfoPacket playerSetupInfoPacket = new PlayerSetupInfoPacket(_packet.FromClient, username);
+            PlayerSetupInfoPacket playerSetupInfoPacket = new PlayerSetupInfoPacket(_packet.FromClient, username, color);
             PacketManager.instance.PacketReceived(_packet, playerSetupInfoPacket);
         }
 

@@ -11,11 +11,11 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField] private GameObject lobbyCanvas;
     [SerializeField] private GameObject gameEndedCanvas;
     [Space]
-    [SerializeField] private GameObject pauseMenuCanvas;
-    [Space]
     [SerializeField] private GameObject connectingCanvas;
     [SerializeField] private GameObject serverClosedCanvas;
     [SerializeField] private GameObject timedOutCanvas;
+    [Space]
+    [SerializeField] private PauseMenuManager pauseMenuManager;
 
     #endregion
 
@@ -45,7 +45,14 @@ public class CanvasManager : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            pauseMenuCanvas.SetActive(!pauseMenuCanvas.activeSelf);
+            if (pauseMenuManager.IsActive()) {
+                pauseMenuManager.Close();
+                if (MatchManager.instance.MatchState == MatchState.Lobby) TogglePrimaryCanvases(false, true, false);
+                else TogglePrimaryCanvases(true, false, false);
+            } else {
+                pauseMenuManager.Open();
+                TogglePrimaryCanvases(false, false, false);
+            }
         }
 
         if (USNL.ClientManager.instance.ServerClosed) {

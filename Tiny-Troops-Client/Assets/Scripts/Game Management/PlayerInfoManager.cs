@@ -7,18 +7,23 @@ using UnityEngine;
 [Serializable]
 public class PlayerInfo {
     [SerializeField] private string username;
-    
+
+    [SerializeField] private Color color;
+
     [SerializeField] private bool ready;
 
     [SerializeField] private int score;
 
     public PlayerInfo() {
         username = "";
+        color = Color.white;
         ready = false;
         score = 0;
     }
 
     public string Username { get => username; set => username = value; }
+
+    public Color Color { get => color; set => color = value; }
 
     public bool Ready { get => ready; set => ready = value; }
 
@@ -70,6 +75,7 @@ public class PlayerInfoManager : MonoBehaviour {
         
         playerInfos[packet.ClientID].Username = packet.Username;
         playerInfos[packet.ClientID].Score = packet.Score;
+        playerInfos[packet.ClientID].Color = new Color(packet.Color.x, packet.Color.y, packet.Color.z);
     }
 
     private void OnPlayerReadyPacket(object _packetObject) {

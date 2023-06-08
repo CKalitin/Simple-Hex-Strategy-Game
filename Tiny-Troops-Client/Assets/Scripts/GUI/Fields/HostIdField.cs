@@ -45,9 +45,9 @@ public class HostIdField : MonoBehaviour {
             if (!ValidateIPv4(IDtoIP(id))) invalidIdIndicator.SetActive(true);
             else PlayerPrefs.SetInt("HostId", id);
 
-            Debug.Log(IDtoIP(id) + ", " + ValidateIPv4(IDtoIP(id)));
+            //Debug.Log(IDtoIP(id) + ", " + ValidateIPv4(IDtoIP(id)));
         } catch {
-            Debug.Log("Error");
+            //Debug.Log("Error");
             invalidIdIndicator.SetActive(true);
         }
     }
