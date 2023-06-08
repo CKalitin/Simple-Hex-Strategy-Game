@@ -88,14 +88,13 @@ public class UnitManager : MonoBehaviour {
     }
 
     public List<int> GetUnitsOfIdAtLocation(Vector2Int _location, int _playerID) {
-        List<int> output = GetUnitsAtLocation(_location);
+        List<int> unitsAtLocation = GetUnitsAtLocation(_location);
+        List<int> output = new List<int>();
 
-        int numRemoved = 0;
-        for (int i = 0; i < output.Count; i++) {
-            if (units[output[i - numRemoved]].PlayerID != _playerID) {
-                output.RemoveAt(i - numRemoved);
-                numRemoved++;
-            }
+        for (int i = 0; i < unitsAtLocation.Count; i++) {
+            if (units[unitsAtLocation[i]].PlayerID == _playerID) {
+                output.Add(unitsAtLocation[i]);
+            }            
         }
         return output;
     }

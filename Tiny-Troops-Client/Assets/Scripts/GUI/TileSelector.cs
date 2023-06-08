@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,6 +126,7 @@ public class TileSelector : MonoBehaviour {
         if (newTile == null) return;
         
         List<int> selectedUnitUUIDs = UnitManager.instance.GetUnitsOfIdAtLocation(newTile.Tile.TileInfo.Location, MatchManager.instance.PlayerID);
+
         for (int i = 0; i < selectedUnitUUIDs.Count; i++) {
             // If unit already selected, deselect it
             if (select) SelectUnit(selectedUnitUUIDs[i]);
