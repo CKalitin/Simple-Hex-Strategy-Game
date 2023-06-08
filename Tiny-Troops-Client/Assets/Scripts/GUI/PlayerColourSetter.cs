@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using USNL.Package;
+using System;
 
 public class PlayerColourSetter : MonoBehaviour {
     [Header("Settings")]
@@ -28,6 +29,7 @@ public class PlayerColourSetter : MonoBehaviour {
     public void UpdateColor() {
         int playerID = clientID;
         if (useIdToIndex) playerID = GameUtils.IdToIndex(clientID);
+        
         Color color = Color.Lerp(new Color(defaultColor.r, defaultColor.g, defaultColor.b, defaultColor.a), PlayerInfoManager.instance.PlayerInfos[playerID].Color, 0.5f);
         if (text) text.color = color;
         if (image) image.color = color;
@@ -45,5 +47,16 @@ public class PlayerColourSetter : MonoBehaviour {
             if (text) text.color = color;
             if (image) image.color = color;
         }
+    }
+
+    public Color GetColor() {
+        if (image) return image.color;
+        if (text) return text.color;
+        return defaultColor;
+    }
+
+    public void SetToDefaultColor() {
+        if (text) text.color = defaultColor;
+        if (image) image.color = defaultColor;
     }
 }

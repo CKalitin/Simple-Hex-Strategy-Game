@@ -25,12 +25,12 @@ public class ResourceDisplay : MonoBehaviour {
     private void Update() {
         if (resourceReference == null) resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
         
-        if (resourceSupplyText) resourceSupplyText.text = resourceReference.Supply.ToString();
+        if (resourceSupplyText) resourceSupplyText.text = Mathf.FloorToInt(resourceReference.Supply).ToString();
 
         if (resourceDemandText) {
-            if (resourceReference.Demand >= 0) resourceDemandText.text = "+" + resourceReference.Demand.ToString();
-            else resourceDemandText.text = "-" + resourceReference.Demand.ToString();
-            float xOffset = (resourceReference.Supply.ToString().Length - defaultSupplyCharactersLength) * demandXOffsetPerCharacter;
+            if (resourceReference.Demand >= 0) resourceDemandText.text = "+" + Mathf.FloorToInt(resourceReference.Demand).ToString();
+            else resourceDemandText.text = "-" + Mathf.FloorToInt(resourceReference.Demand).ToString();
+            float xOffset = (Mathf.FloorToInt(resourceReference.Supply).ToString().Length - defaultSupplyCharactersLength) * demandXOffsetPerCharacter;
             resourceDemandText.transform.localPosition = new Vector2(demandTextOriginalX + xOffset, resourceDemandText.transform.localPosition.y);
         }
     }

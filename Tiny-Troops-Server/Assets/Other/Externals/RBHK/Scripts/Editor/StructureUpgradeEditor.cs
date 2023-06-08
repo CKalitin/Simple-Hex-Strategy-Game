@@ -98,7 +98,7 @@ public class StructureUpgradeEditor : Editor {
         // if targetListSize field is not selected, or is enter is pressed
         if (GUI.GetNameOfFocusedControl() != "ArrayLengthField" || (Event.current.isKey && Event.current.keyCode == KeyCode.Return)) {
             // Create new array of targetListSize, copy old array contents into new array, replace old array with new array
-            StructureUpgrade.StructureUpgradeCost[] newCost = new StructureUpgrade.StructureUpgradeCost[targetListSize];
+            RBHKCost[] newCost = new RBHKCost[targetListSize];
 
             for (int i = 0; i < Mathf.Clamp(structureUpgrade.Cost.Length, 0, newCost.Length); i++) {
                 newCost[i] = structureUpgrade.Cost[i];

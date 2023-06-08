@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerColorSelectButton : MonoBehaviour {
-    [SerializeField] private Color[] colorOptions;
-    [Space]
     [SerializeField] private TextMeshProUGUI text;
 
+    private Color[] colorOptions;
     private int index;
+
+    private void Start() {
+        colorOptions = ColorManager.instance.Colors;
+        
+        GetNextAvailableColor();
+    }
 
     private void OnEnable() { USNL.CallbackEvents.OnPlayerInfoPacket += OnPlayerInfoPacket; }
     private void OnDisable() { USNL.CallbackEvents.OnPlayerInfoPacket -= OnPlayerInfoPacket; }

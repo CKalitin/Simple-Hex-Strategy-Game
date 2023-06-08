@@ -30,6 +30,7 @@ public class Tile : MonoBehaviour {
     public Transform StructureLocationsParent { get => structureLocationsParent; set => structureLocationsParent = value; }
     public List<Structure> Structures { get => structures; set => structures = value; }
     public RBHKUtils.IndexList<ResourceModifier> ResourceModifiers { get => resourceModifiers; set => resourceModifiers = value; }
+    public Vector2Int Location { get => location; set => location = value; }
 
     void Start() {
         if (TileManagement.instance.SpawningComplete) {

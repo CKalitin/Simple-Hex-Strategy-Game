@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour {
@@ -17,6 +18,9 @@ public class ResourceManager : MonoBehaviour {
     [Tooltip("Period of time between changes to resource supply by demand.")]
     [SerializeField] private float tickTime;
     [SerializeField] private bool updateResourcesOnTick = true;
+    [Space]
+    [Tooltip("This updates resource between ticks so the player gains resources at a smooth rate.")]
+    [SerializeField] private bool continuouslyUpdateResources;
     
     public delegate void ResourcesChangedCallback(int playerID);
     public static event ResourcesChangedCallback OnResourcesChanged;
@@ -32,6 +36,7 @@ public class ResourceManager : MonoBehaviour {
     private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
 
     private float totalDeltaTime = 0;
+    private int secondsPassed = 0;
 
     #endregion
 
@@ -53,7 +58,9 @@ public class ResourceManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (updateResourcesOnTick) TickUpdate();
+        if (updateResourcesOnTick & !continuouslyUpdateResources) TickUpdate();
+        else if (updateResourcesOnTick) ContinuousTickUpdate();
+        
         resourceEntriesDisplay = resourceEntries.Values;
     }
 
@@ -133,6 +140,37 @@ public class ResourceManager : MonoBehaviour {
         }
         
         if (resourcesChanged & OnResourcesChanged != null) OnResourcesChanged(playerId);
+    }
+
+    private void ContinuousTickUpdate() {
+        totalDeltaTime += Time.deltaTime;
+        
+        // This is here to increase the number of ticks in the resources, could be useful in the future - I'm adding too much complexity
+        foreach (KeyValuePair<float, List<int>> resourceTick in resourceTicks) {
+            // Time difference between now and previous tick
+            float deltaTimeDifference = totalDeltaTime - (resourceTick.Key * resourceTick.Value[0]);
+            // If totalDeltaTime - (tickTime * ticksPerformed) is greater than tickTime, perform another tick
+            if (deltaTimeDifference < resourceTick.Key) continue;
+
+            // Run the resource tick the amount of times the tickTime can fit into the deltaTimeDifference
+            // This is neccessary because the tickTime might be smaller than deltaTimeDifference, eg. lots of lag or tiny resourceTick
+            for (int x = 0; x < Mathf.FloorToInt(deltaTimeDifference % resourceTick.Key); x++) {
+                resourceTick.Value[0]++; // Increase ticks performed by 1
+            }
+        }
+        
+        if (totalDeltaTime < secondsPassed) return;
+        secondsPassed++;
+        
+        foreach (KeyValuePair<float, List<int>> resourceTick in resourceTicks) {
+            // Loop through resources that should be updated on this tick
+            // This starts one 1 because the 0th value is the number of times the tick update has occured
+            for (int i = 1; i < resourceTick.Value.Count; i++) {
+                resources[resourceTick.Value[i]].Supply += resources[resourceTick.Value[i]].Demand / resourceTick.Key;
+            }
+        }
+
+        if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
     #endregion

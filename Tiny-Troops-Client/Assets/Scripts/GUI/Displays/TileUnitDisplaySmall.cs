@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using USNL;
+using System;
 
 public class TileUnitDisplaySmall : MonoBehaviour {
     [Tooltip("In order of playerID, mostly.")]
@@ -33,6 +34,7 @@ public class TileUnitDisplaySmall : MonoBehaviour {
         if (!ClientManager.instance.IsConnected) return;
         int iters = 0;
         bool active = false;
+        int lastClientID = -1;
 
         // If client does not have troops on this tile, increase iters to account for the enemy using a troop count display
         if (UnitAttackManager.instance.TileAttackInfo.ContainsKey(tile.TileInfo.Location) && !UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(MatchManager.instance.PlayerID)) iters++;
@@ -56,6 +58,7 @@ public class TileUnitDisplaySmall : MonoBehaviour {
             if (playerUnitCountsText[index].transform.parent.GetComponent<PlayerColourSetter>()) {
                 playerUnitCountsText[index].transform.parent.GetComponent<PlayerColourSetter>().ClientID = clientID;
                 playerUnitCountsText[index].transform.parent.GetComponent<PlayerColourSetter>().UpdateColor();
+                lastClientID = clientID;
             }
             active = true;
             iters++;
@@ -65,7 +68,14 @@ public class TileUnitDisplaySmall : MonoBehaviour {
             playerUnitCountsText[i].transform.parent.gameObject.SetActive(false);
         }
         playerUnitCountsText[0].transform.parent.gameObject.SetActive(true);
-        
+
+        if (lastClientID != MatchManager.instance.PlayerID && lastClientID != -1) {
+            footer.GetComponent<PlayerColourSetter>().ClientID = lastClientID;
+            footer.GetComponent<PlayerColourSetter>().UpdateColor();
+        } else {
+            footer.GetComponent<PlayerColourSetter>().SetToDefaultColor();
+        }
+
         togglableParent.SetActive(active);
         footer.localPosition = new Vector3(footer.localPosition.x, ogFooterY - (iters * footerSpacingPerElement) + (footerSpacingPerElement * playerUnitCountsText.Length), footer.localPosition.z);
     }

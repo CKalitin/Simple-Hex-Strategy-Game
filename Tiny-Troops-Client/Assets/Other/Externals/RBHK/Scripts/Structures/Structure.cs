@@ -26,7 +26,7 @@ public class Structure : MonoBehaviour {
     [SerializeField] private StructureLocation structureLocation;
     [Tooltip("If this is not specified by an upgrade, this is the default value.")]
     [SerializeField] ResourceEntry[] resourceEntries = new ResourceEntry[0];
-    
+
     private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
     private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
 
@@ -44,8 +44,7 @@ public class Structure : MonoBehaviour {
     #region Core
 
     private void Awake() {
-        GetTileParent();
-        if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
+        InitVars();
 
         InitializeResourceEntries();
         InstantiateCopiesOfResourceEntries();
@@ -58,18 +57,10 @@ public class Structure : MonoBehaviour {
         if (TileManagement.instance.SpawningComplete) GetAndApplyResourceModifiers();
     }
 
-    private void GetTileParent() {
-        Transform t = transform.parent;
-        while (true) {
-            if (t.GetComponent<Tile>()) {
-                // If tile script found
-                tile = t.GetComponent<Tile>();
-                break;
-            } else {
-                // If we're at the top of the heirarchy, break out of the loop.
-                if (t.parent == null) break;
-                t = t.parent;
-            }
+    private void InitVars() {
+        if (transform.parent.parent.parent.GetComponent<Tile>()) {
+            tile = transform.parent.parent.parent.GetComponent<Tile>();
+            if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
         }
     }
 
@@ -80,7 +71,7 @@ public class Structure : MonoBehaviour {
 
     public void DestroyStructure() {
         RefundNoTickCost();
-        structureLocation.AssignedStructure = null;
+        if (structureLocation.AssignedStructure) structureLocation.AssignedStructure = null;
         Destroy(gameObject);
     }
 

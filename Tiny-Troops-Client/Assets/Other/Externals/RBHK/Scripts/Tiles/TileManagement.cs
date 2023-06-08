@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 // This can't be a struct because structs are data types, not reference types. A reference to this is required in the Tile script.
-// Just tested the class reference thing and it is AMAZING! I love references & pointers! hehe
+// Just tested the class reference thing and it is AMAZING! I love references & pointers!
 public class TileInfo {
     private Tiles tileId;
     private Vector2Int location;

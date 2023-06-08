@@ -7,7 +7,7 @@ using UnityEngine;
 public class StructureIdsGenerator : ScriptableObject {
     [SerializeField] private string[] structureIds;
     [Space]
-    [SerializeField] private string tileEnumPath = "Assets/Other/Externals/RBHK/Enums/";
+    [SerializeField] private string tileEnumPath = "Assets/Other/Enums/";
     [SerializeField] private string tileEnumName = "StructureID";
 
     public string[] StructureIdsArray { get => structureIds; set => structureIds = value; }

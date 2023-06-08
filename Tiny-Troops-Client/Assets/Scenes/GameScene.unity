@@ -1043,6 +1043,12 @@ MonoBehaviour:
   serverClosedCanvas: {fileID: 323605362}
   timedOutCanvas: {fileID: 590818407}
   pauseMenuManager: {fileID: 1413630732}
+--- !u!1 &1790235250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6617243320722010875, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6617243322141120648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1802343921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1179,6 +1185,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6617243322141120648}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2071603840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790235250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e29386d5edb0c4bb0dc64d2715e933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.6807935, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.3510604, a: 1}
+  - {r: 1, g: 0.71534777, b: 0, a: 1}
+  colorMaterials:
+  - {fileID: 2100000, guid: 1d42b31aa6ce357499c18af1074c6f17, type: 2}
+  - {fileID: 2100000, guid: 2567992fd9a67b8468df73a6885839c3, type: 2}
+  - {fileID: 2100000, guid: 62e8dec700409454f8645605512190de, type: 2}
+  - {fileID: 2100000, guid: be21bc3893fe53f46ba6a87e0920e479, type: 2}
 --- !u!1001 &255070989518533498
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,17 +7,8 @@ public class StructureUpgrade : ScriptableObject {
     [Tooltip("New Resource Entries for Structure, replaces old entries, modifiers are still applied.")]
     [SerializeField] private ResourceEntry[] resourceEntries;
     [Tooltip("Resources Required to Apply Upgrade.")]
-    [SerializeField] private StructureUpgradeCost[] cost = new StructureUpgradeCost[5];
+    [SerializeField] private RBHKCost[] cost = new RBHKCost[5];
 
     public ResourceEntry[] ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
-    public StructureUpgradeCost[] Cost { get => cost; set => cost = value; }
-
-    [System.Serializable]
-    public struct StructureUpgradeCost {
-        [SerializeField] private GameResource resource;
-        [SerializeField] private float amount;
-
-        public GameResource Resource { get => resource; set => resource = value; }
-        public float Amount { get => amount; set => amount = value; }
-    }
+    public RBHKCost[] Cost { get => cost; set => cost = value; }
 }

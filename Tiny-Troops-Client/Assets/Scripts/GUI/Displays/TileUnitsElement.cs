@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
 
 public class TileUnitsElement : MonoBehaviour {
     [Header("Config")]
@@ -28,7 +29,9 @@ public class TileUnitsElement : MonoBehaviour {
     }
 
     private void Update() {
-        SetText(UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][playerID]);
+        if (UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(playerID))
+            SetText(UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][playerID]);
+        else SetTextToDefault();
     }
 
     public void SetText(UnitAttackManager.PlayerTileUnitInfo _tileInfo) {
@@ -41,7 +44,19 @@ public class TileUnitsElement : MonoBehaviour {
 
         healthText.text = "Health " + _tileInfo.TotalCurrentHealth.ToString() + " / " + _tileInfo.TotalMaxHealth.ToString();
 
-        unitAttackText.text = _tileInfo.UnitAttackDamage + " / " + _tileInfo.PotentialUnitAttackDamage;// + ", " + _tileInfo.PotentialUnitAttackDamage.ToString();
-        structureAttackText.text = _tileInfo.StructureAttackDamage + " / " + _tileInfo.PotentialStructureAttackDamage;// + ", " + _tileInfo.PotentialStructureAttackDamage.ToString();
+        unitAttackText.text = _tileInfo.UnitAttackDamage + " / " + _tileInfo.PotentialUnitAttackDamage;
+        structureAttackText.text = _tileInfo.StructureAttackDamage + " / " + _tileInfo.PotentialStructureAttackDamage;
+    }
+
+    public void SetTextToDefault() {
+        usernameText.text = "";
+
+        unitCountText.text = "0";
+        tankCountText.text = "0";
+
+        healthText.text = "Health 0 / 0";
+
+        unitAttackText.text = "0 / 0";
+        structureAttackText.text = "0 / 0";
     }
 }
