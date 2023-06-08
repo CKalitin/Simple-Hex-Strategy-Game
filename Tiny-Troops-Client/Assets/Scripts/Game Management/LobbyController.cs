@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using USNL.Package;
 
 public class LobbyController : MonoBehaviour {
     #region Variables
@@ -11,6 +13,9 @@ public class LobbyController : MonoBehaviour {
 
     // For some reason playerDisplays is null inside OnPlayerInfoPacket on the second load of the game scene. But in Update it's fine. 
     private List<USNL.PlayerInfoPacket> unhandledPlayerInfoPackets = new List<USNL.PlayerInfoPacket>();
+
+    // This is a list of the last time a player disconnect packet (Player Setup Info with username of "") was received to stop the display from flashing
+    private Dictionary<int, float> lastReceivedDisconnectByPlayerID = new Dictionary<int, float>();
 
     #endregion
 
@@ -52,9 +57,21 @@ public class LobbyController : MonoBehaviour {
 
     private void HandlePlayerInfoPacket(USNL.PlayerInfoPacket packet) {
         int id = GameUtils.IdToIndex(packet.ClientID);
-
+        
         // Check Client disconnected
+        // This stops it from flashing quickly, tech debt
+        if (packet.Username == "" && lastReceivedDisconnectByPlayerID.ContainsKey(id) && Time.timeSinceLevelLoad - lastReceivedDisconnectByPlayerID[id] < 1f) {
+            if (lastReceivedDisconnectByPlayerID.ContainsKey(id)) lastReceivedDisconnectByPlayerID[id] = Time.timeSinceLevelLoad;
+            else lastReceivedDisconnectByPlayerID.Add(id, Time.timeSinceLevelLoad);
+
+            return;
+        }
+
+        // Real Check Client disconnected
         if (packet.Username == "") {
+            if (lastReceivedDisconnectByPlayerID.ContainsKey(id)) lastReceivedDisconnectByPlayerID[id] = Time.timeSinceLevelLoad;
+            else lastReceivedDisconnectByPlayerID.Add(id, Time.timeSinceLevelLoad);
+            
             OnClientDisconnected(packet.ClientID);
             return;
         }
@@ -77,10 +94,10 @@ public class LobbyController : MonoBehaviour {
     private void OnPlayerReadyPacket(object _packetObject) {
         USNL.PlayerReadyPacket packet = (USNL.PlayerReadyPacket)_packetObject;
         int id = GameUtils.IdToIndex(packet.ClientID);
-
+        
         // If player display is not active, activate it. Then update Ready display
-        if (playerDisplays[id].gameObject.activeSelf == false) SetPlayerDisplayActive(id, true);
-        playerDisplays[id].TogglableReady.SetActive(packet.Ready);
+        //if (playerDisplays[id].gameObject.activeSelf == false) SetPlayerDisplayActive(id, true);
+        if (playerDisplays[id].gameObject.activeSelf != false) playerDisplays[id].TogglableReady.SetActive(packet.Ready);
     }
 
     private void OnPlayerInfoPacket(object _packetObject) {
