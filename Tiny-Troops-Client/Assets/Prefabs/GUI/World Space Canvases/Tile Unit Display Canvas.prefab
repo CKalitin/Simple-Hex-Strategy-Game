@@ -968,7 +968,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1137,7 +1137,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1428,6 +1428,7 @@ GameObject:
   - component: {fileID: 7203989386155553944}
   - component: {fileID: 3656684010822372830}
   - component: {fileID: 5660328949219193549}
+  - component: {fileID: 2200684319668872818}
   m_Layer: 6
   m_Name: Player Unit Count 2
   m_TagString: Untagged
@@ -1495,6 +1496,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2200684319668872818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355848315548885913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6930eca770587bb4fa5f39b6a873a290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultColor: {r: 0.11764706, g: 0.11764706, b: 0.11764706, a: 0.78431374}
+  clientID: 1
+  useIdToIndex: 0
+  text: {fileID: 0}
+  image: {fileID: 5660328949219193549}
 --- !u!1 &1551761603310827814
 GameObject:
   m_ObjectHideFlags: 0
@@ -3224,6 +3242,7 @@ GameObject:
   - component: {fileID: 234885443865663875}
   - component: {fileID: 98731974119901437}
   - component: {fileID: 390022835144899420}
+  - component: {fileID: 5953687499827899951}
   m_Layer: 6
   m_Name: Player Unit Count 4
   m_TagString: Untagged
@@ -3291,6 +3310,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5953687499827899951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4181004528751150422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6930eca770587bb4fa5f39b6a873a290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultColor: {r: 0.11764706, g: 0.11764706, b: 0.11764706, a: 0.78431374}
+  clientID: 3
+  useIdToIndex: 0
+  text: {fileID: 0}
+  image: {fileID: 390022835144899420}
 --- !u!1 &4202697813658370634
 GameObject:
   m_ObjectHideFlags: 0
@@ -4119,7 +4155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4550,7 +4586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4888,7 +4924,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &7916780242903906365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5313,6 +5349,7 @@ GameObject:
   - component: {fileID: 917666149649358264}
   - component: {fileID: 8547154972658178887}
   - component: {fileID: 6698015669693270584}
+  - component: {fileID: 9092229718387871654}
   m_Layer: 6
   m_Name: Player Unit Count 3
   m_TagString: Untagged
@@ -5380,6 +5417,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9092229718387871654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6349195825153576683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6930eca770587bb4fa5f39b6a873a290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultColor: {r: 0.11764706, g: 0.11764706, b: 0.11764706, a: 0.78431374}
+  clientID: 2
+  useIdToIndex: 0
+  text: {fileID: 0}
+  image: {fileID: 6698015669693270584}
 --- !u!1 &6424882488849622064
 GameObject:
   m_ObjectHideFlags: 0

@@ -2044,21 +2044,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1739090086}
     m_Modifications:
-    - target: {fileID: 5774765512645899850, guid: 791340c60dc737f428d91c93d51c46ef,
-        type: 3}
-      propertyPath: togglableReadyParent
-      value: 
-      objectReference: {fileID: 8776261263633709652}
-    - target: {fileID: 6521860626908129718, guid: 791340c60dc737f428d91c93d51c46ef,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949508632484641242, guid: 791340c60dc737f428d91c93d51c46ef,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8776261262072210275, guid: 791340c60dc737f428d91c93d51c46ef,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2169,12 +2154,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lobby UI Parent
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7682846033917030194, guid: 791340c60dc737f428d91c93d51c46ef, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 791340c60dc737f428d91c93d51c46ef, type: 3}
---- !u!1 &8776261263633709652 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4727646715142552531, guid: 791340c60dc737f428d91c93d51c46ef,
-    type: 3}
-  m_PrefabInstance: {fileID: 8776261263633709651}
-  m_PrefabAsset: {fileID: 0}

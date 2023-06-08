@@ -33,20 +33,39 @@ public class TileUnitDisplaySmall : MonoBehaviour {
         if (!ClientManager.instance.IsConnected) return;
         int iters = 0;
         bool active = false;
+
+        // If client does not have troops on this tile, increase iters to account for the enemy using a troop count display
+        if (UnitAttackManager.instance.TileAttackInfo.ContainsKey(tile.TileInfo.Location) && !UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(MatchManager.instance.PlayerID)) iters++;
+        
         for (int i = 0; i < USNL.ClientManager.instance.ServerInfo.ConnectedClientIds.Length; i++) {
             if (!UnitAttackManager.instance.TileAttackInfo.ContainsKey(tile.TileInfo.Location)) continue;
-            UnitAttackManager.PlayerTileUnitInfo playerUnitInfo = UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][GameUtils.IdToIndex(USNL.ClientManager.instance.ServerInfo.ConnectedClientIds[i])];
-            playerUnitCountsText[iters].transform.parent.gameObject.SetActive(true);
-            playerUnitCountsText[iters].text = playerUnitInfo.NumUnitsByType[0].ToString() + " ";
-            tileUnitsElements[iters].PlayerID = GameUtils.IdToIndex(USNL.ClientManager.instance.ServerInfo.ConnectedClientIds[i]);
+            
+            int clientID = USNL.ClientManager.instance.ServerInfo.ConnectedClientIds[i];
+            if (!UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(clientID)) continue;
+            
+            int index = iters;
+            if (index == 0) index = GameUtils.IdToIndex(iters);
+            if (clientID == MatchManager.instance.PlayerID) index = 0;
+            
+                
+            UnitAttackManager.PlayerTileUnitInfo playerUnitInfo = UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][clientID];
+            playerUnitCountsText[index].transform.parent.gameObject.SetActive(true);
+            playerUnitCountsText[index].text = playerUnitInfo.NumUnitsByType[0].ToString();
+
+            tileUnitsElements[index].PlayerID = clientID;
+            if (playerUnitCountsText[index].transform.parent.GetComponent<PlayerColourSetter>()) {
+                playerUnitCountsText[index].transform.parent.GetComponent<PlayerColourSetter>().ClientID = clientID;
+                playerUnitCountsText[index].transform.parent.GetComponent<PlayerColourSetter>().UpdateColor();
+            }
             active = true;
             iters++;
         }
 
-        for (int i = USNL.ClientManager.instance.ServerInfo.ConnectedClientIds.Length; i < playerUnitCountsText.Length; i++) {
+        for (int i = iters; i < playerUnitCountsText.Length; i++) {
             playerUnitCountsText[i].transform.parent.gameObject.SetActive(false);
         }
-
+        playerUnitCountsText[0].transform.parent.gameObject.SetActive(true);
+        
         togglableParent.SetActive(active);
         footer.localPosition = new Vector3(footer.localPosition.x, ogFooterY - (iters * footerSpacingPerElement) + (footerSpacingPerElement * playerUnitCountsText.Length), footer.localPosition.z);
     }

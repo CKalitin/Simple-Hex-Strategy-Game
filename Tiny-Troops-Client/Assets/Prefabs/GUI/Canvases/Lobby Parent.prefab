@@ -335,9 +335,9 @@ GameObject:
   - component: {fileID: 7746794228545276625}
   - component: {fileID: 7809103333945997848}
   - component: {fileID: 6949508632484641242}
-  - component: {fileID: 7682846033917030194}
+  - component: {fileID: 2084625065}
   m_Layer: 5
-  m_Name: Colour Button
+  m_Name: Color Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,9 +446,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7682846033917030194}
-        m_TargetAssemblyTypeName: PlayerReadyButton, Assembly-CSharp
-        m_MethodName: OnReadyButton
+      - m_Target: {fileID: 2084625065}
+        m_TargetAssemblyTypeName: PlayerColorSelectButton, Assembly-CSharp
+        m_MethodName: ButtonDown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -458,7 +458,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7682846033917030194
+--- !u!114 &2084625065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,10 +467,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4259638854718993013}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cafe3163622fa3a4e850462f2231837d, type: 3}
+  m_Script: {fileID: 11500000, guid: 87379a9953e8e384da321fc6a6a9e390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  togglableIsReady: {fileID: 0}
+  colorOptions:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.6807935, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.3510604, a: 1}
+  - {r: 1, g: 0.71534777, b: 0, a: 1}
+  text: {fileID: 598585192196904405}
 --- !u!1 &5175643829715970733
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +488,7 @@ GameObject:
   - component: {fileID: 8847996598270678833}
   - component: {fileID: 598585192196904405}
   m_Layer: 5
-  m_Name: Ready Text (TMP)
+  m_Name: Color Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1081,8 +1086,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
-  m_fontSizeBase: 120
+  m_fontSize: 140
+  m_fontSizeBase: 140
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1424,6 +1429,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4197269985224512227, guid: b93250ade04969c44af0f7a1247f353b,
+        type: 3}
+      propertyPath: clientID
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7445221067445120989, guid: b93250ade04969c44af0f7a1247f353b,
         type: 3}
       propertyPath: m_Name
@@ -1511,6 +1521,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4197269985224512227, guid: b93250ade04969c44af0f7a1247f353b,
+        type: 3}
+      propertyPath: clientID
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7445221067445120989, guid: b93250ade04969c44af0f7a1247f353b,
         type: 3}
       propertyPath: m_Name
@@ -1597,6 +1612,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197269985224512227, guid: b93250ade04969c44af0f7a1247f353b,
+        type: 3}
+      propertyPath: clientID
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7445221067445120989, guid: b93250ade04969c44af0f7a1247f353b,
         type: 3}
