@@ -13,7 +13,7 @@ public class PlayerColorSelectButton : MonoBehaviour {
     private void Start() {
         colorOptions = ColorManager.instance.Colors;
         
-        GetNextAvailableColor();
+        //if (PlayerInfoManager.instance.PlayerInfos.Count > MatchManager.instance.PlayerID) GetNextAvailableColor();
     }
 
     private void OnEnable() { USNL.CallbackEvents.OnPlayerInfoPacket += OnPlayerInfoPacket; }

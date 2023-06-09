@@ -45,8 +45,9 @@ public class ConstructionStructure : MonoBehaviour {
 
         if (packet.Location != tile.TileInfo.Location) return;
 
-        buildPercentage = packet.Percentage;
-        health.CurrentHealth = Mathf.RoundToInt(health.MaxHealth / packet.Percentage);
+        //buildPercentage = packet.Percentage;
+        buildPercentage = health.CurrentHealth / health.MaxHealth;
+        //health.CurrentHealth = Mathf.RoundToInt(health.MaxHealth * packet.Percentage);
 
         if (buildPercentage >= 1) { 
             //ClientStructureBuilder.instance.ReplaceConstructionStructure(tile.TileInfo.Location, (int)constructedStructureID, structure.PlayerID);

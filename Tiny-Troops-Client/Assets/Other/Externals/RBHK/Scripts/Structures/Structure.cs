@@ -58,10 +58,8 @@ public class Structure : MonoBehaviour {
     }
 
     private void InitVars() {
-        if (transform.parent.parent.parent.GetComponent<Tile>()) {
-            tile = transform.parent.parent.parent.GetComponent<Tile>();
-            if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
-        }
+        tile = GameUtils.GetTileParent(transform);
+        if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
     }
 
     private void OnDestroy() {

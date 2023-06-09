@@ -38,7 +38,6 @@ public class GameplayStructure : MonoBehaviour {
             previousHealth = health.CurrentHealth;
 
             USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
-
             if (health.CurrentHealth <= 0) GetComponent<Structure>().DestroyStructure();
         }
     }

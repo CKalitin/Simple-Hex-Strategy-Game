@@ -377,6 +377,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Structure UI
       objectReference: {fileID: 0}
+    - target: {fileID: 6783988388458133307, guid: 1e6c827a4ad58f348abfc56710c8ea46,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e6c827a4ad58f348abfc56710c8ea46, type: 3}
 --- !u!224 &3291379096526900777 stripped

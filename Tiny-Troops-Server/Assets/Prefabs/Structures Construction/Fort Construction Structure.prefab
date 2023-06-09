@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 2130342505188647509}
-  health: {fileID: 8505481600790248693, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27, type: 3}
+  health: {fileID: -3670653844062473235}
 --- !u!114 &-3670653844062473235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 100
+  currentHealth: 1
   destroyOnZeroHealth: 0
 --- !u!114 &464199647321960595
 MonoBehaviour:

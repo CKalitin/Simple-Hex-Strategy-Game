@@ -81,7 +81,7 @@ public class BuildManager : MonoBehaviour {
         buildingAllowedOnTile = true;
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            InstantiateStructure(structureLoc, tile);
+            InstantiateStructure(structureLoc, structureLoc);
             ClientStructureBuilder.instance.BuildStructureClient(structureLocationsParent.parent.GetComponent<Tile>().Location, (int)currentStructureBuildInfo.StructurePrefab.GetComponent<Structure>().StructureID, currentStructureBuildInfo);
         }
     }

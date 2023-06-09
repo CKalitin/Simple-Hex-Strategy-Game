@@ -47,11 +47,11 @@ public class ConstructionStructure : MonoBehaviour {
     }
 
     public void ChangeBuildPercentage(float _change) {
-        buildPercentage += _change;
-        health.CurrentHealth = health.MaxHealth / buildPercentage;
+        health.ChangeHealth(health.MaxHealth * _change);
+        buildPercentage = health.CurrentHealth / health.MaxHealth;
 
-        USNL.PacketSend.StructureConstruction(Location, buildPercentage);
-        
+        //USNL.PacketSend.StructureConstruction(Location, buildPercentage);
+
         if (buildPercentage >= 1f) {
             ServerStructureBuilder.instance.ReplaceStructure(Location, (int)constructedStructureID, structure.PlayerID);
         }
@@ -59,9 +59,9 @@ public class ConstructionStructure : MonoBehaviour {
 
     public void SetBuildPercentage(float _buildPercentage) {
         buildPercentage = _buildPercentage;
-        health.CurrentHealth = health.MaxHealth / buildPercentage;
+        health.SetHealth(health.MaxHealth / _buildPercentage);
 
-        USNL.PacketSend.StructureConstruction(Location, buildPercentage);
+        //USNL.PacketSend.StructureConstruction(Location, buildPercentage);
 
         if (buildPercentage >= 1f) {
             ServerStructureBuilder.instance.ReplaceStructure(Location, (int)constructedStructureID, structure.PlayerID);

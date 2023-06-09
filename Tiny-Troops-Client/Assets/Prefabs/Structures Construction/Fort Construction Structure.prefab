@@ -161,7 +161,7 @@ MonoBehaviour:
   playerOwnedStructure: 1
   structureUI: {fileID: 0}
   tilePathfinding: {fileID: 8002137112919307291}
-  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
+  health: {fileID: 5676230866130057859}
 --- !u!114 &5676230866130057859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 100
+  currentHealth: 1
   destroyOnZeroHealth: 0
 --- !u!114 &900100499894418604
 MonoBehaviour:
