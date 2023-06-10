@@ -131,13 +131,21 @@ public class BuildManager : MonoBehaviour {
         if (previousStructureBuildInfo != currentStructureBuildInfo || !displayStructure) {
             DestroyDisplayStructure();
             displayStructure = Instantiate(currentStructureBuildInfo.StructureDisplayPrefab, structureLoc.position, Quaternion.identity);
+            
+            DisplayStructure script;
+            GameplayStructure gameplayStructure = currentStructureBuildInfo.StructurePrefab.GetComponent<GameplayStructure>();
+            if ((script = displayStructure.GetComponent<DisplayStructure>()) != null) {
+                script.Initialize(gameplayStructure.BonusTileID, gameplayStructure.BonusAmount, "+");
+                script.Tile = tile.GetComponent<Tile>();
+            }
 
             previousStructureBuildInfo = currentStructureBuildInfo;
         }
 
         displayStructure.transform.position = structureLoc.position;
+        displayStructure.GetComponent<DisplayStructure>().Tile = tile.GetComponent<Tile>();   
     }
-
+    
     private void DisplayDestroyStructure() {
         Transform structureLocationsParent;
         Transform structureLoc;

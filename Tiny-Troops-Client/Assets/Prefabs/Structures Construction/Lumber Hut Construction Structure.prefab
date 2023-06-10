@@ -160,6 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOwnedStructure: 1
+  bonusTileID: 2
+  bonusAmount: 1
   structureUI: {fileID: 0}
   tilePathfinding: {fileID: 8746338465632852069}
   health: {fileID: 5288104342542355879}

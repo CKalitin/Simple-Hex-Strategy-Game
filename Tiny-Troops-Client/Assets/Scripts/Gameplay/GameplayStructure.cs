@@ -7,6 +7,10 @@ public class GameplayStructure : MonoBehaviour {
 
     [Header("Structure")]
     [SerializeField] private bool playerOwnedStructure = false;
+    [Space]
+    [Tooltip("Tile IDs to highlight bonus over.")]
+    [SerializeField] private Tiles bonusTileID;
+    [SerializeField] private int bonusAmount;
 
     [Header("UI")]
     [SerializeField] private GameObject structureUI;
@@ -25,6 +29,8 @@ public class GameplayStructure : MonoBehaviour {
 
     public GameObject StructureUI { get => structureUI; set => structureUI = value; }
     public TilePathfinding TilePathfinding { get => tilePathfinding; set => tilePathfinding = value; }
+    public Tiles BonusTileID { get => bonusTileID; set => bonusTileID = value; }
+    public int BonusAmount { get => bonusAmount; set => bonusAmount = value; }
 
     #endregion
 
