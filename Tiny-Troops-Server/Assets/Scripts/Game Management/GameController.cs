@@ -238,7 +238,7 @@ public class GameController : MonoBehaviour {
 
     private void SendStructures(int _toClient) {
         Structure[] structures = FindObjectsOfType<Structure>();
-
+        
         for (int i = 0; i < structures.Length; i++) {
             USNL.PacketSend.BuildStructure(_toClient, structures[i].PlayerID, structures[i].Tile.TileInfo.Location, (int)structures[i].StructureID);
         }

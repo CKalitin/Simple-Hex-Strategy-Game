@@ -1063,5 +1063,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerConstructionTickTime: 0.25
-  villagerConstructionChangePerTick: 0.02
-  things: []
+  villagerConstructionChangePerTick: 1
+  constructionStructuresDisplay: []

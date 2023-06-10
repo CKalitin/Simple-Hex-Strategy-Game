@@ -8,18 +8,19 @@ public class ConnectingText : MonoBehaviour {
     [SerializeField] private TMPro.TextMeshProUGUI text;
 
     private int index;
-    private float timer;
 
-    private void Start() {
+    private void Awake() {
         text.text = texts[index];
-    }
 
-    private void Update() {
-        timer += Time.deltaTime;
-        if (timer >= delay) {
-            timer = 0;
+        StartCoroutine(TextCoroutine());
+    }
+    
+    private IEnumerator TextCoroutine() {
+        while (true) {
+            yield return new WaitForSecondsRealtime(delay);
+            
             index++;
-            if (index >= texts.Length) return;
+            if (index >= texts.Length) yield break;
             text.text = texts[index];
         }
     }

@@ -29,12 +29,13 @@ public class ResourceManager : MonoBehaviour {
     // First element in value list is reserved for the number of times the tick has been done, This is used in TickUpdate()
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
-    public int PlayerId { get => playerId; set => playerId = value; }
-    public Resource[] Resources { get => resources; set => resources = value; }
-
     private List<ResourceEntry> resourceEntriesDisplay; // For debug purposes
     private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
-
+    
+    public int PlayerId { get => playerId; set => playerId = value; }
+    public Resource[] Resources { get => resources; set => resources = value; }
+    public RBHKUtils.IndexList<ResourceEntry> ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
+    
     private float totalDeltaTime = 0;
     private int secondsPassed = 0;
 
@@ -190,7 +191,9 @@ public class ResourceManager : MonoBehaviour {
 
     public int AddResourceEntry(ResourceEntry _resourceEntry) {
         if (_resourceEntry.ChangeOnTick) {
+            Debug.Log(resourceEntries.Count);
             int index = resourceEntries.Add(_resourceEntry);
+            Debug.Log(resourceEntries.Count);
 
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
             resource.Demand += _resourceEntry.Change; // Add change to Demand

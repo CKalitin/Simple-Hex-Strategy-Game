@@ -19,8 +19,10 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GameObject[] tilePrefabs;
     [Space]
     [SerializeField] private int numTilesToExpect = 400;
+    [SerializeField] private int tilesSpawnedPerFrame = 10;
+    [Space]
     // I don't know either, goddamn tech debt
-    [SerializeField] private float gameInitalizedCallbackDelay;
+    private float gameInitalizedCallbackDelay = 0f;
 
     private bool gameReady = false;
 
@@ -85,7 +87,7 @@ public class GameController : MonoBehaviour {
         USNL.PacketSend.PlayerSetupInfo(PlayerPrefs.GetString("Username", "Username"), Vector3.zero);
     }
 
-    private void OnTilesPacket(object _packetObject) {
+    /*private void OnTilesPacket(object _packetObject) {
         USNL.TilesPacket tilesPacket = (USNL.TilesPacket)_packetObject;
         
         for (int i = 0; i < tilesPacket.TileIDs.Length; i++) {
@@ -99,6 +101,12 @@ public class GameController : MonoBehaviour {
             tilesPacketReceived = true;
             CheckGameReady();
         }
+    }*/
+    
+    private void OnTilesPacket(object _packetObject) {
+        USNL.TilesPacket tilesPacket = (USNL.TilesPacket)_packetObject;
+
+        StartCoroutine(SpawnTilesCoroutine(tilesPacket));
     }
 
     private void OnResourcesPacket(object _packetObject) {
@@ -137,7 +145,30 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Utils
-
+    
+    private IEnumerator SpawnTilesCoroutine(USNL.TilesPacket _tilesPacket) {
+        int tilesSpawned = 0;
+        int framesPassed = 0;
+        while (true) {
+            if (TileManagement.instance.GetTiles.Count >= numTilesToExpect) {
+                ClientStructureBuilder.instance.BuildQueuedStructures();
+                tilesPacketReceived = true;
+                CheckGameReady();
+                yield break;
+            }
+            
+            yield return new WaitForEndOfFrame();
+            framesPassed++;
+            
+            for (int i = tilesSpawned; i < _tilesPacket.TileIDs.Length && i < framesPassed * tilesSpawnedPerFrame; i++) {
+                //if (TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(_tilesPacket.TileLocations[i])).Spawned)
+                //    TileManagement.instance.DestroyTile(Vector2Int.RoundToInt(_tilesPacket.TileLocations[i]));
+                
+                TileManagement.instance.SpawnTile(tilePrefabs[_tilesPacket.TileIDs[i]], Vector2Int.RoundToInt(_tilesPacket.TileLocations[i])); tilesSpawned++;
+            }
+        }
+    }
+    
     private void CheckGameReady() {
         if (tilesPacketReceived && resourcesPacketReceived) {
             if (!gameReady && OnGameInitialized != null) {

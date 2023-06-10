@@ -16,8 +16,9 @@ public class VillagerManager : MonoBehaviour {
     private Dictionary<int, List<Villager>> villagers = new Dictionary<int, List<Villager>>();
     private Dictionary<int, List<PlayerVillage>> villages = new Dictionary<int, List<PlayerVillage>>();
     private Dictionary<int, List<ConstructionStructureInfo>> constructionStructures = new Dictionary<int, List<ConstructionStructureInfo>>();
-
-    [SerializeField] private List<thing> things = new List<thing>();
+    
+    [Tooltip("This is probably just for display purposes.")]
+    [SerializeField] private List<thing> constructionStructuresDisplay = new List<thing>();
 
     [Serializable]
     private struct thing {
@@ -70,10 +71,10 @@ public class VillagerManager : MonoBehaviour {
 
     private void Update() {
         // Copy consrtuction structures into things
-        things.Clear();
+        constructionStructuresDisplay.Clear();
         foreach (KeyValuePair<int, List<ConstructionStructureInfo>> kvp in constructionStructures) {
             for (int i = 0; i < kvp.Value.Count; i++) {
-                things.Add(new thing(kvp.Key, kvp.Value[i].Location, kvp.Value[i].ConstructionStructure, kvp.Value[i].ConstructionVillagers));
+                constructionStructuresDisplay.Add(new thing(kvp.Key, kvp.Value[i].Location, kvp.Value[i].ConstructionStructure, kvp.Value[i].ConstructionVillagers));
             }
         }
     }

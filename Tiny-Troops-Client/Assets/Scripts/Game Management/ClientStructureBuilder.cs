@@ -12,6 +12,24 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     public StructureBuildInfo[] StructureBuildInfos { get => structureBuildInfos; set => structureBuildInfos = value; }
 
+    // This queue is for building the bases after the tiles have been spawned, otherwise the bases are spawned when the game starts
+    private List<BuildStructureInfo> buildStructureQueue = new List<BuildStructureInfo>();
+
+    private struct BuildStructureInfo {
+        public int PlayerID;
+        public Vector2Int TargetTileLocation;
+        public int StructureID;
+        public bool ApplyCost;
+
+        public BuildStructureInfo(int playerID, Vector2Int targetTileLocation, int structureID, bool applyCost) {
+            PlayerID = playerID;
+            TargetTileLocation = targetTileLocation;
+            StructureID = structureID;
+            ApplyCost = applyCost;
+        }
+    }
+
+
     #endregion
 
     #region Core
@@ -30,10 +48,12 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     private void OnEnable() {
         USNL.CallbackEvents.OnBuildStructurePacket += OnBuildStructurePacket;
+        MatchManager.OnMatchStateChanged += OnMatchStateChanged;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnBuildStructurePacket -= OnBuildStructurePacket;
+        MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
     }
 
     #endregion
@@ -41,6 +61,11 @@ public class ClientStructureBuilder : MonoBehaviour {
     #region Builder
 
     private bool BuildStructure(int _playerID, Vector2Int _targetTileLocation, int _structureID, bool _applyCost = true) {
+        if (TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile == null) {
+            buildStructureQueue.Add(new BuildStructureInfo(_playerID, _targetTileLocation, _structureID, _applyCost = true));
+            return false;
+        }
+        
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
@@ -180,6 +205,7 @@ public class ClientStructureBuilder : MonoBehaviour {
 
     private void OnBuildStructurePacket(object _packetObject) {
         USNL.BuildStructurePacket packet = (USNL.BuildStructurePacket)_packetObject;
+        
         // If packet means to destroy a structure
         if (packet.StructureID < 0) {
             if (!DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation))) {
@@ -190,6 +216,19 @@ public class ClientStructureBuilder : MonoBehaviour {
             //Debug.Log($"Could not Build structure at location ({Vector2Int.RoundToInt(packet.TargetTileLocation)}) of StructureID ({packet.StructureID}) for PlayerID ({packet.PlayerID}).");
             // TODO, disabled this because some tiles spawn with sturctures already on them
         }
+    }
+
+    private void OnMatchStateChanged(MatchState _matchState) {
+        if (_matchState == MatchState.Ended) {
+            buildStructureQueue.Clear();
+        }
+    }
+
+    public void BuildQueuedStructures() {
+        for (int i = 0; i < buildStructureQueue.Count; i++) {
+            BuildStructure(buildStructureQueue[i].PlayerID, buildStructureQueue[i].TargetTileLocation, buildStructureQueue[i].StructureID, buildStructureQueue[i].ApplyCost);
+        }
+        buildStructureQueue.Clear();
     }
 
     #endregion
