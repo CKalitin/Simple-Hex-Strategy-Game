@@ -274,7 +274,7 @@ namespace USNL.Package {
 
         #region Functions
 
-        public void SetIP(int _id, int _port) {
+        public void SetIP(long _id, int _port) {
             if (isConnected) {
                 Debug.Log("Client already connected, cannot change IP.");
                 return;

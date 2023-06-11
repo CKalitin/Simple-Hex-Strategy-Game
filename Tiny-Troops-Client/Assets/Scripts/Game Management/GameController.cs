@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void Start() {
-        if (connectOnStart) USNL.ClientManager.instance.ConnectToServer(PlayerPrefs.GetInt("HostId"), port);
+        if (connectOnStart) USNL.ClientManager.instance.ConnectToServer(HostIdField.doubleInt2long(PlayerPrefs.GetInt("HostId1"), PlayerPrefs.GetInt("HostId2")), port);
     }
 
     private void OnApplicationQuit() {

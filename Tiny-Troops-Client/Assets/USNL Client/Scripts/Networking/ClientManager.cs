@@ -29,7 +29,7 @@ namespace USNL {
         public static ClientManager instance;
 
         [Header("Connection Info")]
-        [SerializeField] private int serverId;
+        [SerializeField] private long serverId;
         [SerializeField] private int port = 26950;
         [Space]
         [Tooltip("If connection is not established after x seconds, stop attemping connection.")]
@@ -164,7 +164,7 @@ namespace USNL {
         /// <summary> Attempts to connect to the server with ip and port provided. </summary>
         /// <param name="_id">IP Address</param>
         /// <param name="_port">Port</param>
-        public void ConnectToServer(int _id, int _port) {
+        public void ConnectToServer(long _id, int _port) {
             serverId = _id;
             port = _port;
 
