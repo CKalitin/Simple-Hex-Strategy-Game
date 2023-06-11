@@ -42,8 +42,8 @@ namespace USNL {
         [Space]
         [SerializeField] private ServerInfo serverInfo;
 
-        private int wanClientId = 0;
-        private int lanClientId = 0;
+        private long wanClientId = 0;
+        private long lanClientId = 0;
         private string wanClientIp = "";
         private string lanClientIp = "";
 
@@ -70,8 +70,8 @@ namespace USNL {
         [SerializeField] private bool useApplicationPath = false;
         [SerializeField] private Package.ServerConfig serverConfig;
 
-        public int WanClientId { get => wanClientId; set => wanClientId = value; }
-        public int LanClientId { get => lanClientId; set => lanClientId = value; }
+        public long WanClientId { get => wanClientId; set => wanClientId = value; }
+        public long LanClientId { get => lanClientId; set => lanClientId = value; }
         public string WanClientIp { get => wanClientIp; set => wanClientIp = value; }
         public string LanClientIP { get => lanClientIp; set => lanClientIp = value; }
         
@@ -288,11 +288,11 @@ namespace USNL {
             return false;
         }
 
-        public int IPToID(string _ip) {
+        public long IPToID(string _ip) {
             return USNL.Package.Client.instance.IPToID(_ip);
         }
 
-        public string IDtoIP(int _id) {
+        public string IDtoIP(long _id) {
             return USNL.Package.Client.instance.IDtoIP(_id);
         }
 

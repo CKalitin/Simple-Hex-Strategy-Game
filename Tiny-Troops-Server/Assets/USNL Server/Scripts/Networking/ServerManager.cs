@@ -27,8 +27,8 @@ namespace USNL {
 
         private float lastServerInfoPacketSentTime;
         
-        private int wanServerId;
-        private int lanServerId;
+        private long wanServerId;
+        private long lanServerId;
         private string wanServerIp;
         private string lanServerIp;
 
@@ -40,8 +40,8 @@ namespace USNL {
         public DateTime TimeOfStartup { get => timeOfStartup; set => timeOfStartup = value; }
         public bool ServerActive { get => USNL.Package.Server.ServerData.IsServerActive; }
 
-        public int WanServerId { get => wanServerId; }
-        public int LanServerId { get => lanServerId; }
+        public long WanServerId { get => wanServerId; }
+        public long LanServerId { get => lanServerId; }
         public string WanServerIp { get => wanServerIp; }
         public string LanServerIP { get => lanServerIp; }
 
@@ -267,24 +267,24 @@ namespace USNL {
             return "";
         }
         
-        public int IpToId(string _ip) {
-            int[] ipOctets = new int[4];
+        public long IpToId(string _ip) {
+            long[] ipOctets = new long[4];
             string[] ipOctetsString = _ip.Split('.');
             for (int i = 0; i < ipOctets.Length; i++) {
                 ipOctets[i] = int.Parse(ipOctetsString[i]);
             }
 
-            return ipOctets[0] * 16777216 + ipOctets[1] * 65536 + ipOctets[2] * 256 + ipOctets[3];
+            return (ipOctets[0] * 16777216) + (ipOctets[1] * 65536) + (ipOctets[2] * 256) + ipOctets[3];
         }
 
-        public string IdToIp(int _id) {
+        public string IdToIp(long _id) {
             // https://support.sumologic.com/hc/en-us/community/posts/5076590459927-convert-decimal-value-to-IP-address
-            int[] ipOctets = new int[4];
-            ipOctets[0] = (int)((_id / 16777216) % 256);
-            ipOctets[1] = (int)((_id / 65536) % 256);
-            ipOctets[2] = (int)((_id / 256) % 256);
-            ipOctets[3] = (int)((_id / 1) % 256);
-
+            long[] ipOctets = new long[4];
+            ipOctets[0] = (long)((_id / 16777216) % 256);
+            ipOctets[1] = (long)((_id / 65536) % 256);
+            ipOctets[2] = (long)((_id / 256) % 256);
+            ipOctets[3] = (long)((_id / 1) % 256);
+            
             return ipOctets[0] + "." + ipOctets[1] + "." + ipOctets[2] + "." + ipOctets[3];
         }
 
