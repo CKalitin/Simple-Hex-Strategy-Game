@@ -6,20 +6,15 @@ using TMPro;
 public class LobbyPlayerDisplay : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI usernameText;
     [SerializeField] private GameObject togglableReady;
-    [SerializeField] private float togglableReadySpacing = 150f;
-
-    private float togglableReadyDefaultY;
+    [Space]
+    [Tooltip("If the player's username skips to the next line, the next ready position is used.")]
+    [SerializeField] Transform[] togglableReadyPositions;
 
     public TextMeshProUGUI UsernameText { get => usernameText; set => usernameText = value; }
     public GameObject TogglableReady { get => togglableReady; set => togglableReady = value; }
 
     private void Start() {
-        togglableReadyDefaultY = togglableReady.transform.parent.position.y;
-    }
-
-    private void Update() {
-        if (usernameText.text.Length > 12) {
-            togglableReady.transform.parent.position = new Vector3(togglableReady.transform.position.x, togglableReadyDefaultY - togglableReadySpacing, togglableReady.transform.position.z);
-        }
+        togglableReady.transform.parent.position = togglableReadyPositions[0].position;
+        if (usernameText.text.Length > 12) togglableReady.transform.parent.position = togglableReadyPositions[1].position;
     }
 }

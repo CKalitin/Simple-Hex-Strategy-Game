@@ -607,6 +607,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
         type: 2}
+    - target: {fileID: 2718217228516674972, guid: deaebb01156ce384c980e22f70388d41,
+        type: 3}
+      propertyPath: m_text
+      value: "26950\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 3053224569443049483, guid: deaebb01156ce384c980e22f70388d41,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -843,6 +848,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSizeBase
       value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 8628063913813105130, guid: deaebb01156ce384c980e22f70388d41,
+        type: 3}
+      propertyPath: m_Text
+      value: 26950
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: deaebb01156ce384c980e22f70388d41, type: 3}
