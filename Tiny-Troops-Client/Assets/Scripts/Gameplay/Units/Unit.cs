@@ -78,7 +78,11 @@ public class Unit : MonoBehaviour {
     #region Unit
 
     public void ToggleSelectedIndicator(bool _toggle) {
-        selectedIndicator.SetActive(_toggle);
+        try {
+            selectedIndicator.SetActive(_toggle);
+        } catch(Exception _ex) {
+            Debug.Log("Couldn't toggle selected indicator Error\n" + _ex);
+        }
     }
 
     #endregion

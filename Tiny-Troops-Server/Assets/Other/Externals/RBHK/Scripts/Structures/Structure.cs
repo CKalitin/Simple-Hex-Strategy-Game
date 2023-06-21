@@ -65,13 +65,13 @@ public class Structure : MonoBehaviour {
     }
 
     private void OnDestroy() {
+        RefundNoTickCost();
         RemoveResourceEntriesFromManagement();
         tile.Structures.Remove(this);
     }
 
     public void DestroyStructure() {
-        RefundNoTickCost();
-        if (structureLocation.AssignedStructure) structureLocation.AssignedStructure = null;
+        if (structureLocation && structureLocation.AssignedStructure) structureLocation.AssignedStructure = null;
         Destroy(gameObject);
     }
 

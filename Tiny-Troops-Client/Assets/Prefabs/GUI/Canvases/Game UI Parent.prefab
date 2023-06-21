@@ -6861,7 +6861,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -352.5, y: 0}
+  m_AnchoredPosition: {x: -356, y: 0}
   m_SizeDelta: {x: 250, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9218742842393382389
@@ -6919,8 +6919,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9145,6 +9145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8010608333966746184}
+  - component: {fileID: 859955821}
   m_Layer: 5
   m_Name: Select Troops UI Parent
   m_TagString: Untagged
@@ -9177,6 +9178,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 355}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &859955821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116116414935195312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5faaa88bd97e7143a9a42a3c4a29da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  troopsSlider: {fileID: 8742381977608357248}
+  selectedUnitsText: {fileID: 7323722949172790146}
 --- !u!1 &5260023498065677279
 GameObject:
   m_ObjectHideFlags: 0
@@ -10149,12 +10164,24 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7518538465774896539}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0.5
+  m_MaxValue: 10
+  m_WholeNumbers: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 859955821}
+        m_TargetAssemblyTypeName: SelectTroopsSlider, Assembly-CSharp
+        m_MethodName: SliderValueChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6658417709647245056
 GameObject:
   m_ObjectHideFlags: 0
@@ -11837,7 +11864,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5346851876595542241}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 859955821}
+        m_TargetAssemblyTypeName: SelectTroopsSlider, Assembly-CSharp
+        m_MethodName: SplitButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7850827812224105958
 GameObject:
   m_ObjectHideFlags: 0
@@ -13706,52 +13745,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1788972754}
     m_Modifications:
-    - target: {fileID: 2015846014497531568, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2127409803235588604, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3999042521777933809, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 82eae6f4fffe6494aab1dbdb43790d91,
-        type: 3}
-    - target: {fileID: 4246991800288517074, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_text
-      value: '100
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5885676743738831971, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 5939414567273862926, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_text
-      value: '20
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225286934626828467, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: structureBuildInfo
-      value: 
-      objectReference: {fileID: 11400000, guid: 24e2f6a34a5329f4db1e7b3d6a92261c,
-        type: 2}
-    - target: {fileID: 7815774163752292496, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_text
-      value: Fortress
-      objectReference: {fileID: 0}
     - target: {fileID: 7891928761839616083, guid: 75555c7c364a3c0489a453021f98b5e5,
         type: 3}
       propertyPath: m_Pivot.x
@@ -13856,21 +13849,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7915016190955528885, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 7915016190955528885, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8626431269712320281, guid: 75555c7c364a3c0489a453021f98b5e5,
-        type: 3}
-      propertyPath: m_text
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8875079992785694065, guid: 75555c7c364a3c0489a453021f98b5e5,
         type: 3}

@@ -29,14 +29,14 @@ public class ResourceManager : MonoBehaviour {
     // First element in value list is reserved for the number of times the tick has been done, This is used in TickUpdate()
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
-    public int PlayerId { get => playerId; set => playerId = value; }
-    public Resource[] Resources { get => resources; set => resources = value; }
-
-    private List<ResourceEntry> resourceEntriesDisplay; // For debug purposes
-    private RBHKUtils.IndexList<ResourceEntry> resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
+    private Dictionary<int, ResourceEntry> resourceEntries = new Dictionary<int, ResourceEntry>();
 
     private float totalDeltaTime = 0;
     private int secondsPassed = 0;
+
+    public int PlayerId { get => playerId; set => playerId = value; }
+    public Resource[] Resources { get => resources; set => resources = value; }
+    public Dictionary<int, ResourceEntry> ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
 
     #endregion
 
@@ -60,8 +60,6 @@ public class ResourceManager : MonoBehaviour {
     private void Update() {
         if (updateResourcesOnTick & !continuouslyUpdateResources) TickUpdate();
         else if (updateResourcesOnTick) ContinuousTickUpdate();
-        
-        resourceEntriesDisplay = resourceEntries.Values;
     }
 
     #endregion
@@ -190,46 +188,36 @@ public class ResourceManager : MonoBehaviour {
 
     public int AddResourceEntry(ResourceEntry _resourceEntry) {
         if (_resourceEntry.ChangeOnTick) {
-            int index = resourceEntries.Add(_resourceEntry);
+            resourceEntries.Add(resourceEntries.Count, _resourceEntry);
 
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
             resource.Demand += _resourceEntry.Change; // Add change to Demand
 
             if (OnResourcesChanged != null) OnResourcesChanged(playerId);
             
-            return index;
+            return resourceEntries.Count - 1;
         } else {
-            int index = resourceEntries.Add(_resourceEntry);
-            
+            resourceEntries.Add(resourceEntries.Count, _resourceEntry);
+
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
             resource.Supply += _resourceEntry.Change; // Add change to Supply
             
             if (OnResourcesChanged != null) OnResourcesChanged(playerId);
-
-            // This fucked everything up:
-            // You need an index to be able to subtract the change later on in the RemoveResourceEntry function
-            // Return fake index because index is not used in this case, it is a single use
-            // It's in situations like this where I wish a return function was not alawys needed or something, it's 4aem
-            return index;
+            
+            return resourceEntries.Count - 1;
         }
     }
 
     public void RemoveResourceEntry(int _index) {
         if (resourceEntries.Count <= 0) return;
-        if (_index > resourceEntries.Count) return;
+        if (!resourceEntries.ContainsKey(_index)) return;
         
         if (resourceEntries[_index].ChangeOnTick) {
             Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
             resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
-
-            // Add index to indexes that are free to use
-            resourceEntries.Remove(_index);
         } else {
             Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
             resource.Supply -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
-
-            // Add index to indexes that are free to use
-            resourceEntries.Remove(_index);
         }
         
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
@@ -257,7 +245,7 @@ public class ResourceManager : MonoBehaviour {
 
     // Use with extreme care (Best to reset all tiles - and structures - before using this)
     public void ResetResourceEntries() {
-        resourceEntries = new RBHKUtils.IndexList<ResourceEntry>();
+        resourceEntries = new Dictionary<int, ResourceEntry>();
     }
 
     #endregion

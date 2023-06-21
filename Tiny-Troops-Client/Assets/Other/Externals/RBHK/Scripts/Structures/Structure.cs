@@ -58,8 +58,25 @@ public class Structure : MonoBehaviour {
     }
 
     private void InitVars() {
-        tile = GameUtils.GetTileParent(transform);
+        tile = GetTileParent(transform);
         if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
+    }
+
+    public static Tile GetTileParent(Transform _transform) {
+        Tile output = null;
+        Transform t = _transform.parent;
+        while (true) {
+            if (t.GetComponent<Tile>()) {
+                // If tile script found
+                output = t.GetComponent<Tile>();
+                break;
+            } else {
+                // If we're at the top of the heirarchy, break out of the loop.
+                if (t.parent == null) break;
+                t = t.parent;
+            }
+        }
+        return output;
     }
 
     private void OnDestroy() {

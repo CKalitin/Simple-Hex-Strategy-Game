@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BuildManager : MonoBehaviour {
     public static BuildManager instance;
@@ -64,6 +65,8 @@ public class BuildManager : MonoBehaviour {
         Transform structureLoc;
         Transform tile;
 
+        // If mouse over UI
+        if (EventSystem.current.IsPointerOverGameObject()) { buildingAllowedOnTile = false; return; }
         // If can't afford structure
         if (!CanAffordStructure()) { buildingAllowedOnTile = false; return; }
         // Prevents an error
@@ -92,6 +95,7 @@ public class BuildManager : MonoBehaviour {
         Transform tile;
 
         // Checks to exit function
+        if (EventSystem.current.IsPointerOverGameObject()) { buildingAllowedOnTile = false; return; } // If mouse over UI
         if ((structureLocationsParent = GetTileUnderCursor().Tile.StructureLocationsParent) == null) return; // If there is no tile under the cursor
         if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
         if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent

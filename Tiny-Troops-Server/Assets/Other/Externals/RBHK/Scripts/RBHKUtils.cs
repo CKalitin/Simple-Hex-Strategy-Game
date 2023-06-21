@@ -17,6 +17,9 @@ public class RBHKUtils {
         // What does => do anyway?
         public int Count => usedIndexes.Count;
 
+        /// <summary>  Returns the total number of elements in the list, including those that are not used. </summary>
+        public int TotalCount => list.Count;
+
         public int Add(T _element) {
             int index = availableIndexes[0]; // Get index to insert at
             list.Insert(index, _element); // Insert _element at index

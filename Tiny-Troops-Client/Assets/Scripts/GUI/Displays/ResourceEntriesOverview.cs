@@ -9,7 +9,7 @@ public class ResourceEntriesOverview : MonoBehaviour {
         string output = "";
         
         for (int i = 0; i < ResourceManager.instances[0].ResourceEntries.Values.Count; i++) {
-            output += "(" + ResourceManager.instances[0].ResourceEntries.Values[i].ResourceId + ", " + ResourceManager.instances[0].ResourceEntries.Values[i].Change + "), ";
+            //output += "(" + ResourceManager.instances[0].ResourceEntries.Values[i].ResourceId + ", " + ResourceManager.instances[0].ResourceEntries.Values[i].Change + "), ";
         }
 
         if (output.Length <= 2) return;

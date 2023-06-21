@@ -110,7 +110,12 @@ public class GameController : MonoBehaviour {
 
         PlayerInfoManager.instance.ResetPlayerReady();
         PlayerInfoManager.instance.ResetPlayerScore();
-
+        
+        for (int i = 0; i < ResourceManager.instances.Count; i++) {
+            ResourceManager.instances[i].ResetResources();
+            ResourceManager.instances[i].ResetResourceEntries();
+        }
+        
         for (int i = 0; i < ResourceManager.instances.Count; i++) {
             for (int x = 0; x < initialResources.Length; x++) {
                 ResourceManager.instances[i].ChangeResource(initialResources[x].Resource, initialResources[x].InitialSupply);

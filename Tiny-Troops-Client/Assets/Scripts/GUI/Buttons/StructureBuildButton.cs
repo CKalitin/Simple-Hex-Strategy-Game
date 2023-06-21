@@ -20,6 +20,8 @@ public class StructureBuildButton : MonoBehaviour {
 
     public void OnButtonDown() {
         if (structureBuildInfo != null) {
+            if (!ClientStructureBuilder.instance.CanAffordStructure(MatchManager.instance.PlayerID, structureBuildInfo)) return;
+
             BuildManager.instance.DestroyDisplayStructure();
             BuildManager.instance.CurrentStructureBuildInfo = structureBuildInfo;
             BuildManager.instance.BuildingEnabled = true;
