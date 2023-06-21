@@ -4,6 +4,11 @@ using UnityEngine;
 using TMPro;
 
 public class TroopUI : MonoBehaviour {
+    [Header("Parents")]
+    [SerializeField] private GameObject titleParent;
+    [SerializeField] private GameObject selectTroopsParent;
+
+    [Header("Troop Info")]
     [SerializeField] private TextMeshProUGUI unitsText;
     [SerializeField] private TextMeshProUGUI tanksText;
     [Space]
@@ -18,6 +23,9 @@ public class TroopUI : MonoBehaviour {
     }
 
     private void UpdateWithSelectedUnits() {
+        titleParent.SetActive(false);
+        selectTroopsParent.SetActive(true);
+        
         unitsText.text = UnitSelector.instance.SelectedUnits.Count.ToString();
         tanksText.text = "0";
         
@@ -28,6 +36,9 @@ public class TroopUI : MonoBehaviour {
     }
 
     private void UpdateWithAllUnits() {
+        titleParent.SetActive(true);
+        selectTroopsParent.SetActive(false);
+        
         if (!UnitAttackManager.instance.PlayerUnitInfos.ContainsKey(MatchManager.instance.PlayerID)) {
             unitsText.text = "0";
             tanksText.text = "0";

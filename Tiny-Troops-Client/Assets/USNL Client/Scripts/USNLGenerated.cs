@@ -181,14 +181,17 @@ namespace USNL {
     public struct UnitPathfindPacket {
         private int[] unitUUIDs;
         private Vector2 targetTileLocation;
+        private Vector2[] path;
 
-        public UnitPathfindPacket(int[] _unitUUIDs, Vector2 _targetTileLocation) {
+        public UnitPathfindPacket(int[] _unitUUIDs, Vector2 _targetTileLocation, Vector2[] _path) {
             unitUUIDs = _unitUUIDs;
             targetTileLocation = _targetTileLocation;
+            path = _path;
         }
 
         public int[] UnitUUIDs { get => unitUUIDs; set => unitUUIDs = value; }
         public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
+        public Vector2[] Path { get => path; set => path = value; }
     }
 
     public struct SetUnitLocationPacket {
@@ -381,8 +384,9 @@ namespace USNL {
         public static void UnitPathfind(Package.Packet _packet) {
             int[] unitUUIDs = _packet.ReadInts();
             Vector2 targetTileLocation = _packet.ReadVector2();
+            Vector2[] path = _packet.ReadVector2s();
 
-            USNL.UnitPathfindPacket unitPathfindPacket = new USNL.UnitPathfindPacket(unitUUIDs, targetTileLocation);
+            USNL.UnitPathfindPacket unitPathfindPacket = new USNL.UnitPathfindPacket(unitUUIDs, targetTileLocation, path);
             Package.PacketManager.instance.PacketReceived(_packet, unitPathfindPacket);
         }
 

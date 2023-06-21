@@ -177,7 +177,6 @@ public class PathfindingAgent : MonoBehaviour {
                 currentLocation = targetLocation;
                 if (path.Count > 0) targetLocation = path[0];
                 targetDirection = GetTargetDirection(currentLocation, targetLocation);
-
                 return;
             }
         }

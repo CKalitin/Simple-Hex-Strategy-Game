@@ -298,10 +298,11 @@ namespace USNL {
             }
         }
 
-        public static void UnitPathfind(int[] _unitUUIDs, Vector2 _targetTileLocation) {
+        public static void UnitPathfind(int[] _unitUUIDs, Vector2 _targetTileLocation, Vector2[] _path) {
             using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.UnitPathfind)) {
                 _packet.Write(_unitUUIDs);
                 _packet.Write(_targetTileLocation);
+                _packet.Write(_path);
 
                 SendTCPDataToAll(_packet);
             }

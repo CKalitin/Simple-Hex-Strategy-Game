@@ -16,7 +16,11 @@ public class StructureHealthDisplayWorldSpace : MonoBehaviour {
     }
 
     private void Update() {
-        if (tile.Structures.Count <= 0) return;
+        if (tile.Structures.Count <= 0) {
+            togglableParent.SetActive(false);
+            return; 
+        }
+        
         if (health == null && (health = tile.Structures[0].GetComponent<Health>()) == null) return;
         
         healthBar.fillAmount = health.CurrentHealth / health.MaxHealth;

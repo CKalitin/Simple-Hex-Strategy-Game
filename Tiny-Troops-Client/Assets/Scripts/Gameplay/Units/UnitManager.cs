@@ -138,10 +138,14 @@ public class UnitManager : MonoBehaviour {
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
 
+        List<Vector2Int> path = packet.Path.Select(o => new Vector2Int(Mathf.RoundToInt(o.x), Mathf.RoundToInt(o.y))).ToList();
+
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
-            if (units.ContainsKey(packet.UnitUUIDs[i])) {
-                units[packet.UnitUUIDs[i]].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
-            }
+            if (!units.ContainsKey(packet.UnitUUIDs[i])) return;
+            if (path.Count <= 0) return; // This line needs to be here to prevent a bug (shrug face)
+            
+            units[packet.UnitUUIDs[i]].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), new List<Vector2Int>(path));
+            
         }
     }
 

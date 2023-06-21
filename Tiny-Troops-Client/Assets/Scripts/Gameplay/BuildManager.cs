@@ -171,8 +171,7 @@ public class BuildManager : MonoBehaviour {
     }
 
     public void DestroyDisplayStructure() {
-        if (displayStructure)
-            Destroy(displayStructure);
+        if (displayStructure) Destroy(displayStructure);
     }
 
     #endregion

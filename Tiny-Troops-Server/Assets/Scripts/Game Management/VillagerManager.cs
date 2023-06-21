@@ -125,7 +125,7 @@ public class VillagerManager : MonoBehaviour {
                 for (int x = 0; x < constructionStructures[playerID][i].ConstructionVillagers.Count; x++) {
                     Villager v = constructionStructures[playerID][i].ConstructionVillagers[x];
                     v.PathfindingAgent.PathfindToLocation(v.Village.Location);
-                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location);
+                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location, new Vector2[] { });
                 }
                 constructionStructures[playerID].RemoveAt(i);
                 break;
@@ -146,7 +146,7 @@ public class VillagerManager : MonoBehaviour {
                 Villager v = kvp.Value[x];
                 if (!IsVillagerAtVillage(v) && !IsVillagerMoving(v) && !IsVillagerAtConstruction(v)) {
                     v.PathfindingAgent.PathfindToLocation(v.Village.Location);
-                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location);
+                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location, new Vector2[] { });
                 }
             }
         }
@@ -167,7 +167,7 @@ public class VillagerManager : MonoBehaviour {
                             if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value && !VillagerInConstructionInfosList(v.Value)) {
                                 v.Value.PathfindingAgent.PathfindToLocation(kvp.Value[x].Location);
                                 kvp.Value[x].ConstructionVillagers.Add(v.Value);
-                                USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location);
+                                USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location, new Vector2[] { });
                                 villagerFound = true;
                                 break;
                             }
@@ -257,7 +257,7 @@ public class VillagerManager : MonoBehaviour {
         if (v != null) {
             RemoveConstructionVillager(v);
             v.PathfindingAgent.PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
-            USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, Vector2Int.RoundToInt(packet.TargetTileLocation));
+            USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, Vector2Int.RoundToInt(packet.TargetTileLocation), new Vector2[] { });
         }
 
         SetVillagersTargetLocation();

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -137,14 +138,25 @@ public class UnitManager : MonoBehaviour {
 
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
+
+        Dictionary<Vector2Int, List<int>> unitUUIDsByLocation = new Dictionary<Vector2Int, List<int>>();
         
+        // Sort unitUUIDs by location into unitUUIDsByLocation
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
-            if (units.ContainsKey(packet.UnitUUIDs[i])) {
-                units[packet.UnitUUIDs[i]].Script.PathfindingAgent.PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
-            }
-            //else Debug.Log("Desync Detected"); Villages used UUIDS now
+            if (unitUUIDsByLocation.ContainsKey(units[packet.UnitUUIDs[i]].Location)) unitUUIDsByLocation[units[packet.UnitUUIDs[i]].Location].Add(packet.UnitUUIDs[i]);
+            else unitUUIDsByLocation.Add(units[packet.UnitUUIDs[i]].Location, new List<int>() { packet.UnitUUIDs[i] });
         }
-        USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, packet.TargetTileLocation);
+
+        // Loop through unitUUIDsByLocation and create a path to the target location, then give that path to the units using units[uuid].PathfindtoLocation(path); I love copilot
+        foreach (KeyValuePair<Vector2Int, List<int>> unitUUIDs in unitUUIDsByLocation) {
+            List<Vector2Int> path = PathfindingManager.FindPath(unitUUIDs.Key, Vector2Int.RoundToInt(packet.TargetTileLocation));
+
+            for (int i = 0; i < unitUUIDs.Value.Count; i++) {
+                units[unitUUIDs.Value[i]].Script.PathfindingAgent.PathfindToLocation(unitUUIDs.Key, new List<Vector2Int>(path));
+            }
+            
+            USNL.PacketSend.UnitPathfind(unitUUIDs.Value.ToArray(), packet.TargetTileLocation, path.Select(o => new Vector2(o.x, o.y)).ToArray());
+        }
     }
     
     #endregion

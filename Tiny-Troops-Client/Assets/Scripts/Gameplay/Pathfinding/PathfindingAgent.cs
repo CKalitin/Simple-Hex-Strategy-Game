@@ -146,7 +146,7 @@ public class PathfindingAgent : MonoBehaviour {
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
         else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-
+        
         if (path == null) return;
         if (path.Count <= 1) {
             targetLocation = currentLocation;
@@ -177,7 +177,7 @@ public class PathfindingAgent : MonoBehaviour {
                 currentLocation = targetLocation;
                 if (path.Count > 0) targetLocation = path[0];
                 targetDirection = GetTargetDirection(currentLocation, targetLocation);
-
+                
                 return;
             }
         }

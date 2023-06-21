@@ -110,7 +110,7 @@ public class PlayerVillage : MonoBehaviour {
                 villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
             }
         }
-        USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, packet.TargetTileLocation);
+        USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, packet.TargetTileLocation, new Vector2[] { });
     }
 
     #endregion

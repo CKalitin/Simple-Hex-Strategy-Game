@@ -52,7 +52,7 @@ public class TileUnitsElement : MonoBehaviour {
         usernameText.text = "";
 
         unitCountText.text = "0";
-        tankCountText.text = "0";
+        if (tankCountText) tankCountText.text = "0";
 
         healthText.text = "Health 0 / 0";
 

@@ -15,7 +15,7 @@ public class TileUnitDisplaySmall : MonoBehaviour {
     [Space]
     [SerializeField] private Transform footer;
     [SerializeField] private float footerSpacingPerElement = 0.5f;
-    float ogFooterY;
+    private float ogFooterY;
 
     [Header("References")]
     [SerializeField] private Tile tile;
@@ -35,6 +35,8 @@ public class TileUnitDisplaySmall : MonoBehaviour {
         int iters = 0;
         bool active = false;
         int lastClientID = -1;
+
+        playerUnitCountsText[0].text = "0";
 
         // If client does not have troops on this tile, increase iters to account for the enemy using a troop count display
         if (UnitAttackManager.instance.TileAttackInfo.ContainsKey(tile.TileInfo.Location) && !UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(MatchManager.instance.PlayerID)) iters++;

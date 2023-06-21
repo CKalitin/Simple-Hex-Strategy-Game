@@ -45,6 +45,7 @@ public class TileSelector : MonoBehaviour {
                 if (active) OnShiftLeftClick();
             } else {
                 if (active) OnLeftClick();
+                else OnLeftClickInactive();
             }
         } else if (Input.GetKeyDown(KeyCode.Mouse1)) {
             if (Input.GetKey(KeyCode.LeftShift)) {
@@ -59,6 +60,14 @@ public class TileSelector : MonoBehaviour {
         if (UnitSelector.instance.SelectedUnits.Count > 0) MoveUnits();
         if (EventSystem.current.IsPointerOverGameObject()) BuildManager.instance.StopBuilding();
         else SelectTile();
+    }
+
+    // Tile Selector is inactive, Building Manager is active.
+    private void OnLeftClickInactive() {
+        if (!EventSystem.current.IsPointerOverGameObject()) {
+            BuildManager.instance.StopBuilding();
+            SelectTile();
+        }
     }
 
     private void OnRightClick() {
@@ -128,7 +137,6 @@ public class TileSelector : MonoBehaviour {
         List<int> selectedUnitUUIDs = UnitManager.instance.GetUnitsOfIdAtLocation(newTile.Tile.TileInfo.Location, MatchManager.instance.PlayerID);
 
         for (int i = 0; i < selectedUnitUUIDs.Count; i++) {
-            // If unit already selected, deselect it
             if (select) SelectUnit(selectedUnitUUIDs[i]);
             else DeselectUnit(selectedUnitUUIDs[i]);
         }
@@ -139,6 +147,8 @@ public class TileSelector : MonoBehaviour {
             UnitSelector.instance.SelectedUnits[unit.Key].Script.ToggleSelectedIndicator(false);
         }
         UnitSelector.instance.SelectedUnits = new Dictionary<int, UnitInfo>();
+        
+        SelectTroopsSlider.instance.SelectedUnits.Clear();
     }
 
     private void MoveUnits() {
@@ -150,11 +160,8 @@ public class TileSelector : MonoBehaviour {
         if (newTile == null) return;
         if (!PathfindingManager.instance.WalkableTileIds.Contains((int)newTile.Tile.TileInfo.TileId)) return;
 
-        // Move units to new tile
-        for (int i = 0; i < UnitSelector.instance.SelectedUnits.Count; i++) {
-            // System<func>, beautiful
-            USNL.PacketSend.UnitPathfind(UnitSelector.instance.SelectedUnits.Select(x => x.Value.Script.UnitUUID).ToArray(), newTile.Tile.TileInfo.Location);
-        }
+        // System<func>, beautiful
+        USNL.PacketSend.UnitPathfind(UnitSelector.instance.SelectedUnits.Select(x => x.Value.Script.UnitUUID).ToArray(), newTile.Tile.TileInfo.Location);
     }
 
     #endregion
@@ -171,6 +178,8 @@ public class TileSelector : MonoBehaviour {
         if (!UnitSelector.instance.SelectedUnits.ContainsKey(_unitUUID)) return;
         UnitSelector.instance.SelectedUnits[_unitUUID].Script.ToggleSelectedIndicator(false);
         UnitSelector.instance.SelectedUnits.Remove(_unitUUID);
+        
+        SelectTroopsSlider.instance.UnitDeselected(_unitUUID);
     }
     
     private TileSelectorCollider GetTileUnderCursor() {
