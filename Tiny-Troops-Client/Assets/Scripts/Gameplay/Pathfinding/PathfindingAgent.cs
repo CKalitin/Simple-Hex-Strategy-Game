@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,7 +45,7 @@ public class PathfindingAgent : MonoBehaviour {
     #region Core
 
     private void Awake() {
-        if (randomSeed == 0) randomSeed = Random.Range(0, 999999999);
+        if (randomSeed == 0) randomSeed = UnityEngine.Random.Range(0, 999999999);
     }
 
     private void Update() {
@@ -163,6 +164,13 @@ public class PathfindingAgent : MonoBehaviour {
         targetNode = currentNode;
 
         previousDistance = 999999999f;
+
+        // Trying to find a bug
+        try {
+            bool a = currentNode.PathfindingNodes[targetDirection] != null;
+        } catch (Exception _ex){
+            Debug.Log($"Error:\nCurrent: {currentLocation}, Target: {targetLocation}, Direction: {targetDirection}\n{_ex}");
+        }
 
         if (currentNode.PathfindingNodes[targetDirection] != null) {
             MoveToTargetNode(targetNode.PathfindingNodes[targetDirection]);

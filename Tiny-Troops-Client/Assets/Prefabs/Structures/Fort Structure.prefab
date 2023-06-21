@@ -160,9 +160,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOwnedStructure: 1
+  bonusTileID: 0
+  bonusAmount: 0
   structureUI: {fileID: 0}
   tilePathfinding: {fileID: 8002137112919307291}
-  health: {fileID: 3295611978871026105, guid: 02fa01a7ba67d1f4f88e4fa4f58477a4, type: 3}
+  health: {fileID: 5676230866130057859}
 --- !u!114 &1817041810881419730
 MonoBehaviour:
   m_ObjectHideFlags: 0

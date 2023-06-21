@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 2893799320768022622}
-  health: {fileID: 8505481600790248693, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27, type: 3}
+  health: {fileID: -8087070044743891598}
 --- !u!114 &-8087070044743891598
 MonoBehaviour:
   m_ObjectHideFlags: 0

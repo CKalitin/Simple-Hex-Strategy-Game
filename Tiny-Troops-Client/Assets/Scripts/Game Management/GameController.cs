@@ -84,24 +84,10 @@ public class GameController : MonoBehaviour {
     #region Callbacks
 
     private void OnConnected(object _object) {
-        USNL.PacketSend.PlayerSetupInfo(PlayerPrefs.GetString("Username", "Username"), Vector3.zero);
+        string username = PlayerPrefs.GetString("Username", "Username");
+        if (username == "") username = "Username";
+        USNL.PacketSend.PlayerSetupInfo(username, Vector3.zero);
     }
-
-    /*private void OnTilesPacket(object _packetObject) {
-        USNL.TilesPacket tilesPacket = (USNL.TilesPacket)_packetObject;
-        
-        for (int i = 0; i < tilesPacket.TileIDs.Length; i++) {
-            if (TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(tilesPacket.TileLocations[i])).Spawned)
-                TileManagement.instance.DestroyTile(Vector2Int.RoundToInt(tilesPacket.TileLocations[i]));
-            
-            TileManagement.instance.SpawnTile(tilePrefabs[tilesPacket.TileIDs[i]], Vector2Int.RoundToInt(tilesPacket.TileLocations[i]));
-        }
-        
-        if (numTilesToExpect >= TileManagement.instance.GetTiles.Count) {
-            tilesPacketReceived = true;
-            CheckGameReady();
-        }
-    }*/
     
     private void OnTilesPacket(object _packetObject) {
         USNL.TilesPacket tilesPacket = (USNL.TilesPacket)_packetObject;

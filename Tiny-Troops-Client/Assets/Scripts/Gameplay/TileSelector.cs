@@ -57,7 +57,7 @@ public class TileSelector : MonoBehaviour {
     }
     
     private void OnLeftClick() {
-        if (UnitSelector.instance.SelectedUnits.Count > 0) MoveUnits();
+        if (!EventSystem.current.IsPointerOverGameObject() && UnitSelector.instance.SelectedUnits.Count > 0) MoveUnits();
         if (EventSystem.current.IsPointerOverGameObject()) BuildManager.instance.StopBuilding();
         else SelectTile();
     }

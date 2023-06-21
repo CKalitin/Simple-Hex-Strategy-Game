@@ -41,6 +41,9 @@ public class GameController : MonoBehaviour {
             Debug.Log($"Game Controller instance already exists on ({gameObject}), destroying this.", gameObject);
             Destroy(this);
         }
+        
+        USNL.ServerManager.instance.AllowNewConnections = false;
+        StartCoroutine(AllowConnectionsDelay());
     }
 
     private void Start() {
@@ -145,6 +148,11 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Utils
+
+    private IEnumerator AllowConnectionsDelay() {
+        yield return new WaitForSeconds(1f);
+        USNL.ServerManager.instance.AllowNewConnections = true;
+    }
 
     private void CheckGameCompleted() {
         List<Structure> playerBases = new List<Structure>();

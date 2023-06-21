@@ -8,6 +8,8 @@ public class TileUnitsElement : MonoBehaviour {
     [Header("Config")]
     [SerializeField] private int playerID;
 
+    int index = 0;
+
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI usernameText;
     [Space]
@@ -26,18 +28,23 @@ public class TileUnitsElement : MonoBehaviour {
 
     private void Start() {
         tile = GameUtils.GetTileParent(transform);
+
+        MatchManager.instance.SetPlayerID();
+        index = playerID;
+        if (playerID == 0) index = GameUtils.IdToIndex(playerID);
+        if (playerID == MatchManager.instance.PlayerID) index = 0;
     }
 
     private void Update() {
-        if (UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(playerID))
-            SetText(UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][playerID]);
+        if (UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location].ContainsKey(index))
+            SetText(UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][index]);
         else SetTextToDefault();
     }
 
     public void SetText(UnitAttackManager.PlayerTileUnitInfo _tileInfo) {
         //UnitAttackManager.instance.TileAttackInfo[tile.TileInfo.Location][MatchManager.instance.PlayerID];
         
-        usernameText.text = PlayerInfoManager.instance.PlayerInfos[GameUtils.IdToIndex(playerID)].Username;
+        usernameText.text = PlayerInfoManager.instance.PlayerInfos[index].Username;
         
         unitCountText.text = _tileInfo.NumUnitsByType[0].ToString();
         //tankCountText.text = _tileInfo.NumUnitsByType[1].ToString();

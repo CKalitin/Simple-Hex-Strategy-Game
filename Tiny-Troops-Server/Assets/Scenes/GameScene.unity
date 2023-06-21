@@ -1093,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
       propertyPath: initialResources.Array.data[2].initialSupply
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4924313470513003412, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
