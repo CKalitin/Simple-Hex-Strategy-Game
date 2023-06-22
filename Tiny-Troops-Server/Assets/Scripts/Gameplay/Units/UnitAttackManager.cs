@@ -118,11 +118,11 @@ public class UnitAttackManager : MonoBehaviour {
             for (int i = 0; i < defendingPlayer.Units.Count; i++) {
                 if (defendingPlayer.Units[i].Script.Health.CurrentHealth > damageToBeDealt / tileAttackInfo[_location].Keys.Count) {
                     defendingPlayer.Units[i].Script.Health.ChangeHealth(-Mathf.Abs(damageToBeDealt / tileAttackInfo[_location].Keys.Count));
-                    damageToBeDealt -= damageToBeDealt / tileAttackInfo[_location].Keys.Count;
+                    damageToBeDealt -= Mathf.Abs(damageToBeDealt / tileAttackInfo[_location].Keys.Count);
                     break;
                 } else {
-                    defendingPlayer.Units[i].Script.Health.SetHealth(0f);
                     damageToBeDealt -= defendingPlayer.Units[i].Script.Health.CurrentHealth;
+                    defendingPlayer.Units[i].Script.Health.SetHealth(0f);
                 }
             }
         }
