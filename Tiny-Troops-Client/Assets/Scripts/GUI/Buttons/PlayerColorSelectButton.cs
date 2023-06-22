@@ -10,6 +10,9 @@ public class PlayerColorSelectButton : MonoBehaviour {
     private Color[] colorOptions;
     private int index;
 
+    private bool firstPlayerInfoPacketReceived = false;
+    private bool delayedColourPickExecuted = false;
+
     private void Start() {
         colorOptions = ColorManager.instance.Colors;
         
@@ -28,11 +31,24 @@ public class PlayerColorSelectButton : MonoBehaviour {
     private void OnPlayerInfoPacket(object _packetObject) {
         USNL.PlayerInfoPacket packet = (USNL.PlayerInfoPacket)_packetObject;
 
+        if (!firstPlayerInfoPacketReceived && packet.Username == PlayerPrefs.GetString("Username", "")) {
+            firstPlayerInfoPacketReceived = true;
+            StartCoroutine(DelayedColourPick());
+            return;
+        }
+        if (!delayedColourPickExecuted) return;
+
         Color color = new Color(packet.Color.x, packet.Color.y, packet.Color.z);
         bool desync = false;
 
-        if (packet.ClientID == MatchManager.instance.PlayerID && color != colorOptions[index]) desync = true;
-        if (packet.ClientID != MatchManager.instance.PlayerID && color == colorOptions[index]) desync = true;
+        if (packet.ClientID == MatchManager.instance.PlayerID && color != colorOptions[index]) { 
+            Debug.Log("Desync 1");
+            desync = true; 
+        }
+        if (packet.ClientID != MatchManager.instance.PlayerID && color == colorOptions[index]) {
+            Debug.Log("Desync 2");
+            desync = true;
+        }
 
         if (desync) {
             GetNextAvailableColor();
@@ -56,5 +72,12 @@ public class PlayerColorSelectButton : MonoBehaviour {
             if (colorOptions[_index] == PlayerInfoManager.instance.PlayerInfos[USNL.ClientManager.instance.ServerInfo.ConnectedClientIds[i]].Color) return true;
         }
         return false;
+    }
+
+    private IEnumerator DelayedColourPick() {
+        yield return new WaitForSeconds(0.1f);
+        
+        GetNextAvailableColor();
+        delayedColourPickExecuted = true;
     }
 }
