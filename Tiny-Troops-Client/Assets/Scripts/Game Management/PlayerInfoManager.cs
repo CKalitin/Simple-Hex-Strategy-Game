@@ -80,7 +80,7 @@ public class PlayerInfoManager : MonoBehaviour {
 
     private void OnPlayerReadyPacket(object _packetObject) {
         USNL.PlayerReadyPacket packet = (USNL.PlayerReadyPacket)_packetObject;
-        playerInfos[packet.ClientID].Ready = packet.Ready;
+        if (packet.ClientID > 0) playerInfos[packet.ClientID].Ready = packet.Ready;
     }
 
     private void OnServerInfoPacket(object _clientIdObject) {

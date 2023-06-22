@@ -70,6 +70,7 @@ public class Unit : MonoBehaviour {
     }
 
     private void OnDestroy() {
+        if (UnitSelector.instance.SelectedUnits.ContainsKey(unitUUID)) TileSelector.instance.DeselectUnit(unitUUID);
         UnitManager.instance.RemoveUnit(UnitUUID);
     }
 

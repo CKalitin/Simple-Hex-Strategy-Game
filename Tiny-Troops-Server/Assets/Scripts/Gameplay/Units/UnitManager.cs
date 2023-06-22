@@ -143,6 +143,7 @@ public class UnitManager : MonoBehaviour {
         
         // Sort unitUUIDs by location into unitUUIDsByLocation
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
+            if (!units.ContainsKey(packet.UnitUUIDs[i])) continue;
             if (unitUUIDsByLocation.ContainsKey(units[packet.UnitUUIDs[i]].Location)) unitUUIDsByLocation[units[packet.UnitUUIDs[i]].Location].Add(packet.UnitUUIDs[i]);
             else unitUUIDsByLocation.Add(units[packet.UnitUUIDs[i]].Location, new List<int>() { packet.UnitUUIDs[i] });
         }

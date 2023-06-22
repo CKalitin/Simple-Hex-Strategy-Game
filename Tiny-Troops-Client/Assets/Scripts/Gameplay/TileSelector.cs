@@ -152,8 +152,6 @@ public class TileSelector : MonoBehaviour {
     }
 
     private void MoveUnits() {
-        if (UnitSelector.instance.SelectedUnits.Count <= 0) return;
-
         if (EventSystem.current.IsPointerOverGameObject()) return; // If cursor is over UI, return
         TileSelectorCollider newTile = GetTileUnderCursor();
 
@@ -174,7 +172,7 @@ public class TileSelector : MonoBehaviour {
         UnitSelector.instance.SelectedUnits[_unitUUID].Script.ToggleSelectedIndicator(true);
     }
 
-    private void DeselectUnit(int _unitUUID) {
+    public void DeselectUnit(int _unitUUID) {
         if (!UnitSelector.instance.SelectedUnits.ContainsKey(_unitUUID)) return;
         UnitSelector.instance.SelectedUnits[_unitUUID].Script.ToggleSelectedIndicator(false);
         UnitSelector.instance.SelectedUnits.Remove(_unitUUID);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathfindingAgent : MonoBehaviour {
@@ -117,6 +118,8 @@ public class PathfindingAgent : MonoBehaviour {
         if (targetNode.PathfindingNodes[targetDirection] == null && targetNode.FinalNode) {
             Vector2Int fromDirection = GetTargetDirection(targetLocation, currentLocation);
 
+            fromDirection = FixDirection(fromDirection);
+
             MoveToTargetNode(TileManagement.instance.GetTileAtLocation(targetLocation).TileObject.transform.parent.GetComponent<GameplayTile>().GetTilePathfinding().PathfindingNodes[fromDirection]);
 
             currentLocation = targetLocation;
@@ -165,13 +168,13 @@ public class PathfindingAgent : MonoBehaviour {
 
         previousDistance = 999999999f;
 
-        // Trying to find a bug
-        try {
-            bool a = currentNode.PathfindingNodes[targetDirection] != null;
-        } catch (Exception _ex){
-            Debug.Log($"Error:\nCurrent: {currentLocation}, Target: {targetLocation}, Direction: {targetDirection}\n{_ex}");
+        if (targetDirection == new Vector2Int(0, 0)) {
+            path.RemoveAt(0);
+            targetLocation = path[0];
+            targetDirection = GetTargetDirection(currentLocation, targetLocation);
         }
-
+        targetDirection = FixDirection(targetDirection);
+        
         if (currentNode.PathfindingNodes[targetDirection] != null) {
             MoveToTargetNode(targetNode.PathfindingNodes[targetDirection]);
         } else {
@@ -261,6 +264,15 @@ public class PathfindingAgent : MonoBehaviour {
         }
 
         return closestNode;
+    }
+
+    private Vector2Int FixDirection(Vector2Int _input) {
+        if (_input == new Vector2Int(2, 1)) return new Vector2Int(1, 1);
+        if (_input == new Vector2Int(-1, -1)) return new Vector2Int(0, -1);
+        if (_input == new Vector2Int(-2, 0)) return new Vector2Int(-1, 0);
+        if (_input == new Vector2Int(2, -2)) return new Vector2Int(2, -2);
+        if (_input == new Vector2Int(2, -1)) return new Vector2Int(1, -1);
+        return _input;
     }
 
     #endregion

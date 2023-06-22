@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  lerpToLocationSpeed: 2
+  lerpToLocationSpeed: 1
 --- !u!114 &323771522811961258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,11 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0200800016befdf449eb0e8d603c66f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materials:
-  - {fileID: 2100000, guid: 1d42b31aa6ce357499c18af1074c6f17, type: 2}
-  - {fileID: 2100000, guid: 2567992fd9a67b8468df73a6885839c3, type: 2}
-  - {fileID: 2100000, guid: 62e8dec700409454f8645605512190de, type: 2}
-  - {fileID: 2100000, guid: be21bc3893fe53f46ba6a87e0920e479, type: 2}
   meshRenderer: {fileID: 2216679837849901796}
   unit: {fileID: 323771522811961258}
 --- !u!1 &2216679837849901799
