@@ -270,8 +270,10 @@ public class PathfindingAgent : MonoBehaviour {
         if (_input == new Vector2Int(2, 1)) return new Vector2Int(1, 1);
         if (_input == new Vector2Int(-1, -1)) return new Vector2Int(0, -1);
         if (_input == new Vector2Int(-2, 0)) return new Vector2Int(-1, 0);
-        if (_input == new Vector2Int(2, -2)) return new Vector2Int(2, -2);
+        if (_input == new Vector2Int(2, -2)) return new Vector2Int(1, -1);
         if (_input == new Vector2Int(2, -1)) return new Vector2Int(1, -1);
+        if (_input == new Vector2Int(0, 2)) return new Vector2Int(0, 1);
+        if (_input == new Vector2Int(-1, 1)) return new Vector2Int(0, 1);
         return _input;
     }
 

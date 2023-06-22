@@ -1644,17 +1644,17 @@ PrefabInstance:
     - target: {fileID: 3043956939114743069, guid: 4a5ddd90d3445b249830e34367283c93,
         type: 3}
       propertyPath: m_BackGroundColor.b
-      value: 0.79607844
+      value: 0.90588236
       objectReference: {fileID: 0}
     - target: {fileID: 3043956939114743069, guid: 4a5ddd90d3445b249830e34367283c93,
         type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 0.654902
+      value: 0.7490196
       objectReference: {fileID: 0}
     - target: {fileID: 3043956939114743069, guid: 4a5ddd90d3445b249830e34367283c93,
         type: 3}
       propertyPath: m_BackGroundColor.r
-      value: 0.18039216
+      value: 0.19607843
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a5ddd90d3445b249830e34367283c93, type: 3}
@@ -1935,6 +1935,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 254372939}
     m_Modifications:
+    - target: {fileID: 2071603838, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4, type: 3}
+      propertyPath: tileHighlightTime
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071603838, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4, type: 3}
+      propertyPath: delayBetweenTileHighlights
+      value: 0.065
+      objectReference: {fileID: 0}
     - target: {fileID: 6617243320722010875, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
         type: 3}
       propertyPath: m_Name

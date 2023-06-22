@@ -34,6 +34,11 @@ public class UnitManager : MonoBehaviour {
     [Header("Unit Management")]
     [SerializeField] private GameObject[] unitPrefabs;
 
+    [Header("Other")]
+    [SerializeField] private float delayBetweenTileHighlights = 0.1f;
+    [SerializeField] private float tileHighlightTime
+        = 1f;
+
     private Dictionary<int, UnitInfo> units = new Dictionary<int, UnitInfo>(); // The key is a UUID
 
     public GameObject[] UnitPrefabs { get => unitPrefabs; set => unitPrefabs = value; }
@@ -145,8 +150,9 @@ public class UnitManager : MonoBehaviour {
             if (path.Count <= 0) return; // This line needs to be here to prevent a bug (shrug face)
             
             units[packet.UnitUUIDs[i]].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), new List<Vector2Int>(path));
-            
         }
+
+        StartCoroutine(HighlightPath(path));
     }
 
     private void OnSetUnitLocationPacket(object _packetObject) {
@@ -163,6 +169,27 @@ public class UnitManager : MonoBehaviour {
         if (units.ContainsKey(packet.UnitUUID)) {
             units[packet.UnitUUID].Script.Health.SetHealth(packet.Health, packet.MaxHealth);
         } //else Debug.Log("Desync Detected"); Lots of these desysnsc, should be fine if Server and Client health is set right from the begining
+    }
+
+    #endregion
+
+    #region Other
+    
+    private IEnumerator HighlightPath(List<Vector2Int> path) {
+        if (path.Count <= 1) yield break;
+        path.RemoveAt(0);
+
+        for (int i = 0; i < path.Count; i++) {
+            TileManagement.instance.GetTileAtLocation(path[i]).Tile.GetComponent<GameplayTile>().TileHighlight.ToggleHighlight(true);
+            yield return new WaitForSeconds(delayBetweenTileHighlights);
+        }
+        
+        yield return new WaitForSeconds(tileHighlightTime);
+
+        for (int i = 0; i < path.Count; i++) {
+            TileManagement.instance.GetTileAtLocation(path[i]).Tile.GetComponent<GameplayTile>().TileHighlight.ToggleHighlight(false);
+            yield return new WaitForSeconds(delayBetweenTileHighlights);
+        }
     }
 
     #endregion

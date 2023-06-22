@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class GameplayTile : MonoBehaviour {
     [SerializeField] private TilePathfinding tilePathfinding;
+    [Space]
+    [SerializeField] private TileHighlight tileHighlight;
     
     private Tile tile;
     
     private int previousStructureCount = 0;
 
     private TilePathfinding currentTilePathfinding;
-    
+
+    public TileHighlight TileHighlight { get => tileHighlight; set => tileHighlight = value; }
+
     private void Awake() {
         tile = GetComponent<Tile>();
         

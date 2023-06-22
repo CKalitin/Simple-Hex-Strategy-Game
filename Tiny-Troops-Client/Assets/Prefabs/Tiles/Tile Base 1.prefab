@@ -248,6 +248,7 @@ Transform:
   - {fileID: 1193644659017039564}
   - {fileID: 3082516748664040403}
   - {fileID: 5534918409374360704}
+  - {fileID: 6540443589237453226}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -283,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePathfinding: {fileID: 43903754505201229}
+  tileHighlight: {fileID: 5910582968896776522}
 --- !u!1 &8142464372625547583
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +608,93 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 180718774178334938, guid: 6f3a29b38f21fe34597be5936380c4fd,
     type: 3}
   m_PrefabInstance: {fileID: 2901802922325779209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3329770350289534692
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8142464371967572686}
+    m_Modifications:
+    - target: {fileID: 6438538466350480427, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_Name
+      value: Tile Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8b80bf91242809946899f52d8d7f380d, type: 3}
+--- !u!114 &5910582968896776522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8949536024085813166, guid: 8b80bf91242809946899f52d8d7f380d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3329770350289534692}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285f52068b1b8b149aa76fd2f24de44d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &6540443589237453226 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8426774450717331278, guid: 8b80bf91242809946899f52d8d7f380d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3329770350289534692}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5642430011352001626
 PrefabInstance:
