@@ -74,6 +74,7 @@ public class ServerStructureBuilder : MonoBehaviour {
         
         // Checks to exit function
         if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
+        if (TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.Structures[0].GetComponent<GameplayStructure>() == null) return; // If it doesn't have the GameplayStructure component, return
         if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent
         if (CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID) == false) return; // If structure on the tile belongs to another player
 

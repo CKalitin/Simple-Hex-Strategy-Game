@@ -65,8 +65,8 @@ public class TileSelector : MonoBehaviour {
     // Tile Selector is inactive, Building Manager is active.
     private void OnLeftClickInactive() {
         if (!EventSystem.current.IsPointerOverGameObject()) {
+            if (!BuildManager.instance.DestroyingEnabled) SelectTile();
             BuildManager.instance.StopBuilding();
-            SelectTile();
         }
     }
 
