@@ -96,6 +96,7 @@ public class BuildManager : MonoBehaviour {
 
         // Checks to exit function
         if (EventSystem.current.IsPointerOverGameObject()) { buildingAllowedOnTile = false; return; } // If mouse over UI
+        if (GetTileUnderCursor() == null) { buildingAllowedOnTile = false; return; } // If GetTileUnderCursor() returns null
         if ((structureLocationsParent = GetTileUnderCursor().Tile.StructureLocationsParent) == null) return; // If there is no tile under the cursor
         if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
         if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent
@@ -120,9 +121,8 @@ public class BuildManager : MonoBehaviour {
         Transform structureLocationsParent;
         Transform structureLoc;
         Transform tile;
-
-        // Checks to exit function (Same as Builder())
-        // Prevents an error
+        
+        // If GetTileUnderCursor() returns null
         if (GetTileUnderCursor() == null) { buildingAllowedOnTile = false; return; }
         // If there is no tile under the cursor
         if ((structureLocationsParent = GetTileUnderCursor().Tile.StructureLocationsParent) == null) { DestroyDisplayStructure(); return; }
@@ -156,6 +156,7 @@ public class BuildManager : MonoBehaviour {
         Transform tile;
 
         // Checks to exit function (Same as Builder())
+        if (GetTileUnderCursor() == null) { DestroyDisplayStructure(); return; }
         // If there is no tile under the cursor
         if ((structureLocationsParent = GetTileUnderCursor().Tile.StructureLocationsParent) == null) { DestroyDisplayStructure(); return; }
         // If there is no available structure location

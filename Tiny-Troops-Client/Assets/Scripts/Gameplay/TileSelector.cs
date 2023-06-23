@@ -148,7 +148,7 @@ public class TileSelector : MonoBehaviour {
         }
         UnitSelector.instance.SelectedUnits = new Dictionary<int, UnitInfo>();
         
-        SelectTroopsSlider.instance.SelectedUnits.Clear();
+        if (SelectTroopsSlider.instance != null) SelectTroopsSlider.instance.SelectedUnits.Clear();
     }
 
     private void MoveUnits() {

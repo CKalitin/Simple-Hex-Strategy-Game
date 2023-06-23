@@ -114,6 +114,8 @@ public class PathfindingAgent : MonoBehaviour {
             return;
         }
 
+        targetDirection = FixDirection(targetDirection);
+
         // If next node is on another tile
         if (targetNode.PathfindingNodes[targetDirection] == null && targetNode.FinalNode) {
             Vector2Int fromDirection = GetTargetDirection(targetLocation, currentLocation);
@@ -124,7 +126,7 @@ public class PathfindingAgent : MonoBehaviour {
 
             currentLocation = targetLocation;
 
-            if (path != null) path.RemoveAt(0);
+            if (path != null && path.Count > 0) path.RemoveAt(0);
             if (path.Count > 0) targetLocation = path[0];
             targetDirection = GetTargetDirection(currentLocation, targetLocation);
             return;
@@ -169,9 +171,11 @@ public class PathfindingAgent : MonoBehaviour {
         previousDistance = 999999999f;
 
         if (targetDirection == new Vector2Int(0, 0)) {
-            path.RemoveAt(0);
-            targetLocation = path[0];
-            targetDirection = GetTargetDirection(currentLocation, targetLocation);
+            MoveInRandomDirectionOnCurrentTile(targetNode);
+            return;
+            //path.RemoveAt(0);
+            //targetLocation = path[0];
+            //targetDirection = GetTargetDirection(currentLocation, targetLocation);
         }
         targetDirection = FixDirection(targetDirection);
         
@@ -185,7 +189,7 @@ public class PathfindingAgent : MonoBehaviour {
                 MoveToTargetNode(TileManagement.instance.GetTileAtLocation(targetLocation).TileObject.transform.parent.GetComponent<GameplayTile>().GetTilePathfinding().PathfindingNodes[fromDirection]);
 
                 path.RemoveAt(0);
-                currentLocation = targetLocation;
+                //currentLocation = targetLocation;
                 if (path.Count > 0) targetLocation = path[0];
                 targetDirection = GetTargetDirection(currentLocation, targetLocation);
                 
@@ -266,14 +270,20 @@ public class PathfindingAgent : MonoBehaviour {
         return closestNode;
     }
 
+    // nodes around the tile in every direction
+    //    (0, 1)  (1, 1)
+    // (-1,0) (self) (1, 0)
+    //    (0,-1)  (1,-1)
     private Vector2Int FixDirection(Vector2Int _input) {
-        if (_input == new Vector2Int(2, 1)) return new Vector2Int(1, 1);
-        if (_input == new Vector2Int(-1, -1)) return new Vector2Int(0, -1);
-        if (_input == new Vector2Int(-2, 0)) return new Vector2Int(-1, 0);
-        if (_input == new Vector2Int(2, -2)) return new Vector2Int(1, -1);
-        if (_input == new Vector2Int(2, -1)) return new Vector2Int(1, -1);
-        if (_input == new Vector2Int(0, 2)) return new Vector2Int(0, 1);
-        if (_input == new Vector2Int(-1, 1)) return new Vector2Int(0, 1);
+        if (_input.x > 0 && _input.y == 1) return new Vector2Int(1, 0);
+        if (_input.x < 0 && _input.y == 1) return new Vector2Int(-1, 0);
+
+        if (_input.x > 0 && _input.y > 0) return new Vector2Int(1, 1);
+        if (_input.x <= 0 && _input.y > 0) return new Vector2Int(0, 1);
+
+        if (_input.x > 0 && _input.y < 0) return new Vector2Int(1, -1);
+        if (_input.x <= 0 && _input.y < 0) return new Vector2Int(0, -1);
+        
         return _input;
     }
 
