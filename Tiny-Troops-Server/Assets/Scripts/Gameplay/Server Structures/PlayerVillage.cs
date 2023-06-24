@@ -95,7 +95,7 @@ public class PlayerVillage : MonoBehaviour {
         
         int[] configurationInts = { uuid, randomSeed };
         USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, 0, configurationInts);
-        Debug.Log(spawnPathfindingLocation.Location, spawnPathfindingLocation);
+        
         GameObject villager = Instantiate(villagerPrefab, pos, Quaternion.identity);
         villager.GetComponent<PathfindingAgent>().Initialize(spawnPathfindingLocation.Location, randomSeed);
         villager.GetComponent<Villager>().VillagerUUID = uuid;

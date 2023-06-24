@@ -68,7 +68,7 @@ public class Villager : MonoBehaviour {
 
         if (pathfindingAgent.FinishedMoving == false) yield break;
         
-        USNL.PacketSend.SetUnitLocation(villagerUUID, Location, new Vector2(transform.position.x, transform.position.z));
+        USNL.PacketSend.SetUnitLocation(villagerUUID, pathfindingAgent.CurrentLocation, new Vector2(transform.position.x, transform.position.z));
     }
     
     #endregion

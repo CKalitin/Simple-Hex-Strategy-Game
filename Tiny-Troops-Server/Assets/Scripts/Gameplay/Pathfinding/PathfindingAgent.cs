@@ -84,16 +84,8 @@ public class PathfindingAgent : MonoBehaviour {
             finishedMoving = true;
             return;
         }
-
-        /*// print out PathfindingLocationsMap
-        string output = "";
-        foreach (KeyValuePair<Vector2Int, PathfindingLocation> kvp in PathfindingManager.instance.PathfindingLocationsMap) {
-            output += $"({kvp.Key}, {kvp.Value.Location}), ";
-        }
-        Debug.Log(output);*/ // TODO DELETE
         
         currentLocation = path[0];
-        //Debug.Log($"{path[0]}, {PathfindingManager.RBHKLocationToPathfindingLocation(path[0])}, {PathfindingManager.instance.PathfindingLocationsMap.ContainsKey(PathfindingManager.RBHKLocationToPathfindingLocation(path[0]))}");
         currentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Tile.Location;
 
 

@@ -105,6 +105,13 @@ public class TileManagement : MonoBehaviour {
             return;
         }
 
+        // Don't push this to the RBHK repo
+        if (tiles[_location].Tile.GetComponent<GameplayTile>() != null && tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent != null) {
+            for (int i = 0; i < tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.childCount; i++) {
+                tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.GetChild(i).GetComponent<PathfindingLocation>().OnDestroy();
+            }
+        }
+
         Destroy(tiles[_location].TileObject); // Delete tile's parentObject
         Destroy(tiles[_location].ParentObject); // Delete tileObject
         tiles[_location].Spawned = false; // Just some extra checks for the TileRule

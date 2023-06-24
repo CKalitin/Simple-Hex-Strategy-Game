@@ -104,7 +104,7 @@ public class Unit : MonoBehaviour {
 
         if (pathfindingAgent.FinishedMoving == false) yield break;
         
-        USNL.PacketSend.SetUnitLocation(UnitUUID, Location, new Vector2(transform.position.x, transform.position.z));
+        USNL.PacketSend.SetUnitLocation(UnitUUID, pathfindingAgent.CurrentLocation, new Vector2(transform.position.x, transform.position.z));
     }
 
     #endregion

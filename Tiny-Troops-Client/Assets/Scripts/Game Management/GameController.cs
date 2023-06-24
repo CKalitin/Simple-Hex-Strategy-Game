@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour {
     private void Awake() {
         Application.runInBackground = true;
         Singleton();
-        Debug.LogError("Opened Console.");
+        //Debug.LogError("Opened Console.");
     }
 
     private void Singleton() {

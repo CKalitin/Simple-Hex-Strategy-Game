@@ -117,6 +117,9 @@ public class ClientVillage : MonoBehaviour {
     #region Utils
 
     private void SpawnVillager(int _villagerUUID, int _randomSeed) {
+        if (spawnPathfindingLocation == null) 
+            spawnPathfindingLocation = tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation(PlayerID);
+
         Vector3 p = spawnPathfindingLocation.transform.position;
         Vector3 pos = new Vector3(p.x + GameUtils.Random(_randomSeed + 2, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(_randomSeed + 3, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
 

@@ -103,12 +103,12 @@ public class PathfindingManager : MonoBehaviour {
     }
 
     public static Vector2Int PathfindingLocationToRBHKLocation(Vector2Int _input) {
-        Vector2Int output = _input;
+        Vector2Int output = new Vector2Int(_input.x, _input.y);
         if (output.y % 2 == 0) {
             output.x /= 2;
         } else {
             if (output.x > 1) {
-                if (output.x % 2 != 0) output.x -= 1;
+                if (output.x % 2 != 0) output.x += 1;
                 output.x /= 2;
             } else {
                 output.x -= 1;
@@ -118,11 +118,11 @@ public class PathfindingManager : MonoBehaviour {
     }
 
     public static Vector2Int RBHKLocationToPathfindingLocation(Vector2Int _input) {
-        Vector2Int output = _input;
+        Vector2Int output = new Vector2Int(_input.x, _input.y);
         if (output.y % 2 == 0) {
             output.x *= 2;
         } else {
-            output.x = 1 + (output.x * 2);
+            output.x = -1 + (output.x * 2);
         }
         return output;
     }

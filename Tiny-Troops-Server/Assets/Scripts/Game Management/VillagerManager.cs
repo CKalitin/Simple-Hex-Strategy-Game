@@ -183,6 +183,7 @@ public class VillagerManager : MonoBehaviour {
     }
 
     private bool IsVillagerMovingToConstruction(Villager _villager) {
+        if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.GetTargetLocation()).Tile == null) return false;
         if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.GetTargetLocation()).Tile.Structures.Count <= 0) return false;
         if (!TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.GetTargetLocation()).Tile.Structures[0].GetComponent<ConstructionStructure>()) return false;
         return true;

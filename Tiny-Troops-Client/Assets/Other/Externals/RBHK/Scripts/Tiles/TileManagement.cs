@@ -104,6 +104,10 @@ public class TileManagement : MonoBehaviour {
             //Debug.LogWarning("No tile to destroy at location: " + _location);
             return;
         }
+        
+        for (int i = 0; i < tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.childCount; i++) {
+            tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.GetChild(i).GetComponent<PathfindingLocation>().OnDestroy();
+        }
 
         Destroy(tiles[_location].TileObject); // Delete tile's parentObject
         Destroy(tiles[_location].ParentObject); // Delete tileObject
