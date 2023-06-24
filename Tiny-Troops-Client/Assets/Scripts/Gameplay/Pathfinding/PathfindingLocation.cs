@@ -12,17 +12,19 @@ public class PathfindingLocation : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI locationText;
 
     private Vector2Int pathfindingLocation;
+    private Vector2Int location;
 
     public Tile Tile { get => tile; set => tile = value; }
     public float Radius { get => radius; set => radius = value; }
     public bool Walkable { get => walkable; set => walkable = value; }
-    public Vector2Int Location { get => pathfindingLocation; set => pathfindingLocation = value; }
+    public Vector2Int Location { get => location; set => location = value; }
+    public Vector2Int MapPathfindingLocation { get => pathfindingLocation; set => pathfindingLocation = value; }
 
     private void Start() {
         pathfindingLocation = PathfindingManager.AddPathfindingLocationToMap(localLocation, tile.Location, (int)tile.TileId, this);
+        location = PathfindingManager.PathfindingLocationToRBHKLocation(pathfindingLocation);
         ///*
-        locationText.text = $"({localLocation.x}, {localLocation.y})\n" +
-            $"{pathfindingLocation}\n";
+        locationText.text = $"{location}";
         //*/
     }
 

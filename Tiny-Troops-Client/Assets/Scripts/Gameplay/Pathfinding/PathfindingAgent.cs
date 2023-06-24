@@ -12,7 +12,7 @@ public class PathfindingAgent : MonoBehaviour {
     [Tooltip("When location is set by server, how fast does the agent lerp there.")]
     [SerializeField] private float lerpToLocationSpeed = 0.5f;
 
-    private Vector2Int currentPathfindingLocation;
+    private Vector2Int currentLocation;
     private Vector2Int currentTile;
 
     private Vector3 startPos;
@@ -28,7 +28,7 @@ public class PathfindingAgent : MonoBehaviour {
     private int randomSeed = 0;
     private System.Random random;
 
-    public Vector2Int CurrentPathfindingLocation { get => currentPathfindingLocation; set => currentPathfindingLocation = value; }
+    public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
     public Vector2Int CurrentTile { get => currentTile; set => currentTile = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
 
@@ -54,7 +54,7 @@ public class PathfindingAgent : MonoBehaviour {
         path = null;
         finishedMoving = true;
 
-        currentPathfindingLocation = _spawnLocation;
+        currentLocation = _spawnLocation;
 
         randomSeed = _randomSeed;
         random = new System.Random(_randomSeed);
@@ -83,8 +83,8 @@ public class PathfindingAgent : MonoBehaviour {
             return;
         }
 
-        currentPathfindingLocation = path[0];
-        currentTile = PathfindingManager.instance.PathfindingLocationsMap[path[0]].Tile.Location;
+        currentLocation = path[0];
+        currentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Tile.Location;
 
         path.RemoveAt(0);
         if (path.Count <= 0) {
@@ -93,13 +93,13 @@ public class PathfindingAgent : MonoBehaviour {
         }
 
         // Check if next location is not walkable
-        if (PathfindingManager.instance.PathfindingLocationsMap[path[0]].Walkable == false) {
+        if (PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Walkable == false) {
             PathfindToLocation(path[path.Count - 1]);
             return;
         }
 
         startPos = transform.position;
-        targetPos = PathfindingManager.instance.PathfindingLocationsMap[path[0]].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[path[0]].Radius);
+        targetPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Radius);
     }
 
     #endregion
@@ -108,7 +108,7 @@ public class PathfindingAgent : MonoBehaviour {
 
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
-        else path = PathfindingManager.FindPath(currentPathfindingLocation, _targetLocation);
+        else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
 
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
@@ -117,22 +117,22 @@ public class PathfindingAgent : MonoBehaviour {
         path.RemoveAt(0); // Remove currentLocation
 
         startPos = transform.position;
-        targetPos = PathfindingManager.instance.PathfindingLocationsMap[path[0]].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[path[0]].Radius); ;
+        targetPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Radius);
 
         previousDistance = 999999999f;
         finishedMoving = false;
     }
 
     public void SetLocation(Vector2Int _location, Vector2 _pos) {
-        if (_location == currentPathfindingLocation) return;
+        if (_location == currentLocation) return;
 
         lerpingToLocation = true;
 
         path = null;
         finishedMoving = true;
 
-        currentPathfindingLocation = _location;
-        currentTile = PathfindingManager.instance.PathfindingLocationsMap[_location].Tile.Location;
+        currentLocation = _location;
+        currentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(_location)].Tile.Location;
 
         startPos = _pos;
         targetPos = _pos;

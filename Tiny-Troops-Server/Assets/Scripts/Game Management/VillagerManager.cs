@@ -126,7 +126,7 @@ public class VillagerManager : MonoBehaviour {
                     Villager v = constructionStructures[playerID][i].ConstructionVillagers[x];
                     Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(v.Village.Location).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
                     v.PathfindingAgent.PathfindToLocation(targetLocation);
-                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location, new Vector2[] { });
+                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, targetLocation, new Vector2[] { });
                 }
                 constructionStructures[playerID].RemoveAt(i);
                 break;
