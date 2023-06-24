@@ -47,7 +47,7 @@ public class Villager : MonoBehaviour {
         if (previousFinishedMoving != pathfindingAgent.FinishedMoving) {
             if (pathfindingAgent.FinishedMoving) StartCoroutine(SendLocation());
             previousFinishedMoving = pathfindingAgent.FinishedMoving;
-            VillagerManager.instance.SetVillagersTargetLocation();
+            VillagerManager.instance.UpdateVillagersConstruction();
         }
 
         if (previousHealth != health.CurrentHealth) {

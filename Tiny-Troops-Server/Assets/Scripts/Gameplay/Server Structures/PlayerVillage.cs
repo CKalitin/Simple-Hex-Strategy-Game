@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USNL.Package;
 
 public class PlayerVillage : MonoBehaviour {
     #region Variables
@@ -88,20 +89,20 @@ public class PlayerVillage : MonoBehaviour {
     private void SpawnVillager(int _playerID, int _actionID, int[] _configurationInts) {
         int uuid = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
         int randomSeed = Random.Range(0, 99999999);
-
+        
         Vector3 p = spawnPathfindingLocation.transform.position;
-        Vector3 pos = new Vector3(p.x + GameUtils.Random(randomSeed, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(randomSeed + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
-
+        Vector3 pos = new Vector3(p.x + GameUtils.Random(randomSeed + 2, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(randomSeed + 3, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
+        
         int[] configurationInts = { uuid, randomSeed };
         USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, 0, configurationInts);
-
+        Debug.Log(spawnPathfindingLocation.Location, spawnPathfindingLocation);
         GameObject villager = Instantiate(villagerPrefab, pos, Quaternion.identity);
         villager.GetComponent<PathfindingAgent>().Initialize(spawnPathfindingLocation.Location, randomSeed);
         villager.GetComponent<Villager>().VillagerUUID = uuid;
         villager.GetComponent<Villager>().Village = this;
         villagers.Add(uuid, villager.GetComponent<Villager>());
 
-        VillagerManager.instance.SetVillagersTargetLocation();
+        VillagerManager.instance.UpdateVillagersConstruction();
     }
     
     private void OnUnitPathfindPacket(object _packetObject) {

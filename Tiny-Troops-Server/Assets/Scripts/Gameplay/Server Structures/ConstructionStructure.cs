@@ -23,7 +23,7 @@ public class ConstructionStructure : MonoBehaviour {
 
     private void Start() {
         VillagerManager.instance.AddConstructionStructure(Location, this);
-        VillagerManager.instance.SetVillagersTargetLocation();
+        VillagerManager.instance.UpdateVillagersConstruction();
     }
 
     private void GetTileParent() {
@@ -43,7 +43,7 @@ public class ConstructionStructure : MonoBehaviour {
 
     private void OnDestroy() {
         VillagerManager.instance.RemoveConstructionStructure(this);
-        VillagerManager.instance.SetVillagersTargetLocation();
+        VillagerManager.instance.UpdateVillagersConstruction();
     }
 
     public void ChangeBuildPercentage(float _change) {

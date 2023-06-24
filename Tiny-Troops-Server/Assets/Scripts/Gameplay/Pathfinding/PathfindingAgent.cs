@@ -31,6 +31,8 @@ public class PathfindingAgent : MonoBehaviour {
     public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
     public Vector2Int CurrentTile { get => currentTile; set => currentTile = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
+    public int RandomSeed { get => randomSeed; set => randomSeed = value; }
+    public System.Random Random { get => random; set => random = value; }
 
     public Vector2Int GetTargetLocation() {
         if (path == null) return currentTile;
@@ -83,8 +85,17 @@ public class PathfindingAgent : MonoBehaviour {
             return;
         }
 
+        /*// print out PathfindingLocationsMap
+        string output = "";
+        foreach (KeyValuePair<Vector2Int, PathfindingLocation> kvp in PathfindingManager.instance.PathfindingLocationsMap) {
+            output += $"({kvp.Key}, {kvp.Value.Location}), ";
+        }
+        Debug.Log(output);*/ // TODO DELETE
+        
         currentLocation = path[0];
+        //Debug.Log($"{path[0]}, {PathfindingManager.RBHKLocationToPathfindingLocation(path[0])}, {PathfindingManager.instance.PathfindingLocationsMap.ContainsKey(PathfindingManager.RBHKLocationToPathfindingLocation(path[0]))}");
         currentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Tile.Location;
+
 
         path.RemoveAt(0);
         if (path.Count <= 0) {
@@ -109,7 +120,7 @@ public class PathfindingAgent : MonoBehaviour {
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
         else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-
+        
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
         if (path == null) return;
@@ -117,7 +128,7 @@ public class PathfindingAgent : MonoBehaviour {
         path.RemoveAt(0); // Remove currentLocation
 
         startPos = transform.position;
-        targetPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[path[0]].Radius); ;
+        targetPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Radius);
 
         previousDistance = 999999999f;
         finishedMoving = false;
@@ -162,7 +173,7 @@ public class PathfindingAgent : MonoBehaviour {
     }
 
     private Vector3 GetNextRandomLocation(float _radius) {
-        return new Vector3(GameUtils.Random(ref random, -_radius, _radius), 0, GameUtils.Random(ref random, -_radius, _radius));
+        return new Vector3(GameUtils.Random(randomSeed + 2, -_radius, _radius), 0, GameUtils.Random(randomSeed + 3, -_radius, _radius));
     }
 
     #endregion

@@ -1175,7 +1175,8 @@ namespace USNL {
         public static void CallOnBuildStructurePacketCallbacks(object _param) { if (OnBuildStructurePacket != null) { OnBuildStructurePacket(_param); } }
         public static void CallOnStructureActionPacketCallbacks(object _param) { if (OnStructureActionPacket != null) { OnStructureActionPacket(_param); } }
         public static void CallOnUnitPathfindPacketCallbacks(object _param) { if (OnUnitPathfindPacket != null) {
-                
+                UnitPathfindPacket packet = (UnitPathfindPacket)_param;
+                //Debug.Log(packet.TargetTileLocation + ", " + string.Join(", ", packet.Path));
                 OnUnitPathfindPacket(_param); 
             } 
         }

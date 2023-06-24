@@ -31,6 +31,8 @@ public class PathfindingAgent : MonoBehaviour {
     public Vector2Int CurrentLocation { get => currentLocation; set => currentLocation = value; }
     public Vector2Int CurrentTile { get => currentTile; set => currentTile = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
+    public int RandomSeed { get => randomSeed; set => randomSeed = value; }
+    public System.Random Random { get => random; set => random = value; }
 
     public Vector2Int GetTargetLocation() {
         if (path == null) return currentTile;
@@ -162,7 +164,7 @@ public class PathfindingAgent : MonoBehaviour {
     }
 
     private Vector3 GetNextRandomLocation(float _radius) {
-        return new Vector3(GameUtils.Random(ref random, -_radius, _radius), 0, GameUtils.Random(ref random, -_radius, _radius));
+        return new Vector3(GameUtils.Random(randomSeed + 2, -_radius, _radius), 0, GameUtils.Random(randomSeed + 3, -_radius, _radius));
     }
 
     #endregion

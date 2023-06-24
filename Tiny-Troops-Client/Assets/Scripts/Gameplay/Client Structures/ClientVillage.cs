@@ -118,7 +118,7 @@ public class ClientVillage : MonoBehaviour {
 
     private void SpawnVillager(int _villagerUUID, int _randomSeed) {
         Vector3 p = spawnPathfindingLocation.transform.position;
-        Vector3 pos = new Vector3(p.x + GameUtils.Random(_randomSeed, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(_randomSeed + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
+        Vector3 pos = new Vector3(p.x + GameUtils.Random(_randomSeed + 2, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(_randomSeed + 3, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
 
         GameObject villager = Instantiate(villagerPrefab, pos, Quaternion.identity);
         
