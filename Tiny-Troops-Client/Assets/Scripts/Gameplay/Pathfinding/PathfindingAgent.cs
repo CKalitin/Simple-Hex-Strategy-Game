@@ -19,7 +19,7 @@ public class PathfindingAgent : MonoBehaviour {
     private Vector3 targetPos;
 
     private List<Vector2Int> path;
-    
+
     private float previousDistance = 999999999f;
 
     private bool finishedMoving = true;
@@ -31,8 +31,12 @@ public class PathfindingAgent : MonoBehaviour {
     public Vector2Int CurrentPathfindingLocation { get => currentPathfindingLocation; set => currentPathfindingLocation = value; }
     public Vector2Int CurrentTile { get => currentTile; set => currentTile = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
-    
-    public Vector2Int TargetLocation { get => path[path.Count - 1]; }
+
+    public Vector2Int GetTargetLocation() {
+        if (path == null) return currentTile;
+        if (path.Count > 0) return path[path.Count - 1];
+        return currentTile;
+    }
 
     #endregion
 
@@ -72,11 +76,16 @@ public class PathfindingAgent : MonoBehaviour {
         if (Vector3.Distance(new Vector3(transform.position.x, targetPos.y, transform.position.z), targetPos) > previousDistance) ReachedTargetPos();
         previousDistance = Vector3.Distance(new Vector3(transform.position.x, targetPos.y, transform.position.z), targetPos);
     }
-    
+
     private void ReachedTargetPos() {
+        if (path == null) {
+            finishedMoving = true;
+            return;
+        }
+
         currentPathfindingLocation = path[0];
         currentTile = PathfindingManager.instance.PathfindingLocationsMap[path[0]].Tile.Location;
-        
+
         path.RemoveAt(0);
         if (path.Count <= 0) {
             finishedMoving = true;
@@ -104,9 +113,9 @@ public class PathfindingAgent : MonoBehaviour {
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
         if (path == null) return;
-        
+
         path.RemoveAt(0); // Remove currentLocation
-        
+
         startPos = transform.position;
         targetPos = PathfindingManager.instance.PathfindingLocationsMap[path[0]].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[path[0]].Radius); ;
 
@@ -147,7 +156,7 @@ public class PathfindingAgent : MonoBehaviour {
             lerpTime += Mathf.Clamp(Time.deltaTime * lerpToLocationSpeed, 0, 1);
             yield return new WaitForEndOfFrame();
         }
-        
+
         startPos = _targetPostion;
         lerpingToLocation = false;
     }

@@ -42,9 +42,6 @@ public class PathfindingManager : MonoBehaviour {
 
     /** find a path in hexagonal grid tilemaps (when grid rows are staggered with each other) **/
     public static List<Vector2Int> FindPath(Vector2Int from, Vector2Int to) {
-        from = RBHKLocationToPathfindingLocation(from);
-        to = RBHKLocationToPathfindingLocation(to);
-
         Func<Vector2Int, Vector2Int, float> getDistance = delegate (Vector2Int a, Vector2Int b) {
             float xDistance = Mathf.Abs(a.x - b.x);
             float yDistance = Mathf.Abs(a.y - b.y) * Mathf.Sqrt(3);
@@ -148,12 +145,7 @@ public class PathfindingManager : MonoBehaviour {
         }
         result.Reverse();
 
-        List<Vector2Int> finalResult = new List<Vector2Int>();
-        for (int i = 0; i < result.Count; i++) {
-            finalResult.Add(PathfindingLocationToRBHKLocation(result[i]));
-        }
-
-        return finalResult;
+        return result;
     }
 
     private static bool findDest(Node currentNode, List<Node> openList,

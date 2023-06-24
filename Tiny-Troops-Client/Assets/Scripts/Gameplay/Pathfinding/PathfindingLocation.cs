@@ -20,12 +20,13 @@ public class PathfindingLocation : MonoBehaviour {
 
     private void Start() {
         pathfindingLocation = PathfindingManager.AddPathfindingLocationToMap(localLocation, tile.Location, (int)tile.TileId, this);
-        /*locationText.text = $"({localLocation.x}, {localLocation.y})\n" +
-            $"{PathfindingManager.GeneratePathfindingLocation(localLocation, tile.Location)-new Vector2Int(10, 8)}\n" +
-            $"{PathfindingManager.RBHKLocationToPathfindingLocation(PathfindingManager.GeneratePathfindingLocation(localLocation, tile.Location))}";*/
+        ///*
+        locationText.text = $"({localLocation.x}, {localLocation.y})\n" +
+            $"{pathfindingLocation}\n";
+        //*/
     }
 
     private void OnDestroy() {
-        PathfindingManager.RemovePathfindingLocationToMap(pathfindingLocation);
+        PathfindingManager.RemovePathfindingLocationFromMap(pathfindingLocation);
     }
 }

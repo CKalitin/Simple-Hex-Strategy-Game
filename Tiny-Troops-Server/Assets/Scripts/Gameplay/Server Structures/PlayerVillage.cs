@@ -37,15 +37,10 @@ public class PlayerVillage : MonoBehaviour {
         VillagerManager.instance.Villages[PlayerID].Add(this);
         
         if (MatchManager.instance.MatchState != MatchState.Lobby) {
-            StartCoroutine(DelayedVillagerSpawn());
+            SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
         }
     }
-
-    private IEnumerator DelayedVillagerSpawn() {
-        yield return new WaitForSeconds(0.5f);
-        SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
-    }
-
+    
     private void GetTileParent() {
         Transform t = transform.parent;
         while (true) {

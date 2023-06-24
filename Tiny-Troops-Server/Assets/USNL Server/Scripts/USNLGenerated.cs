@@ -303,7 +303,7 @@ namespace USNL {
                 _packet.Write(_unitUUIDs);
                 _packet.Write(_targetTileLocation);
                 _packet.Write(_path);
-                Debug.Log("Stack " + _targetTileLocation);
+
                 SendTCPDataToAll(_packet);
             }
         }

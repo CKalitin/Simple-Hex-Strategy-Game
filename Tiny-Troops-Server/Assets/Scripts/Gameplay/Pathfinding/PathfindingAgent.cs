@@ -32,7 +32,11 @@ public class PathfindingAgent : MonoBehaviour {
     public Vector2Int CurrentTile { get => currentTile; set => currentTile = value; }
     public bool FinishedMoving { get => finishedMoving; set => finishedMoving = value; }
 
-    public Vector2Int TargetLocation { get => path[path.Count - 1]; }
+    public Vector2Int GetTargetLocation() {
+        if (path == null) return currentTile;
+        if (path.Count > 0) return path[path.Count - 1];
+        return currentTile;
+    }
 
     #endregion
 
@@ -74,6 +78,11 @@ public class PathfindingAgent : MonoBehaviour {
     }
 
     private void ReachedTargetPos() {
+        if (path == null) {
+            finishedMoving = true;
+            return;
+        }
+
         currentPathfindingLocation = path[0];
         currentTile = PathfindingManager.instance.PathfindingLocationsMap[path[0]].Tile.Location;
 
@@ -100,7 +109,7 @@ public class PathfindingAgent : MonoBehaviour {
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
         else path = PathfindingManager.FindPath(currentPathfindingLocation, _targetLocation);
-
+        
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
         if (path == null) return;
