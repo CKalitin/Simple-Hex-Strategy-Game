@@ -52,7 +52,7 @@ public class Unit : MonoBehaviour {
     public bool Attacking { get => attacking; set => attacking = value; }
     public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
 
-    public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
+    public Vector2Int Location { get => pathfindingAgent.CurrentTile; }
     public bool Selected { get => selectedIndicator.activeSelf; }
 
     #endregion
@@ -103,19 +103,8 @@ public class Unit : MonoBehaviour {
         yield return new WaitForSeconds(UnitManager.instance.UnitPositionSyncDelay);
 
         if (pathfindingAgent.FinishedMoving == false) yield break;
-
-        int nodeIndex = -1;
         
-        for (int i = 0; i < TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile.Count; i++) {
-            if (TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile[i] == pathfindingAgent.CurrentNode) {
-                nodeIndex = i;
-                break;
-            }
-        }
-
-        if (nodeIndex >= 0) {
-            USNL.PacketSend.SetUnitLocation(UnitUUID, Location, nodeIndex, new Vector2(transform.position.x, transform.position.z));
-        }
+        USNL.PacketSend.SetUnitLocation(UnitUUID, Location, new Vector2(transform.position.x, transform.position.z));
     }
 
     #endregion

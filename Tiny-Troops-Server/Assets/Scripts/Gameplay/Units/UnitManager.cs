@@ -139,6 +139,8 @@ public class UnitManager : MonoBehaviour {
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
 
+        Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
+
         Dictionary<Vector2Int, List<int>> unitUUIDsByLocation = new Dictionary<Vector2Int, List<int>>();
         
         // Sort unitUUIDs by location into unitUUIDsByLocation
@@ -150,13 +152,13 @@ public class UnitManager : MonoBehaviour {
 
         // Loop through unitUUIDsByLocation and create a path to the target location, then give that path to the units using units[uuid].PathfindtoLocation(path); I love copilot
         foreach (KeyValuePair<Vector2Int, List<int>> unitUUIDs in unitUUIDsByLocation) {
-            List<Vector2Int> path = PathfindingManager.FindPath(unitUUIDs.Key, Vector2Int.RoundToInt(packet.TargetTileLocation));
+            List<Vector2Int> path = PathfindingManager.FindPath(unitUUIDs.Key, targetLocation);
 
             for (int i = 0; i < unitUUIDs.Value.Count; i++) {
                 units[unitUUIDs.Value[i]].Script.PathfindingAgent.PathfindToLocation(unitUUIDs.Key, new List<Vector2Int>(path));
             }
             
-            USNL.PacketSend.UnitPathfind(unitUUIDs.Value.ToArray(), packet.TargetTileLocation, path.Select(o => new Vector2(o.x, o.y)).ToArray());
+            USNL.PacketSend.UnitPathfind(unitUUIDs.Value.ToArray(), targetLocation, path.Select(o => new Vector2(o.x, o.y)).ToArray());
         }
     }
     

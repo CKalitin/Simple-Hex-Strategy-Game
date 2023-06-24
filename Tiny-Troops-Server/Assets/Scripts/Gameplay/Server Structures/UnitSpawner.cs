@@ -6,7 +6,7 @@ public class UnitSpawner : MonoBehaviour {
     #region Variables
 
     [Header("Spawner")]
-    [SerializeField] private PathfindingNode spawnPathfindingNode;
+    [SerializeField] private PathfindingLocation spawnPathfindingLocation;
 
     [Header("Structure")]
     [SerializeField] private GameplayStructure gameplayStructure;
@@ -86,10 +86,10 @@ public class UnitSpawner : MonoBehaviour {
     public void SpawnUnit(int _playerID, int _unitID, int[] _configurationInts) {
         int uuid = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
         int randomSeed = Random.Range(0, 99999999);
-
-        Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * GameUtils.Random(randomSeed, -spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
-        pos.y = spawnPathfindingNode.transform.position.y;
         
+        Vector3 p = spawnPathfindingLocation.transform.position;
+        Vector3 pos = new Vector3(p.x + GameUtils.Random(randomSeed, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(randomSeed + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
+
         int[] configurationInts = { uuid, randomSeed };
         USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, _unitID + 1000, configurationInts);
 
@@ -97,7 +97,7 @@ public class UnitSpawner : MonoBehaviour {
         unit.GetComponent<Unit>().PlayerID = _playerID;
         unit.GetComponent<Unit>().RandomSeed = randomSeed;
         unit.GetComponent<Unit>().UnitUUID = uuid;
-        unit.GetComponent<PathfindingAgent>().Initialize(location, spawnPathfindingNode, unit.GetComponent<Unit>().RandomSeed);
+        unit.GetComponent<PathfindingAgent>().Initialize(spawnPathfindingLocation.Location, unit.GetComponent<Unit>().RandomSeed);
     }
 
     private void ApplyUnitCosts(int _playerID, RBHKCost[] costs) {

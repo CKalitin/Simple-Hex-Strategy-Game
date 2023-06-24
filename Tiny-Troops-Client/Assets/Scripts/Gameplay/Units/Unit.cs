@@ -51,7 +51,7 @@ public class Unit : MonoBehaviour {
     public bool Attacking { get => attacking; set => attacking = value; }
     public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
 
-    public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
+    public Vector2Int Location { get => pathfindingAgent.CurrentTile; }
     public bool Selected { get => selectedIndicator.activeSelf; }
 
     #endregion

@@ -22,7 +22,7 @@ public class Villager : MonoBehaviour {
     public PathfindingAgent PathfindingAgent { get => pathfindingAgent; set => pathfindingAgent = value; }
     public PlayerVillage Village { get => village; set => village = value; }
 
-    public Vector2Int Location { get => pathfindingAgent.CurrentLocation; }
+    public Vector2Int Location { get => pathfindingAgent.CurrentTile; }
 
     #endregion
 
@@ -62,25 +62,14 @@ public class Villager : MonoBehaviour {
     #endregion
 
     #region Villager
-
+    
     private IEnumerator SendLocation() {
         yield return new WaitForSeconds(UnitManager.instance.UnitPositionSyncDelay);
 
         if (pathfindingAgent.FinishedMoving == false) yield break;
-
-        int nodeIndex = -1;
-
-        for (int i = 0; i < TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile.Count; i++) {
-            if (TileManagement.instance.GetTileAtLocation(Location).Tile.GetComponent<GameplayTile>().GetTilePathfinding().NodesOnTile[i] == pathfindingAgent.CurrentNode) {
-                nodeIndex = i;
-                break;
-            }
-        }
-
-        if (nodeIndex >= 0) {
-            USNL.PacketSend.SetUnitLocation(villagerUUID, Location, nodeIndex, new Vector2(transform.position.x, transform.position.z));
-        }
+        
+        USNL.PacketSend.SetUnitLocation(villagerUUID, Location, new Vector2(transform.position.x, transform.position.z));
     }
-
+    
     #endregion
 }

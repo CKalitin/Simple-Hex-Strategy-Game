@@ -29,6 +29,8 @@ public class TestTileGenerator : MonoBehaviour {
     }
     
     public void GenerateTiles() {
+        PathfindingManager.instance.PathfindingLocationsMap = new Dictionary<Vector2Int, PathfindingLocation>();
+
         for (int x = 0; x < tilePrefabsMatrix.Length; x++) {
             for (int y = 0; y < tilePrefabsMatrix[x].tilePrefabs.Length; y++) {
                 TileManagement.instance.SpawnTile(tilePrefabsMatrix[x].tilePrefabs[y], new Vector2Int(x, y));

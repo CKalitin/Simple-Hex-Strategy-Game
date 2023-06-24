@@ -14,8 +14,6 @@ public class GameplayStructure : MonoBehaviour {
 
     [Header("UI")]
     [SerializeField] private GameObject structureUI;
-    [Space]
-    [SerializeField] private TilePathfinding tilePathfinding;
 
     [Header("Other")]
     [SerializeField] private Health health;
@@ -28,7 +26,6 @@ public class GameplayStructure : MonoBehaviour {
     public event StructureActionCallback OnStructureAction;
 
     public GameObject StructureUI { get => structureUI; set => structureUI = value; }
-    public TilePathfinding TilePathfinding { get => tilePathfinding; set => tilePathfinding = value; }
     public Tiles BonusTileID { get => bonusTileID; set => bonusTileID = value; }
     public int BonusAmount { get => bonusAmount; set => bonusAmount = value; }
 

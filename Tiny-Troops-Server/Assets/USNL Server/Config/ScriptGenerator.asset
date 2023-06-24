@@ -165,8 +165,6 @@ MonoBehaviour:
       variableType: 2
     - variableName: Target Tile Location
       variableType: 7
-    - variableName: Pathfinding Node Index
-      variableType: 2
     - variableName: Position
       variableType: 7
     sendType: 1
@@ -210,5 +208,5 @@ MonoBehaviour:
     sendType: 1
     protocol: 0
     notes: 
-  ClientPacketFoldouts: 000000000001
-  ServerPacketFoldouts: 0000000000000000010000000000
+  ClientPacketFoldouts: 000000000000
+  ServerPacketFoldouts: 0000000000000000000100000000

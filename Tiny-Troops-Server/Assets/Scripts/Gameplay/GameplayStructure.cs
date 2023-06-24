@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class GameplayStructure : MonoBehaviour {
     #region Variables
-
-    [SerializeField] private TilePathfinding tilePathfinding;
-    [Space]
+    
     [SerializeField] private Health health;
 
     private Vector2Int tileLocation;
@@ -17,8 +15,7 @@ public class GameplayStructure : MonoBehaviour {
 
     public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
     public event StructureActionCallback OnStructureAction;
-
-    public TilePathfinding TilePathfinding { get => tilePathfinding; set => tilePathfinding = value; }
+    
     public Vector2Int TileLocation { get => tileLocation; set => tileLocation = value; }
 
     #endregion

@@ -104,10 +104,10 @@ public class VillagerManager : MonoBehaviour {
 
     private void VillagerConstruction(Villager _villager) {
         if (_villager.PathfindingAgent.FinishedMoving == false) return;
-        if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentLocation).Tile.Structures.Count <= 0) return;
-        if (!TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentLocation).Tile.Structures[0].GetComponent<ConstructionStructure>()) return;
+        if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures.Count <= 0) return;
+        if (!TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<ConstructionStructure>()) return;
 
-        TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentLocation).Tile.Structures[0].GetComponent<ConstructionStructure>().ChangeBuildPercentage(villagerConstructionChangePerTick);
+        TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<ConstructionStructure>().ChangeBuildPercentage(villagerConstructionChangePerTick);
     }
     
     public void AddConstructionStructure(Vector2Int _location, ConstructionStructure _constructionStructure) {
@@ -124,7 +124,8 @@ public class VillagerManager : MonoBehaviour {
                 // Pathfind villagers back to village
                 for (int x = 0; x < constructionStructures[playerID][i].ConstructionVillagers.Count; x++) {
                     Villager v = constructionStructures[playerID][i].ConstructionVillagers[x];
-                    v.PathfindingAgent.PathfindToLocation(v.Village.Location);
+                    Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(v.Village.Location).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
+                    v.PathfindingAgent.PathfindToLocation(targetLocation);
                     USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location, new Vector2[] { });
                 }
                 constructionStructures[playerID].RemoveAt(i);
@@ -145,8 +146,9 @@ public class VillagerManager : MonoBehaviour {
                 // If villager is not at village, not moving, and not constructing
                 Villager v = kvp.Value[x];
                 if (!IsVillagerAtVillage(v) && !IsVillagerMoving(v) && !IsVillagerAtConstruction(v)) {
-                    v.PathfindingAgent.PathfindToLocation(v.Village.Location);
-                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, v.Village.Location, new Vector2[] { });
+                    Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(v.Village.Location).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
+                    v.PathfindingAgent.PathfindToLocation(targetLocation);
+                    USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, targetLocation, new Vector2[] { });
                 }
             }
         }
@@ -165,9 +167,10 @@ public class VillagerManager : MonoBehaviour {
                     for (int i = 0; i < playerVillages.Count && i < 3; i++) {
                         foreach (KeyValuePair<int, Villager> v in playerVillages[i].Villagers) {
                             if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value && !VillagerInConstructionInfosList(v.Value)) {
-                                v.Value.PathfindingAgent.PathfindToLocation(kvp.Value[x].Location);
+                                Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(kvp.Value[x].Location).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
+                                v.Value.PathfindingAgent.PathfindToLocation(targetLocation);
                                 kvp.Value[x].ConstructionVillagers.Add(v.Value);
-                                USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, kvp.Value[x].Location, new Vector2[] { });
+                                USNL.PacketSend.UnitPathfind(new int[1] { v.Value.VillagerUUID }, targetLocation, new Vector2[] { });
                                 villagerFound = true;
                                 break;
                             }
@@ -255,9 +258,11 @@ public class VillagerManager : MonoBehaviour {
         Villager v = GetVillager(packet.UnitUUIDs[0]);
 
         if (v != null) {
+            Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
+            
             RemoveConstructionVillager(v);
-            v.PathfindingAgent.PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
-            USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, Vector2Int.RoundToInt(packet.TargetTileLocation), new Vector2[] { });
+            v.PathfindingAgent.PathfindToLocation(targetLocation);
+            USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, targetLocation, new Vector2[] { });
         }
 
         SetVillagersTargetLocation();

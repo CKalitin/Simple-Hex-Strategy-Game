@@ -6,7 +6,7 @@ public class PlayerVillage : MonoBehaviour {
     #region Variables
     
     [Header("Spawner")]
-    [SerializeField] private PathfindingNode spawnPathfindingNode;
+    [SerializeField] private PathfindingLocation spawnPathfindingLocation;
     [Space]
     [SerializeField] private GameObject villagerPrefab;
 
@@ -31,12 +31,19 @@ public class PlayerVillage : MonoBehaviour {
     }
 
     private void Start() {
+        spawnPathfindingLocation = tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation(PlayerID);
+
         if (!VillagerManager.instance.Villages.ContainsKey(PlayerID)) VillagerManager.instance.Villages.Add(PlayerID, new List<PlayerVillage>());
         VillagerManager.instance.Villages[PlayerID].Add(this);
         
         if (MatchManager.instance.MatchState != MatchState.Lobby) {
-            SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
+            StartCoroutine(DelayedVillagerSpawn());
         }
+    }
+
+    private IEnumerator DelayedVillagerSpawn() {
+        yield return new WaitForSeconds(0.5f);
+        SpawnVillager(gameplayStructure.GetComponent<Structure>().PlayerID, 0, new int[] { });
     }
 
     private void GetTileParent() {
@@ -86,31 +93,32 @@ public class PlayerVillage : MonoBehaviour {
     private void SpawnVillager(int _playerID, int _actionID, int[] _configurationInts) {
         int uuid = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
         int randomSeed = Random.Range(0, 99999999);
-        
-        Vector3 pos = spawnPathfindingNode.transform.position + (Vector3.one * GameUtils.Random(randomSeed, -spawnPathfindingNode.Radius, spawnPathfindingNode.Radius));
-        pos.y = spawnPathfindingNode.transform.position.y;
+
+        Vector3 p = spawnPathfindingLocation.transform.position;
+        Vector3 pos = new Vector3(p.x + GameUtils.Random(randomSeed, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(randomSeed + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
 
         int[] configurationInts = { uuid, randomSeed };
         USNL.PacketSend.StructureAction(_playerID, gameplayStructure.TileLocation, 0, configurationInts);
 
         GameObject villager = Instantiate(villagerPrefab, pos, Quaternion.identity);
-        villager.GetComponent<PathfindingAgent>().Initialize(tile.TileInfo.Location, spawnPathfindingNode, randomSeed);
+        villager.GetComponent<PathfindingAgent>().Initialize(spawnPathfindingLocation.Location, randomSeed);
         villager.GetComponent<Villager>().VillagerUUID = uuid;
         villager.GetComponent<Villager>().Village = this;
         villagers.Add(uuid, villager.GetComponent<Villager>());
 
         VillagerManager.instance.SetVillagersTargetLocation();
     }
-
+    
     private void OnUnitPathfindPacket(object _packetObject) {
         USNL.UnitPathfindPacket packet = (USNL.UnitPathfindPacket)_packetObject;
 
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
             if (villagers.ContainsKey(packet.UnitUUIDs[i])) {
-                villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
+                Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
+                villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().PathfindToLocation(targetLocation);
+                USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, targetLocation, new Vector2[] { });
             }
         }
-        USNL.PacketSend.UnitPathfind(packet.UnitUUIDs, packet.TargetTileLocation, new Vector2[] { });
     }
 
     #endregion

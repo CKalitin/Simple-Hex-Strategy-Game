@@ -303,16 +303,15 @@ namespace USNL {
                 _packet.Write(_unitUUIDs);
                 _packet.Write(_targetTileLocation);
                 _packet.Write(_path);
-
+                Debug.Log("Stack " + _targetTileLocation);
                 SendTCPDataToAll(_packet);
             }
         }
 
-        public static void SetUnitLocation(int _unitUUID, Vector2 _targetTileLocation, int _pathfindingNodeIndex, Vector2 _position) {
+        public static void SetUnitLocation(int _unitUUID, Vector2 _targetTileLocation, Vector2 _position) {
             using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.SetUnitLocation)) {
                 _packet.Write(_unitUUID);
                 _packet.Write(_targetTileLocation);
-                _packet.Write(_pathfindingNodeIndex);
                 _packet.Write(_position);
 
                 SendTCPDataToAll(_packet);

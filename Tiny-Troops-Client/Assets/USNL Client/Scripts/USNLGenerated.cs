@@ -197,19 +197,16 @@ namespace USNL {
     public struct SetUnitLocationPacket {
         private int unitUUID;
         private Vector2 targetTileLocation;
-        private int pathfindingNodeIndex;
         private Vector2 position;
 
-        public SetUnitLocationPacket(int _unitUUID, Vector2 _targetTileLocation, int _pathfindingNodeIndex, Vector2 _position) {
+        public SetUnitLocationPacket(int _unitUUID, Vector2 _targetTileLocation, Vector2 _position) {
             unitUUID = _unitUUID;
             targetTileLocation = _targetTileLocation;
-            pathfindingNodeIndex = _pathfindingNodeIndex;
             position = _position;
         }
 
         public int UnitUUID { get => unitUUID; set => unitUUID = value; }
         public Vector2 TargetTileLocation { get => targetTileLocation; set => targetTileLocation = value; }
-        public int PathfindingNodeIndex { get => pathfindingNodeIndex; set => pathfindingNodeIndex = value; }
         public Vector2 Position { get => position; set => position = value; }
     }
 
@@ -393,10 +390,9 @@ namespace USNL {
         public static void SetUnitLocation(Package.Packet _packet) {
             int unitUUID = _packet.ReadInt();
             Vector2 targetTileLocation = _packet.ReadVector2();
-            int pathfindingNodeIndex = _packet.ReadInt();
             Vector2 position = _packet.ReadVector2();
 
-            USNL.SetUnitLocationPacket setUnitLocationPacket = new USNL.SetUnitLocationPacket(unitUUID, targetTileLocation, pathfindingNodeIndex, position);
+            USNL.SetUnitLocationPacket setUnitLocationPacket = new USNL.SetUnitLocationPacket(unitUUID, targetTileLocation, position);
             Package.PacketManager.instance.PacketReceived(_packet, setUnitLocationPacket);
         }
 
