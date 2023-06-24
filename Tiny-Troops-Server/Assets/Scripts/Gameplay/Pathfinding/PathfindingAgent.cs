@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -57,6 +58,8 @@ public class PathfindingAgent : MonoBehaviour {
         finishedMoving = true;
 
         currentLocation = _spawnLocation;
+        CurrentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(_spawnLocation)].Tile.Location;
+        Debug.Log(currentTile);
 
         randomSeed = _randomSeed;
         random = new System.Random(_randomSeed);
@@ -84,10 +87,9 @@ public class PathfindingAgent : MonoBehaviour {
             finishedMoving = true;
             return;
         }
-        
+
         currentLocation = path[0];
         currentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Tile.Location;
-
 
         path.RemoveAt(0);
         if (path.Count <= 0) {
@@ -112,7 +114,7 @@ public class PathfindingAgent : MonoBehaviour {
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
         else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-        
+
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
         if (path == null) return;

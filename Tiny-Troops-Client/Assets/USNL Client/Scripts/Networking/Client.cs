@@ -126,7 +126,7 @@ namespace USNL.Package {
                     stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
                 } catch (Exception _ex) {
                     Debug.Log(_ex);
-                    Disconnect();
+                    //Disconnect();
                 }
             }
 

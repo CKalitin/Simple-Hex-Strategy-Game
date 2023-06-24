@@ -50,6 +50,9 @@ public class UnitSpawner : MonoBehaviour {
     public void SpawnUnit(int _playerID, int _unitID, int[] _configurationInts) {
         _unitID -= 1000;
 
+        if (spawnPathfindingLocation == null)
+            spawnPathfindingLocation = tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation(GetComponent<Structure>().PlayerID);
+
         Vector3 p = spawnPathfindingLocation.transform.position;
         Vector3 pos = new Vector3(p.x + GameUtils.Random(_configurationInts[1], -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(_configurationInts[1] + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
             

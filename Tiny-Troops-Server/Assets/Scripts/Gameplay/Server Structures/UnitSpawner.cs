@@ -87,6 +87,9 @@ public class UnitSpawner : MonoBehaviour {
         int uuid = System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0); // Generate UUID
         int randomSeed = Random.Range(0, 99999999);
         
+        if (spawnPathfindingLocation == null)
+            spawnPathfindingLocation = tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation(GetComponent<Structure>().PlayerID);
+
         Vector3 p = spawnPathfindingLocation.transform.position;
         Vector3 pos = new Vector3(p.x + GameUtils.Random(randomSeed, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(randomSeed + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
 

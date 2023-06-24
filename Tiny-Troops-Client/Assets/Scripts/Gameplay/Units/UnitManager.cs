@@ -179,7 +179,8 @@ public class UnitManager : MonoBehaviour {
     #region Other
     
     private IEnumerator HighlightPath(List<Vector2Int> path) {
-        if (path.Count <= 1) yield break;
+        yield break;
+        /*if (path.Count <= 1) yield break;
         path.RemoveAt(0);
 
         for (int i = 0; i < path.Count; i++) {
@@ -192,7 +193,7 @@ public class UnitManager : MonoBehaviour {
         for (int i = 0; i < path.Count; i++) {
             TileManagement.instance.GetTileAtLocation(path[i]).Tile.GetComponent<GameplayTile>().TileHighlight.ToggleHighlight(false);
             yield return new WaitForSeconds(delayBetweenTileHighlights);
-        }
+        }*/
     }
 
     #endregion
