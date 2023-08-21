@@ -59,7 +59,6 @@ public class PathfindingAgent : MonoBehaviour {
 
         currentLocation = _spawnLocation;
         CurrentTile = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(_spawnLocation)].Tile.Location;
-        Debug.Log(currentTile);
 
         randomSeed = _randomSeed;
         random = new System.Random(_randomSeed);

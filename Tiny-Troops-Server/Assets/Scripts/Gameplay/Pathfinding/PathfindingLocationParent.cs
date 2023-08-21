@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathfindingLocationParent : MonoBehaviour {
+    [Tooltip("These are pathfinding locations that are physically on the tile, Some are inbetween tiles.")]
     [SerializeField] private PathfindingLocation[] centralPathfindingLocations;
 
     public PathfindingLocation GetRandomCentralPathfindingLocation(ref System.Random _rand) {

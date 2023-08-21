@@ -142,12 +142,13 @@ public class UnitManager : MonoBehaviour {
         Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation().Location;
 
         Dictionary<Vector2Int, List<int>> unitUUIDsByLocation = new Dictionary<Vector2Int, List<int>>();
-        
+
         // Sort unitUUIDs by location into unitUUIDsByLocation
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
             if (!units.ContainsKey(packet.UnitUUIDs[i])) continue;
-            if (unitUUIDsByLocation.ContainsKey(units[packet.UnitUUIDs[i]].Location)) unitUUIDsByLocation[units[packet.UnitUUIDs[i]].Location].Add(packet.UnitUUIDs[i]);
-            else unitUUIDsByLocation.Add(units[packet.UnitUUIDs[i]].Location, new List<int>() { packet.UnitUUIDs[i] });
+            Vector2Int loc = units[packet.UnitUUIDs[i]].Script.PathfindingAgent.CurrentLocation;
+            if (unitUUIDsByLocation.ContainsKey(loc)) unitUUIDsByLocation[loc].Add(packet.UnitUUIDs[i]);
+            else unitUUIDsByLocation.Add(loc, new List<int>() { packet.UnitUUIDs[i] });
         }
 
         // Loop through unitUUIDsByLocation and create a path to the target location, then give that path to the units using units[uuid].PathfindtoLocation(path); I love copilot
