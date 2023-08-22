@@ -155,7 +155,10 @@ MonoBehaviour:
   bonusTileID: 3
   bonusAmount: 1
   structureUI: {fileID: 0}
-  tilePathfinding: {fileID: 0}
+  unwalkableLocalPathfindingLocations:
+  - {x: 0, y: 2}
+  - {x: 1, y: 2}
+  - {x: 2, y: 2}
   health: {fileID: 6238586514056320157}
 --- !u!114 &6238586514056320157
 MonoBehaviour:

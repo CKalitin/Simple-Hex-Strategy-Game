@@ -267,7 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b987dba13174cb04db46a8e5981fc340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePathfinding: {fileID: 0}
+  unwalkableLocalPathfindingLocations:
+  - {x: 0, y: 2}
   health: {fileID: -1008206758387437360}
 --- !u!114 &-1008206758387437360
 MonoBehaviour:

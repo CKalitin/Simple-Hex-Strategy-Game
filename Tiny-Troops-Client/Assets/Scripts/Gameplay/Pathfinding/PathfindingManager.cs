@@ -170,7 +170,7 @@ public class PathfindingManager : MonoBehaviour {
         openList.Add(currentNode);
 
         foreach (var item in getNeighbors(currentNode.pos)) {
-            if (map.ContainsKey(item) && passableValues.Contains(map[item])) {
+            if (map.ContainsKey(item) && passableValues.Contains(map[item]) && instance.pathfindingLocationsMap[item].Walkable) {
                 findTemp(openList, currentNode, item, to, getDistance);
             }
         }

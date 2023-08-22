@@ -13,10 +13,14 @@ public class ClientVillage : MonoBehaviour {
     [SerializeField] private GameObject villagerPrefab;
 
     private Dictionary<int, GameObject> villagers = new Dictionary<int, GameObject>();
-
+    
+    
     [Header("References")]
     [SerializeField] private GameplayStructure gameplayStructure;
 
+    private float delayBetweenTileHighlights = 0.1f;
+    private float tileHighlightTime = 1f;
+    
     private Tile tile;
 
     public Vector2Int Location { get => tile.TileInfo.Location; }
@@ -91,6 +95,7 @@ public class ClientVillage : MonoBehaviour {
 
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
             if (villagers.ContainsKey(packet.UnitUUIDs[i])) {
+                //StartCoroutine(HighlightPath(villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().CurrentLocation, Vector2Int.RoundToInt(packet.TargetTileLocation)));
                 villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
             }
         }
@@ -100,7 +105,8 @@ public class ClientVillage : MonoBehaviour {
         USNL.SetUnitLocationPacket packet = (USNL.SetUnitLocationPacket)_packetObject;
 
         if (villagers.ContainsKey(packet.UnitUUID)) {
-            villagers[packet.UnitUUID].GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.Position);
+            Vector3 pos = new Vector3(packet.Position.x, 0, packet.Position.y);
+            villagers[packet.UnitUUID].GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), pos);
         }
     }
 
@@ -129,6 +135,24 @@ public class ClientVillage : MonoBehaviour {
         villager.GetComponent<Villager>().Village = this;
 
         villagers.Add(_villagerUUID, villager);
+    }
+    
+    private IEnumerator HighlightPath(Vector2Int _currentLocation, Vector2Int _targetLocation) {
+        List <Vector2Int> path = PathfindingManager.FindPath(_currentLocation, _targetLocation);
+        if (path.Count <= 1) yield break;
+        path.RemoveAt(0);
+
+        for (int i = 0; i < path.Count; i++) {
+            PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[i])].GetComponent<PathfindingLocationHighlight>().Highlight.SetActive(true);
+            yield return new WaitForSeconds(delayBetweenTileHighlights);
+        }
+
+        yield return new WaitForSeconds(tileHighlightTime);
+
+        for (int i = 0; i < path.Count; i++) {
+            PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[i])].GetComponent<PathfindingLocationHighlight>().Highlight.SetActive(false);
+            yield return new WaitForSeconds(delayBetweenTileHighlights);
+        }
     }
 
     #endregion

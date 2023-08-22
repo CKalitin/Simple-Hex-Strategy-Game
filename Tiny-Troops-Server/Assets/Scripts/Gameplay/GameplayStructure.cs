@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameplayStructure : MonoBehaviour {
     #region Variables
     
     [Header("Pathfinding")]
-    [Tooltip("     (1, 1)  (2, 1)   \n(0, 2) (1, 2) (2, 2)\n     (1, 3)  (2, 3)")]
+    [Tooltip("     (1, 3)  (2, 3)   \n(0, 2) (1, 2) (2, 2)\n     (1, 1)  (2, 1)")]
     [SerializeField] private Vector2Int[] unwalkableLocalPathfindingLocations;
 
     [Header("Other")]
@@ -29,6 +30,8 @@ public class GameplayStructure : MonoBehaviour {
 
     private void Start() {
         Initialize();
+        gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
+        SetPathfindingNodesWalkable(false);
     }
 
     private void Update() {
@@ -55,8 +58,6 @@ public class GameplayStructure : MonoBehaviour {
             tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
             StructureManager.instance.AddGameplayStructure(tileLocation, this);
             addedToStructureManager = true;
-            gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
-            SetPathfindingNodesWalkable(false);
         }
     }
 
@@ -69,7 +70,7 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     #endregion
-
+    
     #region Other
 
     private void SetPathfindingNodesWalkable(bool _walkable) {

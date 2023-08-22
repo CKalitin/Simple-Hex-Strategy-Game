@@ -1174,12 +1174,7 @@ namespace USNL {
         public static void CallOnResourcesPacketCallbacks(object _param) { if (OnResourcesPacket != null) { OnResourcesPacket(_param); } }
         public static void CallOnBuildStructurePacketCallbacks(object _param) { if (OnBuildStructurePacket != null) { OnBuildStructurePacket(_param); } }
         public static void CallOnStructureActionPacketCallbacks(object _param) { if (OnStructureActionPacket != null) { OnStructureActionPacket(_param); } }
-        public static void CallOnUnitPathfindPacketCallbacks(object _param) { if (OnUnitPathfindPacket != null) {
-                UnitPathfindPacket packet = (UnitPathfindPacket)_param;
-                //Debug.Log(packet.TargetTileLocation + ", " + string.Join(", ", packet.Path));
-                OnUnitPathfindPacket(_param); 
-            } 
-        }
+        public static void CallOnUnitPathfindPacketCallbacks(object _param) { if (OnUnitPathfindPacket != null) { OnUnitPathfindPacket(_param); } }
         public static void CallOnSetUnitLocationPacketCallbacks(object _param) { if (OnSetUnitLocationPacket != null) { OnSetUnitLocationPacket(_param); } }
         public static void CallOnUnitHealthPacketCallbacks(object _param) { if (OnUnitHealthPacket != null) { OnUnitHealthPacket(_param); } }
         public static void CallOnStructureHealthPacketCallbacks(object _param) { if (OnStructureHealthPacket != null) { OnStructureHealthPacket(_param); } }

@@ -36,8 +36,7 @@ public class UnitManager : MonoBehaviour {
 
     [Header("Other")]
     [SerializeField] private float delayBetweenTileHighlights = 0.1f;
-    [SerializeField] private float tileHighlightTime
-        = 1f;
+    [SerializeField] private float tileHighlightTime = 1f;
 
     private Dictionary<int, UnitInfo> units = new Dictionary<int, UnitInfo>(); // The key is a UUID
 
@@ -162,7 +161,8 @@ public class UnitManager : MonoBehaviour {
         USNL.SetUnitLocationPacket packet = (USNL.SetUnitLocationPacket)_packetObject;
 
         if (units.ContainsKey(packet.UnitUUID)) {
-            units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), packet.Position);
+            Vector3 pos = new Vector3(packet.Position.x, 0, packet.Position.y);
+            units[packet.UnitUUID].GameObject.GetComponent<PathfindingAgent>().SetLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), pos);
         }
     }
 

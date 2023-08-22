@@ -16,7 +16,7 @@ public class GameplayStructure : MonoBehaviour {
     [SerializeField] private GameObject structureUI;
 
     [Header("Pathfinding")]
-    [Tooltip("     (1, 1)  (2, 1)   \n(0, 2) (1, 2) (2, 2)\n     (1, 3)  (2, 3)")]
+    [Tooltip("     (1, 3)  (2, 3)   \n(0, 2) (1, 2) (2, 2)\n     (1, 1)  (2, 1)")]
     [SerializeField] private Vector2Int[] unwalkableLocalPathfindingLocations;
 
     [Header("Other")]
@@ -40,6 +40,8 @@ public class GameplayStructure : MonoBehaviour {
     // The code in Start() and OnEnable() is the same because of the different times a structure can be instantiated. With the tile, or on the tile by a player.
     private void Start() {
         Initialize();
+        gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
+        SetPathfindingNodesWalkable(false);
     }
 
     private void OnEnable() {
@@ -47,8 +49,8 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     private void OnDisable() {
-        if (!playerOwnedStructure) return;
         SetPathfindingNodesWalkable(true);
+        if (!playerOwnedStructure) return;
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
     }
@@ -59,8 +61,6 @@ public class GameplayStructure : MonoBehaviour {
             tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
             StructureManager.instance.AddGameplayStructure(tileLocation, this);
             addedToStructureManager = true;
-            gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
-            SetPathfindingNodesWalkable(false);
         }
     }
 

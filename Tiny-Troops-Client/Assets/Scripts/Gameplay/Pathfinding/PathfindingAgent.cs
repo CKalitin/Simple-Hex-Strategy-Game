@@ -126,7 +126,7 @@ public class PathfindingAgent : MonoBehaviour {
         finishedMoving = false;
     }
 
-    public void SetLocation(Vector2Int _location, Vector2 _pos) {
+    public void SetLocation(Vector2Int _location, Vector3 _pos) {
         if (_location == currentLocation) return;
 
         lerpingToLocation = true;
