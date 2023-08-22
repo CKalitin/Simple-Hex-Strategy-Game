@@ -371,6 +371,11 @@ PrefabInstance:
       propertyPath: tile
       value: 
       objectReference: {fileID: 8142464371967572687}
+    - target: {fileID: 8236746138470310332, guid: bbecfeb96416d224e8ef0a41af1046a3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8720407407322708742, guid: bbecfeb96416d224e8ef0a41af1046a3,
         type: 3}
       propertyPath: m_LocalPosition.y

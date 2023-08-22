@@ -216,11 +216,6 @@ PrefabInstance:
       objectReference: {fileID: 8142464371967572687}
     - target: {fileID: 6775775654978332716, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27,
         type: 3}
-      propertyPath: playerID
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6775775654978332716, guid: 89bb3a1ed0abd2147b1bb37dbb7e9e27,
-        type: 3}
       propertyPath: structureLocation
       value: 
       objectReference: {fileID: 8142464371831691949}

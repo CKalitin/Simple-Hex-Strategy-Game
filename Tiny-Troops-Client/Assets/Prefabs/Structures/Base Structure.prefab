@@ -324,7 +324,10 @@ MonoBehaviour:
   bonusTileID: 0
   bonusAmount: 0
   structureUI: {fileID: 0}
-  tilePathfinding: {fileID: 0}
+  unwalkableLocalPathfindingLocations:
+  - {x: 0, y: 2}
+  - {x: 1, y: 2}
+  - {x: 2, y: 2}
   health: {fileID: 3295611978871026105}
 --- !u!114 &3295611978871026105
 MonoBehaviour:
@@ -365,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 587a4e02fdcb20142964836204e52c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPathfindingNode: {fileID: 0}
+  spawnPathfindingLocation: {fileID: 0}
   villagerPrefab: {fileID: 2216679837717455195, guid: b9b185f593a83eb48aa84da1adfd07d5,
     type: 3}
   gameplayStructure: {fileID: 2682231161970667900}

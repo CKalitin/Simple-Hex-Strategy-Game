@@ -15,19 +15,16 @@ public class PathfindingLocation : MonoBehaviour {
     private Vector2Int location;
 
     public Tile Tile { get => tile; set => tile = value; }
+    public Vector2Int LocalLocation { get => localLocation; set => localLocation = value; }
     public float Radius { get => radius; set => radius = value; }
     public bool Walkable { get => walkable; set => walkable = value; }
-    public Vector2Int Location { get => location; set => location = value; }
     public Vector2Int MapPathfindingLocation { get => pathfindingLocation; set => pathfindingLocation = value; }
+    public Vector2Int Location { get => location; set => location = value; }
 
     private void Start() {
         pathfindingLocation = PathfindingManager.AddPathfindingLocationToMap(localLocation, tile.Location, (int)tile.TileId, this);
 
         location = PathfindingManager.PathfindingLocationToRBHKLocation(pathfindingLocation);
-        /*
-        locationText.text = $"{location}\n" +
-            $"{pathfindingLocation}";
-        */
     }
 
     public void OnDestroy() {

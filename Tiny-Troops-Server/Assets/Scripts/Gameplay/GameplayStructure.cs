@@ -5,11 +5,16 @@ using UnityEngine;
 public class GameplayStructure : MonoBehaviour {
     #region Variables
     
+    [Header("Pathfinding")]
+    [Tooltip("     (1, 1)  (2, 1)   \n(0, 2) (1, 2) (2, 2)\n     (1, 3)  (2, 3)")]
+    [SerializeField] private Vector2Int[] unwalkableLocalPathfindingLocations;
+
+    [Header("Other")]
     [SerializeField] private Health health;
 
     private Vector2Int tileLocation;
-    
     private bool addedToStructureManager = false;
+    private GameplayTile gameplayTile;
 
     private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
 
@@ -23,11 +28,7 @@ public class GameplayStructure : MonoBehaviour {
     #region Core
 
     private void Start() {
-        if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
-            tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
-            StructureManager.instance.AddGameplayStructure(tileLocation, this);
-            addedToStructureManager = true;
-        }
+        Initialize();
     }
 
     private void Update() {
@@ -40,16 +41,23 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     private void OnEnable() {
+        Initialize();
+    }
+
+    private void OnDisable() {
+        SetPathfindingNodesWalkable(true);
+        StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
+        addedToStructureManager = false;
+    }
+
+    private void Initialize() {
         if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
             tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
             StructureManager.instance.AddGameplayStructure(tileLocation, this);
             addedToStructureManager = true;
+            gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
+            SetPathfindingNodesWalkable(false);
         }
-    }
-
-    private void OnDisable() {
-        StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
-        addedToStructureManager = false;
     }
 
     #endregion
@@ -58,6 +66,16 @@ public class GameplayStructure : MonoBehaviour {
 
     public void OnStructureActionPacket(int _playerID, int _actionID, int[] _configurationInts) {
         OnStructureAction(_playerID, _actionID, _configurationInts);
+    }
+
+    #endregion
+
+    #region Other
+
+    private void SetPathfindingNodesWalkable(bool _walkable) {
+        for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
+            gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
+        }
     }
 
     #endregion

@@ -15,12 +15,16 @@ public class GameplayStructure : MonoBehaviour {
     [Header("UI")]
     [SerializeField] private GameObject structureUI;
 
+    [Header("Pathfinding")]
+    [Tooltip("     (1, 1)  (2, 1)   \n(0, 2) (1, 2) (2, 2)\n     (1, 3)  (2, 3)")]
+    [SerializeField] private Vector2Int[] unwalkableLocalPathfindingLocations;
+
     [Header("Other")]
     [SerializeField] private Health health;
 
     private Vector2Int tileLocation;
-
     private bool addedToStructureManager = false;
+    private GameplayTile gameplayTile;
 
     public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
     public event StructureActionCallback OnStructureAction;
@@ -33,28 +37,31 @@ public class GameplayStructure : MonoBehaviour {
 
     #region Core
 
+    // The code in Start() and OnEnable() is the same because of the different times a structure can be instantiated. With the tile, or on the tile by a player.
     private void Start() {
-        if (!playerOwnedStructure) return;
-        if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
-            tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
-            StructureManager.instance.AddGameplayStructure(tileLocation, this);
-            addedToStructureManager = true;
-        }
+        Initialize();
     }
 
     private void OnEnable() {
-        if (!playerOwnedStructure) return;
-        if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
-            tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
-            StructureManager.instance.AddGameplayStructure(tileLocation, this);
-            addedToStructureManager = true;
-        }
+        Initialize();
     }
 
     private void OnDisable() {
         if (!playerOwnedStructure) return;
+        SetPathfindingNodesWalkable(true);
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
+    }
+
+    private void Initialize() {
+        if (!playerOwnedStructure) return;
+        if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
+            tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
+            StructureManager.instance.AddGameplayStructure(tileLocation, this);
+            addedToStructureManager = true;
+            gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
+            SetPathfindingNodesWalkable(false);
+        }
     }
 
     #endregion
@@ -71,5 +78,15 @@ public class GameplayStructure : MonoBehaviour {
         if (health.CurrentHealth <= 0) GetComponent<Structure>().DestroyStructure();
     }
 
+    #endregion
+
+    #region Other
+
+    private void SetPathfindingNodesWalkable(bool _walkable) {
+        for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
+            gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
+        }
+    }
+    
     #endregion
 }
