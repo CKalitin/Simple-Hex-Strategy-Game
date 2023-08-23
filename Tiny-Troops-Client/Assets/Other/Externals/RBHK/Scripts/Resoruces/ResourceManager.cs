@@ -191,7 +191,7 @@ public class ResourceManager : MonoBehaviour {
             resourceEntries.Add(resourceEntries.Count, _resourceEntry);
 
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
-            resource.Demand += _resourceEntry.Change; // Add change to Demand
+            if (updateResourcesOnTick) resource.Demand += _resourceEntry.Change; // Add change to Demand
 
             if (OnResourcesChanged != null) OnResourcesChanged(playerId);
 
@@ -200,7 +200,7 @@ public class ResourceManager : MonoBehaviour {
             resourceEntries.Add(resourceEntries.Count, _resourceEntry);
 
             Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
-            resource.Supply += _resourceEntry.Change; // Add change to Supply
+            if (updateResourcesOnTick) resource.Supply += _resourceEntry.Change; // Add change to Supply
 
             if (OnResourcesChanged != null) OnResourcesChanged(playerId);
 
@@ -214,10 +214,10 @@ public class ResourceManager : MonoBehaviour {
 
         if (resourceEntries[_index].ChangeOnTick) {
             Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
-            resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
+            if (updateResourcesOnTick) resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
         } else {
             Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
-            resource.Supply -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
+            if (updateResourcesOnTick) resource.Supply -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
         }
 
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base
   m_EditorClassIdentifier: 
   resourceId: 0
-  resourceEntryIds: 01000000
-  change: 20
+  resourceEntryIds: 04000000
+  change: 0
   changeOnTick: 0

@@ -144,7 +144,8 @@ MonoBehaviour:
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
-  resourceEntries: []
+  resourceEntries:
+  - {fileID: 11400000, guid: 183d0b25026430548affec89de8ba676, type: 2}
 --- !u!114 &536201286231317597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +162,8 @@ MonoBehaviour:
   bonuses:
   - bonusStructureID: 12
     bonusAmount: 2
+    changeOnTick: 1
+  applyBonuses: 1
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 1}

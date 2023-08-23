@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceId: 1
   resourceInfo: {fileID: 11400000, guid: c56d211b98b618f41b88e1c0b75ec7ed, type: 2}
-  customTickTime: 5
+  customTickTime: 0
+  changeOnTickResource: 0

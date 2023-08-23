@@ -9,6 +9,8 @@ public class GameplayStructure : MonoBehaviour {
 
     [Header("Bonus")]
     [SerializeField] private Bonus[] bonuses;
+    [SerializeField] private bool applyBonuses = false;
+    List<int> bonusResourceEntryIndexes = new List<int>();
 
     [Header("Pathfinding")]
     [Tooltip("     (1, 3)  (2, 3)   \n(0, 2) (1, 2) (2, 2)\n     (1, 1)  (2, 1)")]
@@ -46,6 +48,7 @@ public class GameplayStructure : MonoBehaviour {
         Initialize();
         gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
         SetPathfindingNodesWalkable(false);
+        if (applyBonuses) ApplyBonuses();
     }
 
     private void Update() {
@@ -63,6 +66,7 @@ public class GameplayStructure : MonoBehaviour {
 
     private void OnDisable() {
         SetPathfindingNodesWalkable(true);
+        RemoveBonuses();
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
     }
@@ -90,6 +94,25 @@ public class GameplayStructure : MonoBehaviour {
     private void SetPathfindingNodesWalkable(bool _walkable) {
         for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
             gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
+        }
+    }
+
+    private void ApplyBonuses() {
+        for (int i = 0; i < bonuses.Length; i++) {
+            int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
+
+            ResourceEntry resourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
+            resourceEntry.ResourceId = GetComponent<Structure>().ResourceEntries[0].ResourceId;
+            resourceEntry.ResourceEntryIds = GetComponent<Structure>().ResourceEntries[0].ResourceEntryIds;
+            resourceEntry.Change = bonus;
+            resourceEntry.ChangeOnTick = GetComponent<Structure>().ResourceEntries[0].ChangeOnTick;
+            bonusResourceEntryIndexes.Add(ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry));
+        }
+    }
+
+    private void RemoveBonuses() {
+        for (int i = 0; i < bonusResourceEntryIndexes.Count; i++) {
+            ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntryIndexes[i]);
         }
     }
 

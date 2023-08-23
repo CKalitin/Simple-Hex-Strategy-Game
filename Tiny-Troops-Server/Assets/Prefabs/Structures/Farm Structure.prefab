@@ -270,6 +270,8 @@ MonoBehaviour:
   bonuses:
   - bonusStructureID: 14
     bonusAmount: 1
+    changeOnTick: 1
+  applyBonuses: 1
   unwalkableLocalPathfindingLocations:
   - {x: 0, y: 2}
   health: {fileID: -1008206758387437360}

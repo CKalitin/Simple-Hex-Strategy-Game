@@ -168,6 +168,8 @@ MonoBehaviour:
   bonuses:
   - bonusStructureID: 12
     bonusAmount: 2
+    changeOnTick: 1
+  applyBonuses: 1
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 1}
   - {x: 2, y: 2}
