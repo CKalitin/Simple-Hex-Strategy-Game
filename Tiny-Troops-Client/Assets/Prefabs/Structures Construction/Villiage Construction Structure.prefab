@@ -155,8 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOwnedStructure: 1
-  bonusTileID: 0
-  bonusAmount: 0
+  bonuses:
+  - bonusStructureID: 13
+    bonusAmount: 5
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 2, y: 1}

@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameUtils {
+    // nodes around the tile in every direction
+    //    (0, 1)  (1, 1)
+    // (-1,0) (self) (1, 0)
+    //    (0,-1)  (1,-1)
+    public static Vector2Int[] Directions = new Vector2Int[6] { new Vector2Int(1, 1), new Vector2Int(1, 0), new Vector2Int(1, -1), new Vector2Int(0, -1), new Vector2Int(-1, 0), new Vector2Int(0, 1) };
+
     public static int Random(int _seed, int _min, int _max) {
         return new System.Random(_seed).Next(_min, _max);
     }
@@ -41,5 +47,21 @@ public static class GameUtils {
             }
         }
         return output;
+    }
+
+    public static List<Vector2Int> GetDirectionsWithID(Vector2Int _location, StructureID _structureID) {
+        List<Vector2Int> output = new List<Vector2Int>();
+        for (int i = 0; i < Directions.Length; i++) {
+            Tile tile;
+            if ((tile = TileManagement.instance.GetTileAtLocation(GetTargetDirection(_location, Directions[i])).Tile) != null)
+                if (tile.Structures.Count > 0 && tile.Structures[0].StructureID == _structureID) output.Add(Directions[i]);
+        }
+        return output;
+    }
+
+    private static Vector2Int GetTargetDirection(Vector2Int _currentLocation, Vector2Int _targetLocation) {
+        Vector2Int _targetDirection = _currentLocation + _targetLocation;
+        if (_currentLocation.y % 2 == 0 && _targetLocation.y != 0) _targetDirection.x -= 1;
+        return _targetDirection;
     }
 }

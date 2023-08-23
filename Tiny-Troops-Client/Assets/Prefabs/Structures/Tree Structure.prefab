@@ -73,10 +73,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOwnedStructure: 0
-  bonusTileID: 0
+  bonusStructureID: 10
   bonusAmount: 0
   structureUI: {fileID: 0}
-  tilePathfinding: {fileID: 0}
+  unwalkableLocalPathfindingLocations: []
   health: {fileID: 3905409778525281734}
 --- !u!114 &3905409778525281734
 MonoBehaviour:

@@ -4,49 +4,62 @@ using UnityEngine;
 using TMPro;
 
 public class DisplayStructure : MonoBehaviour {
-    [Tooltip("Tile IDs to highlight bonus over")]
-    [SerializeField] private Tiles targetTileID;
-    [Tooltip("Clockwise from top left")]
-    [SerializeField] private GameObject[] bonusDisplays;
+    #region Variables
     
+    [Tooltip("Clockwise from Top Right")]
+    [SerializeField] private TextMeshProUGUI[] bonusTexts;
+
+    [SerializeField] private Color positiveColor = Color.green;
+    [SerializeField] private Color negativeColor = Color.red;
+
+    private GameplayStructure.Bonus[] bonuses;
+
     private Tile tile;
 
-    // nodes around the tile in every direction
-    //    (0, 1)  (1, 1)
-    // (-1,0) (self) (1, 0)
-    //    (0,-1)  (1,-1)
-    private Vector2Int[] directions = new Vector2Int[6] { new Vector2Int(1, 1), new Vector2Int(1, 0), new Vector2Int(1, -1), new Vector2Int(0, -1), new Vector2Int(-1, 0), new Vector2Int(0, 1) };
-
     public Tile Tile { get => tile; set => tile = value; }
+    public GameplayStructure.Bonus[] Bonuses { get => bonuses; set => bonuses = value; }
+    public TextMeshProUGUI[] BonusTexts { get => bonusTexts; set => bonusTexts = value; }
+
+    #endregion
+
+    #region Core
 
     private void Awake() {
-        for (int i = 0; i < bonusDisplays.Length; i++) {
-            bonusDisplays[i].SetActive(false);
+        for (int i = 0; i < bonusTexts.Length; i++) {
+            bonusTexts[i].text = "";
         }
     }
 
     private void Update() {
-        if (targetTileID == Tiles.Null) return;
+        // Tile is set in BuildManager.cs
         if (tile == null) return;
 
-        for (int i = 0; i < directions.Length; i++) {
-            if (TileManagement.instance.GetTileAtLocation(GetTargetDirection(tile.Location, directions[i])).Tile.TileId == targetTileID) {
-                bonusDisplays[i].SetActive(true);
-            } else {
-                bonusDisplays[i].SetActive(false);
+        int[] bonusValues = new int[6];
+
+        // Loop through bonuses, then loop through directions and update the bonusValues array, then set the bonus text to the bonus value of its direction
+        for (int i = 0; i < bonuses.Length; i++) {
+            List<Vector2Int> activeDirections = GameUtils.GetDirectionsWithID(tile.Location, bonuses[i].BonusStructureID);
+            for (int x = 0; x < GameUtils.Directions.Length; x++) {
+                if (activeDirections.Contains(GameUtils.Directions[x])) {
+                    bonusValues[x] += bonuses[i].BonusAmount;
+                }
             }
+        }
+        
+        for (int i = 0; i < bonusTexts.Length; i++) {
+            if (bonusValues[i] == 0) { bonusTexts[i].text = ""; continue; }
+
+            if (bonusValues[i] > 0) {
+                bonusTexts[i].color = positiveColor;
+                bonusTexts[i].text = "+";
+            } else {
+                bonusTexts[i].color = negativeColor;
+                bonusTexts[i].text = "-";
+            }
+            
+            bonusTexts[i].text = bonusTexts[i].text + bonusValues[i].ToString();
         }
     }
 
-    public void Initialize(Tiles _TargetTileID, int _bonusAmount, string _bonusPrefix) {
-        targetTileID = _TargetTileID;
-        for (int i = 0; i < bonusDisplays.Length; i++) {
-            bonusDisplays[i].GetComponent<TextMeshProUGUI>().text = _bonusPrefix + _bonusAmount;
-        }
-    }
-    private Vector2Int GetTargetDirection(Vector2Int _currentLocation, Vector2Int _targetLocation) {
-        Vector2Int _targetDirection = _currentLocation + _targetLocation;
-        if (_currentLocation.y % 2 == 0 && _targetLocation.y != 0) _targetDirection.x -= 1;
-        return _targetDirection;
-    }
+    #endregion
 }

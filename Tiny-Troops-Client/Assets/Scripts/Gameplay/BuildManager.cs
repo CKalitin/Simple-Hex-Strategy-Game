@@ -139,7 +139,7 @@ public class BuildManager : MonoBehaviour {
             DisplayStructure script;
             GameplayStructure gameplayStructure = currentStructureBuildInfo.StructurePrefab.GetComponent<GameplayStructure>();
             if ((script = displayStructure.GetComponent<DisplayStructure>()) != null) {
-                script.Initialize(gameplayStructure.BonusTileID, gameplayStructure.BonusAmount, "+");
+                script.Bonuses = gameplayStructure.Bonuses;
                 script.Tile = tile.GetComponent<Tile>();
             }
 

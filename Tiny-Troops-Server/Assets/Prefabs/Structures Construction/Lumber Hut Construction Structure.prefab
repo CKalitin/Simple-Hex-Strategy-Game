@@ -165,6 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b987dba13174cb04db46a8e5981fc340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bonusStructureID: 10
+  bonusAmount: 0
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 1}
   - {x: 2, y: 2}

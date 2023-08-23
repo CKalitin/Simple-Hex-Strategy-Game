@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,7 +6,10 @@ using UnityEngine;
 
 public class GameplayStructure : MonoBehaviour {
     #region Variables
-    
+
+    [Header("Bonus")]
+    [SerializeField] private Bonus[] bonuses;
+
     [Header("Pathfinding")]
     [Tooltip("     (1, 3)  (2, 3)   \n(0, 2) (1, 2) (2, 2)\n     (1, 1)  (2, 1)")]
     [SerializeField] private Vector2Int[] unwalkableLocalPathfindingLocations;
@@ -23,6 +27,16 @@ public class GameplayStructure : MonoBehaviour {
     public event StructureActionCallback OnStructureAction;
     
     public Vector2Int TileLocation { get => tileLocation; set => tileLocation = value; }
+
+    [Serializable]
+    public struct Bonus {
+        [Tooltip("If the structure is adjacent to structures of this ID, it gets a bonus.")]
+        [SerializeField] private StructureID bonusStructureID;
+        [SerializeField] private int bonusAmount;
+
+        public StructureID BonusStructureID { get => bonusStructureID; set => bonusStructureID = value; }
+        public int BonusAmount { get => bonusAmount; set => bonusAmount = value; }
+    }
 
     #endregion
 

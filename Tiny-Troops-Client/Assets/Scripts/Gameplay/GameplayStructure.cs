@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,9 @@ public class GameplayStructure : MonoBehaviour {
 
     [Header("Structure")]
     [SerializeField] private bool playerOwnedStructure = false;
-    [Space]
-    [Tooltip("Tile IDs to highlight bonus over.")]
-    [SerializeField] private Tiles bonusTileID;
-    [SerializeField] private int bonusAmount;
+
+    [Header("Bonus")]
+    [SerializeField] private Bonus[] bonuses;
 
     [Header("UI")]
     [SerializeField] private GameObject structureUI;
@@ -30,8 +30,17 @@ public class GameplayStructure : MonoBehaviour {
     public event StructureActionCallback OnStructureAction;
 
     public GameObject StructureUI { get => structureUI; set => structureUI = value; }
-    public Tiles BonusTileID { get => bonusTileID; set => bonusTileID = value; }
-    public int BonusAmount { get => bonusAmount; set => bonusAmount = value; }
+    public Bonus[] Bonuses { get => bonuses; set => bonuses = value; }
+
+    [Serializable]
+    public struct Bonus {
+        [Tooltip("If the structure is adjacent to structures of this ID, it gets a bonus.")]
+        [SerializeField] private StructureID bonusStructureID;
+        [SerializeField] private int bonusAmount;
+
+        public StructureID BonusStructureID { get => bonusStructureID; set => bonusStructureID = value; }
+        public int BonusAmount { get => bonusAmount; set => bonusAmount = value; }
+    }
 
     #endregion
 
@@ -87,6 +96,6 @@ public class GameplayStructure : MonoBehaviour {
             gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
         }
     }
-    
+
     #endregion
 }

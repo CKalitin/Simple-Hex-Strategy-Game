@@ -27,5 +27,6 @@ MonoBehaviour:
   - Rock
   - Tree
   - Village
+  - Water
   tileEnumPath: Assets/Other/Externals/RBHK/Enums/
   tileEnumName: StructureID

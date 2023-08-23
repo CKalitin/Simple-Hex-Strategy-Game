@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 029dcc76d35ad8843b78161152ac327f, type: 3}
+  m_Script: {fileID: 11500000, guid: e006648ccf85cad45aa401cf3982db84, type: 3}
   m_Name: StructureIds
   m_EditorClassIdentifier: 
   structureIds:
@@ -27,5 +27,6 @@ MonoBehaviour:
   - Rock
   - Tree
   - Village
+  - Water
   tileEnumPath: Assets/Other/Externals/RBHK/Enums/
   tileEnumName: StructureID

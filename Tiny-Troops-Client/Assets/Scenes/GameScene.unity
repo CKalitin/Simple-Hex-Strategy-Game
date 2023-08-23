@@ -1955,6 +1955,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 254372939}
     m_Modifications:
+    - target: {fileID: 2071603832, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4, type: 3}
+      propertyPath: structureBuildInfos.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071603832, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4, type: 3}
+      propertyPath: structureBuildInfos.Array.data[14]
+      value: 
+      objectReference: {fileID: 11400000, guid: 90a2b346f5379344087ea5e2ce4bf034,
+        type: 2}
     - target: {fileID: 2071603838, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4, type: 3}
       propertyPath: tileHighlightTime
       value: 0.65
