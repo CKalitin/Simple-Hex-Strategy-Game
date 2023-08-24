@@ -13,6 +13,8 @@ public class ConstructionStructure : MonoBehaviour {
 
     private Tile tile;
 
+    public StructureID ConstructedStructureID { get => constructedStructureID; set => constructedStructureID = value; }
+
     private void Awake() {
         GetTileParent();
     }

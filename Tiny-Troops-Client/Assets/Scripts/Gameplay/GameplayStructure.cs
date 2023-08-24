@@ -53,7 +53,16 @@ public class GameplayStructure : MonoBehaviour {
         Initialize();
         gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
         SetPathfindingNodesWalkable(false);
-        if (applyBonuses) ApplyBonuses();
+        if (applyBonuses) {
+            ApplyBonuses();
+            for (int i = 0; i < GameUtils.Directions.Length; i++) {
+                GameplayStructure gameStruct;
+                Vector2Int _loc = GameUtils.GetTargetDirection(GetComponent<Structure>().Tile.TileInfo.Location, GameUtils.Directions[i]);
+                if (TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures.Count <= 0) continue;
+                if ((gameStruct = TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures[0].GetComponent<GameplayStructure>()) == null) continue;
+                gameStruct.ReapplyBonuses();
+            }
+        }
     }
 
     private void OnEnable() {
@@ -104,7 +113,6 @@ public class GameplayStructure : MonoBehaviour {
     private void ApplyBonuses() {
         for (int i = 0; i < bonuses.Length; i++) {
             int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
-
             ResourceEntry resourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
             resourceEntry.ResourceId = GetComponent<Structure>().ResourceEntries[0].ResourceId;
             resourceEntry.ResourceEntryIds = GetComponent<Structure>().ResourceEntries[0].ResourceEntryIds;
@@ -118,6 +126,11 @@ public class GameplayStructure : MonoBehaviour {
         for (int i = 0; i < bonusResourceEntryIndexes.Count; i++) {
             ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntryIndexes[i]);
         }
+    }
+
+    public void ReapplyBonuses() {
+        RemoveBonuses();
+        ApplyBonuses();
     }
 
     #endregion

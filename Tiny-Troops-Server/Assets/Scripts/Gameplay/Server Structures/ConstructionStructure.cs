@@ -16,6 +16,7 @@ public class ConstructionStructure : MonoBehaviour {
     public Vector2Int Location { get => tile.TileInfo.Location; }
     public Structure Structure { get => structure; set => structure = value; }
     public int PlayerID { get => structure.PlayerID; }
+    public StructureID ConstructedStructureID { get => constructedStructureID; set => constructedStructureID = value; }
 
     private void Awake() {
         GetTileParent();

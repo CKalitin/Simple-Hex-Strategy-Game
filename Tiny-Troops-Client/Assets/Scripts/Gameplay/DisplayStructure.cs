@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static UnityEditor.FilePathAttribute;
+using System.Reflection.Emit;
+using Unity.VisualScripting;
 
 public class DisplayStructure : MonoBehaviour {
     #region Variables
     
     [Tooltip("Clockwise from Top Right")]
     [SerializeField] private TextMeshProUGUI[] bonusTexts;
-
+    [SerializeField] private TextMeshProUGUI centerBonusText;
+    [Space]
     [SerializeField] private Color positiveColor = Color.green;
     [SerializeField] private Color negativeColor = Color.red;
 
@@ -36,6 +40,8 @@ public class DisplayStructure : MonoBehaviour {
 
         int[] bonusValues = new int[6];
 
+        centerBonusText.text = "+" + ClientStructureBuilder.instance.StructureBuildInfos[(int)BuildManager.instance.CurrentStructureBuildInfo.StructurePrefab.GetComponent<ConstructionStructure>().ConstructedStructureID].StructurePrefab.GetComponent<Structure>().ResourceEntries[0].Change.ToString();
+
         // Loop through bonuses, then loop through directions and update the bonusValues array, then set the bonus text to the bonus value of its direction
         for (int i = 0; i < bonuses.Length; i++) {
             List<Vector2Int> activeDirections = GameUtils.GetDirectionsWithID(tile.Location, bonuses[i].BonusStructureID);
@@ -43,6 +49,7 @@ public class DisplayStructure : MonoBehaviour {
                 if (activeDirections.Contains(GameUtils.Directions[x])) {
                     bonusValues[x] += bonuses[i].BonusAmount;
                 }
+                bonusValues[x] += GetExtraBonusForNearbyTile(tile.Location, GameUtils.GetTargetDirection(tile.Location, GameUtils.Directions[x]));
             }
         }
         
@@ -59,6 +66,20 @@ public class DisplayStructure : MonoBehaviour {
             
             bonusTexts[i].text = bonusTexts[i].text + bonusValues[i].ToString();
         }
+    }
+
+    private int GetExtraBonusForNearbyTile(Vector2Int _loc, Vector2Int _nearbyTileLoc) {
+        Tile nearbyTile = TileManagement.instance.GetTileAtLocation(_nearbyTileLoc).Tile;
+        GameplayStructure nearbyGS;
+        int output = 0;
+        if (nearbyTile.Structures.Count <= 0 || (nearbyGS = nearbyTile.Structures[0].GetComponent<GameplayStructure>()) == null) return 0;
+        
+        for (int i = 0; i < nearbyGS.Bonuses.Length; i++) {
+            if (nearbyGS.Bonuses[i].BonusStructureID == BuildManager.instance.CurrentStructureBuildInfo.StructurePrefab.GetComponent<ConstructionStructure>().ConstructedStructureID) {
+                output += nearbyGS.Bonuses[i].BonusAmount;
+            }
+        }
+        return output;
     }
 
     #endregion
