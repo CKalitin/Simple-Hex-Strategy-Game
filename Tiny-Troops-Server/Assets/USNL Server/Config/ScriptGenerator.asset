@@ -68,7 +68,7 @@ MonoBehaviour:
     packetVariables:
     - variableName: Match State
       variableType: 2
-    sendType: 1
+    sendType: 0
     protocol: 0
     notes: 
   - packetName: Countdown
@@ -209,4 +209,4 @@ MonoBehaviour:
     protocol: 0
     notes: 
   ClientPacketFoldouts: 000000000000
-  ServerPacketFoldouts: 0000000000000000000100000000
+  ServerPacketFoldouts: 0000000000000000000000000000

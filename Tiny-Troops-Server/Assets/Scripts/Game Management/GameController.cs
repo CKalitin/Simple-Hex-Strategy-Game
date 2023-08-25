@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using USNL;
 
 public class GameController : MonoBehaviour {
     #region Variables
@@ -126,6 +127,12 @@ public class GameController : MonoBehaviour {
         }
         
         SendResourcesPacketToAllClients();
+
+        // Allow current clients to reconnect, but not new ones
+        int[] connectedClientIDs = ServerManager.GetConnectedClientIds();
+        for (int i = 0; i < connectedClientIDs.Length; i++) {
+            USNL.ServerManager.instance.AllowReconnectionIPs.Add(USNL.Package.Server.Clients[connectedClientIDs[i]].IpAddress.Split(':')[0]);
+        }
     }
 
     private void ResetGame() {
@@ -143,6 +150,8 @@ public class GameController : MonoBehaviour {
 
         UnitManager.instance.DestroyAllUnits();
         UnitAttackManager.instance.ResetManager();
+
+        USNL.ServerManager.instance.AllowReconnectionIPs = new List<string>();
     }
 
     #endregion
@@ -275,6 +284,8 @@ public class GameController : MonoBehaviour {
         SendTiles(clientId);
         SendResourcesPacket(clientId, clientId);
         SendStructures(clientId);
+
+        USNL.PacketSend.MatchUpdate(clientId, (int)MatchManager.instance.MatchState);
     }
 
     private void OnClientDisconnected(object _clientIdObject) {

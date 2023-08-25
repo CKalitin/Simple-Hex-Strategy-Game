@@ -124,20 +124,26 @@ namespace USNL.Package {
         #region TCP & UDP
 
         private static void TCPConnectCallback(IAsyncResult _result) {
-
             TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
             tcpListener.BeginAcceptTcpClient(new AsyncCallback(TCPConnectCallback), null);
 
             Debug.Log($"Incoming connection from {_client.Client.RemoteEndPoint}...");
 
             if (!AllowNewConnections) {
-                Debug.Log($"{_client.Client.RemoteEndPoint} failed to connect: New connections not allowed.");
-                return;
+                for (int i = 0; i < USNL.ServerManager.instance.AllowReconnectionIPs.Count; i++) {
+                    if (USNL.ServerManager.instance.AllowReconnectionIPs[i] == _client.Client.RemoteEndPoint.ToString().Split(':')[0]) {
+                        Debug.Log($"{_client.Client.RemoteEndPoint} is reconnecting.");
+                    } else {
+                        Debug.Log($"{_client.Client.RemoteEndPoint} failed to connect: New connections not allowed.");
+                        return;
+                    }
+                }
             }
 
             for (int i = 0; i < MaxClients; i++) {
                 if (Clients[i].Tcp.socket != null) continue;
                 Clients[i].Tcp.Connect(_client);
+                Clients[i].IpAddress = _client.Client.RemoteEndPoint.ToString();
                 return;
             }
             

@@ -34,6 +34,9 @@ namespace USNL {
 
         private bool quittingApplication = false;
 
+        // These are allowed to connect even when new connections are not allowed
+        private List<string> allowReconnectionIPs = new List<string>();
+
         public Package.ServerConfig ServerConfig { get => serverConfig; set => serverConfig = value; }
         
         public bool IsMigratingHost { get => isMigratingHost; set => isMigratingHost = value; }
@@ -46,6 +49,7 @@ namespace USNL {
         public string LanServerIP { get => lanServerIp; }
 
         public bool AllowNewConnections { get => USNL.Package.Server.AllowNewConnections; set => USNL.Package.Server.AllowNewConnections = value; }
+        public List<string> AllowReconnectionIPs { get => allowReconnectionIPs; set => allowReconnectionIPs = value; }
 
         #endregion
 

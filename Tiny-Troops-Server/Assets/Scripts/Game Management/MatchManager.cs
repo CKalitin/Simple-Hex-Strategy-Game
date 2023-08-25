@@ -61,7 +61,10 @@ public class MatchManager : MonoBehaviour {
 
         timerActive = false;
 
-        USNL.PacketSend.MatchUpdate((int)matchState);
+        int[] connectedClientIDs = USNL.ServerManager.GetConnectedClientIds();
+        for (int i = 0; i < connectedClientIDs.Length; i++) {
+            USNL.PacketSend.MatchUpdate(connectedClientIDs[i], (int)matchState);
+        }
 
         if (OnMatchStateChanged != null) OnMatchStateChanged(matchState);
 

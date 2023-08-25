@@ -10,12 +10,15 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField] private GameObject gameCanvas;
     [SerializeField] private GameObject lobbyCanvas;
     [SerializeField] private GameObject gameEndedCanvas;
+    [SerializeField] private GameObject disconnectedCanvas;
     [Space]
     [SerializeField] private GameObject connectingCanvas;
     [SerializeField] private GameObject serverClosedCanvas;
     [SerializeField] private GameObject timedOutCanvas;
     [Space]
     [SerializeField] private PauseMenuManager pauseMenuManager;
+
+    private bool previousConnected = false;
 
     #endregion
 
@@ -54,12 +57,16 @@ public class CanvasManager : MonoBehaviour {
                 TogglePrimaryCanvases(false, false, false);
             }
         }
-
+        
         if (USNL.ClientManager.instance.ServerClosed) {
             serverClosedCanvas.SetActive(true);
             TogglePrimaryCanvases(false, false, false);
         } else if (USNL.ClientManager.instance.TimedOut) {
             timedOutCanvas.SetActive(true);
+            TogglePrimaryCanvases(false, false, false);
+        } else if (USNL.ClientManager.instance.IsConnected == false && previousConnected == true && !DisconnectButton.VoluntaryDisconnection) {
+            Debug.Log("Disconnect Screen Shown");
+            disconnectedCanvas.SetActive(true);
             TogglePrimaryCanvases(false, false, false);
         }
     }
@@ -90,6 +97,7 @@ public class CanvasManager : MonoBehaviour {
 
     private void OnGameInitialized() {
         connectingCanvas.SetActive(false);
+        previousConnected = true;
     }
 
     #endregion

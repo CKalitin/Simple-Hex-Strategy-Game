@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static UnityEditor.FilePathAttribute;
-using System.Reflection.Emit;
-using Unity.VisualScripting;
 
 public class DisplayStructure : MonoBehaviour {
     #region Variables

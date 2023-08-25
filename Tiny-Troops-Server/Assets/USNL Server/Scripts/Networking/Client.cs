@@ -13,6 +13,7 @@ namespace USNL.Package {
         private UDP udp;
 
         private int clientId;
+        private string ipAddress;
 
         private bool isConnected = false;
 
@@ -23,6 +24,7 @@ namespace USNL.Package {
         public TCP Tcp { get => tcp; set => tcp = value; }
         public UDP Udp { get => udp; set => udp = value; }
         public int ClientId { get => clientId; set => clientId = value; }
+        public string IpAddress { get => ipAddress; set => ipAddress = value; }
         public bool IsConnected { get => isConnected; set => isConnected = value; }
         public int PacketRTT { get => packetRTT; set => packetRTT = value; }
         public int SmoothPacketRTT { get => smoothPacketRTT; set => smoothPacketRTT = value; }
@@ -60,7 +62,7 @@ namespace USNL.Package {
                 socket = _socket;
                 socket.ReceiveBufferSize = USNL.Package.Server.DataBufferSize;
                 socket.SendBufferSize = USNL.Package.Server.DataBufferSize;
-
+                
                 stream = socket.GetStream();
 
                 receivedData = new Packet();

@@ -220,11 +220,11 @@ namespace USNL {
     
         #endregion
     
-        public static void MatchUpdate(int _matchState) {
+        public static void MatchUpdate(int _toClient, int _matchState) {
             using (USNL.Package.Packet _packet = new USNL.Package.Packet((int)ServerPackets.MatchUpdate)) {
                 _packet.Write(_matchState);
 
-                SendTCPDataToAll(_packet);
+                SendTCPData(_toClient, _packet);
             }
         }
 
