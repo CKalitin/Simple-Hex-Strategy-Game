@@ -64,7 +64,6 @@ public class StructureManager : MonoBehaviour {
 
     private void OnStructureHealthPacket(object _packetObject) {
         USNL.StructureHealthPacket packet = (USNL.StructureHealthPacket)_packetObject;
-        
         if (gameplayStructures.ContainsKey(Vector2Int.RoundToInt(packet.Location))) {
             gameplayStructures[Vector2Int.RoundToInt(packet.Location)].ForEach(x => x.OnStructureHealthPacket(packet.Health, packet.MaxHealth));
         }

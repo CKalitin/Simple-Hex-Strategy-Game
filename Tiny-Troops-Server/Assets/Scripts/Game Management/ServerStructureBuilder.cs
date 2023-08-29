@@ -67,11 +67,21 @@ public class ServerStructureBuilder : MonoBehaviour {
         }
     }
 
+    private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo, bool _applyCost = true) {
+        GameObject newStructure = Instantiate(_structureBuildInfo.StructurePrefab, _structureLocation.position, Quaternion.identity, _parent);
+
+        _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
+        newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
+        newStructure.GetComponent<Structure>().PlayerID = _playerID;
+
+        if (_applyCost) ApplyStructureCost(_playerID, _structureBuildInfo);
+    }
+
     private void DestroyStructure(int _playerID, Vector2Int _targetTileLocation) {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
-        
+
         // Checks to exit function
         if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
         if (TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.Structures[0].GetComponent<GameplayStructure>() == null) return; // If it doesn't have the GameplayStructure component, return
@@ -84,20 +94,40 @@ public class ServerStructureBuilder : MonoBehaviour {
         SendBuildStructurePacketToAllClients(_playerID, _targetTileLocation, -1);
     }
 
-    private void InstantiateStructure(Transform _structureLocation, Transform _parent, int _playerID, StructureBuildInfo _structureBuildInfo, bool _applyCost = true) {
-        GameObject newStructure = Instantiate(_structureBuildInfo.StructurePrefab, _structureLocation.position, Quaternion.identity, _parent);
+    private void DestroyStrutureWithVillagers(int _playerID, Vector2Int _targetTileLocation) {
+        Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
+        Transform structureLoc;
+        Transform tile;
 
-        _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
-        newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
-        newStructure.GetComponent<Structure>().PlayerID = _playerID;
+        // Checks to exit function
+        if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
+        if (TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.Structures[0].GetComponent<GameplayStructure>() == null) return; // If it doesn't have the GameplayStructure component, return
+        if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent
+        if (CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID) == false) return; // If structure on the tile belongs to another player
 
-        if (_applyCost) ApplyStructureCost(_playerID, _structureBuildInfo);
+        VillagerManager.instance.AddDestroyStructure(_targetTileLocation, TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.Structures[0].GetComponent<GameplayStructure>(), _playerID);
+        VillagerManager.instance.UpdateVillagersConstruction();
+    }
+
+    private void CancelDestroyStructure(Vector2Int _targetTileLocation) {
+        Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
+        Transform structureLoc;
+        Transform tile;
+
+        // Checks to exit function
+        if ((structureLoc = GetClosestUnavailableStructureLocation(structureLocationsParent)) == null) return; // If there is no available structure location
+        if (TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.Structures[0].GetComponent<GameplayStructure>() == null) return; // If it doesn't have the GameplayStructure component, return
+        if ((tile = structureLocationsParent.parent) == null) return; // If there is no Tile script on the parent
+        // No need to check if the tile belongs to this player, that is done on the client. The structure UI is only shown if the tile belongs to the player
+
+        VillagerManager.instance.RemoveDestroyStructure(_targetTileLocation, TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.Structures[0].GetComponent<GameplayStructure>());
+        VillagerManager.instance.UpdateVillagersConstruction();
     }
 
     #endregion
 
     #region Public Functions
-    
+
     public void ReplaceStructure(Vector2Int _location, int _structureID, int _playerID) {
         DestroyStructure(_playerID, _location);
         BuildStructure(_playerID, _location, _structureID, false);
@@ -192,8 +222,9 @@ public class ServerStructureBuilder : MonoBehaviour {
 
     private void OnDestroyStructurePacket(object _packetObject) {
         USNL.DestroyStructurePacket packet = (USNL.DestroyStructurePacket)_packetObject;
-        
-        DestroyStructure(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation));
+
+        if (packet.PlayerID == -2) CancelDestroyStructure(Vector2Int.RoundToInt(packet.TargetTileLocation));
+        else DestroyStrutureWithVillagers(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation));
     }
 
     #endregion

@@ -22,6 +22,7 @@ public class GameplayStructure : MonoBehaviour {
     private Vector2Int tileLocation;
     private bool addedToStructureManager = false;
     private GameplayTile gameplayTile;
+    private bool beingDestroyed = false;
 
     private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
 
@@ -29,6 +30,7 @@ public class GameplayStructure : MonoBehaviour {
     public event StructureActionCallback OnStructureAction;
     
     public Vector2Int TileLocation { get => tileLocation; set => tileLocation = value; }
+    public bool BeingDestroyed { get => beingDestroyed; set => beingDestroyed = value; }
 
     [Serializable]
     public struct Bonus {
@@ -48,6 +50,7 @@ public class GameplayStructure : MonoBehaviour {
         Initialize();
         gameplayTile = GameUtils.GetTileParent(transform).GetComponent<GameplayTile>();
         SetPathfindingNodesWalkable(false);
+        
         if (applyBonuses) {
             ApplyBonuses();
             for (int i = 0; i < GameUtils.Directions.Length; i++) {
@@ -65,7 +68,11 @@ public class GameplayStructure : MonoBehaviour {
             previousHealth = health.CurrentHealth;
 
             USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
-            if (health.CurrentHealth <= 0) GetComponent<Structure>().DestroyStructure();
+            if (health.CurrentHealth <= 0) {
+                GetComponent<Structure>().DestroyStructure();
+                VillagerManager.instance.RemoveDestroyStructure(TileLocation, this);
+                StartCoroutine(VillagerManager.instance.UpdateVillagersConstructionDelayed(0.1f));
+            }
         }
     }
 

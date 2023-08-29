@@ -27,12 +27,14 @@ public class GameplayStructure : MonoBehaviour {
     private Vector2Int tileLocation;
     private bool addedToStructureManager = false;
     private GameplayTile gameplayTile;
+    private bool beingDestroyed = false;
 
     public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
     public event StructureActionCallback OnStructureAction;
 
     public GameObject StructureUI { get => structureUI; set => structureUI = value; }
     public Bonus[] Bonuses { get => bonuses; set => bonuses = value; }
+    public bool BeingDestroyed { get => beingDestroyed; set => beingDestroyed = value; }
 
     [Serializable]
     public struct Bonus {
@@ -72,13 +74,13 @@ public class GameplayStructure : MonoBehaviour {
     private void OnDisable() {
         SetPathfindingNodesWalkable(true);
         RemoveBonuses();
-        if (!playerOwnedStructure) return;
+        //if (!playerOwnedStructure) return;
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
     }
 
     private void Initialize() {
-        if (!playerOwnedStructure) return;
+        //if (!playerOwnedStructure) return;
         if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
             tileLocation = GetComponent<Structure>().Tile.TileInfo.Location;
             StructureManager.instance.AddGameplayStructure(tileLocation, this);
@@ -91,6 +93,8 @@ public class GameplayStructure : MonoBehaviour {
     #region Structure Actions
 
     public void OnStructureActionPacket(int _playerID, int _actionID, int[] _configurationInts) {
+        SetBeingDestroyed(_actionID);
+        
         if (!playerOwnedStructure) return;
         OnStructureAction(_playerID, _actionID, _configurationInts);
     }
@@ -131,6 +135,14 @@ public class GameplayStructure : MonoBehaviour {
     public void ReapplyBonuses() {
         RemoveBonuses();
         ApplyBonuses();
+    }
+
+    private void SetBeingDestroyed(int _actionID) {
+        if (_actionID == -2000) {
+            beingDestroyed = true;
+        } else if (_actionID == -2001) {
+            beingDestroyed = false;
+        }
     }
 
     #endregion

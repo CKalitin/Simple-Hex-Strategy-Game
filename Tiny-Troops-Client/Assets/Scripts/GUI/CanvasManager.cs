@@ -65,7 +65,6 @@ public class CanvasManager : MonoBehaviour {
             timedOutCanvas.SetActive(true);
             TogglePrimaryCanvases(false, false, false);
         } else if (USNL.ClientManager.instance.IsConnected == false && previousConnected == true && !DisconnectButton.VoluntaryDisconnection) {
-            Debug.Log("Disconnect Screen Shown");
             disconnectedCanvas.SetActive(true);
             TogglePrimaryCanvases(false, false, false);
         }

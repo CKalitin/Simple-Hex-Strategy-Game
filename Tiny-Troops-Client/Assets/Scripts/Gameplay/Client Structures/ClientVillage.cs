@@ -95,7 +95,7 @@ public class ClientVillage : MonoBehaviour {
 
         for (int i = 0; i < packet.UnitUUIDs.Length; i++) {
             if (villagers.ContainsKey(packet.UnitUUIDs[i])) {
-                //StartCoroutine(HighlightPath(villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().CurrentLocation, Vector2Int.RoundToInt(packet.TargetTileLocation)));
+                StartCoroutine(HighlightPath(villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().CurrentLocation, Vector2Int.RoundToInt(packet.TargetTileLocation)));
                 villagers[packet.UnitUUIDs[i]].GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation));
             }
         }

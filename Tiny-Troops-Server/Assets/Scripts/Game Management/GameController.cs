@@ -151,6 +151,8 @@ public class GameController : MonoBehaviour {
         UnitManager.instance.DestroyAllUnits();
         UnitAttackManager.instance.ResetManager();
 
+        VillagerManager.instance.ResetVillagerManager();
+
         USNL.ServerManager.instance.AllowReconnectionIPs = new List<string>();
     }
 
