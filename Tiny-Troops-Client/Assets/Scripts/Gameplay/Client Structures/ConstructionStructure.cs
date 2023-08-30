@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
+using USNL;
 
 public class ConstructionStructure : MonoBehaviour {
     [Tooltip("Structure that takes this ones place once it is done being constructed.")]
@@ -16,30 +18,17 @@ public class ConstructionStructure : MonoBehaviour {
     public StructureID ConstructedStructureID { get => constructedStructureID; set => constructedStructureID = value; }
 
     private void Awake() {
-        GetTileParent();
+        tile = GameUtils.GetTileParent(transform);
     }
 
-    private void GetTileParent() {
-        Transform t = transform.parent;
-        while (true) {
-            if (t.GetComponent<Tile>()) {
-                // If tile script found
-                tile = t.GetComponent<Tile>();
-                break;
-            } else {
-                // If we're at the top of the heirarchy, break out of the loop.
-                if (t.parent == null) break;
-                t = t.parent;
-            }
-        }
-    }
-    
     private void OnEnable() {
         USNL.CallbackEvents.OnStructureConstructionPacket += OnStructureConstructionPacket;
+        USNL.CallbackEvents.OnStructureHealthPacket += OnStructureHealthPacket;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnStructureConstructionPacket -= OnStructureConstructionPacket;
+        USNL.CallbackEvents.OnStructureHealthPacket -= OnStructureHealthPacket;
     }
 
     private void OnStructureConstructionPacket(object _packetObject) {
@@ -47,12 +36,11 @@ public class ConstructionStructure : MonoBehaviour {
 
         if (packet.Location != tile.TileInfo.Location) return;
 
-        //buildPercentage = packet.Percentage;
-        buildPercentage = health.CurrentHealth / health.MaxHealth;
-        //health.CurrentHealth = Mathf.RoundToInt(health.MaxHealth * packet.Percentage);
+        if (packet.Percentage >= 1f) structure.DontApplyRefunds = true;
+    }
 
-        if (buildPercentage >= 1) { 
-            //ClientStructureBuilder.instance.ReplaceConstructionStructure(tile.TileInfo.Location, (int)constructedStructureID, structure.PlayerID);
-        }
+    private void OnStructureHealthPacket(object _object) {
+        StructureHealthPacket packet = (StructureHealthPacket)_object;
+        if (packet.Health >= packet.MaxHealth) structure.DontApplyRefunds = true;
     }
 }

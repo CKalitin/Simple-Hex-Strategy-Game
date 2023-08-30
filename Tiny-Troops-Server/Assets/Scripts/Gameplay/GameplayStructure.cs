@@ -69,6 +69,7 @@ public class GameplayStructure : MonoBehaviour {
 
             USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
             if (health.CurrentHealth <= 0) {
+                if (!beingDestroyed) GetComponent<Structure>().DontApplyRefunds = true; // If villager is not destroying this structure
                 GetComponent<Structure>().DestroyStructure();
                 VillagerManager.instance.RemoveDestroyStructure(TileLocation, this);
                 StartCoroutine(VillagerManager.instance.UpdateVillagersConstructionDelayed(0.1f));

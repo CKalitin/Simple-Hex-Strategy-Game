@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Structure : MonoBehaviour {
@@ -11,11 +13,18 @@ public class Structure : MonoBehaviour {
     [Tooltip("Use this if you need to, it does nothing in RBHK itself.")]
     [SerializeField] private StructureID structureID;
     [SerializeField] private StructureBuildInfo structureBuildInfo;
+    [Space]
+    [Tooltip("Rounded refunds")]
+    [SerializeField] private float refundPercentage = 1;
+    [Tooltip("These are refunded even if refunds are disabled.")]
+    [SerializeField] GameResource[] fullRefundResources;
+    private bool applyFullRefunds = false;
+    private bool dontApplyRefunds = false;
 
     [Header("Upgrades")]
     [Tooltip("This field always has to be set, the first upgrade is what's used to initialize the resourceEntries.")]
     [SerializeField] private StructureUpgrade[] upgrades;
-    
+
     [Tooltip("This is only public so you can see the value, changing it won't do anything.\nbtw hey there future chris")]
     private int upgradeIndex = 0;
 
@@ -32,7 +41,8 @@ public class Structure : MonoBehaviour {
 
     public int PlayerID { get => playerID; set => playerID = value; }
     public StructureID StructureID { get => structureID; set => structureID = value; }
-
+    public bool ApplyFullRefunds { get => applyFullRefunds; set => applyFullRefunds = value; }
+    public bool DontApplyRefunds { get => dontApplyRefunds; set => dontApplyRefunds = value; }
     public int UpgradeIndex { get => upgradeIndex; set => upgradeIndex = value; }
 
     public StructureLocation StructureLocation { get => structureLocation; set => structureLocation = value; }
@@ -58,10 +68,25 @@ public class Structure : MonoBehaviour {
     }
 
     private void InitVars() {
-        if (transform.parent.parent.parent.GetComponent<Tile>()) {
-            tile = transform.parent.parent.parent.GetComponent<Tile>();
-            if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
+        tile = GetTileParent(transform);
+        if (!tile.Structures.Contains(this)) tile.Structures.Add(this);
+    }
+
+    public static Tile GetTileParent(Transform _transform) {
+        Tile output = null;
+        Transform t = _transform.parent;
+        while (true) {
+            if (t.GetComponent<Tile>()) {
+                // If tile script found
+                output = t.GetComponent<Tile>();
+                break;
+            } else {
+                // If we're at the top of the heirarchy, break out of the loop.
+                if (t.parent == null) break;
+                t = t.parent;
+            }
         }
+        return output;
     }
 
     private void OnDestroy() {
@@ -136,7 +161,7 @@ public class Structure : MonoBehaviour {
     private void InstantiateCopiesOfResourceEntries() {
         // Create list for updated resource entries
         ResourceEntry[] _resourceEntries = new ResourceEntry[resourceEntries.Length];
-        
+
         // Loop through resourceEntries
         for (int i = 0; i < resourceEntries.Length; i++) {
             ResourceEntry newResourceEntry = ScriptableObject.CreateInstance<ResourceEntry>(); // Create new resource entry
@@ -203,7 +228,7 @@ public class Structure : MonoBehaviour {
             if (playerID >= 0) appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
         }
     }
-    
+
     private void RemoveResourceEntriesFromManagement() {
         for (int i = 0; i < appliedResourceEntryIndexes.Count; i++) {
             if (playerID >= 0) ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
@@ -259,7 +284,16 @@ public class Structure : MonoBehaviour {
         for (int i = 0; i < structureBuildInfo.Cost.Length; i++) {
             // If resource is updated on tick, skip it
             if (ResourceManager.instances[playerID].GetResource(structureBuildInfo.Cost[i].Resource).ChangeOnTickResource) continue;
-             ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(structureBuildInfo.Cost[i].Amount));
+
+            if (applyFullRefunds && !dontApplyRefunds) {
+                ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(structureBuildInfo.Cost[i].Amount));
+                continue;
+            }
+
+            if (fullRefundResources.Contains(structureBuildInfo.Cost[i].Resource))
+                ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(structureBuildInfo.Cost[i].Amount));
+            else if (!dontApplyRefunds)
+                ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(Mathf.Round(structureBuildInfo.Cost[i].Amount * refundPercentage)));
         }
     }
 

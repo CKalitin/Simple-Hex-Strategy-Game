@@ -8,6 +8,9 @@ public class GameplayStructure : MonoBehaviour {
 
     [Header("Structure")]
     [SerializeField] private bool playerOwnedStructure = false;
+    [Tooltip("Turn this off if it is the outcome of a construction structure.")]
+    [SerializeField] private bool applyCost;
+    [SerializeField] private bool applyRefunds;
 
     [Header("Bonus")]
     [SerializeField] private Bonus[] bonuses;
@@ -38,6 +41,7 @@ public class GameplayStructure : MonoBehaviour {
     public Bonus[] Bonuses { get => bonuses; set => bonuses = value; }
     public bool BeingDestroyed { get => beingDestroyed; set => beingDestroyed = value; }
     public List<int> DestroyerPlayerIDs { get => destroyerPlayerIDs; set => destroyerPlayerIDs = value; }
+    public bool ApplyCost { get => applyCost; set => applyCost = value; }
 
     [Serializable]
     public struct Bonus {
@@ -68,6 +72,7 @@ public class GameplayStructure : MonoBehaviour {
                 gameStruct.ReapplyBonuses();
             }
         }
+        if (!applyRefunds) GetComponent<Structure>().DontApplyRefunds = true;
     }
 
     private void OnEnable() {
@@ -104,7 +109,10 @@ public class GameplayStructure : MonoBehaviour {
 
     public void OnStructureHealthPacket(float _health, float _maxHealth) {
         health.SetHealth(_health, _maxHealth);
-        if (health.CurrentHealth <= 0) GetComponent<Structure>().DestroyStructure();
+        if (health.CurrentHealth <= 0) {
+            //if (!beingDestroyed) GetComponent<Structure>().DontApplyRefunds = true; // If villager is not destroying this structure <- this is a server thing
+            GetComponent<Structure>().DestroyStructure();
+        }
     }
 
     #endregion

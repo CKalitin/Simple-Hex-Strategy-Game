@@ -23,7 +23,7 @@ public class ConstructionStructure : MonoBehaviour {
     public Vector2Int TileLocation { get => tile.TileInfo.Location;  }
     
     private void Awake() {
-        GetTileParent();
+        tile = GameUtils.GetTileParent(transform);
     }
 
     private void Start() {
@@ -46,21 +46,6 @@ public class ConstructionStructure : MonoBehaviour {
         StartCoroutine(VillagerManager.instance.UpdateVillagersConstructionDelayed(0.1f));
     }
 
-    private void GetTileParent() {
-        Transform t = transform.parent;
-        while (true) {
-            if (t.GetComponent<Tile>()) {
-                // If tile script found
-                tile = t.GetComponent<Tile>();
-                break;
-            } else {
-                // If we're at the top of the heirarchy, break out of the loop.
-                if (t.parent == null) break;
-                t = t.parent;
-            }
-        }
-    }
-
     private void OnDestroy() {
         VillagerManager.instance.RemoveConstructionStructure(this);
         VillagerManager.instance.UpdateVillagersConstruction();
@@ -70,9 +55,12 @@ public class ConstructionStructure : MonoBehaviour {
         health.ChangeHealth(health.MaxHealth * _change);
         buildPercentage = health.CurrentHealth / health.MaxHealth;
 
-        //USNL.PacketSend.StructureConstruction(Location, buildPercentage);
-
         if (buildPercentage >= 1f) {
+            // This is here so the client construction structure is refunded properly
+            USNL.PacketSend.StructureConstruction(TileLocation, 1f);
+            USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
+
+            structure.ApplyFullRefunds = true;
             ServerStructureBuilder.instance.ReplaceStructure(Location, (int)constructedStructureID, structure.PlayerID);
         }
     }
@@ -81,9 +69,12 @@ public class ConstructionStructure : MonoBehaviour {
         buildPercentage = _buildPercentage;
         health.SetHealth(health.MaxHealth / _buildPercentage);
 
-        //USNL.PacketSend.StructureConstruction(Location, buildPercentage);
-
         if (buildPercentage >= 1f) {
+            // This is here so the client construction structure is refunded properly
+            USNL.PacketSend.StructureConstruction(TileLocation, 1f);
+            USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
+
+            structure.ApplyFullRefunds = true;
             ServerStructureBuilder.instance.ReplaceStructure(Location, (int)constructedStructureID, structure.PlayerID);
         }
     }

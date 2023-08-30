@@ -80,6 +80,8 @@ public class ClientStructureBuilder : MonoBehaviour {
         // If tile is not taken by another player
         if (!CheckTileStructuresPlayerIDs(tile.GetComponent<Tile>(), _playerID)) return false;
 
+        _applyCost = sbi.StructurePrefab.GetComponent<GameplayStructure>() && sbi.StructurePrefab.GetComponent<GameplayStructure>().ApplyCost;
+
         InstantiateStructure(structureLoc, structureLoc, _playerID, sbi, _applyCost);
         return true;
     }
