@@ -133,6 +133,7 @@ public class ClientVillage : MonoBehaviour {
         
         villager.GetComponent<PathfindingAgent>().Initialize(spawnPathfindingLocation.Location, _randomSeed);
         villager.GetComponent<Villager>().Village = this;
+        villager.GetComponent<Villager>().PlayerID = PlayerID;
 
         villagers.Add(_villagerUUID, villager);
     }

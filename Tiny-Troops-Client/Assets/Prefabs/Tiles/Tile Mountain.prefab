@@ -99,7 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cae38abaecbfef24c82ead99b3bfec51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePathfinding: {fileID: 0}
+  tileHighlight: {fileID: 0}
+  pathfindingLocationParent: {fileID: 0}
 --- !u!1 &3582357762319890397
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 396084a6a624147469d50c4a9dcfc3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  togglableUI: {fileID: 0}
   tile: {fileID: 4410263235552160487}
 --- !u!1001 &2468988159943431773
 PrefabInstance:

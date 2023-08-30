@@ -60,8 +60,7 @@ public class Unit : MonoBehaviour {
 
     private void Awake() {
         pathfindingAgent = GetComponent<PathfindingAgent>();
-
-        // The if is here so configuration is easier on the Server
+        
         if (selectedIndicator) selectedIndicator.SetActive(false);
     }
 

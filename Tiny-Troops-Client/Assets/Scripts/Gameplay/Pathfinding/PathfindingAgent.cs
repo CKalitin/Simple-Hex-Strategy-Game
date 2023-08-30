@@ -36,7 +36,7 @@ public class PathfindingAgent : MonoBehaviour {
 
     public Vector2Int GetTargetLocation() {
         if (path == null) return currentTile;
-        if (path.Count > 0) return path[path.Count - 1];
+        if (path.Count > 0) return PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[path.Count - 1])].Tile.Location;
         return currentTile;
     }
 

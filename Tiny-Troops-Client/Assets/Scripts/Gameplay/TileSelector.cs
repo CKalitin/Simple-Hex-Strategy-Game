@@ -54,6 +54,8 @@ public class TileSelector : MonoBehaviour {
                 OnRightClick();
             }
         }
+
+        HighlightVillager();
     }
     
     private void OnLeftClick() {
@@ -205,6 +207,26 @@ public class TileSelector : MonoBehaviour {
         if (_tile.Structures[0].GetComponent<Structure>().PlayerID == MatchManager.instance.PlayerID) return true; // MatchManager.instance.CurrentPlayerID genius copilot
         if (_tile.Structures[0].GetComponent<Structure>().PlayerID == -1) return true;
         return false;
+    }
+
+    private void HighlightVillager() {
+        if (EventSystem.current.IsPointerOverGameObject()) return; // If cursor is over UI, return
+        TileSelectorCollider tile = GetTileUnderCursor();
+        if (tile == null) return;
+        
+        Villager[] villagers = FindObjectsOfType<Villager>();
+        for (int i = 0; i < villagers.Length; i++) {
+            if (villagers[i].PlayerID != MatchManager.instance.PlayerID) { 
+                villagers[i].GetComponent<Villager>().ToggleSelectedIndicator(false);  
+                continue; 
+            }
+            if (villagers[i].GetComponent<PathfindingAgent>().GetTargetLocation() != tile.Tile.TileInfo.Location) { 
+                villagers[i].GetComponent<Villager>().ToggleSelectedIndicator(false); 
+                continue; 
+            }
+            //if (villagers[i].GetComponent<PathfindingAgent>().CurrentLocation == tile.Tile.TileInfo.Location) continue; // Only show villagers moving to the tile, not on the tile
+            villagers[i].GetComponent<Villager>().ToggleSelectedIndicator(true);
+        }
     }
 
     #endregion
