@@ -27,7 +27,9 @@ public class GameplayStructure : MonoBehaviour {
     private Vector2Int tileLocation;
     private bool addedToStructureManager = false;
     private GameplayTile gameplayTile;
+    
     private bool beingDestroyed = false;
+    private List<int> destroyerPlayerIDs = new List<int>();
 
     public delegate void StructureActionCallback(int playerID, int actionID, int[] configurationInts);
     public event StructureActionCallback OnStructureAction;
@@ -35,6 +37,7 @@ public class GameplayStructure : MonoBehaviour {
     public GameObject StructureUI { get => structureUI; set => structureUI = value; }
     public Bonus[] Bonuses { get => bonuses; set => bonuses = value; }
     public bool BeingDestroyed { get => beingDestroyed; set => beingDestroyed = value; }
+    public List<int> DestroyerPlayerIDs { get => destroyerPlayerIDs; set => destroyerPlayerIDs = value; }
 
     [Serializable]
     public struct Bonus {
@@ -93,7 +96,7 @@ public class GameplayStructure : MonoBehaviour {
     #region Structure Actions
 
     public void OnStructureActionPacket(int _playerID, int _actionID, int[] _configurationInts) {
-        SetBeingDestroyed(_actionID);
+        SetBeingDestroyed(_actionID, _configurationInts);
         
         if (!playerOwnedStructure) return;
         OnStructureAction(_playerID, _actionID, _configurationInts);
@@ -137,12 +140,11 @@ public class GameplayStructure : MonoBehaviour {
         ApplyBonuses();
     }
 
-    private void SetBeingDestroyed(int _actionID) {
-        if (_actionID == -2000) {
-            beingDestroyed = true;
-        } else if (_actionID == -2001) {
-            beingDestroyed = false;
-        }
+    private void SetBeingDestroyed(int _actionID, int[] _configurationInts) {
+        if (_actionID == -2000)  destroyerPlayerIDs.Add(_configurationInts[0]);
+        else if (_actionID == -2001)  destroyerPlayerIDs.Remove(_configurationInts[0]);
+
+        beingDestroyed = destroyerPlayerIDs.Count > 0;
     }
 
     #endregion

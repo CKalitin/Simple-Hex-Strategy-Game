@@ -140,7 +140,7 @@ public class VillagerManager : MonoBehaviour {
 
         // Set being destroyed
         _gameplayStructure.GetComponent<GameplayStructure>().BeingDestroyed = true;
-        USNL.PacketSend.StructureAction(playerID, _loc, -2000, new int[] { });
+        USNL.PacketSend.StructureAction(playerID, _loc, -2000, new int[] { playerID });
     }
 
     public void RemoveDestroyStructure(Vector2Int _loc, GameplayStructure _gameplayStructure) {
@@ -156,7 +156,7 @@ public class VillagerManager : MonoBehaviour {
 
                     // Set being destroyed
                     _gameplayStructure.BeingDestroyed = false;
-                    USNL.PacketSend.StructureAction(playerID, _loc, -2001, new int[] { });
+                    USNL.PacketSend.StructureAction(playerID, _loc, -2001, new int[] { playerID });
 
                     break;
                 }    

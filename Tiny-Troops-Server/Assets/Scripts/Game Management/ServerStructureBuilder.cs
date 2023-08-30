@@ -109,7 +109,7 @@ public class ServerStructureBuilder : MonoBehaviour {
         VillagerManager.instance.UpdateVillagersConstruction();
     }
 
-    private void CancelDestroyStructure(Vector2Int _targetTileLocation) {
+    private void CancelDestroyStructure(Vector2Int _targetTileLocation, int _playerID) {
         Transform structureLocationsParent = TileManagement.instance.GetTileAtLocation(_targetTileLocation).Tile.StructureLocationsParent;
         Transform structureLoc;
         Transform tile;
@@ -223,7 +223,7 @@ public class ServerStructureBuilder : MonoBehaviour {
     private void OnDestroyStructurePacket(object _packetObject) {
         USNL.DestroyStructurePacket packet = (USNL.DestroyStructurePacket)_packetObject;
 
-        if (packet.PlayerID == -2) CancelDestroyStructure(Vector2Int.RoundToInt(packet.TargetTileLocation));
+        if (packet.PlayerID <= -10) CancelDestroyStructure(Vector2Int.RoundToInt(packet.TargetTileLocation), Mathf.Abs(packet.PlayerID + 10));
         else DestroyStrutureWithVillagers(packet.PlayerID, Vector2Int.RoundToInt(packet.TargetTileLocation));
     }
 

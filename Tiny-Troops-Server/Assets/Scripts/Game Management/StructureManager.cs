@@ -7,6 +7,11 @@ public class StructureManager : MonoBehaviour {
 
     public static StructureManager instance;
 
+    [Header("Health Regeneration")]
+    [Tooltip("In Seconds")]
+    [SerializeField] private float healthRegenTickTime = 2f;
+    [SerializeField] private float healthRegenAmount = 2f;
+
     private Dictionary<Vector2Int, List<GameplayStructure>> gameplayStructures = new Dictionary<Vector2Int, List<GameplayStructure>>();
 
     public Dictionary<Vector2Int, List<GameplayStructure>> GameplayStructures { get => gameplayStructures; set => gameplayStructures = value; }
@@ -29,10 +34,12 @@ public class StructureManager : MonoBehaviour {
 
     private void OnEnable() {
         USNL.CallbackEvents.OnStructureActionPacket += OnStructureActionPacket;
+        MatchManager.OnMatchStateChanged += OnMatchStateChanged;
     }
 
     private void OnDisable() {
         USNL.CallbackEvents.OnStructureActionPacket -= OnStructureActionPacket;
+        MatchManager.OnMatchStateChanged -= OnMatchStateChanged;
     }
 
     #endregion
@@ -56,6 +63,30 @@ public class StructureManager : MonoBehaviour {
 
         if (gameplayStructures.ContainsKey(Vector2Int.RoundToInt(packet.TargetTileLocation)))
             gameplayStructures[Vector2Int.RoundToInt(packet.TargetTileLocation)].ForEach(x => x.OnStructureActionPacket(packet.FromClient, packet.ActionID, packet.ConfigurationInts));
+    }
+
+    #endregion
+
+    #region Health Regen
+
+    private IEnumerator HealthRegenCoroutine() {
+        while (true) {
+            yield return new WaitForSeconds(healthRegenTickTime);
+            foreach (List<GameplayStructure> gs in gameplayStructures.Values) {
+                for (int i = 0; i < gs.Count; i++) {
+                    Health h;
+                    if ((h = gs[i].GetComponent<Health>()) != null) {
+                        h.ChangeHealth(healthRegenAmount);
+                        if (h.CurrentHealth > h.MaxHealth) h.SetHealth(h.MaxHealth);
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnMatchStateChanged(MatchState _ms) {
+        if (_ms == MatchState.InGame) StartCoroutine(HealthRegenCoroutine());
+        else StopAllCoroutines();
     }
 
     #endregion
