@@ -10,14 +10,18 @@ public class ConstructionStructure : MonoBehaviour {
     [SerializeField] private Health health;
     [Space]
     [SerializeField] private float buildPercentage = 0.1f;
-
+    
     private Tile tile;
 
+    private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
+    
     public Vector2Int Location { get => tile.TileInfo.Location; }
     public Structure Structure { get => structure; set => structure = value; }
     public int PlayerID { get => structure.PlayerID; }
     public StructureID ConstructedStructureID { get => constructedStructureID; set => constructedStructureID = value; }
 
+    public Vector2Int TileLocation { get => tile.TileInfo.Location;  }
+    
     private void Awake() {
         GetTileParent();
     }
@@ -25,6 +29,21 @@ public class ConstructionStructure : MonoBehaviour {
     private void Start() {
         VillagerManager.instance.AddConstructionStructure(Location, this);
         VillagerManager.instance.UpdateVillagersConstruction();
+    }
+
+    private void Update() {
+        if (previousHealth != health.CurrentHealth) {
+            previousHealth = health.CurrentHealth;
+
+            USNL.PacketSend.StructureHealth(TileLocation, health.CurrentHealth, health.MaxHealth);
+            if (health.CurrentHealth <= 0) {
+                GetComponent<Structure>().DestroyStructure();
+                VillagerManager.instance.RemoveDestroyStructure(TileLocation, GetComponent<GameplayStructure>());
+                StartCoroutine(VillagerManager.instance.UpdateVillagersConstructionDelayed(0.1f));
+            }
+        }
+
+        StartCoroutine(VillagerManager.instance.UpdateVillagersConstructionDelayed(0.1f));
     }
 
     private void GetTileParent() {

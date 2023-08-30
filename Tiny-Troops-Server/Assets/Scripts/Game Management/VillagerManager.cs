@@ -15,6 +15,8 @@ public class VillagerManager : MonoBehaviour {
     [Space]
     [SerializeField] private float villagerConstructionChangePerTick = 0.04f;
 
+    [Header("Display")]
+
     private Dictionary<int, List<Villager>> villagers = new Dictionary<int, List<Villager>>();
     private Dictionary<int, List<PlayerVillage>> villages = new Dictionary<int, List<PlayerVillage>>();
     private Dictionary<int, List<ConstructionStructureInfo>> constructionStructures = new Dictionary<int, List<ConstructionStructureInfo>>();
@@ -84,17 +86,17 @@ public class VillagerManager : MonoBehaviour {
         if (_villager.PathfindingAgent.FinishedMoving == false) return;
         if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures.Count <= 0) return;
         
-        // If building structure
-        if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<ConstructionStructure>()) {
-            TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<ConstructionStructure>().ChangeBuildPercentage(villagerConstructionChangePerTick);
-            return;
-        }
-
-        // If Destroying Structure
+        // If Destroying Structure, Destroy is above build (important)
         GameplayStructure gs;
         if ((gs = TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<GameplayStructure>()) != null && gs.BeingDestroyed) {
             Health health = TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<Health>();
             health.ChangeHealth(health.MaxHealth * -villagerConstructionChangePerTick);
+            return;
+        }
+
+        // If building structure
+        if (TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<ConstructionStructure>()) {
+            TileManagement.instance.GetTileAtLocation(_villager.PathfindingAgent.CurrentTile).Tile.Structures[0].GetComponent<ConstructionStructure>().ChangeBuildPercentage(villagerConstructionChangePerTick);
             return;
         }
     }

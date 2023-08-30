@@ -96,10 +96,10 @@ public class GameplayStructure : MonoBehaviour {
     #region Structure Actions
 
     public void OnStructureActionPacket(int _playerID, int _actionID, int[] _configurationInts) {
-        SetBeingDestroyed(_actionID, _configurationInts);
+        SetBeingDestroyed(_actionID, (int[])_configurationInts.Clone());
         
         if (!playerOwnedStructure) return;
-        OnStructureAction(_playerID, _actionID, _configurationInts);
+        if (OnStructureAction != null) OnStructureAction(_playerID, _actionID, (int[])_configurationInts.Clone());
     }
 
     public void OnStructureHealthPacket(float _health, float _maxHealth) {
