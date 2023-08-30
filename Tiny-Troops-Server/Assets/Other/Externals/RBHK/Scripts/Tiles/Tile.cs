@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour {
     [SerializeField] private TileRule[] tileRules;
     [SerializeField] private Transform structureLocationsParent;
 
-    [Header("Debug")]
+    [Header("Structures")]
     [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nThe structures that are on this tile.")]
     [SerializeField] private List<Structure> structures = new List<Structure>();
     [Tooltip("DEBUG FIELD DON'T CHANGE VALUES\nResource Modifiers that will be applied to all buildings on this tile.")]

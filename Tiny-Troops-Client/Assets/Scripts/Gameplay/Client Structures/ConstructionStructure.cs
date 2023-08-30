@@ -10,8 +10,6 @@ public class ConstructionStructure : MonoBehaviour {
     [Space]
     [SerializeField] private Structure structure;
     [SerializeField] private Health health;
-    [Space]
-    [SerializeField] private float buildPercentage = 0.1f;
 
     private Tile tile;
 

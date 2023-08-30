@@ -140,14 +140,16 @@ public class PathfindingManager : MonoBehaviour {
         }
         Node finalNode;
         List<Node> open = new List<Node>();
+        Debug.Log(findDest(new Node(null, from, getDistance(from, to), 0), open, map, to, out finalNode, passableValues, getDistance, getNeighbors));
         if (findDest(new Node(null, from, getDistance(from, to), 0), open, map, to, out finalNode, passableValues, getDistance, getNeighbors)) {
             while (finalNode != null) {
                 result.Add(finalNode.pos);
                 finalNode = finalNode.preNode;
+                Debug.Log("Result: " + string.Join(", ", result));
             }
         }
         result.Reverse();
-
+        Debug.Log("Result: " +  string.Join(", ", result));
         List<Vector2Int> finalResult = new List<Vector2Int>();
         for (int i = 0; i < result.Count; i++) {
             finalResult.Add(PathfindingLocationToRBHKLocation(result[i]));

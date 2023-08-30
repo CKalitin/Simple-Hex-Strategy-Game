@@ -25,8 +25,10 @@ public class PathfindingLocation : MonoBehaviour {
         pathfindingLocation = PathfindingManager.AddPathfindingLocationToMap(localLocation, tile.Location, (int)tile.TileId, this);
 
         location = PathfindingManager.PathfindingLocationToRBHKLocation(pathfindingLocation);
-    }
 
+        //locationText.text = pathfindingLocation.ToString();
+    }
+    
     public void OnDestroy() {
         if (pathfindingLocation != new Vector2Int(-999999999, -999999999)) PathfindingManager.RemovePathfindingLocationFromMap(pathfindingLocation);
         pathfindingLocation = new Vector2Int(-999999999, -999999999);

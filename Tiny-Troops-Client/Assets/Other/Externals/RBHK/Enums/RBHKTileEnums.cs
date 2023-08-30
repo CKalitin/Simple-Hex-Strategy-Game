@@ -4,4 +4,5 @@ public enum Tiles {
 	Forest,
 	Mountain,
 	Water,
+	Bear,
 }

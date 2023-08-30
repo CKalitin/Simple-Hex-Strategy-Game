@@ -14,4 +14,5 @@ public enum StructureID {
 	Tree,
 	Village,
 	Water,
+	Bear,
 }

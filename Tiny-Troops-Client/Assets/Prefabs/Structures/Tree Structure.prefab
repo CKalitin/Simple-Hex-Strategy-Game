@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2492549420120896310}
   - component: {fileID: -2301818540706402244}
   - component: {fileID: 3905409778525281734}
+  - component: {fileID: -4304203047579218808}
   m_Layer: 0
   m_Name: Tree Structure
   m_TagString: Untagged
@@ -97,6 +98,21 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   destroyOnZeroHealth: 0
+--- !u!114 &-4304203047579218808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7102159765422121009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae6a6f2b4c4dbf4f9e23243516c1a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resources:
+  - resource: 2
+    amount: 50
 --- !u!1001 &1218701702436949677
 PrefabInstance:
   m_ObjectHideFlags: 0

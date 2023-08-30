@@ -37,7 +37,11 @@ public class DisplayStructure : MonoBehaviour {
 
         int[] bonusValues = new int[6];
 
-        centerBonusText.text = "+" + ClientStructureBuilder.instance.StructureBuildInfos[(int)BuildManager.instance.CurrentStructureBuildInfo.StructurePrefab.GetComponent<ConstructionStructure>().ConstructedStructureID].StructurePrefab.GetComponent<Structure>().ResourceEntries[0].Change.ToString();
+        if (ClientStructureBuilder.instance.StructureBuildInfos[(int)BuildManager.instance.CurrentStructureBuildInfo.StructurePrefab.GetComponent<ConstructionStructure>().ConstructedStructureID].StructurePrefab.GetComponent<Structure>().ResourceEntries.Length > 0) {
+            centerBonusText.text = "+" + ClientStructureBuilder.instance.StructureBuildInfos[(int)BuildManager.instance.CurrentStructureBuildInfo.StructurePrefab.GetComponent<ConstructionStructure>().ConstructedStructureID].StructurePrefab.GetComponent<Structure>().ResourceEntries[0].Change.ToString();
+        } else {
+            centerBonusText.text = "";
+        }
 
         // Loop through bonuses, then loop through directions and update the bonusValues array, then set the bonus text to the bonus value of its direction
         for (int i = 0; i < bonuses.Length; i++) {

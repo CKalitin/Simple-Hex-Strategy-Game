@@ -113,7 +113,7 @@ public class PathfindingAgent : MonoBehaviour {
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
         else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-
+        Debug.Log(currentLocation + ", " + _targetLocation + ", " + string.Join(", ", path));
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
         if (path == null) return;

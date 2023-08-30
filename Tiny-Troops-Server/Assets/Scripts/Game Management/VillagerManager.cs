@@ -16,16 +16,20 @@ public class VillagerManager : MonoBehaviour {
     [SerializeField] private float villagerConstructionChangePerTick = 0.04f;
 
     [Header("Display")]
+    [SerializeField] private List<VillagesDisplay> villagesDisplay = new List<VillagesDisplay>();
+    [SerializeField] private List<VillagresDisplay> villagersDisplay = new List<VillagresDisplay>();
+    [SerializeField] private List<ConstructionStructureInfoDisplay> constructionStructuresDisplay = new List<ConstructionStructureInfoDisplay>();
 
     private Dictionary<int, List<Villager>> villagers = new Dictionary<int, List<Villager>>();
     private Dictionary<int, List<PlayerVillage>> villages = new Dictionary<int, List<PlayerVillage>>();
-    private Dictionary<int, List<ConstructionStructureInfo>> constructionStructures = new Dictionary<int, List<ConstructionStructureInfo>>();
-    
+    [SerializeField] private Dictionary<int, List<ConstructionStructureInfo>> constructionStructures = new Dictionary<int, List<ConstructionStructureInfo>>();
+
     public float VillagerConstructionTickTime { get => villagerConstructionTickTime; set => villagerConstructionTickTime = value; }
     public float VillagerConstructionChangePerTick { get => villagerConstructionChangePerTick; set => villagerConstructionChangePerTick = value; }
     public Dictionary<int, List<Villager>> Villagers { get => villagers; set => villagers = value; }
     public Dictionary<int, List<PlayerVillage>> Villages { get => villages; set => villages = value; }
 
+    [Serializable]
     private struct ConstructionStructureInfo {
         public Vector2Int Location;
         public int PlayerID;
@@ -42,6 +46,28 @@ public class VillagerManager : MonoBehaviour {
         }
     }
 
+    #region Display
+    
+    [Serializable]
+    private struct VillagesDisplay {
+        public int key;
+        public List<PlayerVillage> value;
+    }
+
+    [Serializable]
+    private struct VillagresDisplay {
+        public int key;
+        public List<Villager> value;
+    }
+
+    [Serializable]
+    private struct ConstructionStructureInfoDisplay {
+        public int key;
+        public List<ConstructionStructureInfo> value;
+    }
+
+    #endregion
+
     #endregion
 
     #region Core
@@ -57,6 +83,27 @@ public class VillagerManager : MonoBehaviour {
 
     private void Start() {
         StartCoroutine(VillagerConstructionCoroutine());
+    }
+
+    private void Update() {
+        if (Application.isEditor == false) return;
+
+        // Update the display variables
+        villagesDisplay.Clear();
+        villagersDisplay.Clear();
+        constructionStructuresDisplay.Clear();
+
+        foreach (KeyValuePair<int, List<PlayerVillage>> kvp in villages) {
+            villagesDisplay.Add(new VillagesDisplay() { key = kvp.Key, value = kvp.Value });
+        }
+
+        foreach (KeyValuePair<int, List<Villager>> kvp in villagers) {
+            villagersDisplay.Add(new VillagresDisplay() { key = kvp.Key, value = kvp.Value });
+        }
+
+        foreach (KeyValuePair<int, List<ConstructionStructureInfo>> kvp in constructionStructures) {
+            constructionStructuresDisplay.Add(new ConstructionStructureInfoDisplay() { key = kvp.Key, value = kvp.Value });
+        }
     }
 
     private void OnEnable() {
@@ -127,7 +174,7 @@ public class VillagerManager : MonoBehaviour {
     public void AddDestroyStructure(Vector2Int _loc, GameplayStructure _gameplayStructure, int playerID) {
         if (!constructionStructures.ContainsKey(playerID)) constructionStructures.Add(playerID, new List<ConstructionStructureInfo>());
         constructionStructures[playerID].Add(new ConstructionStructureInfo(_loc, playerID, null, new List<Villager>()));
-
+        
         // If under construction, stop constructing, set villlager to destroy
         for (int i = 0; i < constructionStructures[playerID].Count; i++) {
             if (constructionStructures[playerID][i].Location == _loc && constructionStructures[playerID][i].ConstructionStructure != null) {
@@ -206,6 +253,7 @@ public class VillagerManager : MonoBehaviour {
         for (int i = 0; i < playerVillages.Count; i++) {
             foreach (KeyValuePair<int, Villager> v in playerVillages[i].Villagers) {
                 if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value && !VillagerInConstructionInfosList(v.Value)) {
+                    Debug.Log(v.Value.VillagerUUID + ", " + _info.Location);
                     PathfindVillagerToTile(v.Value, _info.Location);
                     _info.ConstructionVillagers.Add(v.Value);
                     return;
@@ -284,7 +332,7 @@ public class VillagerManager : MonoBehaviour {
 
     private void PathfindVillagerToTile(Villager v, Vector2Int _loc) {
         Vector2Int targetLocation = TileManagement.instance.GetTileAtLocation(_loc).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation(v.PathfindingAgent.RandomSeed).Location;
-
+        
         v.PathfindingAgent.PathfindToLocation(targetLocation);
         USNL.PacketSend.UnitPathfind(new int[1] { v.VillagerUUID }, targetLocation, new Vector2[] { });
     }

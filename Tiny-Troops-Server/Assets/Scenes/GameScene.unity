@@ -838,9 +838,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[2].tilePrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[3].tilePrefabs.Array.data[5]
       value: 
       objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[3].tilePrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
@@ -857,6 +869,18 @@ PrefabInstance:
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[15].tilePrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[15].tilePrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[16].tilePrefabs.Array.data[6]
       value: 
       objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
         type: 3}
@@ -886,9 +910,21 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[7].tilePrefabs.Array.data[15]
+      value: 
+      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[11].tilePrefabs.Array.data[16]
       value: 
       objectReference: {fileID: 8142464371967572720, guid: ffc267aa2ea6dfb45875e0281cbaa75c,
+        type: 3}
+    - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
+        type: 3}
+      propertyPath: tilePrefabsMatrix.Array.data[15].tilePrefabs.Array.data[13]
+      value: 
+      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
@@ -919,7 +955,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.size
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
       propertyPath: structureBuildInfos.Array.data[1]
@@ -990,6 +1026,11 @@ PrefabInstance:
       propertyPath: structureBuildInfos.Array.data[14]
       value: 
       objectReference: {fileID: 11400000, guid: de4184475a67e1f43b14ab0eefafd87e,
+        type: 2}
+    - target: {fileID: 849493386, guid: cb578f7f2a42c5348afba16623239457, type: 3}
+      propertyPath: structureBuildInfos.Array.data[15]
+      value: 
+      objectReference: {fileID: 11400000, guid: 96bbeb2c7905fb64a812fef72c286edf,
         type: 2}
     - target: {fileID: 4924313470513003408, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
