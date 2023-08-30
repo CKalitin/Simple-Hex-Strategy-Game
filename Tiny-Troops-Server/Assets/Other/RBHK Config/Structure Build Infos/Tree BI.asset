@@ -17,4 +17,6 @@ MonoBehaviour:
     type: 3}
   structureDisplayPrefab: {fileID: 7102159765422121009, guid: 9c0733522d5eb114a971aa55842e28d8,
     type: 3}
-  cost: []
+  cost:
+  - resource: 2
+    amount: 25
