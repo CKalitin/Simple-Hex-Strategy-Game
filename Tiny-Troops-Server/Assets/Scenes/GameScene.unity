@@ -852,7 +852,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[3].tilePrefabs.Array.data[7]
       value: 
-      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
+      objectReference: {fileID: 8142464371967572720, guid: 1f6050a7e0814964796fe29dc9ab5617,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
@@ -876,7 +876,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[15].tilePrefabs.Array.data[8]
       value: 
-      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
+      objectReference: {fileID: 8142464371967572720, guid: 1f6050a7e0814964796fe29dc9ab5617,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
@@ -912,7 +912,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[7].tilePrefabs.Array.data[15]
       value: 
-      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
+      objectReference: {fileID: 8142464371967572720, guid: 1f6050a7e0814964796fe29dc9ab5617,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
@@ -924,7 +924,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tilePrefabsMatrix.Array.data[15].tilePrefabs.Array.data[13]
       value: 
-      objectReference: {fileID: 2450458459561363271, guid: d39ef82292b43844b8f8792ac06a5a37,
+      objectReference: {fileID: 8142464371967572720, guid: 1f6050a7e0814964796fe29dc9ab5617,
         type: 3}
     - target: {fileID: 4571661716153691183, guid: 601841fa392eda148a836e23fe88efd1,
         type: 3}
@@ -1177,6 +1177,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2216679837717455195, guid: b1838516cd4974649bac2c1d0c5efb86,
         type: 3}
+    - target: {fileID: 6191977743528913419, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: walkableTileIds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191977743528913419, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: unwalkableTileIds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191977743528913419, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: walkableTileIds.Array.data[2]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191977743528913419, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: unwalkableTileIds.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191977743528913419, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: unwalkableTileIds.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb578f7f2a42c5348afba16623239457, type: 3}
 --- !u!1 &4924313469997341811 stripped
@@ -1199,3 +1224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   villagerConstructionTickTime: 0.25
   villagerConstructionChangePerTick: 0.04
+  villagesDisplay: []
+  villagersDisplay: []
+  constructionStructuresDisplay: []

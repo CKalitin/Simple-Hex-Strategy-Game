@@ -12,12 +12,12 @@ public class PathfindingManager : MonoBehaviour {
 
     public static PathfindingManager instance;
 
-    [SerializeField] private List<int> walkableTileIds;
+    [SerializeField] private List<Tiles> unwalkableTileIds;
 
     Dictionary<Vector2Int, int> map = new Dictionary<Vector2Int, int>();
     Dictionary<Vector2Int, PathfindingLocation> pathfindingLocationsMap = new Dictionary<Vector2Int, PathfindingLocation>();
 
-    public List<int> WalkableTileIds { get => walkableTileIds; set => walkableTileIds = value; }
+    public List<Tiles> UnwalkableTileIds { get => unwalkableTileIds; set => unwalkableTileIds = value; }
     public Dictionary<Vector2Int, PathfindingLocation> PathfindingLocationsMap { get => pathfindingLocationsMap; set => pathfindingLocationsMap = value; }
 
     #endregion
@@ -61,7 +61,9 @@ public class PathfindingManager : MonoBehaviour {
             return neighbors;
         };
 
-        return astar(from, to, instance.map, instance.walkableTileIds, getDistance, getNeighbors);
+        List<int> unpassableValues = instance.unwalkableTileIds.Select(x => (int)x).ToList();
+
+        return astar(from, to, instance.map, unpassableValues, getDistance, getNeighbors);
     }
 
     public static Vector2Int TileLocationToPathfindingLocation(Vector2Int _tileLoc) {
@@ -140,16 +142,15 @@ public class PathfindingManager : MonoBehaviour {
         }
         Node finalNode;
         List<Node> open = new List<Node>();
-        Debug.Log(findDest(new Node(null, from, getDistance(from, to), 0), open, map, to, out finalNode, passableValues, getDistance, getNeighbors));
+        
         if (findDest(new Node(null, from, getDistance(from, to), 0), open, map, to, out finalNode, passableValues, getDistance, getNeighbors)) {
             while (finalNode != null) {
                 result.Add(finalNode.pos);
                 finalNode = finalNode.preNode;
-                Debug.Log("Result: " + string.Join(", ", result));
             }
         }
         result.Reverse();
-        Debug.Log("Result: " +  string.Join(", ", result));
+        
         List<Vector2Int> finalResult = new List<Vector2Int>();
         for (int i = 0; i < result.Count; i++) {
             finalResult.Add(PathfindingLocationToRBHKLocation(result[i]));
@@ -159,7 +160,7 @@ public class PathfindingManager : MonoBehaviour {
     }
 
     private static bool findDest(Node currentNode, List<Node> openList,
-                         Dictionary<Vector2Int, int> map, Vector2Int to, out Node finalNode, List<int> passableValues,
+                         Dictionary<Vector2Int, int> map, Vector2Int to, out Node finalNode, List<int> unpassableValues,
                       Func<Vector2Int, Vector2Int, float> getDistance, Func<Vector2Int, List<Vector2Int>> getNeighbors) {
         if (currentNode == null) {
             finalNode = null;
@@ -172,12 +173,12 @@ public class PathfindingManager : MonoBehaviour {
         openList.Add(currentNode);
 
         foreach (var item in getNeighbors(currentNode.pos)) {
-            if (map.ContainsKey(item) && passableValues.Contains(map[item]) && instance.pathfindingLocationsMap[item].Walkable) {
+            if (map.ContainsKey(item) && !unpassableValues.Contains(map[item]) && instance.pathfindingLocationsMap[item].Walkable) {
                 findTemp(openList, currentNode, item, to, getDistance);
             }
         }
         var next = openList.FindAll(obj => obj.open).Min();
-        return findDest(next, openList, map, to, out finalNode, passableValues, getDistance, getNeighbors);
+        return findDest(next, openList, map, to, out finalNode, unpassableValues, getDistance, getNeighbors);
     }
 
     private static void findTemp(List<Node> openList, Node currentNode, Vector2Int from, Vector2Int to, Func<Vector2Int, Vector2Int, float> getDistance) {

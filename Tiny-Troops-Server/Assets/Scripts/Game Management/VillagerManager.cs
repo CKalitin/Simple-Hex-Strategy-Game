@@ -253,7 +253,6 @@ public class VillagerManager : MonoBehaviour {
         for (int i = 0; i < playerVillages.Count; i++) {
             foreach (KeyValuePair<int, Villager> v in playerVillages[i].Villagers) {
                 if (!IsVillagerMovingToConstruction(v.Value) && !IsVillagerAtConstruction(v.Value) && v.Value && !VillagerInConstructionInfosList(v.Value)) {
-                    Debug.Log(v.Value.VillagerUUID + ", " + _info.Location);
                     PathfindVillagerToTile(v.Value, _info.Location);
                     _info.ConstructionVillagers.Add(v.Value);
                     return;
