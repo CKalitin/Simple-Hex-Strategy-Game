@@ -41,6 +41,8 @@ public class Structure : MonoBehaviour {
 
     public int PlayerID { get => playerID; set => playerID = value; }
     public StructureID StructureID { get => structureID; set => structureID = value; }
+    public GameResource[] FullRefundResources { get => fullRefundResources; set => fullRefundResources = value; }
+    public float RefundPercentage { get => refundPercentage; set => refundPercentage = value; }
     public bool ApplyFullRefunds { get => applyFullRefunds; set => applyFullRefunds = value; }
     public bool DontApplyRefunds { get => dontApplyRefunds; set => dontApplyRefunds = value; }
     public int UpgradeIndex { get => upgradeIndex; set => upgradeIndex = value; }
@@ -48,6 +50,7 @@ public class Structure : MonoBehaviour {
     public StructureLocation StructureLocation { get => structureLocation; set => structureLocation = value; }
     public ResourceEntry[] ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
     public Tile Tile { get => tile; set => tile = value; }
+    public StructureBuildInfo StructureBuildInfo { get => structureBuildInfo; set => structureBuildInfo = value; }
 
     #endregion
 

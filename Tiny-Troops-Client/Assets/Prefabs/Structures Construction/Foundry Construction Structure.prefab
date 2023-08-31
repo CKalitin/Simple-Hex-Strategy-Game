@@ -136,7 +136,7 @@ MonoBehaviour:
   structureID: 3
   structureBuildInfo: {fileID: 11400000, guid: 874e97b2e290e794f9dc899616b32799, type: 2}
   refundPercentage: 0.5
-  fullRefundResources: 
+  fullRefundResources: 00000000
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
@@ -194,7 +194,6 @@ MonoBehaviour:
   constructedStructureID: 8
   structure: {fileID: 703715036427101858}
   health: {fileID: 6238586514056320157}
-  buildPercentage: 0.1
 --- !u!1001 &3223463129614965637
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,8 +8,10 @@ public class NaturalStructure : MonoBehaviour {
 
     Tile tile;
 
+    public ResourceGain[] Resources { get => resources; set => resources = value; }
+
     [Serializable]
-    private struct ResourceGain {
+    public struct ResourceGain {
         [SerializeField] private GameResource resource;
         [SerializeField] private int amount;
 

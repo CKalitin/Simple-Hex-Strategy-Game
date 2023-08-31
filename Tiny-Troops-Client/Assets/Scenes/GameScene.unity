@@ -2145,6 +2145,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
         type: 3}
+      propertyPath: negativeColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: negativeColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: negativeColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: negativeColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: positiveColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: positiveColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: positiveColor.g
+      value: 0.7529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
+      propertyPath: positiveColor.r
+      value: 0.03529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617243320722010877, guid: 4f9ce0b261a62dc4f86dae4b92b89ed4,
+        type: 3}
       propertyPath: tilesSpawnedPerFrame
       value: 15
       objectReference: {fileID: 0}

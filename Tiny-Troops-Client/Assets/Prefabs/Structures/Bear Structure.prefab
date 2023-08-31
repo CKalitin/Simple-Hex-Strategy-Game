@@ -56,7 +56,7 @@ MonoBehaviour:
   structureID: 15
   structureBuildInfo: {fileID: 11400000, guid: f91a5d99ed3165346b11775ed89f5d2a, type: 2}
   refundPercentage: 0.5
-  fullRefundResources: 
+  fullRefundResources: 00000000
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}

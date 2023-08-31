@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,
@@ -1868,7 +1868,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,
@@ -2201,7 +2201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,
@@ -2337,7 +2337,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,
@@ -2574,7 +2574,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73dd40b6a1fb0c740b31d0db60cd66e0, type: 2}
   m_sharedMaterial: {fileID: -6624543515564236138, guid: 73dd40b6a1fb0c740b31d0db60cd66e0,

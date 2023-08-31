@@ -168,8 +168,13 @@ public class BuildManager : MonoBehaviour {
         if (!displayStructure) {
             DestroyDisplayStructure();
             displayStructure = Instantiate(destroyDisplay, structureLoc.position, Quaternion.identity);
-
+            
             previousStructureBuildInfo = currentStructureBuildInfo;
+        }
+
+        DisplayDestroy script;
+        if ((script = displayStructure.GetComponent<DisplayDestroy>()) != null) {
+            script.Tile = tile.GetComponent<Tile>();
         }
 
         displayStructure.transform.position = structureLoc.position;

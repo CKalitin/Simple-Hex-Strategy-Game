@@ -20,9 +20,10 @@ public class GameController : MonoBehaviour {
     [Space]
     [SerializeField] private int numTilesToExpect = 400;
     [SerializeField] private int tilesSpawnedPerFrame = 10;
-    [Space]
-    // I don't know either, goddamn tech debt
-    private float gameInitalizedCallbackDelay = 0f;
+
+    [Header("Other")]
+    [SerializeField] private Color positiveColor;
+    [SerializeField] private Color negativeColor;
 
     private bool gameReady = false;
 
@@ -34,6 +35,8 @@ public class GameController : MonoBehaviour {
     public delegate void GameInitializedCallback();
     public static event GameInitializedCallback OnGameInitialized;
 
+    public Color PositiveColor { get => positiveColor; set => positiveColor = value; }
+    public Color NegativeColor { get => negativeColor; set => negativeColor = value; }
     public int WinnerPlayerID { get => winnerPlayerID; set => winnerPlayerID = value; }
 
     #endregion
@@ -108,7 +111,7 @@ public class GameController : MonoBehaviour {
     }
 
     private IEnumerator CallOnGameInitialized() {
-        yield return new WaitForSeconds(gameInitalizedCallbackDelay);
+        yield return new WaitForSeconds(0);
         OnGameInitialized();
     }
     

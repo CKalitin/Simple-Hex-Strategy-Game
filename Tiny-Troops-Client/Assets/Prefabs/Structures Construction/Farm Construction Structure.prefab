@@ -224,7 +224,7 @@ MonoBehaviour:
   structureID: 1
   structureBuildInfo: {fileID: 11400000, guid: 45e35e4a385d25f46bf31c2454ead250, type: 2}
   refundPercentage: 0.5
-  fullRefundResources: 
+  fullRefundResources: 00000000
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
@@ -282,7 +282,6 @@ MonoBehaviour:
   constructedStructureID: 6
   structure: {fileID: 267531097531546578}
   health: {fileID: -8801341391181171677}
-  buildPercentage: 0.1
 --- !u!1 &4081990468175112950
 GameObject:
   m_ObjectHideFlags: 0
