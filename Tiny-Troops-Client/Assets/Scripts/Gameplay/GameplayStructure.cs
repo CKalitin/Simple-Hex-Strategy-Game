@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameplayStructure : MonoBehaviour {
@@ -15,6 +16,8 @@ public class GameplayStructure : MonoBehaviour {
     [Header("Bonus")]
     [SerializeField] private Bonus[] bonuses;
     [SerializeField] private bool applyBonuses = false;
+    [Space]
+    [SerializeField] private ResourceEntry firstStructureResourceEntry;
     List<int> bonusResourceEntryIndexes = new List<int>();
 
     [Header("UI")]
@@ -30,7 +33,9 @@ public class GameplayStructure : MonoBehaviour {
     private Vector2Int tileLocation;
     private bool addedToStructureManager = false;
     private GameplayTile gameplayTile;
-    
+    private bool productionEnabled = true; // Used in ProductionSubtractor.cs
+    private float distToNearestVillage = 0f; // Used in ProductionSubtractor.cs
+
     private bool beingDestroyed = false;
     private List<int> destroyerPlayerIDs = new List<int>();
 
@@ -42,6 +47,8 @@ public class GameplayStructure : MonoBehaviour {
     public bool BeingDestroyed { get => beingDestroyed; set => beingDestroyed = value; }
     public List<int> DestroyerPlayerIDs { get => destroyerPlayerIDs; set => destroyerPlayerIDs = value; }
     public bool ApplyCost { get => applyCost; set => applyCost = value; }
+    public bool ProductionEnabled { get => productionEnabled; set => productionEnabled = value; }
+    public float DistToNearestVillage { get => distToNearestVillage; set => distToNearestVillage = value; }
 
     [Serializable]
     public struct Bonus {
@@ -56,7 +63,7 @@ public class GameplayStructure : MonoBehaviour {
     #endregion
 
     #region Core
-
+    
     // The code in Start() and OnEnable() is the same because of the different times a structure can be instantiated. With the tile, or on the tile by a player.
     private void Start() {
         Initialize();
@@ -139,11 +146,12 @@ public class GameplayStructure : MonoBehaviour {
     private void ApplyBonuses() {
         for (int i = 0; i < bonuses.Length; i++) {
             int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
+            
             ResourceEntry resourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
-            resourceEntry.ResourceId = GetComponent<Structure>().ResourceEntries[0].ResourceId;
-            resourceEntry.ResourceEntryIds = GetComponent<Structure>().ResourceEntries[0].ResourceEntryIds;
+            resourceEntry.ResourceId = firstStructureResourceEntry.ResourceId;
+            resourceEntry.ResourceEntryIds = firstStructureResourceEntry.ResourceEntryIds;
             resourceEntry.Change = bonus;
-            resourceEntry.ChangeOnTick = GetComponent<Structure>().ResourceEntries[0].ChangeOnTick;
+            resourceEntry.ChangeOnTick = firstStructureResourceEntry.ChangeOnTick;
             bonusResourceEntryIndexes.Add(ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry));
         }
     }

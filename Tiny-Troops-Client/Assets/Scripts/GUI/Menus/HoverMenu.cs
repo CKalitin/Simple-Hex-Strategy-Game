@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Uses Event Trigger component
+
 public class HoverMenu : MonoBehaviour {
     [SerializeField] private GameObject menuParent;
     [Space]

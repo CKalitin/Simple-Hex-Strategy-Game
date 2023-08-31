@@ -171,6 +171,8 @@ MonoBehaviour:
   - bonusStructureID: 12
     bonusAmount: 2
   applyBonuses: 1
+  firstStructureResourceEntry: {fileID: 11400000, guid: 0a1e743e772004a4fbce084809617de3,
+    type: 2}
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 1}
   - {x: 2, y: 2}

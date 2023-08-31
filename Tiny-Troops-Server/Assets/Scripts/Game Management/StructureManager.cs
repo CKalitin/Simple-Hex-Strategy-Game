@@ -74,6 +74,8 @@ public class StructureManager : MonoBehaviour {
             yield return new WaitForSeconds(healthRegenTickTime);
             foreach (List<GameplayStructure> gs in gameplayStructures.Values) {
                 for (int i = 0; i < gs.Count; i++) {
+                    if (gs[i].GetComponent<ConstructionStructure>()) continue;
+                    if (gs[i].BeingDestroyed) continue;
                     Health h;
                     if ((h = gs[i].GetComponent<Health>()) != null) {
                         h.ChangeHealth(healthRegenAmount);

@@ -10,6 +10,8 @@ public class GameplayStructure : MonoBehaviour {
     [Header("Bonus")]
     [SerializeField] private Bonus[] bonuses;
     [SerializeField] private bool applyBonuses = false;
+    [Space]
+    [SerializeField] private ResourceEntry firstStructureResourceEntry;
     List<int> bonusResourceEntryIndexes = new List<int>();
 
     [Header("Pathfinding")]
@@ -130,10 +132,10 @@ public class GameplayStructure : MonoBehaviour {
             int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
 
             ResourceEntry resourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
-            resourceEntry.ResourceId = GetComponent<Structure>().ResourceEntries[0].ResourceId;
-            resourceEntry.ResourceEntryIds = GetComponent<Structure>().ResourceEntries[0].ResourceEntryIds;
+            resourceEntry.ResourceId = firstStructureResourceEntry.ResourceId;
+            resourceEntry.ResourceEntryIds = firstStructureResourceEntry.ResourceEntryIds;
             resourceEntry.Change = bonus;
-            resourceEntry.ChangeOnTick = GetComponent<Structure>().ResourceEntries[0].ChangeOnTick;
+            resourceEntry.ChangeOnTick = firstStructureResourceEntry.ChangeOnTick;
             bonusResourceEntryIndexes.Add(ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry));
         }
     }
