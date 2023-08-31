@@ -87,6 +87,17 @@ public class GameplayStructure : MonoBehaviour {
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
     }
+    
+    private void OnDestroy() {
+        GetComponent<Structure>().StructureID = StructureID.Null;
+        for (int i = 0; i < GameUtils.Directions.Length; i++) {
+            GameplayStructure gameStruct;
+            Vector2Int _loc = GameUtils.GetTargetDirection(GetComponent<Structure>().Tile.TileInfo.Location, GameUtils.Directions[i]);
+            if (TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures.Count <= 0) continue;
+            if ((gameStruct = TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures[0].GetComponent<GameplayStructure>()) == null) continue;
+            gameStruct.ReapplyBonuses();
+        }
+    }
 
     private void Initialize() {
         if (addedToStructureManager == false && GetComponent<Structure>().Tile.TileInfo != null) {
