@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Resource Entry", menuName = "RBHK/Resources/Resource Entry")]
+[CreateAssetMenu(fileName = "Resource Entry", menuName = "RBHK/Resources/Resource Entry")]
 public class ResourceEntry : ScriptableObject {
     // Unlike MonoBehaviours all variables are public by default in Scriptable Objects, the more u know
-    
+
     [Tooltip("The resource that will be changed by this entry.")]
     [SerializeField] private GameResource resourceId;
     [Tooltip("The Resource Entry type, this is used by resource modifiers")]

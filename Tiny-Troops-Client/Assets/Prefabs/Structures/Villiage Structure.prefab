@@ -306,8 +306,10 @@ MonoBehaviour:
   playerID: -1
   structureID: 13
   structureBuildInfo: {fileID: 11400000, guid: 503df08416bfafb4dad189eb69abf194, type: 2}
+  alwaysApplyCostResources: 00000000
   refundPercentage: 0.5
   fullRefundResources: 00000000
+  applyCost: 0
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}

@@ -14,10 +14,14 @@ public class Structure : MonoBehaviour {
     [SerializeField] private StructureID structureID;
     [SerializeField] private StructureBuildInfo structureBuildInfo;
     [Space]
+    [SerializeField] private GameResource[] alwaysApplyCostResources;
+    [Space]
     [Tooltip("Rounded refunds")]
     [SerializeField] private float refundPercentage = 1;
     [Tooltip("These are refunded even if refunds are disabled.")]
     [SerializeField] GameResource[] fullRefundResources;
+    [Space]
+    [SerializeField] private bool applyCost = true;
     private bool applyFullRefunds = false;
     private bool dontApplyRefunds = false;
 
@@ -36,8 +40,7 @@ public class Structure : MonoBehaviour {
     [Tooltip("If this is not specified by an upgrade, this is the default value.")]
     [SerializeField] ResourceEntry[] resourceEntries = new ResourceEntry[0];
 
-    private List<int> appliedResourceEntryIndexes = new List<int>(); // Applied on Resource Management
-    private List<ResourceModifier> appliedResourceModifiers = new List<ResourceModifier>(); // This is used to get which ResourceModifiers don't need to be updated again
+    private List<ResourceEntry> costResourceEntries = new List<ResourceEntry>();
 
     public int PlayerID { get => playerID; set => playerID = value; }
     public StructureID StructureID { get => structureID; set => structureID = value; }
@@ -65,9 +68,8 @@ public class Structure : MonoBehaviour {
 
     private void Start() {
         // These functions are done in Start() because they require a playerId
-        // This line is done in GetAndApplyResourceModifiers(), but if there are no RMs then it wouldn't be done, bug fixed!
-        if (tile.ResourceModifiers.Count <= 0) AddResourceEntriesToManagement();
-        if (TileManagement.instance.SpawningComplete) GetAndApplyResourceModifiers();
+        AddResourceEntriesToManagement();
+        ApplyCost();
     }
 
     private void InitVars() {
@@ -93,7 +95,7 @@ public class Structure : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        RefundNoTickCost();
+        RefundCost();
         RemoveResourceEntriesFromManagement();
         tile.Structures.Remove(this);
     }
@@ -139,21 +141,7 @@ public class Structure : MonoBehaviour {
 
     #endregion
 
-    #region Public Resource Modifier Functions
-
-    // Reapply resource modifiers on the tile of this structure
-    public void UpdateResourceModifiers() {
-        //ResetResourceEntries(); // Remove previous ResourceModifier changes
-        //InstantiateCopiesOfResourceEntries(); // Create copies of the resource entries
-
-        // Apply Resource Modifiers
-        if (TileManagement.instance.SpawningComplete)
-            GetAndApplyResourceModifiers();
-    }
-
-    #endregion
-
-    #region Resource Modifiers
+    #region Resource Entries
 
     // This is public because it's used by TileManagement
     private void InitializeResourceEntries() {
@@ -181,122 +169,63 @@ public class Structure : MonoBehaviour {
         resourceEntries = _resourceEntries;
     }
 
-    // Get resource modifiers on the tile of this structure and apply the modifier to the resource entries of this structure
-    private void GetAndApplyResourceModifiers() {
-        // Reset changes to ResourceManager resources by this script
-        RemoveResourceEntriesFromManagement();
-
-        List<ResourceModifier> applyResourceModifiers = new List<ResourceModifier>(); // These are the resource modifiers that need to be added
-        List<ResourceModifier> removeResourceModifiers = new List<ResourceModifier>(); // These are the resource modifiers that need to be removed
-
-        // Loop through ResourceModifiers on the tile and see which need to be added to this structure
-        for (int i = 0; i < tile.ResourceModifiers.Count; i++) {
-            if (!appliedResourceModifiers.Contains(tile.ResourceModifiers[i]) & (tile.ResourceModifiers[i].TargetPlayerID == playerID | tile.ResourceModifiers[i].TargetPlayerID == -1)) {
-                applyResourceModifiers.Add(tile.ResourceModifiers[i]);
-            }
-        }
-
-        // Loop through ResourceModifiers on this Structure and see which are not on the Tile and set them to be removed
-        for (int i = 0; i < appliedResourceModifiers.Count; i++) {
-            if (!tile.ResourceModifiers.Values.Contains(appliedResourceModifiers[i])) {
-                removeResourceModifiers.Add(appliedResourceModifiers[i]);
-            }
-        }
-
-        // Loop through resource entries
-        for (int x = 0; x < resourceEntries.Length; x++) {
-            // Apply resource modifiers
-            for (int i = 0; i < applyResourceModifiers.Count; i++) {
-                // If resourceId and resourceEntryId do not match, continue to next resourceEntry
-                if (!CheckResourceIdMatch(applyResourceModifiers[i], resourceEntries[x])) continue;
-                ApplyResourceModifier(applyResourceModifiers[i], resourceEntries[x]);
-                appliedResourceModifiers.Add(tile.ResourceModifiers[i]);
-            }
-
-            // Check to Remove resource modifiers from this resource entry
-            for (int i = 0; i < removeResourceModifiers.Count; i++) {
-                // If resourceId and resourceEntryId do not match, continue to next resourceEntry
-                if (!CheckResourceIdMatch(removeResourceModifiers[i], resourceEntries[x])) continue;
-                RemoveResourceModifier(removeResourceModifiers[i], resourceEntries[x]);
-                appliedResourceModifiers.Remove(removeResourceModifiers[i]);
-            }
-        }
-
-        // Add changes to ResourceManager resources by this script
-        AddResourceEntriesToManagement();
-    }
-
     private void AddResourceEntriesToManagement() {
         for (int i = 0; i < resourceEntries.Length; i++) {
-            if (playerID >= 0) appliedResourceEntryIndexes.Add(ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]));
+            if (playerID >= 0) ResourceManager.instances[playerID].AddResourceEntry(resourceEntries[i]);
         }
     }
 
     private void RemoveResourceEntriesFromManagement() {
-        for (int i = 0; i < appliedResourceEntryIndexes.Count; i++) {
-            if (playerID >= 0) ResourceManager.instances[playerID].RemoveResourceEntry(appliedResourceEntryIndexes[0]); // Index is 0 because after this line index of 0 is deleted, so new 0 is previous index 1
+        for (int i = 0; i < resourceEntries.Length; i++) {
+            if (playerID >= 0) ResourceManager.instances[playerID].RemoveResourceEntry(resourceEntries[0]);
         }
-        appliedResourceEntryIndexes = new List<int>();
     }
 
     #endregion
 
-    #region Resource Modifier Utils
+    #region Utils
 
-    // Check if resourceIds and resourceEntryIds match between Resource Modifiers and ResourceEntries
-    private bool CheckResourceIdMatch(ResourceModifier _rm, ResourceEntry _re) {
-        // Check if the resourceId's don't match
-        if (_rm.ResourceIdTarget != _re.ResourceId) return false;
-
-        bool matchFound = false;
-        // Check if resourceEntry has a matching resourceEntryId
-        for (int i = 0; i < _re.ResourceEntryIds.Length; i++) {
-            // Check if there is a match
-            if (_re.ResourceEntryIds[i] == _rm.ResourceEntryIdTarget) matchFound = true;
-        }
-
-        return matchFound;
-    }
-
-    private void ApplyResourceModifier(ResourceModifier _rm, ResourceEntry _re) {
-        float change = 0f;
-        change += _rm.Change;
-        if (GetDefaultResourceEntry(_re) != null)
-            change += GetDefaultResourceEntry(_re).Change * _rm.PercentageChange; // Get default change value so multiple modifiers do not stack
-
-        _re.Change = change;
-    }
-
-    private void RemoveResourceModifier(ResourceModifier _rm, ResourceEntry _re) {
-        _re.Change = GetDefaultResourceEntry(_re).Change;
-    }
-
-    // Returns default value of resource entry (default from upgrade)
-    private ResourceEntry GetDefaultResourceEntry(ResourceEntry _re) {
-        for (int i = 0; i < resourceEntries.Length; i++) {
-            if (resourceEntries[i].ResourceId != _re.ResourceId) continue;
-            if (resourceEntries[i].ResourceEntryIds != _re.ResourceEntryIds) continue;
-            return resourceEntries[i];
-        }
-        return null;
-    }
-
-    // No tick cost is costs that are applied to the supply and not demand. The changeOnTick toggle
-    private void RefundNoTickCost() {
+    public void ApplyCost() {
         if (playerID < 0) return;
+        if (!applyCost) { AlwaysApplyCostResoucres(); return; }
+
         for (int i = 0; i < structureBuildInfo.Cost.Length; i++) {
-            // If resource is updated on tick, skip it
-            if (ResourceManager.instances[playerID].GetResource(structureBuildInfo.Cost[i].Resource).ChangeOnTickResource) continue;
+            costResourceEntries.Add(ScriptableObject.CreateInstance<ResourceEntry>());
+            costResourceEntries[i].ResourceId = structureBuildInfo.Cost[i].Resource;
+            costResourceEntries[i].Change = -Mathf.Abs(structureBuildInfo.Cost[i].Amount);
+            costResourceEntries[i].ChangeOnTick = ResourceManager.instances[playerID].Resources[(int)structureBuildInfo.Cost[i].Resource].ChangeOnTickResource;
+            ResourceManager.instances[playerID].AddResourceEntry(costResourceEntries[i]);
+        }
+    }
 
-            if (applyFullRefunds && !dontApplyRefunds) {
-                ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(structureBuildInfo.Cost[i].Amount));
-                continue;
-            }
+    public void RefundCost() {
+        if (playerID < 0) return;
+        if (!applyCost) { AlwaysApplyCostResoucresRefund(); return; }
 
-            if (fullRefundResources.Contains(structureBuildInfo.Cost[i].Resource))
-                ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(structureBuildInfo.Cost[i].Amount));
-            else if (!dontApplyRefunds)
-                ResourceManager.instances[playerID].ChangeResource(structureBuildInfo.Cost[i].Resource, Mathf.Abs(Mathf.Round(structureBuildInfo.Cost[i].Amount * refundPercentage)));
+        for (int i = 0; i < costResourceEntries.Count; i++) {
+            if (applyFullRefunds && !dontApplyRefunds) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
+            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
+            else if (!dontApplyRefunds) costResourceEntries[i].Change = -Mathf.Abs(Mathf.Round(costResourceEntries[i].Change * refundPercentage));
+        }
+    }
+
+    private void AlwaysApplyCostResoucres() {
+        for (int i = 0; i < structureBuildInfo.Cost.Length; i++) {
+            if (!alwaysApplyCostResources.Contains(structureBuildInfo.Cost[i].Resource)) continue;
+            costResourceEntries.Add(ScriptableObject.CreateInstance<ResourceEntry>());
+            costResourceEntries[i].ResourceId = structureBuildInfo.Cost[i].Resource;
+            costResourceEntries[i].Change = -Mathf.Abs(structureBuildInfo.Cost[i].Amount);
+            costResourceEntries[i].ChangeOnTick = ResourceManager.instances[playerID].Resources[(int)structureBuildInfo.Cost[i].Resource].ChangeOnTickResource;
+            ResourceManager.instances[playerID].AddResourceEntry(costResourceEntries[i]);
+        }
+    }
+
+    private void AlwaysApplyCostResoucresRefund() {
+        for (int i = 0; i < costResourceEntries.Count; i++) {
+            if (!alwaysApplyCostResources.Contains(costResourceEntries[i].ResourceId)) continue;
+            if (applyFullRefunds && !dontApplyRefunds) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
+            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
+            else if (!dontApplyRefunds) costResourceEntries[i].Change = -Mathf.Abs(Mathf.Round(costResourceEntries[i].Change * refundPercentage));
         }
     }
 

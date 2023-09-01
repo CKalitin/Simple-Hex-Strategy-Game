@@ -122,7 +122,11 @@ public class GameController : MonoBehaviour {
         
         for (int i = 0; i < ResourceManager.instances.Count; i++) {
             for (int x = 0; x < initialResources.Length; x++) {
-                ResourceManager.instances[i].ChangeResource(initialResources[x].Resource, initialResources[x].InitialSupply);
+                ResourceEntry re = ScriptableObject.CreateInstance<ResourceEntry>();
+                re.ResourceId = initialResources[x].Resource;
+                re.Change = initialResources[x].InitialSupply;
+                re.ChangeOnTick = false;
+                ResourceManager.instances[i].AddResourceEntry(re);
             }
         }
         

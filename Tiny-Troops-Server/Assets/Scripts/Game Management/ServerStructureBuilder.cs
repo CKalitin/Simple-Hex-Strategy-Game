@@ -73,8 +73,6 @@ public class ServerStructureBuilder : MonoBehaviour {
         _structureLocation.GetComponent<StructureLocation>().AssignedStructure = newStructure;
         newStructure.GetComponent<Structure>().StructureLocation = _structureLocation.GetComponent<StructureLocation>();
         newStructure.GetComponent<Structure>().PlayerID = _playerID;
-
-        if (_applyCost) ApplyStructureCost(_playerID, _structureBuildInfo);
     }
 
     private void DestroyStructure(int _playerID, Vector2Int _targetTileLocation) {
@@ -197,12 +195,6 @@ public class ServerStructureBuilder : MonoBehaviour {
         return output;
     }
     
-    private void ApplyStructureCost(int _playerID, StructureBuildInfo _structureBuildInfo) {
-        for (int i = 0; i < _structureBuildInfo.Cost.Length; i++) {
-            ResourceManager.instances[_playerID].GetResource(_structureBuildInfo.Cost[i].Resource).Supply -= _structureBuildInfo.Cost[i].Amount;
-        }
-    }
-
     public void SendBuildStructurePacketToAllClients(int _playerID, Vector2Int _targetTileLocation, int _structureID) {
         int[] connectedClientIDs = USNL.ServerManager.GetConnectedClientIds();
         for (int i = 0; i < connectedClientIDs.Length; i++) {

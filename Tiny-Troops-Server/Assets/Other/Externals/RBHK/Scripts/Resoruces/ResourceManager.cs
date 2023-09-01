@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -29,14 +30,14 @@ public class ResourceManager : MonoBehaviour {
     // First element in value list is reserved for the number of times the tick has been done, This is used in TickUpdate()
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
-    private Dictionary<int, ResourceEntry> resourceEntries = new Dictionary<int, ResourceEntry>();
+    private List<ResourceEntry> resourceEntries = new List<ResourceEntry>();
 
     private float totalDeltaTime = 0;
     private int secondsPassed = 0;
 
     public int PlayerId { get => playerId; set => playerId = value; }
     public Resource[] Resources { get => resources; set => resources = value; }
-    public Dictionary<int, ResourceEntry> ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
+    public List<ResourceEntry> ResourceEntries { get => resourceEntries; set => resourceEntries = value; }
 
     #endregion
 
@@ -130,7 +131,7 @@ public class ResourceManager : MonoBehaviour {
                 // Loop through resources that should be updated on this tick
                 // This starts one 1 because the 0th value is the number of times the tick update has occured
                 for (int i = 1; i < resourceTick.Value.Count; i++) {
-                    UpdateResourceTick(resourceTick.Value[i]); // Update Resource
+                    UpdateResourceTick((GameResource)resourceTick.Value[i]); // Update Resource
                 }
 
                 resourcesChanged = true;
@@ -164,6 +165,7 @@ public class ResourceManager : MonoBehaviour {
             // Loop through resources that should be updated on this tick
             // This starts one 1 because the 0th value is the number of times the tick update has occured
             for (int i = 1; i < resourceTick.Value.Count; i++) {
+                resources[resourceTick.Value[i]].Demand = GetResourceDemand((GameResource)resourceTick.Value[i]);
                 resources[resourceTick.Value[i]].Supply += resources[resourceTick.Value[i]].Demand / resourceTick.Key;
             }
         }
@@ -175,51 +177,28 @@ public class ResourceManager : MonoBehaviour {
 
     #region Utils
 
-    private void UpdateResourceTick(int _resourceIndex) {
+    private void UpdateResourceTick(GameResource _id) {
         // Change supply by demand
-        resources[_resourceIndex].Supply += resources[_resourceIndex].Demand;
+        resources[(int)_id].Demand = GetResourceDemand(_id);
+        resources[(int)_id].Supply += resources[(int)_id].Demand;
     }
-
-    public void ChangeResource(GameResource _resource, float _change) {
-        GetResource(_resource).Supply += _change;
-
+    
+    public void AddResourceEntry(ResourceEntry _resourceEntry) {
+        resourceEntries.Add(_resourceEntry);
+        if (_resourceEntry.ChangeOnTick) GetResource(_resourceEntry.ResourceId).Demand = GetResourceDemand(_resourceEntry.ResourceId);
+        else GetResource(_resourceEntry.ResourceId).Supply = GetResourceSupply(_resourceEntry.ResourceId);
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
-    public int AddResourceEntry(ResourceEntry _resourceEntry) {
-        if (_resourceEntry.ChangeOnTick) {
-            resourceEntries.Add(resourceEntries.Count, _resourceEntry);
-
-            Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
-            if (updateResourcesOnTick) resource.Demand += _resourceEntry.Change; // Add change to Demand
-
-            if (OnResourcesChanged != null) OnResourcesChanged(playerId);
-
-            return resourceEntries.Count - 1;
-        } else {
-            resourceEntries.Add(resourceEntries.Count, _resourceEntry);
-
-            Resource resource = GetResource(_resourceEntry.ResourceId); // Get Resource this entry modifies
-            if (updateResourcesOnTick) resource.Supply += _resourceEntry.Change; // Add change to Supply
-
-            if (OnResourcesChanged != null) OnResourcesChanged(playerId);
-
-            return resourceEntries.Count - 1;
-        }
-    }
-
-    public void RemoveResourceEntry(int _index) {
+    public void RemoveResourceEntry(ResourceEntry _resourceEntry) {
         if (resourceEntries.Count <= 0) return;
-        if (!resourceEntries.ContainsKey(_index)) return;
+        if (!resourceEntries.Contains(_resourceEntry)) return;
 
-        if (resourceEntries[_index].ChangeOnTick) {
-            Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
-            if (updateResourcesOnTick) resource.Demand -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
-        } else {
-            Resource resource = GetResource(resourceEntries[_index].ResourceId); // Get Resource this entry modifies
-            if (updateResourcesOnTick) resource.Supply -= resourceEntries[_index].Change; // Subtract change to demand, reverse what was done in AddResourceEntry
-        }
+        resourceEntries.Remove(_resourceEntry);
 
+        if (_resourceEntry.ChangeOnTick) GetResource(_resourceEntry.ResourceId).Demand = GetResourceDemand(_resourceEntry.ResourceId);
+        else GetResource(_resourceEntry.ResourceId).Supply = GetResourceSupply(_resourceEntry.ResourceId);
+        
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
@@ -245,7 +224,27 @@ public class ResourceManager : MonoBehaviour {
 
     // Use with extreme care (Best to reset all tiles - and structures - before using this)
     public void ResetResourceEntries() {
-        resourceEntries = new Dictionary<int, ResourceEntry>();
+        resourceEntries = new List<ResourceEntry>();
+    }
+
+    private float GetResourceDemand(GameResource _id) {
+        float output = 0;
+        for (int i = 0; i < resourceEntries.Count; i++) {
+            if (resourceEntries[i].ResourceId == _id && resourceEntries[i].ChangeOnTick) {
+                output += resourceEntries[i].Change;
+            }
+        }
+        return output;
+    }
+
+    private float GetResourceSupply(GameResource _id) {
+        float output = 0;
+        for (int i = 0; i < resourceEntries.Count; i++) {
+            if (resourceEntries[i].ResourceId == _id && !resourceEntries[i].ChangeOnTick) {
+                output += resourceEntries[i].Change;
+            }
+        }
+        return output;
     }
 
     #endregion

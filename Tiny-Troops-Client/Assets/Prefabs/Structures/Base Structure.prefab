@@ -304,8 +304,10 @@ MonoBehaviour:
   playerID: -1
   structureID: 0
   structureBuildInfo: {fileID: 11400000, guid: 7cde1964be540a245bdf9d268f2a145a, type: 2}
+  alwaysApplyCostResources: 00000000
   refundPercentage: 1
   fullRefundResources: 00000000
+  applyCost: 0
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
@@ -328,6 +330,7 @@ MonoBehaviour:
   applyRefunds: 0
   bonuses: []
   applyBonuses: 0
+  firstStructureResourceEntry: {fileID: 0}
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 0, y: 2}

@@ -193,14 +193,7 @@ public class TileManagement : MonoBehaviour {
     #endregion
 
     #region Other
-
-    public void ApplyResourceModifiersOnAllTiles() {
-        ResourceModifierApplier[] appliers = FindObjectsOfType<ResourceModifierApplier>();
-        for (int i = 0; i < appliers.Length; i++) {
-            appliers[i].ApplyResourceModifiers();
-        }
-    }
-
+    
     public void ResetAllTiles() {
         Vector2Int[] keys = tiles.Keys.ToArray();
         for (int i = 0; i < keys.Length; i++) {

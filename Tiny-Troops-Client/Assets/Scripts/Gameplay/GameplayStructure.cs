@@ -18,7 +18,7 @@ public class GameplayStructure : MonoBehaviour {
     [SerializeField] private bool applyBonuses = false;
     [Space]
     [SerializeField] private ResourceEntry firstStructureResourceEntry;
-    List<int> bonusResourceEntryIndexes = new List<int>();
+    List<ResourceEntry> bonusResourceEntries = new List<ResourceEntry>();
 
     [Header("UI")]
     [SerializeField] private GameObject structureUI;
@@ -146,19 +146,20 @@ public class GameplayStructure : MonoBehaviour {
     private void ApplyBonuses() {
         for (int i = 0; i < bonuses.Length; i++) {
             int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
-            
+
             ResourceEntry resourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
             resourceEntry.ResourceId = firstStructureResourceEntry.ResourceId;
             resourceEntry.ResourceEntryIds = firstStructureResourceEntry.ResourceEntryIds;
             resourceEntry.Change = bonus;
             resourceEntry.ChangeOnTick = firstStructureResourceEntry.ChangeOnTick;
-            bonusResourceEntryIndexes.Add(ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry));
+            bonusResourceEntries.Add(resourceEntry);
+            ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry);
         }
     }
 
     private void RemoveBonuses() {
-        for (int i = 0; i < bonusResourceEntryIndexes.Count; i++) {
-            ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntryIndexes[i]);
+        for (int i = 0; i < bonusResourceEntries.Count; i++) {
+            ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntries[i]);
         }
     }
 

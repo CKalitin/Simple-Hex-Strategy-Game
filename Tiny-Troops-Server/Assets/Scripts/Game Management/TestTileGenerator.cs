@@ -40,7 +40,6 @@ public class TestTileGenerator : MonoBehaviour {
         // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
         TileManagement.instance.SpawningComplete = true;
         TileManagement.instance.ApplyTileRules();
-        TileManagement.instance.ApplyResourceModifiersOnAllTiles();
         // NECCESSARY TILE SPAWNING STUFF COPY THIS TO FINAL TILE GENERATION CODE (IN THIS ORDER)
 
         GameController.instance.SendTilesToAllClients();

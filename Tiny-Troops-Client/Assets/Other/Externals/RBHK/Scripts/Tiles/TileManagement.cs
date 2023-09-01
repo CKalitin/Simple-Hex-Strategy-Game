@@ -55,7 +55,7 @@ public class TileManagement : MonoBehaviour {
     #region Variables
 
     public static TileManagement instance;
-    
+
     [SerializeField] private Vector2 tileDimensions = new Vector2(4.25f, 5f); // Tile dimensions
 
     private Dictionary<Vector2Int, TileInfo> tiles = new Dictionary<Vector2Int, TileInfo>();
@@ -104,9 +104,12 @@ public class TileManagement : MonoBehaviour {
             //Debug.LogWarning("No tile to destroy at location: " + _location);
             return;
         }
-        
-        for (int i = 0; i < tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.childCount; i++) {
-            tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.GetChild(i).GetComponent<PathfindingLocation>().OnDestroy();
+
+        // Don't push this to the RBHK repo
+        if (tiles[_location].Tile.GetComponent<GameplayTile>() != null && tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent != null) {
+            for (int i = 0; i < tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.childCount; i++) {
+                tiles[_location].Tile.GetComponent<GameplayTile>().PathfindingLocationParent.transform.GetChild(i).GetComponent<PathfindingLocation>().OnDestroy();
+            }
         }
 
         Destroy(tiles[_location].TileObject); // Delete tile's parentObject
@@ -141,10 +144,10 @@ public class TileManagement : MonoBehaviour {
         for (int y = 0; y < _r * 2 + 1; y++) {
             int offset = Mathf.RoundToInt((Mathf.Abs(y - _r) - 0.1f) / 2); // Results eg: (0, 1) = 0 offset, (2, 3) = 1 offset, (4, 5) = 2 offset, ...
             offset += Mathf.Abs((_loc.y) % 2) * Mathf.Abs((y - _r) % 2); // If the locaction is odd and the distance to the center is odd, subtract 1, this fixes a bug
-            
+
             int rowLength = offset + max - Mathf.Abs(y - _r); // Add the maximum value - the distance to the center to the offset (to the offset so the for loop works)
-            
-            for (int x = offset ; x < rowLength; x++) {
+
+            for (int x = offset; x < rowLength; x++) {
                 Vector2Int loc = new Vector2Int(x - _r + _loc.x, y - _r + _loc.y); // Convert from for-loop location to world location
 
                 if (loc.x == _loc.x && loc.y == _loc.y) { continue; } // If the current iteration is the center tile then skip it
@@ -190,13 +193,6 @@ public class TileManagement : MonoBehaviour {
     #endregion
 
     #region Other
-
-    public void ApplyResourceModifiersOnAllTiles() {
-        ResourceModifierApplier[] appliers = FindObjectsOfType<ResourceModifierApplier>();
-        for (int i = 0; i < appliers.Length; i++) {
-            appliers[i].ApplyResourceModifiers();
-        }
-    }
 
     public void ResetAllTiles() {
         Vector2Int[] keys = tiles.Keys.ToArray();

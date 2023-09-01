@@ -38,7 +38,11 @@ public class NaturalStructure : MonoBehaviour {
         
         foreach (int playerID in playerIDs) {
             for (int i = 0; i < resources.Length; i++) {
-                ResourceManager.instances[playerID].ChangeResource(resources[i].Resource, resources[i].Amount);
+                ResourceEntry re = ScriptableObject.CreateInstance<ResourceEntry>();
+                re.ResourceId = resources[i].Resource;
+                re.Change = -Mathf.Abs(resources[i].Amount);
+                re.ChangeOnTick = ResourceManager.instances[playerID].Resources[(int)resources[i].Resource].ChangeOnTickResource;
+                ResourceManager.instances[playerID].AddResourceEntry(re);
             }
         }
     }

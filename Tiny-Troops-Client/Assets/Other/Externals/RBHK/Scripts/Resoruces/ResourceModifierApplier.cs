@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceModifierApplier : MonoBehaviour {
-    [Header("Config")]
+    /*[Header("Config")]
     [Tooltip("Id of the player associated with this Resource Modifier Applier instance.")]
     [SerializeField] private int playerId;
     [Tooltip("If this resource modifier should apply only to one player.")]
@@ -60,5 +60,5 @@ public class ResourceModifierApplier : MonoBehaviour {
 
     private void OnDestroy() {
         RemoveResourceModifiers();
-    }
+    }*/
 }

@@ -12,7 +12,7 @@ public class GameplayStructure : MonoBehaviour {
     [SerializeField] private bool applyBonuses = false;
     [Space]
     [SerializeField] private ResourceEntry firstStructureResourceEntry;
-    List<int> bonusResourceEntryIndexes = new List<int>();
+    List<ResourceEntry> bonusResourceEntries = new List<ResourceEntry>();
 
     [Header("Pathfinding")]
     [Tooltip("     (1, 3)  (2, 3)   \n(0, 2) (1, 2) (2, 2)\n     (1, 1)  (2, 1)")]
@@ -136,13 +136,14 @@ public class GameplayStructure : MonoBehaviour {
             resourceEntry.ResourceEntryIds = firstStructureResourceEntry.ResourceEntryIds;
             resourceEntry.Change = bonus;
             resourceEntry.ChangeOnTick = firstStructureResourceEntry.ChangeOnTick;
-            bonusResourceEntryIndexes.Add(ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry));
+            bonusResourceEntries.Add(resourceEntry);
+            ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry);
         }
     }
 
     private void RemoveBonuses() {
-        for (int i = 0; i < bonusResourceEntryIndexes.Count; i++) {
-            ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntryIndexes[i]);
+        for (int i = 0; i < bonusResourceEntries.Count; i++) {
+            ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntries[i]);
         }
     }
 
