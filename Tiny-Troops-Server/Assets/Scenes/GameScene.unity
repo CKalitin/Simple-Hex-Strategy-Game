@@ -142,6 +142,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceEntries: []
+  resources: []
+--- !u!114 &217780298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217780294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee178d273fcff084ab3f7c1d23e9f231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 1
 --- !u!1 &259412586 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4571661714303459076, guid: 601841fa392eda148a836e23fe88efd1,
@@ -161,6 +175,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceEntries: []
+  resources: []
+--- !u!114 &259412590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259412586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee178d273fcff084ab3f7c1d23e9f231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 0
 --- !u!1 &271009856
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,6 +564,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceEntries: []
+  resources: []
+--- !u!114 &964496009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964496005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee178d273fcff084ab3f7c1d23e9f231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 2
 --- !u!1001 &1084677342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -799,6 +841,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceEntries: []
+  resources: []
+--- !u!114 &1920030606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920030602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee178d273fcff084ab3f7c1d23e9f231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 3
 --- !u!4 &1990878980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4571661716153691182, guid: 601841fa392eda148a836e23fe88efd1,

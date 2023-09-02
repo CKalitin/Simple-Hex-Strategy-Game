@@ -4,22 +4,34 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class ProductionSubtactor : MonoBehaviour {
+public class ProductionSubtractor : MonoBehaviour {
     #region Variables
+
+    public static Dictionary<int, ProductionSubtractor> instances;
+
+    [SerializeField] private int playerID = 0;
 
     private float previousPopulation = 99f;
 
     private Dictionary<Structure, float> disabledStructures = new Dictionary<Structure, float>();
 
+    public Dictionary<Structure, float> DisabledStructures { get => disabledStructures; set => disabledStructures = value; }
+
     #endregion
 
     #region Core
 
-    private void Update() {
-        if (MatchManager.instance.PlayerID < 0) return;
+    private void Awake() {
+        if (instances == null) instances = new Dictionary<int, ProductionSubtractor>();
+        if (!instances.ContainsKey(playerID)) instances.Add(playerID, this);
+        else Debug.Log("ProductionSubtractor already exists for player " + playerID + ".");
+    }
 
-        if (previousPopulation != ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(GameResource.Population).Supply) {
-            float pop = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(GameResource.Population).Supply;
+    private void Update() {
+        if (!USNL.ServerManager.GetConnectedClientIds().Contains(playerID)) return;
+
+        if (previousPopulation != ResourceManager.instances[playerID].GetResource(GameResource.Population).Supply) {
+            float pop = ResourceManager.instances[playerID].GetResource(GameResource.Population).Supply;
             float previousDefecit = GetCurrentAppliedDefecit();
             if (pop < previousPopulation && pop < 0) {
                 DisableStructures(Mathf.Abs(pop + previousDefecit));
@@ -32,20 +44,24 @@ public class ProductionSubtactor : MonoBehaviour {
         GetEnabledStructuresSortedByDistanceToVillage(0);
     }
 
+    private void OnDestroy() {
+        instances.Remove(playerID);
+    }
+
     #endregion
 
     #region Functions
 
     private void DisableStructures(float _populationDefecit) {
-        List<Structure> s = GetEnabledStructuresSortedByDistanceToVillage(MatchManager.instance.PlayerID);
+        List<Structure> s = GetEnabledStructuresSortedByDistanceToVillage(playerID);
 
         for (int i = 0; i < s.Count; i++) {
             if (_populationDefecit > 0) {
                 _populationDefecit -= Mathf.Abs(GetRequiredPopulation(s[i]));
-                DisableStructure(s[i]);
+                s[i].GetComponent<GameplayStructure>().ToggleProduction(false);
                 disabledStructures.Add(s[i], s[i].GetComponent<GameplayStructure>().DistToNearestVillage);
             } else break;
-        } 
+        }
     }
 
     private void EnableStructures(float _populationIncrease) {
@@ -56,7 +72,7 @@ public class ProductionSubtactor : MonoBehaviour {
             if (_populationIncrease >= GetRequiredPopulation(disabledStructureList[i])) {
                 _populationIncrease -= Mathf.Abs(GetRequiredPopulation(disabledStructureList[i]));
                 removeStructures.Add(disabledStructureList[i]);
-                EnableStructure(disabledStructureList[i]);
+                disabledStructureList[i].GetComponent<GameplayStructure>().ToggleProduction(true);
             } else break;
         }
 
@@ -72,7 +88,7 @@ public class ProductionSubtactor : MonoBehaviour {
             if (s.PlayerID != _playerID) continue;
             if (s.GetComponent<ConstructionStructure>()) continue;
             if (!s.GetComponent<GameplayStructure>().ProductionEnabled) continue;
-            if (s.GetComponent<ClientVillage>()) villageLocations.Add(s.Tile.Location);
+            if (s.GetComponent<PlayerVillage>()) villageLocations.Add(s.Tile.Location);
             else structures.Add(s);
         }
 
@@ -110,14 +126,6 @@ public class ProductionSubtactor : MonoBehaviour {
         float defecit = 0;
         foreach (var s in disabledStructures) defecit += Mathf.Abs(GetRequiredPopulation(s.Key));
         return defecit;
-    }
-
-    private void EnableStructure(Structure _s) {
-        _s.GetComponent<GameplayStructure>().ProductionEnabled = true;
-    }
-
-    private void DisableStructure(Structure _s) {
-        _s.GetComponent<GameplayStructure>().ProductionEnabled = false;
     }
 
     #endregion

@@ -158,6 +158,11 @@ public class GameController : MonoBehaviour {
         VillagerManager.instance.ResetVillagerManager();
 
         USNL.ServerManager.instance.AllowReconnectionIPs = new List<string>();
+
+        ProductionSubtractor[] productionSubtractors = FindObjectsOfType<ProductionSubtractor>();
+        for (int i = 0; i < productionSubtractors.Length; i++) {
+            productionSubtractors[i].DisabledStructures.Clear();
+        }
     }
 
     #endregion

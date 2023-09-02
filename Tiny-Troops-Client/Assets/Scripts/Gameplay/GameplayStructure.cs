@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayStructure : MonoBehaviour {
@@ -16,9 +17,9 @@ public class GameplayStructure : MonoBehaviour {
     [Header("Bonus")]
     [SerializeField] private Bonus[] bonuses;
     [SerializeField] private bool applyBonuses = false;
-    [Space]
-    [SerializeField] private ResourceEntry firstStructureResourceEntry;
-    List<ResourceEntry> bonusResourceEntries = new List<ResourceEntry>();
+    
+    private ResourceEntry firstStructureResourceEntry;
+    private List<ResourceEntry> bonusResourceEntries = new List<ResourceEntry>();
 
     [Header("UI")]
     [SerializeField] private GameObject structureUI;
@@ -35,6 +36,7 @@ public class GameplayStructure : MonoBehaviour {
     private GameplayTile gameplayTile;
     private bool productionEnabled = true; // Used in ProductionSubtractor.cs
     private float distToNearestVillage = 0f; // Used in ProductionSubtractor.cs
+    private float firstStructureResourceEntryInitialProduction = 0;
 
     private bool beingDestroyed = false;
     private List<int> destroyerPlayerIDs = new List<int>();
@@ -63,7 +65,18 @@ public class GameplayStructure : MonoBehaviour {
     #endregion
 
     #region Core
-    
+
+    private void Awake() {
+        // Copy it, now not the original Scriptable Object in the project files. Scriptable Objects are not the proper way to store this data
+        if (GetComponent<Structure>().ResourceEntries.Length <= 0) return;
+        firstStructureResourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
+        firstStructureResourceEntry.ResourceId = GetComponent<Structure>().ResourceEntries[0].ResourceId;
+        firstStructureResourceEntry.ResourceEntryIds = GetComponent<Structure>().ResourceEntries[0].ResourceEntryIds;
+        firstStructureResourceEntry.Change = GetComponent<Structure>().ResourceEntries[0].Change;
+        firstStructureResourceEntry.ChangeOnTick = GetComponent<Structure>().ResourceEntries[0].ChangeOnTick;
+        if (firstStructureResourceEntry != null) firstStructureResourceEntryInitialProduction = firstStructureResourceEntry.Change;
+    }
+
     // The code in Start() and OnEnable() is the same because of the different times a structure can be instantiated. With the tile, or on the tile by a player.
     private void Start() {
         Initialize();
@@ -80,6 +93,12 @@ public class GameplayStructure : MonoBehaviour {
             }
         }
         if (!applyRefunds) GetComponent<Structure>().DontApplyRefunds = true;
+
+        if (firstStructureResourceEntry != null) firstStructureResourceEntryInitialProduction = firstStructureResourceEntry.Change;
+    }
+
+    private void Update() {
+        if (firstStructureResourceEntry != null) firstStructureResourceEntry.ResourceId = firstStructureResourceEntry.ResourceId; // Prevents garbage collection? Why does it go null?
     }
 
     private void OnEnable() {
@@ -89,7 +108,6 @@ public class GameplayStructure : MonoBehaviour {
     private void OnDisable() {
         SetPathfindingNodesWalkable(true);
         RemoveBonuses();
-        //if (!playerOwnedStructure) return;
         StructureManager.instance.RemoveGameplayStructure(tileLocation, this);
         addedToStructureManager = false;
     }
@@ -102,6 +120,10 @@ public class GameplayStructure : MonoBehaviour {
             if (TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures.Count <= 0) continue;
             if ((gameStruct = TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures[0].GetComponent<GameplayStructure>()) == null) continue;
             gameStruct.ReapplyBonuses();
+        }
+
+        if (ProductionSubtractor.instance.DisabledStructures.ContainsKey(GetComponent<Structure>())) {
+            ProductionSubtractor.instance.DisabledStructures.Remove(GetComponent<Structure>());
         }
     }
 
@@ -120,7 +142,7 @@ public class GameplayStructure : MonoBehaviour {
 
     public void OnStructureActionPacket(int _playerID, int _actionID, int[] _configurationInts) {
         SetBeingDestroyed(_actionID, (int[])_configurationInts.Clone());
-        
+
         if (!playerOwnedStructure) return;
         if (OnStructureAction != null) OnStructureAction(_playerID, _actionID, (int[])_configurationInts.Clone());
     }
@@ -135,18 +157,12 @@ public class GameplayStructure : MonoBehaviour {
 
     #endregion
 
-    #region Other
-
-    private void SetPathfindingNodesWalkable(bool _walkable) {
-        for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
-            gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
-        }
-    }
+    #region Bonuses
 
     private void ApplyBonuses() {
-        for (int i = 0; i < bonuses.Length; i++) {
+        return; // Doesn't matter, this is client
+        /*for (int i = 0; i < bonuses.Length; i++) {
             int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
-
             ResourceEntry resourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
             resourceEntry.ResourceId = firstStructureResourceEntry.ResourceId;
             resourceEntry.ResourceEntryIds = firstStructureResourceEntry.ResourceEntryIds;
@@ -154,13 +170,14 @@ public class GameplayStructure : MonoBehaviour {
             resourceEntry.ChangeOnTick = firstStructureResourceEntry.ChangeOnTick;
             bonusResourceEntries.Add(resourceEntry);
             ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(resourceEntry);
-        }
+        }*/
     }
 
     private void RemoveBonuses() {
         for (int i = 0; i < bonusResourceEntries.Count; i++) {
             ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntries[i]);
         }
+        bonusResourceEntries.Clear();
     }
 
     public void ReapplyBonuses() {
@@ -168,12 +185,34 @@ public class GameplayStructure : MonoBehaviour {
         ApplyBonuses();
     }
 
+    #endregion
+
+    #region Utils
+
+    private void SetPathfindingNodesWalkable(bool _walkable) {
+        for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
+            gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
+        }
+    }
+
     private void SetBeingDestroyed(int _actionID, int[] _configurationInts) {
-        if (_actionID == -2000)  destroyerPlayerIDs.Add(_configurationInts[0]);
-        else if (_actionID == -2001)  destroyerPlayerIDs.Remove(_configurationInts[0]);
+        if (_actionID == -2000) destroyerPlayerIDs.Add(_configurationInts[0]);
+        else if (_actionID == -2001) destroyerPlayerIDs.Remove(_configurationInts[0]);
 
         beingDestroyed = destroyerPlayerIDs.Count > 0;
     }
 
+    public void ToggleProduction(bool _toggle) {
+        if (_toggle) {
+            if (bonuses.Length <= 0) ApplyBonuses();
+            GetComponent<Structure>().ResourceEntries[0].Change = 0;
+            productionEnabled = true;
+        } else {
+            RemoveBonuses();
+            GetComponent<Structure>().ResourceEntries[0].Change = firstStructureResourceEntryInitialProduction;
+            productionEnabled = false;
+        }
+    }
+    
     #endregion
 }

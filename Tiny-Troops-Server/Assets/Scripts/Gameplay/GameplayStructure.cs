@@ -10,9 +10,9 @@ public class GameplayStructure : MonoBehaviour {
     [Header("Bonus")]
     [SerializeField] private Bonus[] bonuses;
     [SerializeField] private bool applyBonuses = false;
-    [Space]
-    [SerializeField] private ResourceEntry firstStructureResourceEntry;
-    List<ResourceEntry> bonusResourceEntries = new List<ResourceEntry>();
+    
+    private ResourceEntry firstStructureResourceEntry;
+    private List<ResourceEntry> bonusResourceEntries = new List<ResourceEntry>();
 
     [Header("Pathfinding")]
     [Tooltip("     (1, 3)  (2, 3)   \n(0, 2) (1, 2) (2, 2)\n     (1, 1)  (2, 1)")]
@@ -24,6 +24,10 @@ public class GameplayStructure : MonoBehaviour {
     private Vector2Int tileLocation;
     private bool addedToStructureManager = false;
     private GameplayTile gameplayTile;
+    private bool productionEnabled = true; // Used in ProductionSubtractor.cs
+    private float distToNearestVillage = 0f; // Used in ProductionSubtractor.cs
+    private float firstStructureResourceEntryInitialProduction = 0;
+    private ResourceEntry disabledResourceEntry; // When production is disabled this is used to subtract from production
     private bool beingDestroyed = false;
 
     private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
@@ -33,6 +37,8 @@ public class GameplayStructure : MonoBehaviour {
     
     public Vector2Int TileLocation { get => tileLocation; set => tileLocation = value; }
     public bool BeingDestroyed { get => beingDestroyed; set => beingDestroyed = value; }
+    public bool ProductionEnabled { get => productionEnabled; set => productionEnabled = value; }
+    public float DistToNearestVillage { get => distToNearestVillage; set => distToNearestVillage = value; }
 
     [Serializable]
     public struct Bonus {
@@ -47,6 +53,17 @@ public class GameplayStructure : MonoBehaviour {
     #endregion
 
     #region Core
+
+    private void Awake() {
+        // Copy it, now not the original Scriptable Object in the project files. Scriptable Objects are not the proper way to store this data
+        if (GetComponent<Structure>().ResourceEntries.Length <= 0) return;
+        firstStructureResourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
+        firstStructureResourceEntry.ResourceId = GetComponent<Structure>().ResourceEntries[0].ResourceId;
+        firstStructureResourceEntry.ResourceEntryIds = GetComponent<Structure>().ResourceEntries[0].ResourceEntryIds;
+        firstStructureResourceEntry.Change = GetComponent<Structure>().ResourceEntries[0].Change;
+        firstStructureResourceEntry.ChangeOnTick = GetComponent<Structure>().ResourceEntries[0].ChangeOnTick;
+        if (firstStructureResourceEntry != null) firstStructureResourceEntryInitialProduction = firstStructureResourceEntry.Change;
+    }
 
     private void Start() {
         Initialize();
@@ -63,6 +80,8 @@ public class GameplayStructure : MonoBehaviour {
                 gameStruct.ReapplyBonuses();
             }
         }
+        
+        if (firstStructureResourceEntry != null) firstStructureResourceEntryInitialProduction = firstStructureResourceEntry.Change;
     }
 
     private void Update() {
@@ -99,6 +118,12 @@ public class GameplayStructure : MonoBehaviour {
             if ((gameStruct = TileManagement.instance.GetTileAtLocation(_loc).Tile.Structures[0].GetComponent<GameplayStructure>()) == null) continue;
             gameStruct.ReapplyBonuses();
         }
+
+        if (ProductionSubtractor.instances.ContainsKey(GetComponent<Structure>().PlayerID) && ProductionSubtractor.instances[GetComponent<Structure>().PlayerID].DisabledStructures.ContainsKey(GetComponent<Structure>())) {
+            ProductionSubtractor.instances[GetComponent<Structure>().PlayerID].DisabledStructures.Remove(GetComponent<Structure>());
+        }
+        
+        if (disabledResourceEntry != null) ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(disabledResourceEntry);
     }
 
     private void Initialize() {
@@ -118,16 +143,11 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     #endregion
+
+    #region Bonuses
     
-    #region Other
-
-    private void SetPathfindingNodesWalkable(bool _walkable) {
-        for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
-            gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
-        }
-    }
-
     private void ApplyBonuses() {
+        if (bonusResourceEntries == null) bonusResourceEntries = new List<ResourceEntry>();
         for (int i = 0; i < bonuses.Length; i++) {
             int bonus = GameUtils.GetDirectionsWithID(GetComponent<Structure>().Tile.Location, bonuses[i].BonusStructureID).Count * bonuses[i].BonusAmount;
 
@@ -142,14 +162,47 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     private void RemoveBonuses() {
+        if (bonusResourceEntries == null) return;
         for (int i = 0; i < bonusResourceEntries.Count; i++) {
             ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(bonusResourceEntries[i]);
         }
+        bonusResourceEntries.Clear();
+        bonusResourceEntries = null;
     }
 
     public void ReapplyBonuses() {
         RemoveBonuses();
         ApplyBonuses();
+    }
+
+    #endregion
+
+    #region Other
+
+    private void SetPathfindingNodesWalkable(bool _walkable) {
+        for (int i = 0; i < unwalkableLocalPathfindingLocations.Length; i++) {
+            gameplayTile.PathfindingLocationParent.PathfindingLocations[unwalkableLocalPathfindingLocations[i]].Walkable = _walkable;
+        }
+    }
+
+    public void ToggleProduction(bool _toggle) {
+        if (_toggle) {
+            if (bonusResourceEntries == null) ApplyBonuses();
+            if (disabledResourceEntry != null) { 
+                ResourceManager.instances[GetComponent<Structure>().PlayerID].RemoveResourceEntry(disabledResourceEntry);
+                disabledResourceEntry = null;
+            }
+            productionEnabled = true;
+        } else {
+            RemoveBonuses();
+            disabledResourceEntry = ScriptableObject.CreateInstance<ResourceEntry>();
+            disabledResourceEntry.ResourceId = firstStructureResourceEntry.ResourceId;
+            disabledResourceEntry.ResourceEntryIds = firstStructureResourceEntry.ResourceEntryIds;
+            disabledResourceEntry.Change = -firstStructureResourceEntry.Change;
+            disabledResourceEntry.ChangeOnTick = firstStructureResourceEntry.ChangeOnTick;
+            ResourceManager.instances[GetComponent<Structure>().PlayerID].AddResourceEntry(disabledResourceEntry);
+            productionEnabled = false;
+        }
     }
 
     #endregion
