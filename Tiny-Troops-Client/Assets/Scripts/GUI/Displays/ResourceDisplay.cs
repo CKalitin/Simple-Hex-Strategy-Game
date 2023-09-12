@@ -15,36 +15,37 @@ public class ResourceDisplay : MonoBehaviour {
     [SerializeField] private int defaultSupplyCharactersLength = 3;
 
     private float demandTextOriginalX;
-
-    private Resource resourceReference;
-
-    private void Start() {
+    
+    private void Awake() {
         if (resourceDemandText) demandTextOriginalX = resourceDemandText.transform.localPosition.x;
     }
 
-    private void Update() {
-        if (resourceReference == null) resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
-        
-        if (resourceSupplyText) resourceSupplyText.text = Mathf.FloorToInt(resourceReference.Supply).ToString();
+    private void UpdateText(float _supply, float _demand) {
+        if (resourceSupplyText) resourceSupplyText.text = Mathf.FloorToInt(_supply).ToString();
 
         if (resourceDemandText) {
-            if (resourceReference.Demand >= 0) resourceDemandText.text = "+" + Mathf.FloorToInt(resourceReference.Demand).ToString();
-            else resourceDemandText.text = "-" + Mathf.FloorToInt(resourceReference.Demand).ToString();
-            float xOffset = (Mathf.FloorToInt(resourceReference.Supply).ToString().Length - defaultSupplyCharactersLength) * demandXOffsetPerCharacter;
+            if (_demand >= 0) resourceDemandText.text = "+" + Mathf.FloorToInt(_demand).ToString();
+            else resourceDemandText.text = "-" + Mathf.FloorToInt(_demand).ToString();
+            float xOffset = (Mathf.FloorToInt(_supply).ToString().Length - defaultSupplyCharactersLength) * demandXOffsetPerCharacter;
             resourceDemandText.transform.localPosition = new Vector2(demandTextOriginalX + xOffset, resourceDemandText.transform.localPosition.y);
         }
     }
 
     private void OnEnable() {
-        USNL.CallbackEvents.OnConnected += OnConnected;
+        USNL.CallbackEvents.OnResourcesPacket += OnResourcesPacket;
     }
 
-    private void OnDisable() {
-        USNL.CallbackEvents.OnConnected += OnConnected;
+    private void OnDisable() {;
+        USNL.CallbackEvents.OnResourcesPacket += OnResourcesPacket;
     }
 
-    private void OnConnected(object _object) {
-        MatchManager.instance.SetPlayerID();
-        resourceReference = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(resource);
+    private void OnResourcesPacket(object _packetObject) {
+        USNL.ResourcesPacket resourcesPacket = (USNL.ResourcesPacket)_packetObject;
+        if (resourcesPacket.PlayerID != MatchManager.instance.PlayerID) return;
+
+        for (int i = 0; i < ResourceManager.instances[0].Resources.Length; i++) {
+            if (ResourceManager.instances[0].Resources[i].ResourceId != resource) continue;
+            UpdateText(resourcesPacket.Supplys[i], resourcesPacket.Demands[i]);
+        }
     }
 }

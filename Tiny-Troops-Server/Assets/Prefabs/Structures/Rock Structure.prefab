@@ -51,7 +51,7 @@ MonoBehaviour:
   alwaysApplyCostResources: 00000000
   refundPercentage: 0.5
   fullRefundResources: 00000000
-  applyCost: 0
+  applyCost: 1
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}

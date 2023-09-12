@@ -31,6 +31,8 @@ public class ResourceManager : MonoBehaviour {
     private Dictionary<float, List<int>> resourceTicks = new Dictionary<float, List<int>>();
 
     private List<ResourceEntry> resourceEntries = new List<ResourceEntry>();
+    
+    private Dictionary<GameResource, float> resourceTotalChanges = new Dictionary<GameResource, float>();
 
     private float totalDeltaTime = 0;
     private int secondsPassed = 0;
@@ -109,6 +111,7 @@ public class ResourceManager : MonoBehaviour {
                 resourceTicks.Add(resources[i].CustomTickTime, new List<int>() { 0, i });
             }
 
+            resourceTotalChanges.Add(resources[i].ResourceId, 0f);
         }
     }
 
@@ -167,6 +170,7 @@ public class ResourceManager : MonoBehaviour {
             for (int i = 1; i < resourceTick.Value.Count; i++) {
                 resources[resourceTick.Value[i]].Demand = GetResourceDemand((GameResource)resourceTick.Value[i]);
                 resources[resourceTick.Value[i]].Supply += resources[resourceTick.Value[i]].Demand / resourceTick.Key;
+                resourceTotalChanges[resources[resourceTick.Value[i]].ResourceId] += resources[resourceTick.Value[i]].Demand / resourceTick.Key;
             }
         }
 
@@ -181,6 +185,7 @@ public class ResourceManager : MonoBehaviour {
         // Change supply by demand
         resources[(int)_id].Demand = GetResourceDemand(_id);
         resources[(int)_id].Supply += resources[(int)_id].Demand;
+        resourceTotalChanges[resources[(int)_id].ResourceId] += resources[(int)_id].Demand;
     }
     
     public void AddResourceEntry(ResourceEntry _resourceEntry) {
@@ -244,7 +249,7 @@ public class ResourceManager : MonoBehaviour {
                 output += resourceEntries[i].Change;
             }
         }
-        return output;
+        return output + resourceTotalChanges[_id];
     }
 
     #endregion

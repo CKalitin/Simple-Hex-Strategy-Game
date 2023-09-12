@@ -347,7 +347,7 @@ MonoBehaviour:
   alwaysApplyCostResources: 00000000
   refundPercentage: 0.5
   fullRefundResources: 00000000
-  applyCost: 0
+  applyCost: 1
   upgrades: []
   tile: {fileID: 0}
   structureLocation: {fileID: 0}
@@ -369,8 +369,6 @@ MonoBehaviour:
   - bonusStructureID: 13
     bonusAmount: 5
   applyBonuses: 1
-  firstStructureResourceEntry: {fileID: 11400000, guid: c5e8e742ff5e272429039e12139def7e,
-    type: 2}
   unwalkableLocalPathfindingLocations:
   - {x: 2, y: 1}
   - {x: 2, y: 2}

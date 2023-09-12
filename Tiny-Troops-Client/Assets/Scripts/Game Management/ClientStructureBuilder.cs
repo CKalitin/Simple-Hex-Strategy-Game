@@ -174,7 +174,7 @@ public class ClientStructureBuilder : MonoBehaviour {
     public bool CanAffordStructure(int _playerID, StructureBuildInfo _structureBuildInfo) {
         bool output = true;
         for (int i = 0; i < _structureBuildInfo.Cost.Length; i++) {
-            if (_structureBuildInfo.Cost[i].Amount > ResourceManager.instances[_playerID].GetResource(_structureBuildInfo.Cost[i].Resource).Supply)
+            if (_structureBuildInfo.Cost[i].Amount > ServerResourceManager.instance.GetResource(_structureBuildInfo.Cost[i].Resource).Supply)
                 output = false;
         }
 

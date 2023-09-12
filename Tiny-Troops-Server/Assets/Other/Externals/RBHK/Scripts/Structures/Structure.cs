@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -203,9 +204,10 @@ public class Structure : MonoBehaviour {
         if (!applyCost) { AlwaysApplyCostResoucresRefund(); return; }
 
         for (int i = 0; i < costResourceEntries.Count; i++) {
-            if (applyFullRefunds && !dontApplyRefunds) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
-            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
-            else if (!dontApplyRefunds) costResourceEntries[i].Change = -Mathf.Abs(Mathf.Round(costResourceEntries[i].Change * refundPercentage));
+            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) { ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]); continue; }
+            if (dontApplyRefunds) continue;
+            if (applyFullRefunds) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
+            else ApplyPartialRefunds();
         }
     }
 
@@ -223,10 +225,25 @@ public class Structure : MonoBehaviour {
     private void AlwaysApplyCostResoucresRefund() {
         for (int i = 0; i < costResourceEntries.Count; i++) {
             if (!alwaysApplyCostResources.Contains(costResourceEntries[i].ResourceId)) continue;
-            if (applyFullRefunds && !dontApplyRefunds) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
-            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
-            else if (!dontApplyRefunds) costResourceEntries[i].Change = -Mathf.Abs(Mathf.Round(costResourceEntries[i].Change * refundPercentage));
+            
+            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) { ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]); continue; }
+            if (dontApplyRefunds) continue;
+            if (applyFullRefunds) ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]);
+            else ApplyPartialRefunds();
         }
+    }
+
+    private void ApplyPartialRefunds() {
+        for (int i = 0; i < costResourceEntries.Count; i++) {
+            if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) continue;
+            ResourceEntry re = ScriptableObject.CreateInstance<ResourceEntry>();
+            re.ResourceId = structureBuildInfo.Cost[i].Resource;
+            re.Change = Mathf.Abs(Mathf.Round(costResourceEntries[i].Change * refundPercentage));
+            re.ChangeOnTick = ResourceManager.instances[playerID].Resources[(int)structureBuildInfo.Cost[i].Resource].ChangeOnTickResource;
+            Debug.Log($"{re.ResourceId} {re.Change}");
+            ResourceManager.instances[playerID].AddResourceEntry(re);
+        }
+        costResourceEntries.Clear();
     }
 
     #endregion
