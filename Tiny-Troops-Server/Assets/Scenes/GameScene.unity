@@ -1164,6 +1164,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 96bbeb2c7905fb64a812fef72c286edf,
         type: 2}
+    - target: {fileID: 2763714619592498046, guid: cb578f7f2a42c5348afba16623239457,
+        type: 3}
+      propertyPath: attackTickTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4924313470513003408, guid: cb578f7f2a42c5348afba16623239457,
         type: 3}
       propertyPath: m_Name

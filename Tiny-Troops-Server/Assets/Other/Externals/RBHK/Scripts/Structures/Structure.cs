@@ -202,7 +202,7 @@ public class Structure : MonoBehaviour {
     public void RefundCost() {
         if (playerID < 0) return;
         if (!applyCost) { AlwaysApplyCostResoucresRefund(); return; }
-
+        
         for (int i = 0; i < costResourceEntries.Count; i++) {
             if (fullRefundResources.Contains(costResourceEntries[i].ResourceId)) { ResourceManager.instances[playerID].RemoveResourceEntry(costResourceEntries[i]); continue; }
             if (dontApplyRefunds) continue;
@@ -240,7 +240,7 @@ public class Structure : MonoBehaviour {
             re.ResourceId = structureBuildInfo.Cost[i].Resource;
             re.Change = Mathf.Abs(Mathf.Round(costResourceEntries[i].Change * refundPercentage));
             re.ChangeOnTick = ResourceManager.instances[playerID].Resources[(int)structureBuildInfo.Cost[i].Resource].ChangeOnTickResource;
-            Debug.Log($"{re.ResourceId} {re.Change}");
+            
             ResourceManager.instances[playerID].AddResourceEntry(re);
         }
         costResourceEntries.Clear();

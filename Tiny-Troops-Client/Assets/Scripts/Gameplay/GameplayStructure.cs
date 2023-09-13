@@ -203,7 +203,8 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     public void ToggleProduction(bool _toggle) {
-        if (_toggle) {
+        if (GetComponent<Structure>().ResourceEntries.Length <= 0) return;
+            if (_toggle) {
             if (bonuses.Length <= 0) ApplyBonuses();
             GetComponent<Structure>().ResourceEntries[0].Change = 0;
             productionEnabled = true;

@@ -156,9 +156,9 @@ public class TileSelector : MonoBehaviour {
     private void MoveUnits() {
         if (EventSystem.current.IsPointerOverGameObject()) return; // If cursor is over UI, return
         TileSelectorCollider newTile = GetTileUnderCursor();
-
+        
         if (newTile == null) return;
-        if (!PathfindingManager.instance.UnwalkableTileIds.Contains(newTile.Tile.TileInfo.TileId)) return;
+        if (PathfindingManager.instance.UnwalkableTileIds.Contains(newTile.Tile.TileInfo.TileId)) return;
 
         // System<func>, beautiful
         USNL.PacketSend.UnitPathfind(UnitSelector.instance.SelectedUnits.Select(x => x.Value.Script.UnitUUID).ToArray(), newTile.Tile.TileInfo.Location);

@@ -9,6 +9,8 @@ public class UnitAttackManager : MonoBehaviour {
     public static UnitAttackManager instance;
 
     [SerializeField] private float attackTickTime;
+    [Space]
+    [SerializeField] private float attackMultiplier = 0.1f;
 
     private float totalDeltaTime = 0;
     private int totalTicks;
@@ -113,7 +115,7 @@ public class UnitAttackManager : MonoBehaviour {
         PlayerTileUnitInfo defendingPlayer = tileAttackInfo[_location][_defendingPlayerID];
 
         if (attackingPlayer.UnitAttackDamage > 0) {
-            float damageToBeDealt = attackingPlayer.UnitAttackDamage;
+            float damageToBeDealt = attackingPlayer.UnitAttackDamage * attackMultiplier;
             
             for (int i = 0; i < defendingPlayer.Units.Count; i++) {
                 if (defendingPlayer.Units[i].Script.Health.CurrentHealth > damageToBeDealt / tileAttackInfo[_location].Keys.Count) {
@@ -142,7 +144,7 @@ public class UnitAttackManager : MonoBehaviour {
         }
         Debug.Log(locations);
         
-        TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].GetComponent<Health>().ChangeHealth(-Mathf.Abs(tileAttackInfo[_location][_attackingPlayerID].StructureAttackDamage));
+        TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].GetComponent<Health>().ChangeHealth(-Mathf.Abs(tileAttackInfo[_location][_attackingPlayerID].StructureAttackDamage * attackMultiplier));
 
         return true;
     }

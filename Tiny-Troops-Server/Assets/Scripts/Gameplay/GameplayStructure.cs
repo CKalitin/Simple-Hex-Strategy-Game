@@ -186,6 +186,7 @@ public class GameplayStructure : MonoBehaviour {
     }
 
     public void ToggleProduction(bool _toggle) {
+        if (firstStructureResourceEntry == null) return;
         if (_toggle) {
             if (bonusResourceEntries == null) ApplyBonuses();
             if (disabledResourceEntry != null) { 
