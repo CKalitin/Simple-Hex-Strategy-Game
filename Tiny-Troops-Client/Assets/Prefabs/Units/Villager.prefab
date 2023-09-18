@@ -131,7 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d9b36dc58101c468fa11c27a60f5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  pathdisplay: {fileID: 1947519015010356145, guid: e711d12cc5b3fba43a1ca14ac3282dea,
+    type: 3}
+  moveSpeed: 0.5
   lerpToLocationSpeed: 2
 --- !u!114 &-6602228601953336836
 MonoBehaviour:

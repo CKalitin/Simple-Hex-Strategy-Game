@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,10 +17,11 @@ public class PathfindingAgent : MonoBehaviour {
 
     private Vector3 startPos;
     private Vector3 targetPos;
+    private Vector3 nextPos; // After Target Pos
 
     private List<Vector2Int> path;
 
-    private float previousDistance = 999999999f;
+    private float currentLerp = 0f;
 
     private bool finishedMoving = true;
     private bool lerpingToLocation = false;
@@ -37,7 +37,7 @@ public class PathfindingAgent : MonoBehaviour {
 
     public Vector2Int GetTargetLocation() {
         if (path == null) return currentTile;
-        if (path.Count > 0) return path[path.Count - 1];
+        if (path.Count > 0) return PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[path.Count - 1])].Tile.Location;
         return currentTile;
     }
 
@@ -71,17 +71,26 @@ public class PathfindingAgent : MonoBehaviour {
     private void Move() {
         if (finishedMoving || lerpingToLocation) return;
 
-        Vector3 direction = transform.position + (targetPos - startPos).normalized;
-        direction.y = transform.position.y;
+        currentLerp = currentLerp + (moveSpeed * Time.deltaTime);
 
-        Vector3 newPos = Vector3.MoveTowards(transform.position, direction, moveSpeed * Time.deltaTime);
-        transform.position = newPos;
+        // Bezier
+        Vector3 lerp1 = Vector3.Lerp(startPos, targetPos, currentLerp);
+        Vector3 lerp2 = Vector3.Lerp(targetPos, nextPos, currentLerp);
+        transform.position = Vector3.Lerp(lerp1, lerp2, currentLerp);
 
-        if (Vector3.Distance(new Vector3(transform.position.x, targetPos.y, transform.position.z), targetPos) > previousDistance) ReachedTargetPos();
-        previousDistance = Vector3.Distance(new Vector3(transform.position.x, targetPos.y, transform.position.z), targetPos);
+        // Rotate to direction of movement
+        Vector3 nextFramePos = Vector3.Lerp(lerp1, lerp2, currentLerp + 0.05f);
+        Vector2 direction = new Vector2(nextFramePos.x, nextFramePos.z) - new Vector2(transform.position.x, transform.position.z);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+
+        if (path.Count <= 2 && currentLerp >= 1f) { path.RemoveAt(0); ReachedTargetPos(); } // Reached End - Don't set new lerp positions, there is no nextPos
+        else if (path.Count > 2 && currentLerp >= 0.5f) ReachedTargetPos(); // Reached half way through current lerp - Set new lerp positions
     }
 
     private void ReachedTargetPos() {
+        currentLerp = 0f;
+
         if (path == null) {
             finishedMoving = true;
             return;
@@ -104,6 +113,7 @@ public class PathfindingAgent : MonoBehaviour {
 
         startPos = transform.position;
         targetPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Radius);
+        nextPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[1])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[1])].Radius);
     }
 
     #endregion
@@ -113,7 +123,9 @@ public class PathfindingAgent : MonoBehaviour {
     public void PathfindToLocation(Vector2Int _targetLocation, List<Vector2Int> _path = null) {
         if (_path != null) path = _path;
         else path = PathfindingManager.FindPath(currentLocation, _targetLocation);
-        
+
+        currentLerp = 0f;
+
         // If there's nowhere to move
         if (path.Count <= 1) path = null;
         if (path == null) return;
@@ -123,12 +135,16 @@ public class PathfindingAgent : MonoBehaviour {
         startPos = transform.position;
         targetPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[0])].Radius);
 
-        previousDistance = 999999999f;
+        if (path.Count > 1) nextPos = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[1])].transform.position + GetNextRandomLocation(PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[1])].Radius);
+        else nextPos = targetPos;
+
         finishedMoving = false;
     }
 
-    public void SetLocation(Vector2Int _location, Vector2 _pos) {
+    public void SetLocation(Vector2Int _location, Vector3 _pos) {
         if (_location == currentLocation) return;
+
+        currentLerp = 0f;
 
         lerpingToLocation = true;
 
@@ -140,8 +156,7 @@ public class PathfindingAgent : MonoBehaviour {
 
         startPos = _pos;
         targetPos = _pos;
-
-        previousDistance = 999999999f;
+        nextPos = _pos;
 
         StartCoroutine(LerpToLocation(_pos));
     }
