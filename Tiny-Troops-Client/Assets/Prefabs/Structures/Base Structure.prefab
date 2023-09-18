@@ -330,7 +330,6 @@ MonoBehaviour:
   applyRefunds: 0
   bonuses: []
   applyBonuses: 0
-  firstStructureResourceEntry: {fileID: 0}
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 0, y: 2}
@@ -349,8 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 300
+  currentHealth: 300
   destroyOnZeroHealth: 0
 --- !u!114 &-3878998981170105245
 MonoBehaviour:

@@ -175,25 +175,17 @@ public class GameController : MonoBehaviour {
     }
 
     private void CheckGameCompleted() {
-        List<Structure> playerBases = new List<Structure>();
-        
-        // Loop through all tiles and find Bases
-        foreach (TileInfo tile in TileManagement.instance.GetTiles.Values) {
-            if (tile.Tile.Structures.Count <= 0) continue;
-            if (!tile.Tile.Structures[0].GetComponent<PlayerBase>()) continue;
-            
-            bool playerAlreadyAdded = false;
-            for (int i = 0; i < playerBases.Count; i++) {
-                if (tile.Tile.Structures[0].PlayerID == playerBases[i].PlayerID) playerAlreadyAdded = true;
-            }
-            if (!playerAlreadyAdded) playerBases.Add(tile.Tile.Structures[0]);
-        }
+        PlayerBase[] playerBases = FindObjectsOfType<PlayerBase>();
+        int playerBasesCount = playerBases.Length;
 
-        if (playerBases.Count == 1) {
-            winnerPlayerID = playerBases[0].PlayerID;
+        for (int i = 0; i < playerBases.Length; i++)
+            if (!ServerManager.instance.GetClientConnected(playerBases[i].GetComponent<Structure>().PlayerID)) playerBasesCount -= 1;
+        
+        if (playerBasesCount == 1) {
+            winnerPlayerID = playerBases[0].GetComponent<Structure>().PlayerID;
             USNL.PacketSend.GameEnded(WinnerPlayerID);
             MatchManager.instance.ChangeMatchState(MatchState.Ended);
-        } else if (playerBases.Count <= 0){
+        } else if (playerBasesCount <= 0){
             winnerPlayerID = -1;
             USNL.PacketSend.GameEnded(WinnerPlayerID);
             MatchManager.instance.ChangeMatchState(MatchState.Ended);

@@ -60,6 +60,7 @@ public class ProjectileStructure : MonoBehaviour {
         float closestDistance = Vector2Int.Distance(Location, closestUnit.Location);
 
         for (int i = 1; i < units.Count; i++) {
+            if (units[i].gameObject == null) continue;
             float distance = Vector2Int.Distance(Location, units[i].Location);
             if (distance < closestDistance) {
                 closestUnit = units[i];

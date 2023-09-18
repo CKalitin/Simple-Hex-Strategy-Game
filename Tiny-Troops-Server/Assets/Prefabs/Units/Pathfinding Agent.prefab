@@ -148,7 +148,7 @@ MonoBehaviour:
   unitAttackDamage: 3
   structureAttackDamage: 3
   attackPriority: 0
-  trainingTime: 0.1
+  trainingTime: 3
   unitCost:
   - resource: 1
     amount: 10

@@ -207,6 +207,11 @@ public class ResourceManager : MonoBehaviour {
         if (OnResourcesChanged != null) OnResourcesChanged(playerId);
     }
 
+    public void ChangeResource(GameResource _id, float _change) {
+        resources[(int)_id].Supply += _change;
+        resourceTotalChanges[resources[(int)_id].ResourceId] += _change;
+    }
+
     public Resource GetResource(GameResource _resourceID) {
         // Loop through resources and find resource that matches parameter id
         for (int i = 0; i < resources.Length; i++) {

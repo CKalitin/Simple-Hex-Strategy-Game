@@ -81,6 +81,7 @@ public class ProjectileStructure : MonoBehaviour {
         float closestDistance = Vector3.Distance(transform.position, closestUnit.transform.position);
 
         for (int i = 1; i < units.Count; i++) {
+            if (units[i].gameObject == null) continue;
             float distance = Vector3.Distance(transform.position, units[i].transform.position);
             if (distance < closestDistance) {
                 closestUnit = units[i];

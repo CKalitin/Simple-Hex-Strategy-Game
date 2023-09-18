@@ -250,8 +250,6 @@ MonoBehaviour:
   - bonusStructureID: 14
     bonusAmount: 1
   applyBonuses: 1
-  firstStructureResourceEntry: {fileID: 11400000, guid: 6eb320851db94ae41852914e88f7c366,
-    type: 2}
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 0, y: 2}
@@ -268,8 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 175
+  currentHealth: 175
   destroyOnZeroHealth: 0
 --- !u!1 &4081990468175112950
 GameObject:

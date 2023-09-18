@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour {
 
     public delegate void GameInitializedCallback();
     public static event GameInitializedCallback OnGameInitialized;
-
+    
     public Color PositiveColor { get => positiveColor; set => positiveColor = value; }
     public Color NegativeColor { get => negativeColor; set => negativeColor = value; }
     public int WinnerPlayerID { get => winnerPlayerID; set => winnerPlayerID = value; }
@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour {
     private void Awake() {
         Application.runInBackground = true;
         Singleton();
-        //Debug.LogError("Opened Console.");
+        Debug.LogError("Opened Console.");
     }
 
     private void Singleton() {

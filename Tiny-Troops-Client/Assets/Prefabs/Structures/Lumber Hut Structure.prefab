@@ -169,8 +169,6 @@ MonoBehaviour:
   - bonusStructureID: 12
     bonusAmount: 2
   applyBonuses: 1
-  firstStructureResourceEntry: {fileID: 11400000, guid: 183d0b25026430548affec89de8ba676,
-    type: 2}
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 1}
@@ -190,8 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 175
+  currentHealth: 175
   destroyOnZeroHealth: 0
 --- !u!1001 &482246564137131730
 PrefabInstance:

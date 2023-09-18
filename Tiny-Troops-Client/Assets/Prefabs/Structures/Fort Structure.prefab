@@ -245,8 +245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 175
+  currentHealth: 175
   destroyOnZeroHealth: 0
 --- !u!114 &5208597502684714913
 MonoBehaviour:
@@ -266,6 +266,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3059500297712122763, guid: 40bd32bdc4eaf0545a58de7171d38fde,
     type: 3}
   projectileSpawnPos: {fileID: 551736770401577662}
+  pos: {x: 0, y: 0}
 --- !u!1 &4831136151569201934
 GameObject:
   m_ObjectHideFlags: 0
