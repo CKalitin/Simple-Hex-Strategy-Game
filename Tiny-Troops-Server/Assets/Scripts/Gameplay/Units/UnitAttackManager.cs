@@ -135,14 +135,6 @@ public class UnitAttackManager : MonoBehaviour {
     private bool AttackStructureOnTile(Vector2Int _location, int _attackingPlayerID) {
         if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures.Count <= 0) return false;
         if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].PlayerID == _attackingPlayerID) return false;
-        Debug.Log(_location);
-
-        // Print tileattackinfo locations in one line
-        string locations = "";
-        foreach (Vector2Int location in tileAttackInfo.Keys) {
-            locations += location + ", ";
-        }
-        Debug.Log(locations);
         
         TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].GetComponent<Health>().ChangeHealth(-Mathf.Abs(tileAttackInfo[_location][_attackingPlayerID].StructureAttackDamage * attackMultiplier));
 

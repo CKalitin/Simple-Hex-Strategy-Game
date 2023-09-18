@@ -83,6 +83,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4219757640377503616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 551736770401577662}
+  m_Layer: 0
+  m_Name: Projectile Spawn Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &551736770401577662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4219757640377503616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4831136151368802487}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4831136151368802486
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +128,7 @@ GameObject:
   - component: {fileID: 1817041810881419730}
   - component: {fileID: 37396839225699100}
   - component: {fileID: 5676230866130057859}
+  - component: {fileID: 5208597502684714913}
   m_Layer: 0
   m_Name: Fort Structure
   m_TagString: Untagged
@@ -124,6 +156,7 @@ Transform:
   - {fileID: 4831136152244975336}
   - {fileID: 7125961298654629256}
   - {fileID: 2687372111521834168}
+  - {fileID: 551736770401577662}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -167,7 +200,6 @@ MonoBehaviour:
   applyRefunds: 0
   bonuses: []
   applyBonuses: 0
-  firstStructureResourceEntry: {fileID: 0}
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 2}
@@ -216,6 +248,24 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   destroyOnZeroHealth: 0
+--- !u!114 &5208597502684714913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831136151368802486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 175d330c8b37ec144af980d51c0788fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRate: 1.5
+  attackTime: 0.5
+  attackDamage: 40
+  projectilePrefab: {fileID: 3059500297712122763, guid: 40bd32bdc4eaf0545a58de7171d38fde,
+    type: 3}
+  projectileSpawnPos: {fileID: 551736770401577662}
 --- !u!1 &4831136151569201934
 GameObject:
   m_ObjectHideFlags: 0

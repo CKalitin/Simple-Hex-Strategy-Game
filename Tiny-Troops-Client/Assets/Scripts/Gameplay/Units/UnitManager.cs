@@ -154,7 +154,7 @@ public class UnitManager : MonoBehaviour {
             units[packet.UnitUUIDs[i]].GameObject.GetComponent<PathfindingAgent>().PathfindToLocation(Vector2Int.RoundToInt(packet.TargetTileLocation), new List<Vector2Int>(path));
         }
 
-        if (packetPlayerID >= 0) StartCoroutine(HighlightPath(path));
+        if (packetPlayerID == MatchManager.instance.PlayerID) StartCoroutine(HighlightPath(path));
     }
 
     private void OnSetUnitLocationPacket(object _packetObject) {

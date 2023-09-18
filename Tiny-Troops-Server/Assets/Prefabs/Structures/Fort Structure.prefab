@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 6338126397553229452}
   - component: {fileID: 7002246127423196202}
   - component: {fileID: -3670653844062473235}
+  - component: {fileID: -2776635230838289571}
   m_Layer: 0
   m_Name: Fort Structure
   m_TagString: Untagged
@@ -211,6 +212,21 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   destroyOnZeroHealth: 0
+--- !u!114 &-2776635230838289571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831136151368802486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba61f6858c162ff45a6a0b5b3cf377ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRate: 1.5
+  attackTime: 0.5
+  attackDamage: 40
 --- !u!1 &4831136151569201934
 GameObject:
   m_ObjectHideFlags: 0

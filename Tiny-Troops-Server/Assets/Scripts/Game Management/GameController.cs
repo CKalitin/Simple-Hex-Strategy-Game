@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
     #region Core
 
     private void Awake() {
-        //Debug.LogError("Opened Console.");
+        Debug.LogError("Opened Console.");
 
         if (instance == null) instance = this;
         else {

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Resources;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Structure : MonoBehaviour {
@@ -30,7 +28,7 @@ public class Structure : MonoBehaviour {
     [Tooltip("This field always has to be set, the first upgrade is what's used to initialize the resourceEntries.")]
     [SerializeField] private StructureUpgrade[] upgrades;
 
-    [Tooltip("This is only public so you can see the value, changing it won't do anything.\nbtw hey there future chris")]
+    [Tooltip("This is only public so you can see the value, changing it won't do anything.\nbtw hey there future chris - past chris was a dumbass")]
     private int upgradeIndex = 0;
 
     [Header("Other")]
