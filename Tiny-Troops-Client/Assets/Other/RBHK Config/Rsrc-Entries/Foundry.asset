@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceId: 3
   resourceEntryIds: 03000000
-  change: 3
+  change: 2
   changeOnTick: 1

@@ -1520,16 +1520,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1739090086}
     m_Modifications:
-    - target: {fileID: 728522873075061224, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0d83541259b663348b36ff4076d97f0e,
-        type: 3}
-    - target: {fileID: 969604397330926131, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 6744781842880942, guid: 01ede25dd39f1ff4299c2dfa4c448e74, type: 3}
+      propertyPath: m_text
+      value: '25
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 1879211017045321074, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
         type: 3}
@@ -1640,90 +1635,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Game UI Parent
-      objectReference: {fileID: 0}
-    - target: {fileID: 2370401645678372325, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2781800737525496489, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5116116414935195312, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508154189491592464, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: cantAffordParent
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508154189491592464, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: structureBuildInfo
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5842432588656069769, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_text
-      value: Village
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018918613111951294, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0d83541259b663348b36ff4076d97f0e,
-        type: 3}
-    - target: {fileID: 6057702781772965876, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6846369255306370674, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6846369255442980835, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7518538465774896539, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7556753168568237216, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8426369787207457559, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 18ba48f38c7bc5e4caa533837816fb32,
-        type: 3}
-    - target: {fileID: 8426369787211576724, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 10f34fe8f45dafe45b80f2bc299b2231,
-        type: 3}
-    - target: {fileID: 8426369787552616341, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0bdb36a83040e18418b85f84af85915d,
-        type: 3}
-    - target: {fileID: 8679620294653976153, guid: 01ede25dd39f1ff4299c2dfa4c448e74,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ede25dd39f1ff4299c2dfa4c448e74, type: 3}

@@ -171,7 +171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonuses:
   - bonusStructureID: 12
-    bonusAmount: 2
+    bonusAmount: 1
+  - bonusStructureID: 9
+    bonusAmount: 1
   applyBonuses: 1
   unwalkableLocalPathfindingLocations:
   - {x: 1, y: 1}

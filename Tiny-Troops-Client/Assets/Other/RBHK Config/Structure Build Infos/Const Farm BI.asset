@@ -21,4 +21,4 @@ MonoBehaviour:
   - resource: 0
     amount: 10
   - resource: 2
-    amount: 50
+    amount: 100

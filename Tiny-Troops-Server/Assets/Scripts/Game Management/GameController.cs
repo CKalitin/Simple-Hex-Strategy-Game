@@ -175,6 +175,8 @@ public class GameController : MonoBehaviour {
     }
 
     private void CheckGameCompleted() {
+        if (ServerManager.GetNumberOfConnectedClients() == 1) return;
+
         PlayerBase[] playerBases = FindObjectsOfType<PlayerBase>();
         int playerBasesCount = playerBases.Length;
 

@@ -153,7 +153,7 @@ MonoBehaviour:
   unitDisplayName: Infantry
   unitCost:
   - resource: 1
-    amount: 10
+    amount: 25
   selectedIndicator: {fileID: 1478261029944141374}
   health: {fileID: -6602228601953336836}
   playerID: 0

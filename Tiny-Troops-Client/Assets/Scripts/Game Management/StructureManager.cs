@@ -49,10 +49,9 @@ public class StructureManager : MonoBehaviour {
     }
 
     public void RemoveGameplayStructure(Vector2Int _location, GameplayStructure _gameplayStructure) {
-        if (gameplayStructures[_location].Count > 1)
-            gameplayStructures[_location].Remove(_gameplayStructure);
-        else
-            gameplayStructures.Remove(_location);
+        if (!gameplayStructures.ContainsKey(_location)) return;
+        if (gameplayStructures[_location].Count > 1) gameplayStructures[_location].Remove(_gameplayStructure);
+        else gameplayStructures.Remove(_location);
     }
 
     private void OnStructureActionPacket(object _packetObject) {

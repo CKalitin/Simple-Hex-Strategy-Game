@@ -249,6 +249,8 @@ MonoBehaviour:
   bonuses:
   - bonusStructureID: 14
     bonusAmount: 1
+  - bonusStructureID: 6
+    bonusAmount: 1
   applyBonuses: 1
   structureUI: {fileID: 0}
   unwalkableLocalPathfindingLocations:

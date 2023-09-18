@@ -105,7 +105,7 @@ public class UnitSpawner : MonoBehaviour {
 
     private void ApplyUnitCosts(int _playerID, RBHKCost[] costs) {
         for (int i = 0; i < costs.Length; i++) {
-            ResourceManager.instances[_playerID].ChangeResource(costs[i].Resource, costs[i].Amount);//.GetResource(costs[i].Resource).Supply -= costs[i].Amount;
+            ResourceManager.instances[_playerID].ChangeResource(costs[i].Resource, -costs[i].Amount);//.GetResource(costs[i].Resource).Supply -= costs[i].Amount;
         }
         GameController.instance.SendResourcesPacketToAllClients();
     }

@@ -151,7 +151,7 @@ MonoBehaviour:
   trainingTime: 3
   unitCost:
   - resource: 1
-    amount: 10
+    amount: 25
   selectedIndicator: {fileID: 1478261029944141374}
   health: {fileID: -7539501487356079522}
   playerID: 0
