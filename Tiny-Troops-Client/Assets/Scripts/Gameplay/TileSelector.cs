@@ -142,6 +142,8 @@ public class TileSelector : MonoBehaviour {
             if (select) SelectUnit(selectedUnitUUIDs[i]);
             else DeselectUnit(selectedUnitUUIDs[i]);
         }
+
+        UnitSelector.instance.UpdateSelectedUnitsByID();
     }
 
     private void DeselectAllUnits() {
@@ -150,7 +152,8 @@ public class TileSelector : MonoBehaviour {
         }
         UnitSelector.instance.SelectedUnits = new Dictionary<int, UnitInfo>();
         
-        if (SelectTroopsSlider.instance != null) SelectTroopsSlider.instance.SelectedUnits.Clear();
+        for (int i = 0; i < SelectTroopsSlider.instances.Count; i++) SelectTroopsSlider.instances[i].SelectedUnits.Clear();
+        UnitSelector.instance.UpdateSelectedUnitsByID();
     }
 
     private void MoveUnits() {
@@ -179,7 +182,7 @@ public class TileSelector : MonoBehaviour {
         UnitSelector.instance.SelectedUnits[_unitUUID].Script.ToggleSelectedIndicator(false);
         UnitSelector.instance.SelectedUnits.Remove(_unitUUID);
         
-        SelectTroopsSlider.instance.UnitDeselected(_unitUUID);
+        for (int i = 0; i < SelectTroopsSlider.instances.Count; i++) SelectTroopsSlider.instances[i].UnitDeselected(_unitUUID);
     }
     
     private TileSelectorCollider GetTileUnderCursor() {

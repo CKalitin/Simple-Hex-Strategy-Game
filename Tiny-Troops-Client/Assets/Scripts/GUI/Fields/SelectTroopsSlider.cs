@@ -6,8 +6,10 @@ using TMPro;
 using System.Linq;
 
 public class SelectTroopsSlider : MonoBehaviour {
-    public static SelectTroopsSlider instance;
+    public static List<SelectTroopsSlider> instances = new List<SelectTroopsSlider>();
 
+    [SerializeField] private int unitID;
+    [Space]
     [SerializeField] private Slider troopsSlider;
     [SerializeField] private TextMeshProUGUI selectedUnitsText;
 
@@ -25,24 +27,27 @@ public class SelectTroopsSlider : MonoBehaviour {
     }
 
     private void Singleton() {
-        if (instance == null) {
-            instance = this;
-        } else {
-            Debug.Log($"Select Troops Slider instance already exists on ({gameObject}), destroying this.", gameObject);
-            Destroy(this);
-        }
+        instances.Add(this);
+    }
+
+    private void OnDestroy() {
+        instances.Remove(this);
     }
 
     private void Update() {
-        troopsSlider.maxValue = UnitSelector.instance.SelectedUnits.Count;
-        selectedUnitsText.text = selectedUnits.Count + "/" + UnitSelector.instance.SelectedUnits.Count;
+        troopsSlider.maxValue = UnitSelector.instance.SelectedUnitsById[unitID].Count;
+        selectedUnitsText.text = selectedUnits.Count + "/" + UnitSelector.instance.SelectedUnitsById[unitID].Count;
     }
 
-    public void SplitButtonPressed() {
+    public void SplitButtonPressed(bool _recursive) {
         DeselectAllUnits();
 
         for (int i = 0; i < selectedUnits.Count; i++) {
             SelectUnit(selectedUnits[i]);
+        }
+        
+        if (_recursive) {
+            for (int i = 0; i < instances.Count; i++) if (instances[i] != this) instances[i].SplitButtonPressed(false);
         }
     }
 
@@ -55,7 +60,7 @@ public class SelectTroopsSlider : MonoBehaviour {
     }
 
     private void SelectMoreUnits(int _more) {
-        List<int> availableUnits = UnitSelector.instance.SelectedUnits.Select(x => x.Key).ToList();
+        List<int> availableUnits = UnitSelector.instance.SelectedUnitsById[unitID].Select(x => x.Key).ToList();
 
         for (int i = 0; i < selectedUnits.Count; i++) availableUnits.Remove(selectedUnits[i]);
 
@@ -69,16 +74,18 @@ public class SelectTroopsSlider : MonoBehaviour {
         }
     }
     private void SelectUnit(int _unitUUID) {
-        if (UnitSelector.instance.SelectedUnits.ContainsKey(_unitUUID)) return;
+        if (UnitSelector.instance.SelectedUnitsById[unitID].ContainsKey(_unitUUID)) return;
+        UnitSelector.instance.SelectedUnitsById[unitID].Add(_unitUUID, UnitManager.instance.Units[_unitUUID]);
         UnitSelector.instance.SelectedUnits.Add(_unitUUID, UnitManager.instance.Units[_unitUUID]);
-        UnitSelector.instance.SelectedUnits[_unitUUID].Script.ToggleSelectedIndicator(true);
+        UnitSelector.instance.SelectedUnitsById[unitID][_unitUUID].Script.ToggleSelectedIndicator(true);
     }
 
     private void DeselectAllUnits() {
-        foreach (KeyValuePair<int, UnitInfo> unit in UnitSelector.instance.SelectedUnits) {
-            UnitSelector.instance.SelectedUnits[unit.Key].Script.ToggleSelectedIndicator(false);
+        foreach (KeyValuePair<int, UnitInfo> unit in UnitSelector.instance.SelectedUnitsById[unitID]) {
+            UnitSelector.instance.SelectedUnitsById[unitID][unit.Key].Script.ToggleSelectedIndicator(false);
+            UnitSelector.instance.SelectedUnits.Remove(unit.Key);
         }
-        UnitSelector.instance.SelectedUnits = new Dictionary<int, UnitInfo>();
+        UnitSelector.instance.SelectedUnitsById[unitID] = new Dictionary<int, UnitInfo>();
     }
 
     public void UnitDeselected(int _unitUUID) {

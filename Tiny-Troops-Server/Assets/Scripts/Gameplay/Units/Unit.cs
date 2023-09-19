@@ -12,6 +12,8 @@ public enum AttackPriority {
 public class Unit : MonoBehaviour {
     #region Variables
 
+    [SerializeField] private int unitID;
+
     [Header("Attack")]
     [SerializeField] private float unitAttackDamage;
     [SerializeField] private float structureAttackDamage;
@@ -39,6 +41,7 @@ public class Unit : MonoBehaviour {
     private bool previousFinishedMoving = true;
     private float previousHealth = -1f; // This is -1 so on the first Update() it gets updated
 
+    public int UnitID { get => unitID; set => unitID = value; }
     public float UnitAttackDamage { get => unitAttackDamage; set => unitAttackDamage = value; }
     public float StructureAttackDamage { get => structureAttackDamage; set => structureAttackDamage = value; }
     public AttackPriority AttackPriority { get => attackPriority; set => attackPriority = value; }

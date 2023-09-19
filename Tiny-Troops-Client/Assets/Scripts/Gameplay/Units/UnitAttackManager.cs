@@ -30,7 +30,7 @@ public class UnitAttackManager : MonoBehaviour {
         private float totalStructureAttackDamage;
 
         public PlayerUnitInfo() {
-            numUnitsByType = new List<int>() { 0, 0 };
+            numUnitsByType = new List<int>() { 0, 0, 0, 0 };
         }
 
         public List<int> NumUnitsByType { get => numUnitsByType; set => numUnitsByType = value; }
@@ -209,14 +209,14 @@ public class UnitAttackManager : MonoBehaviour {
             tileAttackInfo[location][unit.PlayerID].TotalCurrentHealth += unit.Script.Health.CurrentHealth;
             tileAttackInfo[location][unit.PlayerID].TotalMaxHealth += unit.Script.Health.CurrentHealth;
 
-            playerUnitInfos[unit.PlayerID].NumUnitsByType[0]++;
+            playerUnitInfos[unit.PlayerID].NumUnitsByType[unit.Script.UnitID]++;
             playerUnitInfos[unit.PlayerID].TotalUnitAttackDamage += unit.Script.UnitAttackDamage;
             playerUnitInfos[unit.PlayerID].TotalStructureAttackDamage += unit.Script.StructureAttackDamage;
             playerUnitInfos[unit.PlayerID].TotalMaxHealth += unit.Script.GetComponent<Health>().MaxHealth;
             playerUnitInfos[unit.PlayerID].TotalCurrentHealth += unit.Script.GetComponent<Health>().CurrentHealth;
 
             if (UnitSelector.instance.SelectedUnits.ContainsKey(unit.Script.UnitUUID)) {
-                playerSelectedUnitInfo.NumUnitsByType[0]++;
+                playerSelectedUnitInfo.NumUnitsByType[unit.Script.UnitID]++;
                 playerSelectedUnitInfo.TotalUnitAttackDamage += unit.Script.UnitAttackDamage;
                 playerSelectedUnitInfo.TotalStructureAttackDamage += unit.Script.StructureAttackDamage;
                 playerSelectedUnitInfo.TotalMaxHealth += unit.Script.GetComponent<Health>().MaxHealth;
