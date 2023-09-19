@@ -22,6 +22,8 @@ public class ResourceManager : MonoBehaviour {
     [Space]
     [Tooltip("This updates resource between ticks so the player gains resources at a smooth rate.")]
     [SerializeField] private bool continuouslyUpdateResources;
+    [Space]
+    [SerializeField] private int resourceLimit = 9999;
 
     public delegate void ResourcesChangedCallback(int playerID);
     public static event ResourcesChangedCallback OnResourcesChanged;
@@ -171,6 +173,7 @@ public class ResourceManager : MonoBehaviour {
                 resources[resourceTick.Value[i]].Demand = GetResourceDemand((GameResource)resourceTick.Value[i]);
                 resources[resourceTick.Value[i]].Supply += resources[resourceTick.Value[i]].Demand / resourceTick.Key;
                 resourceTotalChanges[resources[resourceTick.Value[i]].ResourceId] += resources[resourceTick.Value[i]].Demand / resourceTick.Key;
+                ClampResources();
             }
         }
 
@@ -186,6 +189,7 @@ public class ResourceManager : MonoBehaviour {
         resources[(int)_id].Demand = GetResourceDemand(_id);
         resources[(int)_id].Supply += resources[(int)_id].Demand;
         resourceTotalChanges[resources[(int)_id].ResourceId] += resources[(int)_id].Demand;
+        ClampResources();
     }
 
     public void AddResourceEntry(ResourceEntry _resourceEntry) {
@@ -210,6 +214,7 @@ public class ResourceManager : MonoBehaviour {
     public void ChangeResource(GameResource _id, float _change) {
         resources[(int)_id].Supply += _change;
         resourceTotalChanges[resources[(int)_id].ResourceId] += _change;
+        ClampResources();
     }
 
     public Resource GetResource(GameResource _resourceID) {
@@ -230,7 +235,7 @@ public class ResourceManager : MonoBehaviour {
             resources[i].Supply = 0;
             resources[i].Demand = 0;
         }
-        
+
         resourceTotalChanges.Clear();
         for (int i = 0; i < resources.Length; i++) {
             resourceTotalChanges.Add(resources[i].ResourceId, 0f);
@@ -260,6 +265,12 @@ public class ResourceManager : MonoBehaviour {
             }
         }
         return output + resourceTotalChanges[_id];
+    }
+
+    private void ClampResources() {
+        for (int i = 0; i < resources.Length; i++) {
+            resources[i].Supply = Mathf.Clamp(resources[i].Supply, -resourceLimit, resourceLimit);
+        }
     }
 
     #endregion

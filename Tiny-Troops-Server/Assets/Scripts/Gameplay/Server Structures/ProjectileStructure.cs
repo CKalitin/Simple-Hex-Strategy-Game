@@ -7,7 +7,7 @@ public class ProjectileStructure : MonoBehaviour {
 
     [Header("Config")]
     [SerializeField] private float attackRate = 2.5f;
-    [Header("How long a single attack takes. The time from projectile shot to hit.")]
+    [Tooltip("How long a single attack takes. The time from projectile shot to hit.")]
     [SerializeField] private float attackTime = 0.75f;
     [SerializeField] private float attackDamage = 40f;
 

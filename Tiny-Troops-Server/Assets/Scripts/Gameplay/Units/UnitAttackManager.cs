@@ -134,6 +134,7 @@ public class UnitAttackManager : MonoBehaviour {
     // The client doesn't attack, but it needs to know if an attack is possible so the player can see it
     private bool AttackStructureOnTile(Vector2Int _location, int _attackingPlayerID) {
         if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures.Count <= 0) return false;
+        if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].PlayerID < 0) return false;
         if (TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].PlayerID == _attackingPlayerID) return false;
         
         TileManagement.instance.GetTileAtLocation(_location).Tile.Structures[0].GetComponent<Health>().ChangeHealth(-Mathf.Abs(tileAttackInfo[_location][_attackingPlayerID].StructureAttackDamage * attackMultiplier));

@@ -27,15 +27,22 @@ public class TrainUnitButton : MonoBehaviour {
     public void OnButtonDown() {
         if (clientUnitSpawner == null) clientUnitSpawner = structureUI.ClientUnitSpawner;
 
-        if (CanAffordCosts(MatchManager.instance.PlayerID, UnitManager.instance.UnitPrefabs[unitID].GetComponent<Unit>().UnitCost))
+        if (CanAffordCosts(MatchManager.instance.PlayerID, UnitManager.instance.UnitPrefabs[unitID].GetComponent<Unit>().UnitCost)) {
             clientUnitSpawner.AddUnitToQuene(unitID);
+            if (Input.GetKey(KeyCode.LeftControl)) for (int i = 0; i < 9; i++) clientUnitSpawner.AddUnitToQuene(unitID);
+        }
     }
     
     public bool CanAffordCosts(int _playerID, RBHKCost[] costs) {
         bool output = true;
-        for (int i = 0; i < costs.Length; i++) {
-            if (costs[i].Amount > ResourceManager.instances[_playerID].GetResource(costs[i].Resource).Supply)
-                output = false;
+        if (Input.GetKey(KeyCode.LeftControl)) {
+            for (int i = 0; i < costs.Length; i++) {
+                if (costs[i].Amount * 10 > ResourceManager.instances[_playerID].GetResource(costs[i].Resource).Supply) output = false;
+            }
+        } else {
+            for (int i = 0; i < costs.Length; i++) {
+                if (costs[i].Amount > ResourceManager.instances[_playerID].GetResource(costs[i].Resource).Supply) output = false;
+            }
         }
 
         return output;

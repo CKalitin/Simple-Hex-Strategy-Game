@@ -94,9 +94,10 @@ GameObject:
   - component: {fileID: 2216679837717455194}
   - component: {fileID: 2216679837717455193}
   - component: {fileID: 323771522811961258}
-  - component: {fileID: -7539501487356079522}
+  - component: {fileID: -6602228601953336836}
+  - component: {fileID: -6100662684395327438}
   m_Layer: 0
-  m_Name: Pathfinding Agent
+  m_Name: Grenadier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.5
-  lerpToLocationSpeed: 2
+  lerpToLocationSpeed: 1
 --- !u!114 &323771522811961258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,18 +146,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750816017e4dd6a46836ae92743f59b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttackDamage: 3
-  structureAttackDamage: 3
+  unitAttackDamage: 6
+  structureAttackDamage: 6
   attackPriority: 0
-  trainingTime: 3
+  trainingTime: 5
+  unitDisplayName: Grenadier
   unitCost:
   - resource: 1
     amount: 25
+  - resource: 3
+    amount: 10
   selectedIndicator: {fileID: 1478261029944141374}
-  health: {fileID: -7539501487356079522}
+  health: {fileID: -6602228601953336836}
   playerID: 0
   randomSeed: 0
---- !u!114 &-7539501487356079522
+--- !u!114 &-6602228601953336836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,12 +169,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 2216679837717455195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ead6534f487291148ae4a5d0eefeafff, type: 3}
+  m_Script: {fileID: 11500000, guid: 8af42d17a59d14d4292144c6ba753aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
   currentHealth: 20
-  destroyOnZeroHealth: 0
+  destroyOnZeroHealth: 1
+--- !u!114 &-6100662684395327438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2216679837717455195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0200800016befdf449eb0e8d603c66f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 2216679837849901796}
+  unit: {fileID: 323771522811961258}
 --- !u!1 &2216679837849901799
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2813467912831258332, guid: 40942c1872140f54bbe7b0a5810a0a4c, type: 3}
+  - {fileID: 2100000, guid: 8c42033a67cd5a44799e9d5d101150b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
