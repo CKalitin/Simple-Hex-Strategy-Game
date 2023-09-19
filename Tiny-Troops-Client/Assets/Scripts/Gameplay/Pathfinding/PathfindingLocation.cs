@@ -24,7 +24,7 @@ public class PathfindingLocation : MonoBehaviour {
     private void Start() {
         pathfindingLocation = PathfindingManager.AddPathfindingLocationToMap(localLocation, tile.Location, (int)tile.TileId, this);
 
-        location = PathfindingManager.PathfindingLocationToRBHKLocation(pathfindingLocation);
+        location = pathfindingLocation;
     }
 
     public void OnDestroy() {

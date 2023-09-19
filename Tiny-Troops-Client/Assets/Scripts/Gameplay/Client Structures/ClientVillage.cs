@@ -144,14 +144,14 @@ public class ClientVillage : MonoBehaviour {
         path.RemoveAt(0);
 
         for (int i = 0; i < path.Count; i++) {
-            PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[i])].GetComponent<PathfindingLocationHighlight>().Highlight.SetActive(true);
+            PathfindingManager.instance.PathfindingLocationsMap[path[i]].GetComponent<PathfindingLocationHighlight>().Highlight.SetActive(true);
             yield return new WaitForSeconds(delayBetweenTileHighlights);
         }
 
         yield return new WaitForSeconds(tileHighlightTime);
 
         for (int i = 0; i < path.Count; i++) {
-            PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[i])].GetComponent<PathfindingLocationHighlight>().Highlight.SetActive(false);
+            PathfindingManager.instance.PathfindingLocationsMap[path[i]].GetComponent<PathfindingLocationHighlight>().Highlight.SetActive(false);
             yield return new WaitForSeconds(delayBetweenTileHighlights);
         }
     }

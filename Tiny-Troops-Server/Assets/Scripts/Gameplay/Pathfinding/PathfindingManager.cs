@@ -42,22 +42,31 @@ public class PathfindingManager : MonoBehaviour {
 
     /** find a path in hexagonal grid tilemaps (when grid rows are staggered with each other) **/
     public static List<Vector2Int> FindPath(Vector2Int from, Vector2Int to) {
-        from = RBHKLocationToPathfindingLocation(from);
-        to = RBHKLocationToPathfindingLocation(to);
+        //from = RBHKLocationToPathfindingLocation(from);
+        //to = RBHKLocationToPathfindingLocation(to);
 
         Func<Vector2Int, Vector2Int, float> getDistance = delegate (Vector2Int a, Vector2Int b) {
             float xDistance = Mathf.Abs(a.x - b.x);
             float yDistance = Mathf.Abs(a.y - b.y) * Mathf.Sqrt(3);
+            //Debug.Log(xDistance * xDistance + yDistance * yDistance);
+            //return Vector3.Distance(instance.PathfindingLocationsMap[a].transform.position, instance.PathfindingLocationsMap[b].transform.position);
             return xDistance * xDistance + yDistance * yDistance;
         };
         Func<Vector2Int, List<Vector2Int>> getNeighbors = delegate (Vector2Int pos) {
-            var neighbors = new List<Vector2Int>();
-            neighbors.Add(new Vector2Int(pos.x + 1, pos.y + 1));
+            var neighbors = new List<Vector2Int>() {
+                GameUtils.GetTargetDirection(pos, GameUtils.Directions[0]),
+                GameUtils.GetTargetDirection(pos, GameUtils.Directions[1]),
+                GameUtils.GetTargetDirection(pos, GameUtils.Directions[2]),
+                GameUtils.GetTargetDirection(pos, GameUtils.Directions[3]),
+                GameUtils.GetTargetDirection(pos, GameUtils.Directions[4]),
+                GameUtils.GetTargetDirection(pos, GameUtils.Directions[5])
+            };
+            /*neighbors.Add(new Vector2Int(pos.x + 1, pos.y + 1));
             neighbors.Add(new Vector2Int(pos.x - 1, pos.y + 1));
             neighbors.Add(new Vector2Int(pos.x + 1, pos.y - 1));
             neighbors.Add(new Vector2Int(pos.x - 1, pos.y - 1));
             neighbors.Add(new Vector2Int(pos.x - 2, pos.y));
-            neighbors.Add(new Vector2Int(pos.x + 2, pos.y));
+            neighbors.Add(new Vector2Int(pos.x + 2, pos.y));*/
             return neighbors;
         };
 
@@ -90,7 +99,7 @@ public class PathfindingManager : MonoBehaviour {
     }
 
     public static Vector2Int AddPathfindingLocationToMap(Vector2Int _localLoc, Vector2Int _tileLoc, int _tileID, PathfindingLocation _pathfindingLocation) {
-        Vector2Int loc = RBHKLocationToPathfindingLocation(GeneratePathfindingLocation(_localLoc, _tileLoc));
+        Vector2Int loc = GeneratePathfindingLocation(_localLoc, _tileLoc);// RBHKLocationToPathfindingLocation(GeneratePathfindingLocation(_localLoc, _tileLoc));
 
         if (instance.map.ContainsKey(loc)) RemovePathfindingLocationFromMap(loc);
         instance.map.Add(loc, _tileID);
@@ -104,7 +113,7 @@ public class PathfindingManager : MonoBehaviour {
         instance.pathfindingLocationsMap.Remove(_pathfindingLocation);
     }
 
-    public static Vector2Int PathfindingLocationToRBHKLocation(Vector2Int _input) {
+    /*public static Vector2Int PathfindingLocationToRBHKLocation(Vector2Int _input) {
         Vector2Int output = new Vector2Int(_input.x, _input.y);
         if (output.y % 2 == 0) {
             output.x /= 2;
@@ -127,7 +136,7 @@ public class PathfindingManager : MonoBehaviour {
             output.x = -1 + (output.x * 2);
         }
         return output;
-    }
+    }*/
 
     #endregion
 
@@ -142,7 +151,7 @@ public class PathfindingManager : MonoBehaviour {
         }
         Node finalNode;
         List<Node> open = new List<Node>();
-        
+
         if (findDest(new Node(null, from, getDistance(from, to), 0), open, map, to, out finalNode, passableValues, getDistance, getNeighbors)) {
             while (finalNode != null) {
                 result.Add(finalNode.pos);
@@ -150,10 +159,10 @@ public class PathfindingManager : MonoBehaviour {
             }
         }
         result.Reverse();
-        
+
         List<Vector2Int> finalResult = new List<Vector2Int>();
         for (int i = 0; i < result.Count; i++) {
-            finalResult.Add(PathfindingLocationToRBHKLocation(result[i]));
+            finalResult.Add(result[i]);
         }
 
         return finalResult;

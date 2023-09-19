@@ -199,7 +199,7 @@ public class UnitManager : MonoBehaviour {
     private List<Vector2Int> PathToTileLocations(List<Vector2Int> path) {
         List<Vector2Int> output = new List<Vector2Int>();
         for (int i = 0; i < path.Count; i++) {
-            var location = PathfindingManager.instance.PathfindingLocationsMap[PathfindingManager.RBHKLocationToPathfindingLocation(path[i])];
+            var location = PathfindingManager.instance.PathfindingLocationsMap[path[i]];
             if (!output.Contains(location.Tile.Location))
                 output.Add(location.Tile.Location);
         }
