@@ -9,6 +9,7 @@ public class PathfindingLocationParent : MonoBehaviour {
 
     private Dictionary<Vector2Int, PathfindingLocation> pathfindingLocations = new Dictionary<Vector2Int, PathfindingLocation>();
 
+    public PathfindingLocation[] CentralPathfindingLocations { get => centralPathfindingLocations; set => centralPathfindingLocations = value; }
     public Dictionary<Vector2Int, PathfindingLocation> PathfindingLocations { get => pathfindingLocations; set => pathfindingLocations = value; }
 
     private void Awake() {

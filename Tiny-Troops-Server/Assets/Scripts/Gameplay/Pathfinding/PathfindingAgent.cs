@@ -15,6 +15,8 @@ public class PathfindingAgent : MonoBehaviour {
     private Vector2Int currentLocation;
     private Vector2Int currentTile;
 
+    private Vector3 offset = Vector3.zero;
+
     private Vector3 startPos;
     private Vector3 targetPos;
     private Vector3 nextPos; // After Target Pos
@@ -73,19 +75,29 @@ public class PathfindingAgent : MonoBehaviour {
 
         currentLerp = currentLerp + (moveSpeed * Time.deltaTime);
 
+        Vector3 nextFramePos = Vector3.zero;
+
         // Bezier
-        Vector3 lerp1 = Vector3.Lerp(startPos, targetPos, currentLerp);
-        Vector3 lerp2 = Vector3.Lerp(targetPos, nextPos, currentLerp);
-        transform.position = Vector3.Lerp(lerp1, lerp2, currentLerp);
+        // The if statement is necessary because the agent may pathfind one unit, in this situation the bezier curve will not work
+        if (targetPos != nextPos) {
+            Vector3 lerp1 = Vector3.Lerp(startPos, targetPos, currentLerp);
+            Vector3 lerp2 = Vector3.Lerp(targetPos, nextPos, currentLerp);
+            transform.position = Vector3.Lerp(lerp1, lerp2, currentLerp);
+            nextFramePos = Vector3.Lerp(lerp1, lerp2, currentLerp + 0.05f);
+        } else {
+            transform.position = Vector3.Lerp(startPos, targetPos, currentLerp);
+            nextFramePos = Vector3.Lerp(startPos, targetPos, currentLerp + 0.05f);
+        }
 
         // Rotate to direction of movement
-        Vector3 nextFramePos = Vector3.Lerp(lerp1, lerp2, currentLerp + 0.05f);
         Vector2 direction = new Vector2(nextFramePos.x, nextFramePos.z) - new Vector2(transform.position.x, transform.position.z);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
-        if (path.Count <= 2 && currentLerp >= 1f) { path.RemoveAt(0); ReachedTargetPos(); } // Reached End - Don't set new lerp positions, there is no nextPos
-        else if (path.Count > 2 && currentLerp >= 0.5f) ReachedTargetPos(); // Reached half way through current lerp - Set new lerp positions
+        if (path.Count <= 2 && currentLerp >= 1f) { // Almost reached end of path
+            if (path.Count > 1) { path.RemoveAt(0); }
+            ReachedTargetPos();
+        } else if (path.Count > 2 && currentLerp >= 0.5f) ReachedTargetPos(); // Reached half way through current lerp - Set new lerp positions
     }
 
     private void ReachedTargetPos() {
@@ -181,7 +193,8 @@ public class PathfindingAgent : MonoBehaviour {
     }
 
     private Vector3 GetNextRandomLocation(float _radius) {
-        return new Vector3(GameUtils.Random(randomSeed + 2, -_radius, _radius), 0, GameUtils.Random(randomSeed + 3, -_radius, _radius));
+        if (offset == Vector3.zero) offset = new Vector3(UnityEngine.Random.Range(-_radius, _radius), 0, UnityEngine.Random.Range(-_radius, _radius));
+        return offset + new Vector3(UnityEngine.Random.Range(-_radius / 50, _radius / 50), 0, UnityEngine.Random.Range(-_radius / 50, _radius / 50));
     }
 
     #endregion

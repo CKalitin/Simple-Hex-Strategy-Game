@@ -54,8 +54,9 @@ public class UnitSpawner : MonoBehaviour {
             spawnPathfindingLocation = tile.GetComponent<GameplayTile>().PathfindingLocationParent.GetRandomCentralPathfindingLocation(GetComponent<Structure>().PlayerID);
 
         Vector3 p = spawnPathfindingLocation.transform.position;
-        Vector3 pos = new Vector3(p.x + GameUtils.Random(_configurationInts[1], -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(_configurationInts[1] + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
-            
+        //Vector3 pos = new Vector3(p.x + GameUtils.Random(_configurationInts[1], -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + GameUtils.Random(_configurationInts[1] + 1, -spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));
+        Vector3 pos = new Vector3(p.x + Random.Range(-spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius), p.y, p.z + Random.Range(-spawnPathfindingLocation.Radius, spawnPathfindingLocation.Radius));  
+        
         GameObject unit = Instantiate(UnitManager.instance.UnitPrefabs[_unitID], pos, Quaternion.identity);
         unit.GetComponent<Unit>().PlayerID = _playerID;
         unit.GetComponent<Unit>().UnitUUID = _configurationInts[0];

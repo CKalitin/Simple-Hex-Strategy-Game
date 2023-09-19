@@ -904,7 +904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
   localLocation: {x: 0, y: 1}
-  radius: 0.3
+  radius: 0.5
   walkable: 1
   locationText: {fileID: 697999504295273858}
 --- !u!114 &6778795816952944308

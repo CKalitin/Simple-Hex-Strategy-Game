@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     [SerializeField] private InitialResource[] initialResources;
+    [Tooltip("If server is running in Unity Editor, this is used.")]
+    [SerializeField] private InitialResource[] editorInitialResources;
     [Space]
     [Tooltip("For initial buildings Resoucre Entries to work they need to be rebuild on Game Start.")]
     [SerializeField] private GameObject[] playerBaseTiles;
@@ -121,6 +123,17 @@ public class GameController : MonoBehaviour {
         }
         
         for (int i = 0; i < ResourceManager.instances.Count; i++) {
+            if (Application.isEditor) {
+                for (int x = 0; x < editorInitialResources.Length; x++) {
+                    ResourceEntry re = ScriptableObject.CreateInstance<ResourceEntry>();
+                    re.ResourceId = editorInitialResources[x].Resource;
+                    re.Change = editorInitialResources[x].InitialSupply;
+                    re.ChangeOnTick = false;
+                    ResourceManager.instances[i].AddResourceEntry(re);
+                }
+                continue;
+            }
+
             for (int x = 0; x < initialResources.Length; x++) {
                 ResourceEntry re = ScriptableObject.CreateInstance<ResourceEntry>();
                 re.ResourceId = initialResources[x].Resource;

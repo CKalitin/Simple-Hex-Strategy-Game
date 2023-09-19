@@ -230,6 +230,11 @@ public class ResourceManager : MonoBehaviour {
             resources[i].Supply = 0;
             resources[i].Demand = 0;
         }
+        
+        resourceTotalChanges.Clear();
+        for (int i = 0; i < resources.Length; i++) {
+            resourceTotalChanges.Add(resources[i].ResourceId, 0f);
+        }
     }
 
     // Use with extreme care (Best to reset all tiles - and structures - before using this)

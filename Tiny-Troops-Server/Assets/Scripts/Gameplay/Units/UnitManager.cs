@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -153,13 +154,21 @@ public class UnitManager : MonoBehaviour {
 
         // Loop through unitUUIDsByLocation and create a path to the target location, then give that path to the units using units[uuid].PathfindtoLocation(path); I love copilot
         foreach (KeyValuePair<Vector2Int, List<int>> unitUUIDs in unitUUIDsByLocation) {
-            List<Vector2Int> path = PathfindingManager.FindPath(unitUUIDs.Key, targetLocation);
+            List<List<Vector2Int>> paths = new List<List<Vector2Int>>();
+            for (int i = 0; i < 7; i++) {
+                paths.Add(PathfindingManager.FindPath(unitUUIDs.Key, TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.CentralPathfindingLocations[i].Location));
+            }
+            List<List<int>> unitUUIDToPathIndex = new List<List<int>>(7) { new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
 
             for (int i = 0; i < unitUUIDs.Value.Count; i++) {
-                units[unitUUIDs.Value[i]].Script.PathfindingAgent.PathfindToLocation(unitUUIDs.Key, new List<Vector2Int>(path));
+                int pathIndex = UnityEngine.Random.Range(0, paths.Count);
+                units[unitUUIDs.Value[i]].Script.PathfindingAgent.PathfindToLocation(unitUUIDs.Key, new List<Vector2Int>(paths[pathIndex]));
+                unitUUIDToPathIndex[pathIndex].Add(unitUUIDs.Value[i]);
             }
             
-            USNL.PacketSend.UnitPathfind(unitUUIDs.Value.ToArray(), targetLocation, path.Select(o => new Vector2(o.x, o.y)).ToArray());
+            for (int i = 0; i < unitUUIDToPathIndex.Count; i++) {
+                USNL.PacketSend.UnitPathfind(unitUUIDToPathIndex[i].ToArray(), targetLocation, paths[i].Select(o => new Vector2(o.x, o.y)).ToArray());
+            }
         }
     }
     
