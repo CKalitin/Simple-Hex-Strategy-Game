@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 2216679837717455193}
   - component: {fileID: 323771522811961258}
   - component: {fileID: -7539501487356079522}
+  - component: {fileID: 6468012331400188066}
   m_Layer: 0
   m_Name: Rifleman
   m_TagString: Untagged
@@ -145,10 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750816017e4dd6a46836ae92743f59b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAttackDamage: 5
+  unitAttackDamage: 0
   structureAttackDamage: 0
   attackPriority: 0
-  trainingTime: 3
+  trainingTime: 5
   unitCost:
   - resource: 1
     amount: 25
@@ -173,6 +174,21 @@ MonoBehaviour:
   maxHealth: 20
   currentHealth: 20
   destroyOnZeroHealth: 0
+--- !u!114 &6468012331400188066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2216679837717455195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de098a0312809694e8609f422db5924c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRate: 1
+  attackTime: 0.4
+  attackDamage: 1
 --- !u!1 &2216679837849901799
 GameObject:
   m_ObjectHideFlags: 0

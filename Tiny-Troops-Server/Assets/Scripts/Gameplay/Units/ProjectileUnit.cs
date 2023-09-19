@@ -2,29 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileStructure : MonoBehaviour {
+public class ProjectileUnit : MonoBehaviour {
     #region Variables
 
     [Header("Config")]
     [SerializeField] private float attackRate = 2.5f;
     [Tooltip("How long a single attack takes. The time from projectile shot to hit.")]
     [SerializeField] private float attackTime = 0.75f;
-    [SerializeField] private float attackDamage;
-    [Space]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform projectileSpawnPos;
+    [SerializeField] private float attackDamage = 40f;
 
-    private Structure structure;
+    private PathfindingAgent pathfindingAgent;
+    private Unit unit;
 
-    public Vector2Int Location { get => structure.Tile.Location; }
-    public int PlayerID { get => structure.PlayerID; }
+    public Vector2Int Location { get => pathfindingAgent.CurrentTile; }
+    public int PlayerID { get => unit.PlayerID; }
 
     #endregion
 
     #region Core
 
     private void Awake() {
-        structure = GetComponent<Structure>();
+        pathfindingAgent = GetComponent<PathfindingAgent>();
+        unit = GetComponent<Unit>();
     }
 
     private void Start() {
@@ -41,23 +40,16 @@ public class ProjectileStructure : MonoBehaviour {
 
             Unit unit;
             if ((unit = GetClosestUnit()) == null) continue;
-            
-            ShootProjectile(new Vector2(unit.transform.position.x, transform.position.z + (transform.position.z - unit.transform.position.z)));
+
+            StartCoroutine(DealDamage(unit, attackDamage, attackTime));
         }
     }
 
-    private void ShootProjectile(Vector2 _pos) {
-        // Get Quaternion Direction to unit from here
-        Vector2 direction = _pos - new Vector2(transform.position.x, transform.position.z);
-        float dist = Vector2.Distance(_pos, new Vector2(transform.position.x, transform.position.z));
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        GameObject p = Instantiate(projectilePrefab, new Vector3(projectileSpawnPos.position.x, transform.position.y, projectileSpawnPos.position.z), Quaternion.AngleAxis(angle, Vector3.up));
-        p.GetComponent<Animator>().speed = 1f / attackTime;
-        p.GetComponent<Transform>().localScale = new Vector3(dist, projectileSpawnPos.position.y - transform.position.y, 1f);
-        Destroy(p, attackTime + 0.1f);
+    private IEnumerator DealDamage(Unit _unit, float _damage, float _delaySeconds) {
+        yield return new WaitForSeconds(_delaySeconds);
+        if (_unit != null) _unit.GetComponent<Health>().ChangeHealth(-Mathf.Abs(_damage));
     }
-    
+
     #endregion
 
     #region Utils
@@ -67,11 +59,11 @@ public class ProjectileStructure : MonoBehaviour {
         if (units.Count == 0) return null;
 
         Unit closestUnit = units[0];
-        float closestDistance = Vector3.Distance(transform.position, closestUnit.transform.position);
+        float closestDistance = Vector2Int.Distance(Location, closestUnit.Location);
 
         for (int i = 1; i < units.Count; i++) {
             if (units[i].gameObject == null) continue;
-            float distance = Vector3.Distance(transform.position, units[i].transform.position);
+            float distance = Vector2Int.Distance(Location, units[i].Location);
             if (distance < closestDistance) {
                 closestUnit = units[i];
                 closestDistance = distance;

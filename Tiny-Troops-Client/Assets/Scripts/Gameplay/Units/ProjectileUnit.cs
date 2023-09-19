@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileStructure : MonoBehaviour {
+public class ProjectileUnit : MonoBehaviour {
     #region Variables
 
     [Header("Config")]
@@ -14,17 +14,19 @@ public class ProjectileStructure : MonoBehaviour {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPos;
 
-    private Structure structure;
+    private PathfindingAgent pathfindingAgent;
+    private Unit unit;
 
-    public Vector2Int Location { get => structure.Tile.Location; }
-    public int PlayerID { get => structure.PlayerID; }
+    public Vector2Int Location { get => pathfindingAgent.CurrentTile; }
+    public int PlayerID { get => unit.PlayerID; }
 
     #endregion
 
     #region Core
 
     private void Awake() {
-        structure = GetComponent<Structure>();
+        pathfindingAgent = GetComponent<PathfindingAgent>();
+        unit = GetComponent<Unit>();
     }
 
     private void Start() {
@@ -41,7 +43,7 @@ public class ProjectileStructure : MonoBehaviour {
 
             Unit unit;
             if ((unit = GetClosestUnit()) == null) continue;
-            
+
             ShootProjectile(new Vector2(unit.transform.position.x, transform.position.z + (transform.position.z - unit.transform.position.z)));
         }
     }
@@ -53,11 +55,12 @@ public class ProjectileStructure : MonoBehaviour {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         GameObject p = Instantiate(projectilePrefab, new Vector3(projectileSpawnPos.position.x, transform.position.y, projectileSpawnPos.position.z), Quaternion.AngleAxis(angle, Vector3.up));
+        Debug.Log(p.transform.position);
         p.GetComponent<Animator>().speed = 1f / attackTime;
         p.GetComponent<Transform>().localScale = new Vector3(dist, projectileSpawnPos.position.y - transform.position.y, 1f);
         Destroy(p, attackTime + 0.1f);
     }
-    
+
     #endregion
 
     #region Utils
