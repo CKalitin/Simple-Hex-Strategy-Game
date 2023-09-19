@@ -26,8 +26,8 @@ public class ProductionSubtractor : MonoBehaviour {
     private void Update() {
         if (MatchManager.instance.PlayerID < 0) return;
 
-        if (previousPopulation != ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(GameResource.Population).Supply) {
-            float pop = ResourceManager.instances[MatchManager.instance.PlayerID].GetResource(GameResource.Population).Supply;
+        if (previousPopulation != ServerResourceManager.instance.GetResource(GameResource.Population).Supply) {
+            float pop = ServerResourceManager.instance.GetResource(GameResource.Population).Supply;
             float previousDefecit = GetCurrentAppliedDefecit();
             if (pop < previousPopulation && pop < 0) {
                 DisableStructures(Mathf.Abs(pop + previousDefecit));

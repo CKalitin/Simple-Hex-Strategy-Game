@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: -6602228601953336836}
   - component: {fileID: -6100662684395327438}
   - component: {fileID: 4233762388577522204}
+  - component: {fileID: -8702383561323644896}
   m_Layer: 0
   m_Name: Rifleman
   m_TagString: Untagged
@@ -240,6 +241,18 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3059500297712122763, guid: fa6b0ca1bc87a3c48afecc2ccb33347b,
     type: 3}
   projectileSpawnPos: {fileID: 3583315793660479715}
+--- !u!114 &-8702383561323644896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2216679837717455195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f464822145aa6a64689039648b7c7877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2216679837849901799
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private Color negativeColor;
 
     private bool gameReady = false;
+    private bool gameReset = true;
 
     private bool tilesPacketReceived = false;
     private bool resourcesPacketReceived = false;
@@ -117,12 +118,13 @@ public class GameController : MonoBehaviour {
     
     private void OnMatchStateChanged(MatchState _matchState) {
         if (_matchState == MatchState.InGame) {
+            gameReset = false;
             winnerPlayerID = -1;
         } else if (_matchState == MatchState.Ended) {
             tilesPacketReceived = false;
             resourcesPacketReceived = false;
             gameReady = false;
-            ResetGame();
+            //ResetGame();
         }
     }
 
@@ -136,6 +138,8 @@ public class GameController : MonoBehaviour {
     #region Utils
     
     private IEnumerator SpawnTilesCoroutine(USNL.TilesPacket _tilesPacket) {
+        while (gameReset == false) yield return new WaitForEndOfFrame();
+
         int tilesSpawned = 0;
         int framesPassed = 0;
         while (true) {
@@ -167,8 +171,8 @@ public class GameController : MonoBehaviour {
         }
     }
     
-    private void ResetGame() {
-        winnerPlayerID = -1;
+    public void ResetGame() {
+        gameReset = true;
 
         TileManagement.instance.ResetAllTiles();
 

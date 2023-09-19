@@ -113,7 +113,7 @@ public class ClientVillage : MonoBehaviour {
     private void OnUnitHealthPacket(object _packetObject) {
         USNL.UnitHealthPacket packet = (USNL.UnitHealthPacket)_packetObject;
 
-        if (villagers.ContainsKey(packet.UnitUUID)) {
+        if (villagers.ContainsKey(packet.UnitUUID) && villagers[packet.UnitUUID] != null) {
             villagers[packet.UnitUUID].GetComponent<Health>().SetHealth(packet.Health, packet.MaxHealth);
         } //else Debug.Log("Desync Detected"); Lots of these desysnsc, should be fine if Server and Client health is set right from the begining
     }

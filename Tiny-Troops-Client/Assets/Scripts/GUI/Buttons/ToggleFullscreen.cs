@@ -4,9 +4,20 @@ using UnityEngine;
 using TMPro;
 
 public class ToggleFullscreen : MonoBehaviour {
+    public static ToggleFullscreen instance;
+
     private TMP_Dropdown dropdown;
 
+    public TMP_Dropdown Dropdown { get => dropdown; set => dropdown = value; }
+
     private void Awake() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Debug.Log($"Toggle Fullscreen instance already exists on ({gameObject}), destroying this.", gameObject);
+            Destroy(this);
+        }
+
         dropdown = GetComponent<TMP_Dropdown>();
 
         if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow) dropdown.value = 0;

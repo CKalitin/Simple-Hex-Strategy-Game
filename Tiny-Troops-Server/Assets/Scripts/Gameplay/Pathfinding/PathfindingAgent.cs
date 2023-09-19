@@ -72,6 +72,23 @@ public class PathfindingAgent : MonoBehaviour {
 
     private void Move() {
         if (finishedMoving || lerpingToLocation) return;
+        if (path == null) {
+            // Print every global variable - Bug fixing
+            Debug.Log("Current Location: " + currentLocation);
+            Debug.Log("Current Tile: " + currentTile);
+            Debug.Log("Finished Moving: " + finishedMoving);
+            Debug.Log("Lerping To Location: " + lerpingToLocation);
+            Debug.Log("Start Pos: " + startPos);
+            Debug.Log("Target Pos: " + targetPos);
+            Debug.Log("Next Pos: " + nextPos);
+            Debug.Log("Path: " + string.Join(", ", path));
+            Debug.Log("Current Lerp: " + currentLerp);
+
+            finishedMoving = true;
+            currentLerp = 0f;
+
+            return;
+        }
 
         currentLerp = currentLerp + (moveSpeed * Time.deltaTime);
 

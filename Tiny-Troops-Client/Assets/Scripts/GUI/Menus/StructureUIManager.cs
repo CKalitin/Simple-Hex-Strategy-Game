@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USNL;
 
 public class StructureUIManager : MonoBehaviour {
     #region Variables
@@ -44,6 +45,14 @@ public class StructureUIManager : MonoBehaviour {
         }
     }
 
+    private void OnEnable() {
+        USNL.CallbackEvents.OnMatchUpdatePacket += OnMatchUpdatePacket;
+    }
+
+    private void OnDisable() {
+        USNL.CallbackEvents.OnMatchUpdatePacket -= OnMatchUpdatePacket;
+    }
+
     #endregion
 
     #region Structure UIs
@@ -67,6 +76,11 @@ public class StructureUIManager : MonoBehaviour {
         buildUIParent.SetActive(true);
         foreach (KeyValuePair<int, StructureUI> structureUI in structureUIs)
             structureUI.Value.gameObject.SetActive(false);
+    }
+
+    private void OnMatchUpdatePacket(object _packetObject) {
+        MatchUpdatePacket packet = (MatchUpdatePacket)_packetObject;
+        if ((MatchState)packet.MatchState == MatchState.Ended) DeactivateStructureUIs();
     }
 
     #endregion

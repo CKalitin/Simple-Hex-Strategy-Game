@@ -55,7 +55,7 @@ public class ProjectileUnit : MonoBehaviour {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         GameObject p = Instantiate(projectilePrefab, new Vector3(projectileSpawnPos.position.x, transform.position.y, projectileSpawnPos.position.z), Quaternion.AngleAxis(angle, Vector3.up));
-        Debug.Log(p.transform.position);
+
         p.GetComponent<Animator>().speed = 1f / attackTime;
         p.GetComponent<Transform>().localScale = new Vector3(dist, projectileSpawnPos.position.y - transform.position.y, 1f);
         Destroy(p, attackTime + 0.1f);

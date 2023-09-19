@@ -156,7 +156,8 @@ public class UnitManager : MonoBehaviour {
         foreach (KeyValuePair<Vector2Int, List<int>> unitUUIDs in unitUUIDsByLocation) {
             List<List<Vector2Int>> paths = new List<List<Vector2Int>>();
             for (int i = 0; i < 7; i++) {
-                paths.Add(PathfindingManager.FindPath(unitUUIDs.Key, TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.CentralPathfindingLocations[i].Location));
+                if (TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.CentralPathfindingLocations[i].Walkable)
+                    paths.Add(PathfindingManager.FindPath(unitUUIDs.Key, TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.CentralPathfindingLocations[i].Location));
             }
             List<List<int>> unitUUIDToPathIndex = new List<List<int>>(7) { new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
 

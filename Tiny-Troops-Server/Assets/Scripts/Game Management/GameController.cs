@@ -190,17 +190,21 @@ public class GameController : MonoBehaviour {
     private void CheckGameCompleted() {
         if (ServerManager.GetNumberOfConnectedClients() == 1) return;
 
-        PlayerBase[] playerBases = FindObjectsOfType<PlayerBase>();
-        int playerBasesCount = playerBases.Length;
+        List<PlayerBase> playerBases = FindObjectsOfType<PlayerBase>().ToList();
+        int removed = 0;
 
-        for (int i = 0; i < playerBases.Length; i++)
-            if (!ServerManager.instance.GetClientConnected(playerBases[i].GetComponent<Structure>().PlayerID)) playerBasesCount -= 1;
-        
-        if (playerBasesCount == 1) {
+        for (int i = 0; i < playerBases.Count; i++) {
+            if (!ServerManager.instance.GetClientConnected(playerBases[i - removed].GetComponent<Structure>().PlayerID)) { 
+                playerBases.Remove(playerBases[i - removed]);
+                removed++;
+            }
+        }
+
+        if (playerBases.Count == 1) {
             winnerPlayerID = playerBases[0].GetComponent<Structure>().PlayerID;
             USNL.PacketSend.GameEnded(WinnerPlayerID);
             MatchManager.instance.ChangeMatchState(MatchState.Ended);
-        } else if (playerBasesCount <= 0){
+        } else if (playerBases.Count <= 0){
             winnerPlayerID = -1;
             USNL.PacketSend.GameEnded(WinnerPlayerID);
             MatchManager.instance.ChangeMatchState(MatchState.Ended);

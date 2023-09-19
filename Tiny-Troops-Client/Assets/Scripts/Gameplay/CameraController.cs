@@ -4,6 +4,8 @@ using System.Linq;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
+    public static CameraController instance;
+
     #region Variables
 
     [Header("Camera")]
@@ -28,12 +30,22 @@ public class CameraController : MonoBehaviour {
     [Header("Match States")]
     [SerializeField] private Transform lobbyCameraPosition;
     [SerializeField] private float lobbyToGameLerpSpeed = 1f;
+    [SerializeField] private float lobbyToWinnerBaseLerpSpeed = 1f;
 
     private float lobbyLerpProgress;
 
     // If the game state is inGame and the camera should be at the in game camera position
     private bool gameCamera = false;
     private bool lerpToGameCamPos = false;
+    private bool lerpToWinnerBase = false;
+
+    private Vector3 originalCameraPosition;
+    private Vector3 originalCameraParentPosition;
+    private float originalCameraZoom;
+
+    private Vector3 winnerPlayerBasePosition;
+
+    private bool setPositionToClientBase = false;
 
     private float defaultZoom;
 
@@ -42,6 +54,13 @@ public class CameraController : MonoBehaviour {
     #region Core
 
     private void Awake() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Debug.Log($"Camera Controller instance already exists on ({gameObject}), destroying this.", gameObject);
+            Destroy(this);
+        }
+
         defaultZoom = currentZoom;
     }
 
@@ -58,7 +77,25 @@ public class CameraController : MonoBehaviour {
             Move();
         }
 
+        if (lerpToWinnerBase) {
+            lobbyLerpProgress += Mathf.Clamp(lobbyToWinnerBaseLerpSpeed * Time.deltaTime, 0, 1);
+
+            transform.position = Vector3.Lerp(originalCameraParentPosition, winnerPlayerBasePosition, lobbyLerpProgress);
+            cam.transform.position = Vector3.Lerp(originalCameraPosition, Vector3.Lerp(defaultCamPosition.position, transform.position, currentZoom), lobbyLerpProgress);
+
+            if (lobbyLerpProgress >= 1) {
+                lobbyLerpProgress = 0;
+                lerpToWinnerBase = false;
+            }
+        }
+
         if (lerpToGameCamPos) {
+            if (GetPositionOfPlayerBase(MatchManager.instance.PlayerID) != Vector3.zero && !setPositionToClientBase) {
+                transform.position = GetPositionOfPlayerBase(MatchManager.instance.PlayerID);
+                setPositionToClientBase = true;
+            }
+
+
             lobbyLerpProgress += Mathf.Clamp(lobbyToGameLerpSpeed * Time.deltaTime, 0, 1);
 
             cam.transform.position = Vector3.Lerp(lobbyCameraPosition.position, Vector3.Lerp(defaultCamPosition.position, transform.position, currentZoom), lobbyLerpProgress);
@@ -121,11 +158,27 @@ public class CameraController : MonoBehaviour {
     public void ResetCamera() {
         gameCamera = false;
         lerpToGameCamPos = false;
+        lerpToWinnerBase = false;
         currentZoom = defaultZoom;
         lobbyLerpProgress = 0f;
 
+        setPositionToClientBase = false;
+
         cam.transform.position = Vector3.Lerp(lobbyCameraPosition.position, Vector3.Lerp(defaultCamPosition.position, transform.position, currentZoom), lobbyLerpProgress);
         cam.transform.rotation = Quaternion.Lerp(lobbyCameraPosition.rotation, defaultCamPosition.rotation, lobbyLerpProgress);
+    }
+
+    public void ResetCameraToWinnerBase() {
+        gameCamera = false;
+        lerpToGameCamPos = false;
+        lerpToWinnerBase = true;
+        currentZoom = defaultZoom;
+        lobbyLerpProgress = 0f;
+
+        originalCameraPosition = cam.transform.position;
+        originalCameraParentPosition = transform.position;
+
+        winnerPlayerBasePosition = GetPositionOfPlayerBase(GameController.instance.WinnerPlayerID);
     }
 
     #endregion
@@ -137,14 +190,17 @@ public class CameraController : MonoBehaviour {
             lerpToGameCamPos = true;
         }
         if (_matchState == MatchState.Lobby) {
-            ResetCamera();
-            cam.transform.position = lobbyCameraPosition.position;
-            cam.transform.rotation = lobbyCameraPosition.rotation;
+            //ResetCamera();
+            //cam.transform.position = lobbyCameraPosition.position;
+            //cam.transform.rotation = lobbyCameraPosition.rotation;
+        }
+        if (_matchState == MatchState.Ended) {
+            ResetCameraToWinnerBase();
         }
     }
 
     private void OnGameInitialized() {
-        Vector3 pos = GetPositionOfPlayerBase();
+        Vector3 pos = GetPositionOfPlayerBase(MatchManager.instance.PlayerID);
         if (pos == Vector3.zero) return;
 
         transform.position = new Vector3(pos.x, transform.position.y, pos.z);
@@ -154,14 +210,14 @@ public class CameraController : MonoBehaviour {
         cam.transform.rotation = lobbyCameraPosition.rotation;
     }
 
-    private Vector3 GetPositionOfPlayerBase() {
+    private Vector3 GetPositionOfPlayerBase(int _playerID) {
         Vector3 position = Vector3.zero;
 
         Dictionary<Vector2Int, TileInfo> tiles = TileManagement.instance.GetTiles;
         for (int i = 0; i < tiles.Count; i++) {
             if (tiles.ElementAt(i).Value.Tile.Structures.Count <= 0) continue;
             if (!tiles.ElementAt(i).Value.Tile.Structures[0].GetComponent<ClientBase>()) continue;
-            if (tiles.ElementAt(i).Value.Tile.Structures[0].PlayerID == MatchManager.instance.PlayerID){
+            if (tiles.ElementAt(i).Value.Tile.Structures[0].PlayerID == _playerID){
                 position = tiles.ElementAt(i).Value.Tile.transform.position;
                 break;
             }
