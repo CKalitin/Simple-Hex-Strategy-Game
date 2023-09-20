@@ -470,11 +470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87379a9953e8e384da321fc6a6a9e390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorOptions:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 0.6807935, b: 1, a: 1}
-  - {r: 0, g: 1, b: 0.3510604, a: 1}
-  - {r: 1, g: 0.71534777, b: 0, a: 1}
   text: {fileID: 598585192196904405}
 --- !u!1 &5175643829715970733
 GameObject:

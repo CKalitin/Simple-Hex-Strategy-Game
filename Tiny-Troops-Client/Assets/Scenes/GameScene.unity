@@ -2568,10 +2568,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lobby UI Parent
       objectReference: {fileID: 0}
-    - target: {fileID: 8776261262072210300, guid: 791340c60dc737f428d91c93d51c46ef,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 791340c60dc737f428d91c93d51c46ef, type: 3}
