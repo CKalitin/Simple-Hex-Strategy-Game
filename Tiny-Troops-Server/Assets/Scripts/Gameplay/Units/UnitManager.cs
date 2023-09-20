@@ -159,16 +159,17 @@ public class UnitManager : MonoBehaviour {
                 if (TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.CentralPathfindingLocations[i].Walkable)
                     paths.Add(PathfindingManager.FindPath(unitUUIDs.Key, TileManagement.instance.GetTileAtLocation(Vector2Int.RoundToInt(packet.TargetTileLocation)).Tile.GetComponent<GameplayTile>().PathfindingLocationParent.CentralPathfindingLocations[i].Location));
             }
-            List<List<int>> unitUUIDToPathIndex = new List<List<int>>(7) { new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
+            Dictionary<int, List<int>> unitUUIDToPathIndex = new Dictionary<int, List<int>>();
 
             for (int i = 0; i < unitUUIDs.Value.Count; i++) {
                 int pathIndex = UnityEngine.Random.Range(0, paths.Count);
                 units[unitUUIDs.Value[i]].Script.PathfindingAgent.PathfindToLocation(unitUUIDs.Key, new List<Vector2Int>(paths[pathIndex]));
+                if (!unitUUIDToPathIndex.ContainsKey(pathIndex)) unitUUIDToPathIndex.Add(pathIndex, new List<int>());
                 unitUUIDToPathIndex[pathIndex].Add(unitUUIDs.Value[i]);
             }
             
-            for (int i = 0; i < unitUUIDToPathIndex.Count; i++) {
-                USNL.PacketSend.UnitPathfind(unitUUIDToPathIndex[i].ToArray(), targetLocation, paths[i].Select(o => new Vector2(o.x, o.y)).ToArray());
+            foreach (KeyValuePair<int, List<int>> kvp in unitUUIDToPathIndex) {
+                USNL.PacketSend.UnitPathfind(unitUUIDToPathIndex[kvp.Key].ToArray(), targetLocation, paths[kvp.Key].Select(o => new Vector2(o.x, o.y)).ToArray());
             }
         }
     }
