@@ -15,6 +15,10 @@ public class BuildManager : MonoBehaviour {
     [Space]
     [SerializeField] private GameObject destroyDisplay;
 
+    [Header("Config")]
+    [Tooltip("How far from the village can you build structures")]
+    [SerializeField] private int villageRange = 3;
+
     private int playerID = -1;
     
     private bool buildingAllowedOnTile = false; // Determined in Builder(), if structure can be placed on tile
@@ -25,6 +29,7 @@ public class BuildManager : MonoBehaviour {
     public bool BuildingEnabled { get => buildingEnabled; set => buildingEnabled = value; }
     public bool DestroyingEnabled { get => destroyingEnabled; set => destroyingEnabled = value; }
     public StructureBuildInfo CurrentStructureBuildInfo { get => currentStructureBuildInfo; set => currentStructureBuildInfo = value; }
+    public int VillageRange { get => villageRange; set => villageRange = value; }
 
     private void Awake() {
         Singleton();
@@ -69,6 +74,8 @@ public class BuildManager : MonoBehaviour {
         if (EventSystem.current.IsPointerOverGameObject()) { buildingAllowedOnTile = false; return; }
         // If can't afford structure
         if (!CanAffordStructure()) { buildingAllowedOnTile = false; return; }
+        // If within range of village
+        if (displayStructure && !displayStructure.GetComponent<DisplayStructure>().WithinRangeOfVillage) { buildingAllowedOnTile = false; return; }
         // Prevents an error
         if (GetTileUnderCursor() == null) { buildingAllowedOnTile = false; return; }
         // If there is no tile under the cursor
