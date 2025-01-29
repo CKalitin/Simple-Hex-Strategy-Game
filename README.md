@@ -1,5 +1,8 @@
 # Simple-Hex-Strategy-Game
- Multiplayer Unity Strategy Game. Focus on simplicity of gameplay mechanics and ease of play.
+
+![Cover Image](https://github.com/CKalitin/Simple-Hex-Strategy-Game/blob/main/image.jpg)
+
+Multiplayer Unity Strategy Game. Focus on simplicity of gameplay mechanics and ease of play.
 
 Unity Version: 2021.3.15f1
 
